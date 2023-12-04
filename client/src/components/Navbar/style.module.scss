@@ -1,0 +1,250 @@
+@import '@styles/base';
+
+.headerWrapper {
+  background-color: $color-white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: max-content;
+  padding: 0.2rem 0.5rem;
+  border-top: 0.1px solid rgb(188, 183, 183);
+  border-bottom: 0.1px solid rgb(188, 183, 183);
+  z-index: 99;
+  @include screen(md) {
+    border: none;
+    padding: 0.8rem 2rem;
+  }
+  .contentWrapper {
+    @include directionX;
+    max-width: 1200px;
+    margin: auto;
+    color: var(--color-text);
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1rem;
+    @include screen('small') {
+      padding: 0 1rem;
+    }
+    .wrapperLeft {
+      @include displayFlex(row, center, center);
+      gap: 1rem;
+      .wrapperLogo {
+        @include displayFlex(row, center, center);
+        cursor: pointer;
+        align-items: center;
+        background: none;
+        border: none;
+        gap: 0.1rem;
+        .logo {
+          width: 2.5rem;
+          height: 2.5rem;
+        }
+        .logoTitle {
+          font-size: 18px;
+          font-weight: 200;
+          font-style: italic;
+          color: $color-green-100;
+        }
+      }
+    }
+
+    .formSearch {
+      display: none;
+      @include screen(md) {
+        @include displayFlex(row, center, center);
+        width: max-content;
+        height: 38px;
+      }
+      .input {
+        width: 35rem;
+        border: 0.1px solid rgb(190, 188, 188);
+        background-color: transparent;
+        outline: none;
+        border-top-left-radius: 18px;
+        border-bottom-left-radius: 18px;
+        color: white;
+        padding: 0 1.2rem;
+        font-size: 16px;
+        font-weight: 500;
+        height: 100%;
+      }
+      .input[type='search']::-webkit-search-cancel-button {
+        appearance: none;
+        display: inline-block;
+        width: 22px;
+        height: 22px;
+        background-image: url('@static/images/cancel-x.svg');
+        background-size: cover;
+        cursor: pointer;
+      }
+      .btn {
+        border: 0.1px solid rgb(190, 188, 188);
+        width: max-content;
+        height: 100%;
+        background-color: rgb(42, 41, 41);
+        padding: 0 1rem;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+        @include displayFlex(row, center, center);
+        color: rgb(223, 218, 218);
+        cursor: pointer;
+      }
+    }
+    .links {
+      @include displayFlex(row, center, center);
+      gap: 0.5rem;
+      .searchButton {
+        border: none;
+        cursor: pointer;
+        background-color: transparent;
+        color: rgb(171, 170, 170);
+        @include displayFlex(row, center, center);
+        @include screen(md) {
+          display: none;
+        }
+      }
+      .form {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: black;
+        height: 100%;
+        z-index: 999;
+        padding: 0 1rem;
+        @include displayFlex(row, space-between, center);
+        .btnBack {
+          border: none;
+          width: max-content;
+          height: 70%;
+          background-color: transparent;
+          @include displayFlex(row, center, center);
+          color: rgb(223, 218, 218);
+          cursor: pointer;
+        }
+        .wrapperInput {
+          @include displayFlex(row, end, center);
+          width: 100%;
+          height: 100%;
+          padding-left: 1rem;
+          .input {
+            width: 100%;
+            border: 0.1px solid rgb(190, 188, 188);
+            background-color: transparent;
+            outline: none;
+            border-top-left-radius: 18px;
+            border-bottom-left-radius: 18px;
+            color: white;
+            padding: 0 1.2rem;
+            font-size: 16px;
+            font-weight: 500;
+            height: 70%;
+          }
+          .input[type='search']::-webkit-search-cancel-button {
+            appearance: none;
+            display: inline-block;
+            width: 1.2rem;
+            height: 1.2rem;
+            background-image: url('@static/images/cancel-x.svg');
+            background-size: cover;
+            cursor: pointer;
+          }
+          .btnSearch {
+            border: 0.1px solid rgb(190, 188, 188);
+            width: max-content;
+            height: 70%;
+            background-color: rgb(42, 41, 41);
+            padding: 0 1rem;
+            border-top-right-radius: 18px;
+            border-bottom-right-radius: 18px;
+            @include displayFlex(row, center, center);
+            color: rgb(223, 218, 218);
+            cursor: pointer;
+          }
+        }
+      }
+
+      .notifButton {
+        display: none;
+        cursor: pointer;
+        @include screen(md) {
+          border: none;
+          background-color: transparent;
+          color: rgb(171, 170, 170);
+          @include displayFlex(row, center, center);
+        }
+        .icon {
+          width: 30px;
+          height: 30px;
+        }
+        .notifications {
+          position: relative;
+          .notificationCount {
+            position: absolute;
+            font-size: 10px;
+            left: 0;
+            top: -5px;
+            color: white;
+            border-radius: 100%;
+            padding: 7px;
+            background-color: red;
+          }
+        }
+      }
+      .wrapperAvatar {
+        width: 27px;
+        height: 27px;
+        @include screen(md) {
+          margin-right: 1rem;
+          width: 30px;
+          height: 30px;
+        }
+        .avatar {
+          width: 1.7rem;
+          height: 1.7rem;
+        }
+      }
+
+      .toggle {
+        @include displayFlex(row, center, center);
+        cursor: pointer;
+        border: none;
+        background-color: transparent;
+        color: white;
+        .avatar {
+          width: 1.2rem;
+          height: 1.2rem;
+        }
+        .lang {
+          display: none;
+          @include screen(md) {
+            font-family: Poppins, Arial, Helvetica, sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+          }
+        }
+
+        .arrow {
+          font-size: 1rem;
+        }
+      }
+    }
+    .menu {
+      @include directionX;
+      align-items: center;
+
+      .menuAvatar {
+        width: 1rem;
+        height: 1rem;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        margin-right: 0.5rem;
+      }
+
+      .menuLang {
+        font-family: Poppins, Arial, Helvetica, sans-serif;
+        font-size: 0.8rem;
+      }
+    }
+  }
+}

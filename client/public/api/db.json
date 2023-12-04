@@ -1,0 +1,16 @@
+{
+  "paymentMethods": [
+    {
+      "payment_type": "transfer_bank",
+      "method": "bca"
+    },
+    {
+      "payment_type": "transfer_bank",
+      "method": "bri"
+    },
+    {
+      "payment_type": "transfer_bank",
+      "method": "bni"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "payment_type": "bank_transfer",
+    "method": "bca",
+    "display_name": "Bank Central Asia (BCA)",
+    "active": true,
+    "icon": "https://res.cloudinary.com/dem9rzjbs/image/upload/v1701227622/images/bca-logo.svg"
+  },
+  {
+    "payment_type": "bank_transfer",
+    "method": "bri",
+    "display_name": "Bank Rakyat Indonesia (BRI)",
+    "active": true,
+    "icon": "https://res.cloudinary.com/dem9rzjbs/image/upload/v1701227622/images/bri-logo.svg"
+  },
+  {
+    "payment_type": "bank_transfer",
+    "method": "bni",
+    "display_name": "Bank Negara Indonesia (BNI)",
+    "active": true,
+    "icon": "https://res.cloudinary.com/dem9rzjbs/image/upload/v1701227622/images/bni-logo.svg"
+  }
+]

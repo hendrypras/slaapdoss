@@ -1,0 +1,19 @@
+@mixin directionY {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin directionX {
+  display: flex;
+  flex-direction: row;
+}
+@mixin displayFlex($direction: row, $justify-content: center, $align-items: center) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}

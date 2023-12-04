@@ -1,0 +1,109 @@
+@import '@styles/base';
+
+.wrapper {
+  width: 100% !important;
+  height: 100vh !important;
+  @include displayFlex(row, space-between, center);
+  .wrapperLeftAuth {
+    display: none;
+    @include screen(md) {
+      display: block;
+      width: 50% !important;
+      height: 100vh;
+      background-image: url('@static/images/bg-left-auth.jpg');
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+    }
+  }
+  .wrapperRightAuth {
+    background-image: url('@static/images/bg-auth.svg');
+    background-repeat: no-repeat;
+    background-position: start center;
+    background-size: contain;
+    background-color: black;
+    width: 100% !important;
+    height: 100vh;
+    padding: 0 1rem;
+    position: relative;
+    @include screen(md) {
+      width: 50% !important;
+    }
+    .wrapperHead {
+      top: 1.5rem;
+      position: absolute;
+      left: 0;
+      width: 100%;
+      padding: 0 1rem;
+      @include displayFlex(row, space-between, center);
+      @include screen(md) {
+        top: 2rem;
+        padding: 0 2rem;
+      }
+      .toggle {
+        @include displayFlex(row, center, center);
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: white;
+        gap: 0.2rem;
+        .avatar {
+          width: 1.5rem;
+          height: 1.5rem;
+          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        }
+        .lang {
+          font-family: Poppins, Arial, Helvetica, sans-serif;
+          font-weight: 700;
+          font-size: 1rem;
+          text-transform: uppercase;
+          color: white;
+        }
+      }
+    }
+    .menu {
+      @include directionX;
+      align-items: center;
+      .menuLang {
+        font-family: Poppins, Arial, Helvetica, sans-serif;
+        font-size: 0.2rem;
+        color: white;
+      }
+    }
+    .wrapperLogo {
+      width: 100%;
+      background-color: transparent;
+      height: max-content;
+      padding: 6rem 0;
+      color: white;
+      cursor: pointer;
+      @include displayFlex(column, center, center);
+      @include screen(md) {
+        padding: 8rem 0 6rem 0;
+      }
+      .button {
+        background-color: transparent;
+        border: none;
+        color: white;
+        cursor: pointer;
+        .logo {
+          font-size: 1.8rem;
+          font-weight: 600;
+        }
+        .subLogo {
+          font-size: 0.8rem;
+          color: rgb(195, 190, 190);
+        }
+      }
+    }
+    .wrapperTitle {
+      width: 100%;
+      @include displayFlex(row, center, center);
+      .title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        text-transform: capitalize;
+      }
+    }
+  }
+}
