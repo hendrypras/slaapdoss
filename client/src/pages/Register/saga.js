@@ -1,11 +1,10 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
-import toast from 'react-hot-toast';
 
 import { registEmail, register, verifyOtp } from '@domain/api';
 
 import { showPopup } from '@containers/App/actions';
 
-import { setLoading as setLoadingRegister, setTokenStep } from '@pages/Register/actions';
+import { setExpOtp, setLoading as setLoadingRegister, setTokenStep } from '@pages/Register/actions';
 import { REGIST_EMAIL, USER_REGISTER, VERIFY_OTP } from '@pages/Register/constants';
 
 function* doUserRegister({ data, cb }) {
@@ -17,33 +16,27 @@ function* doUserRegister({ data, cb }) {
       cb();
     }
   } catch (error) {
-    if (error.response.data) {
-      toast.error(error.response.data.message);
-      return;
-    }
-    yield put(showPopup());
+    yield put(showPopup(error.response.data.message));
   } finally {
     yield put(setLoadingRegister(false));
   }
 }
-function* doRegistEmail({ data }) {
+function* doRegistEmail({ data, cbSuccess }) {
   yield put(setLoadingRegister(true));
   try {
     const response = yield call(registEmail, data);
     if (response) {
       yield put(setTokenStep(response.data.token));
+      yield put(setExpOtp(response.data.otpExp));
+      cbSuccess && cbSuccess(response.data.otpExp);
     }
   } catch (error) {
-    if (error.response.data) {
-      toast.error(error.response.data.message);
-      return;
-    }
-    yield put(showPopup());
+    yield put(showPopup(error.response.data.message));
   } finally {
     yield put(setLoadingRegister(false));
   }
 }
-function* doVerifyOtp({ data }) {
+function* doVerifyOtp({ data, cbError }) {
   yield put(setLoadingRegister(true));
   try {
     const response = yield call(verifyOtp, data);
@@ -51,11 +44,10 @@ function* doVerifyOtp({ data }) {
       yield put(setTokenStep(response.data.token));
     }
   } catch (error) {
-    if (error.response.data) {
-      toast.error(error.response.data.message);
-      return;
+    if (error?.response?.status === 400) {
+      cbError();
     }
-    yield put(showPopup());
+    yield put(showPopup(error.response.data.message));
   } finally {
     yield put(setLoadingRegister(false));
   }

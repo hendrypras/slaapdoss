@@ -33,117 +33,6 @@ const validateRequestMidtrans = requestMidtrans => {
   return schema.validate(requestMidtrans, { abortEarly: false })
 }
 
-const validateVideoPost = reqBody => {
-  const schema = Joi.object({
-    title: Joi.string().min(5).required().messages({
-      'string.min': 'title should be at least 5 characters long.',
-      'any.required': 'title is required.',
-    }),
-    description: Joi.string(),
-    for_kids: Joi.boolean().default(false),
-    category_id: Joi.number().required(),
-    visibility: Joi.boolean().default(true),
-    image: Joi.any().valid('image/jpeg', 'image/png', 'image/gif'),
-    video: Joi.any().valid('video/mp4', 'video/x-m4v', 'video/*'),
-  })
-  const { error } = schema.validate(reqBody, {
-    abortEarly: false,
-  })
-
-  if (error) {
-    return error.details.map(err => err.message).join(', ')
-  }
-
-  return null
-}
-
-const validateVideoEdit = reqBody => {
-  const schema = Joi.object({
-    title: Joi.string().min(5).required().messages({
-      'string.min': 'title should be at least 5 characters long.',
-      'any.required': 'title is required.',
-    }),
-    description: Joi.string(),
-    for_kids: Joi.boolean().default(false),
-    category_id: Joi.number().required(),
-    visibility: Joi.boolean().default(true),
-    image: Joi.any().allow(null),
-    video: Joi.any().allow(null),
-  })
-
-  const { error } = schema.validate(reqBody, {
-    abortEarly: false,
-  })
-
-  if (error) {
-    return error.details.map(err => err.message).join(', ')
-  }
-
-  return null
-}
-
-const validateVideoComment = reqBody => {
-  const schema = Joi.object({
-    comment: Joi.string().required().messages({
-      'any.required': 'comment is required.',
-    }),
-  })
-
-  const { error } = schema.validate(reqBody, {
-    abortEarly: false,
-  })
-
-  if (error) {
-    return error.details.map(err => err.message).join(', ')
-  }
-
-  return null
-}
-const validateVideoCategory = reqBody => {
-  const schema = Joi.object({
-    name: Joi.string().required().messages({
-      'any.required': 'name is required.',
-    }),
-  })
-
-  const { error } = schema.validate(reqBody, {
-    abortEarly: false,
-  })
-
-  if (error) {
-    return error.details.map(err => err.message).join(', ')
-  }
-
-  return null
-}
-const validateOrderDetail = orderDetail => {
-  const schema = Joi.object({
-    sku: Joi.string().required(),
-    limit_in_month: Joi.number().positive().required().messages({
-      'number.base': 'limit_in_month must be a number.',
-      'number.positive': 'limit_in_month must be a positive number.',
-      'any.required': 'limit_in_month is required.',
-    }),
-  })
-  return schema.validate(orderDetail, { abortEarly: false })
-}
-
-const validateBodyCreatePayment = reqBody => {
-  const { request_midtrans, order_detail } = reqBody
-
-  const { error: midtransError } = validateRequestMidtrans(request_midtrans)
-  if (midtransError) {
-    return midtransError.details.map(err => err.message).join(', ')
-  }
-
-  const { error: orderDetailError } = validateOrderDetail(order_detail)
-  if (orderDetailError) {
-    return orderDetailError.details.map(err => err.message).join(', ')
-  }
-
-  return null
-}
-
 const validateBodyCreateRoom = reqBody => {
   const schema = Joi.object({
     title: Joi.string().min(5).required().messages({
@@ -190,7 +79,7 @@ const validateBodyCreateRoom = reqBody => {
 
   return null
 }
-const validateBodyGenerateOtpToeEmail = reqBody => {
+const validateBodyGenerateOtpToEmail = reqBody => {
   const schema = Joi.object({
     email: Joi.string()
       .email({
@@ -238,13 +127,10 @@ const validateBodyVerifyOtp = reqBody => {
 
 const validateBodyRegisterWithGoogle = reqBody => {
   const schema = Joi.object({
-    first_name: Joi.string().min(3).required().messages({
-      'number.base': 'first_name must be a string',
-      'number.min': 'first_name must be at least three digits long',
-      'any.required': 'first_name is required',
-    }),
-    last_name: Joi.string().allow('', null).messages({
-      'any.only': 'last_name should be a string or null.',
+    username: Joi.string().min(3).required().messages({
+      'number.base': 'username must be a string',
+      'number.min': 'username must be at least three digits long',
+      'any.required': 'username is required',
     }),
     image: Joi.string()
       .allow('', null)
@@ -281,17 +167,14 @@ const validateBodyRegisterWithGoogle = reqBody => {
 }
 const validateBodyRegister = reqBody => {
   const schema = Joi.object({
-    first_name: Joi.string().min(3).required().messages({
-      'number.base': 'first_name must be a string',
-      'number.min': 'first_name must be at least three digits long',
-      'any.required': 'first_name is required',
+    username: Joi.string().min(3).required().messages({
+      'number.base': 'username must be a string',
+      'number.min': 'username must be at least three digits long',
+      'any.required': 'username is required',
     }),
     token: Joi.string().required().messages({
-      'number.base': 'first_name must be a string',
-      'any.required': 'first_name is required',
-    }),
-    last_name: Joi.string().allow('', null).messages({
-      'any.only': 'last_name should be a string or null.',
+      'number.base': 'token must be a string',
+      'any.required': 'token is required',
     }),
     email: Joi.string()
       .email({
@@ -392,17 +275,12 @@ const validateBodyCreateRoomType = reqBody => {
 }
 
 module.exports = {
-  validateVideoPost,
-  validateVideoEdit,
-  validateBodyCreatePayment,
   validateBodyCreateRoom,
-  validateBodyGenerateOtpToeEmail,
+  validateBodyGenerateOtpToEmail,
   validateBodyVerifyOtp,
   validateBodyRegister,
   validateBodyRegisterWithGoogle,
   validateBodyLogin,
   validateBodyChangePassword,
   validateBodyCreateRoomType,
-  validateVideoComment,
-  validateVideoCategory,
 }

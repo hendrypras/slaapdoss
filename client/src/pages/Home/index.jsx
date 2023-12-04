@@ -11,18 +11,7 @@ import classes from './style.module.scss';
 
 const HomePage = () => {
   const marker = [{ geocode: [-6.177082, 106.838581] }];
-  const getProfile = async () => {
-    const response = await getUserProfile();
-    console.log(response, '<<<response1');
-  };
-  const getProfile2 = async () => {
-    const response = await getUserProfile2();
-    console.log(response, '<<<response2');
-  };
-  useEffect(() => {
-    getProfile();
-    getProfile2();
-  }, []);
+
   return (
     <Container>
       <div className={classes.home}>

@@ -2,51 +2,49 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('cabin_rooms', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      username: {
-        unique: true,
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      email: {
-        unique: true,
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      password: {
+      title: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       image_url: {
         type: Sequelize.STRING,
-        allowNull: true,
+        allowNull: false,
       },
       image_public_id: {
         type: Sequelize.STRING,
+        allowNull: false,
         unique: true,
-        allowNull: true,
       },
-      role: {
+      facility_room_id: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      price: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      reset_password_token: {
-        type: Sequelize.STRING,
-        allowNull: true,
+      price_after_discount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      refresh_token: {
-        type: Sequelize.STRING,
-        allowNull: true,
+      quantity: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      reset_password_token_exp: {
-        type: Sequelize.STRING,
-        allowNull: true,
+      discount: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      breakfast: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -59,6 +57,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users')
+    await queryInterface.dropTable('cabin_rooms')
   },
 }

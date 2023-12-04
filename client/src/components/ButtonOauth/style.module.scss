@@ -1,0 +1,15 @@
+@import '@styles/base';
+.googleBtn {
+  width: 100%;
+  border-radius: 4px;
+  border: 1.5px solid $color-gray-100;
+  background-color: transparent;
+  cursor: pointer;
+  color: $color-black-100;
+  @include directionX;
+  justify-content: center;
+  align-items: center;
+  padding: 0.7rem 0;
+  gap: 1rem;
+  font-size: 16px;
+}
