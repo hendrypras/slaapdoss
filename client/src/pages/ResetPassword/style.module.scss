@@ -6,29 +6,20 @@
   justify-content: center;
   align-items: center;
   gap: 0.2rem;
-  margin-top: 3rem;
+  margin-top: 1rem;
   @include screen(md) {
-    width: 80%;
-    margin: 7rem auto 0 auto;
-    gap: 1rem;
-  }
-  .paragraf {
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    margin-bottom: 1rem;
-    @include screen(md) {
-      font-size: 16px;
-    }
+    margin-top: 2rem;
   }
   .wrapperInput {
     @include directionY;
     width: 100%;
     gap: 0.3rem;
+    margin-bottom: 1rem;
+    position: relative;
     .title {
       font-size: 0.8rem;
-      font-weight: 500;
-      color: #fff;
+      color: $color-black-100;
+      font-weight: 700;
       @include screen(md) {
         font-size: 1rem;
       }
@@ -39,41 +30,38 @@
     }
     .input {
       width: 100%;
-      height: 2rem;
-      color: #fff;
+      height: 2.8rem;
+      color: $color-black-100;
+      font-weight: 600;
       margin-bottom: 10px;
       border: none;
-      border-bottom: 1px solid rgb(217, 213, 213);
-      font-size: 16px;
-      padding: 0 1rem;
+      border: 1px solid rgb(217, 213, 213);
+      border-radius: 0.2rem;
+      font-size: 1rem;
+      padding: 0 3rem 0 0.8rem;
       outline: none;
-      font-weight: 500;
       background-color: transparent;
       @include screen(md) {
         height: 3rem;
       }
+      @include screen(xl) {
+        font-size: 1.1rem;
+      }
     }
-  }
 
-  .button {
-    padding: 10px 20px;
-    margin-top: 1rem;
-    border: none;
-    border-radius: 4px;
-    width: 100%;
-    background-color: #334155;
-    color: white;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    @include displayFlex(row, center, center);
-    gap: 0.5rem;
-    transition: background-color 0.3s ease-in-out;
-    @include screen(md) {
-      padding: 12px 20px;
+    .input:focus {
+      border: 1.5px solid $color-green-100;
     }
-  }
-  .button:hover {
-    opacity: 0.8;
+    .icon {
+      position: absolute;
+      top: 57%;
+      right: 0.1rem;
+      transform: translate(-50%, -50%);
+      border: none;
+      color: $color-gray-300;
+      @include displayFlex(row, center, center);
+      cursor: pointer;
+      background-color: transparent;
+    }
   }
 }

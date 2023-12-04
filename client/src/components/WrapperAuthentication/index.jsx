@@ -9,7 +9,7 @@ import ButtonLang from '@components/ButtonLang';
 
 import classes from './style.module.scss';
 
-const WrapperAuthentication = ({ children, locale, title, assets }) => (
+const WrapperAuthentication = ({ children, locale, title, assets, subTitle }) => (
   <div className={classes.wrapper}>
     <div className={classes.wrapperLeftAuth}>
       <div className={classes.wrapperCard}>
@@ -37,7 +37,7 @@ const WrapperAuthentication = ({ children, locale, title, assets }) => (
               <FormattedMessage id={title} />
             </div>
             <div className={classes.subTitle}>
-              <FormattedMessage id="app_login_sign_in_subtitle" />
+              <FormattedMessage id={subTitle || 'app_login_sign_in_subtitle'} />
             </div>
           </div>
         </div>
@@ -50,6 +50,7 @@ WrapperAuthentication.propTypes = {
   children: PropTypes.element.isRequired,
   locale: PropTypes.string,
   title: PropTypes.string.isRequired,
+  subTitle: PropTypes.string,
   assets: PropTypes.object,
 };
 const mapStateToProps = createStructuredSelector({

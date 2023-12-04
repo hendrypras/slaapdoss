@@ -51,15 +51,15 @@ export default {
   app_forgot_password_paragraf_info:
     'Masukkan alamat email terverifikasi akun pengguna Anda dan kami akan mengirimkan Anda tautan pengaturan ulang kata sandi.',
   app_forgot_password_email_title: 'Email',
-  app_forgot_password_success_title_message: 'Password reset request was successful',
+  app_forgot_password_success_title_message: 'Permintaan pengaturan ulang kata sandi berhasil',
   app_forgot_password_success_text_message: 'Silakan periksa email Anda untuk mengatur ulang kata sandi Anda!',
   app_forgot_password_popup_title_success: 'Selamat...',
   app_forgot_password_popup_message_success: 'Cek email kamu untuk merubah kata sandi baru!',
   app_forgot_submit_button_title: 'Kirim',
 
   app_reset_password_title: 'Kata Sandi Baru',
-  app_reset_password_title_input: 'Kata Sandi',
   app_reset_password_title_input_confirm: 'Konfirmasi Kata Sandi',
   app_reset_password_popup_title_success: 'Selamat!!!',
   app_reset_password_popup_message_success: 'Password kamu berhasil di ubah, silahkan login dengan kata sandi baru!',
+  app_reset_password_sub_title: 'Masukan kata sandi yang rumit dan aman',
 };

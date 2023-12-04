@@ -456,3 +456,23 @@ exports.changePassword = async (req, res) => {
     return responseError(res, error.status, error.message)
   }
 }
+
+exports.verifyTokenResetPassword = async (req, res) => {
+  try {
+    const { token } = req.params
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex')
+    const user = await Users.findOne({
+      where: { reset_password_token: hashedToken },
+    })
+    if (!user) return responseError(res, 400, 'Bad Request', 'Invalid token')
+    const formatDateExp = parseInt(user.reset_password_token_exp, 10)
+    const resetExpDate = new Date(formatDateExp)
+    const now = new Date()
+    if (resetExpDate < now) {
+      return responseError(res, 400, 'Bad Request', 'Token expired')
+    }
+    return responseSuccess(res, 200, 'success')
+  } catch (error) {
+    return responseError(res, error.status, error.message)
+  }
+}
