@@ -8,7 +8,7 @@ const urls = {
   payment: 'payment',
   user: 'user',
   asset: 'asset',
-};
+
 
 export const callAPI = async (endpoint, method, header, params, data, withCredentials) => {
   const defaultHeader = {
@@ -42,6 +42,7 @@ export const register = (data) => callAPI(`${urls.auth}/register`, 'POST', {}, {
 export const forgotPassword = (data) => callAPI(`${urls.auth}/forgot-password`, 'POST', {}, {}, data);
 export const resetPassword = (token, data) => callAPI(`${urls.auth}/reset-password/${token}`, 'PATCH', {}, {}, data);
 export const getAssets = () => callAPI(`${urls.asset}/web`, 'GET');
+
 
 export const getUserProfile = () => callAPI(`${urls.user}/profile`, 'GET');
 export const getUserProfile2 = () => callAPI(`${urls.user}/profile/2`, 'GET');
