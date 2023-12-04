@@ -4,7 +4,6 @@ const path = require('path')
 
 const { coreApi, snap } = require('../config/midtrans')
 const { decryptTextPayload } = require('../utils/decryptPayload')
-const { errorHandler, handleResponseSuccess } = require('../helpers')
 const { ResponsePayments, Users } = require('../models')
 const { validateBodyCreatePayment } = require('../helpers/validationJoi')
 const loadData = require('../helpers/databaseHelper')
@@ -17,7 +16,7 @@ exports.createPayment = async (req, res) => {
     const grossAmount = request_midtrans?.transaction_details?.gross_amount
     const decGrossAmount = decryptTextPayload(grossAmount)
     if (!decGrossAmount)
-      return errorHandler(res, 403, 'Forbidden', 'Invalid payload')
+      return responseError(res, 403, 'Forbidden', 'Invalid payload')
     const authData = req.user
     request_midtrans.transaction_details.gross_amount = Number(decGrossAmount)
     const validate = validateBodyCreatePayment({
@@ -25,7 +24,7 @@ exports.createPayment = async (req, res) => {
       request_midtrans,
     })
     if (validate) {
-      return errorHandler(res, 400, 'Validation Failed', validate)
+      return responseError(res, 400, 'Validation Failed', validate)
     }
     const database = path.join(
       __dirname,
@@ -34,12 +33,12 @@ exports.createPayment = async (req, res) => {
     const packet = loadData(database)
     const findPacket = packet?.find(item => item.sku === sku)
     if (!packet || !findPacket)
-      return errorHandler(res, 404, 'Not found', 'packet not found')
+      return responseError(res, 404, 'Not found', 'packet not found')
 
     const currentDateTime = moment()
     const premiumDateTime = moment(authData?.premium_date)
     if (authData?.premium_date && premiumDateTime.isAfter(currentDateTime)) {
-      return errorHandler(res, 400, 'Bad Request', 'You have subscribed')
+      return responseError(res, 400, 'Bad Request', 'You have subscribed')
     }
 
     coreApi
@@ -62,27 +61,27 @@ exports.createPayment = async (req, res) => {
             { premium_date: newPremiumDateTime },
             { where: { id: authData?.id } }
           )
-          return handleResponseSuccess(res, 201, 'Created', chargeResponse)
+          return responseSuccess(res, 201, 'Created', chargeResponse)
         } catch (error) {
-          return errorHandler(res)
+          return responseError(res)
         }
       })
       .catch(e => {
         if (e.ApiResponse) {
           const errorMessage = e.ApiResponse.status_message
           const statusCode = e.ApiResponse.status_code
-          return errorHandler(
+          return responseError(
             res,
             statusCode,
             'Internal Server Error',
             errorMessage
           )
         } else {
-          return errorHandler(res)
+          return responseError(res)
         }
       })
   } catch (error) {
-    return errorHandler(res)
+    return responseError(res)
   }
 }
 
@@ -128,18 +127,13 @@ exports.paymentNotification = async (req, res) => {
         } else if (transactionStatus === 'cancel') {
           message = 'Order status updated to cancel'
         }
-        return handleResponseSuccess(res, 200, 'Ok', message)
+        return responseSuccess(res, 200, 'Ok', message)
       } else {
-        return handleResponseSuccess(
-          res,
-          200,
-          'Ok',
-          'Create payment successfully'
-        )
+        return responseSuccess(res, 200, 'Ok', 'Create payment successfully')
       }
     })
   } catch (error) {
-    return errorHandler(res)
+    return responseError(res)
   }
 }
 
@@ -147,11 +141,11 @@ exports.getPaymentMethods = async (req, res) => {
   try {
     const database = path.join(__dirname, '../../database/paymentMethods.json')
     const response = loadData(database)
-    if (!response) return errorHandler(res)
+    if (!response) return responseError(res)
     const filterData = response.filter(item => item.active)
-    return handleResponseSuccess(res, 200, 'Ok', filterData)
+    return responseSuccess(res, 200, 'Ok', filterData)
   } catch (error) {
-    return errorHandler(res)
+    return responseError(res)
   }
 }
 exports.getResponsePaymentByOrderId = async (req, res) => {
@@ -161,9 +155,9 @@ exports.getResponsePaymentByOrderId = async (req, res) => {
       where: { order_id: orderId },
     })
     if (!response)
-      return errorHandler(res, 404, 'Not Found', 'order id not found')
-    return handleResponseSuccess(res, 200, 'Ok', response)
+      return responseError(res, 404, 'Not Found', 'order id not found')
+    return responseSuccess(res, 200, 'Ok', response)
   } catch (error) {
-    return errorHandler(res)
+    return responseError(res)
   }
 }

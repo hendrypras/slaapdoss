@@ -2,32 +2,78 @@
 
 .wrapper {
   width: 100% !important;
-  height: 100vh !important;
-  @include displayFlex(row, space-between, center);
+  min-height: 100vh !important;
+  @include displayFlex(column-reverse, center, center);
+  @include screen(lg) {
+    @include displayFlex(row, space-between, center);
+  }
   .wrapperLeftAuth {
-    display: none;
+    width: 100%;
+    height: max-content;
+    background: transparent;
+    padding: 0 1rem 2rem 1rem;
     @include screen(md) {
-      display: block;
-      width: 50% !important;
       height: 100vh;
-      background-image: url('@static/images/bg-left-auth.jpg');
-      background-repeat: no-repeat;
-      background-position: center center;
-      background-size: cover;
+      width: 50% !important;
+      @include displayFlex(row, start, center);
+    }
+    @include screen(xl) {
+      padding: 0 4% 0 10%;
+    }
+    .wrapperCard {
+      width: 100%;
+      @include displayFlex(column, start, center);
+      gap: 2rem;
+      .card {
+        @include displayFlex(row, start, center);
+        gap: 1rem;
+        width: 100%;
+        @include screen(md) {
+          gap: 2rem;
+        }
+        .icon {
+          width: 10%;
+          @include screen(md) {
+            width: 15%;
+          }
+        }
+        .wrapperText {
+          @include displayFlex(column, start, start);
+          gap: 0.6rem;
+          .title {
+            font-size: 1rem;
+            color: $color-black-100;
+            font-weight: 700;
+            @include screen(md) {
+              font-size: 1.2rem;
+            }
+          }
+          .description {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: $color-gray-300;
+            @include screen(md) {
+              font-size: 0.9rem;
+              font-weight: 600;
+            }
+          }
+        }
+      }
     }
   }
   .wrapperRightAuth {
-    background-image: url('@static/images/bg-auth.svg');
-    background-repeat: no-repeat;
-    background-position: start center;
-    background-size: contain;
-    background-color: black;
     width: 100% !important;
-    height: 100vh;
-    padding: 0 1rem;
+    height: max-content;
+    padding: 5rem 1rem;
     position: relative;
-    @include screen(md) {
+    @include displayFlex(column, center, center);
+    @include screen(lg) {
+      height: 100vh;
       width: 50% !important;
+      @include displayFlex(row, start, center);
+    }
+    @include screen(xl) {
+      padding: 0 10% 0 0;
     }
     .wrapperHead {
       top: 1.5rem;
@@ -35,74 +81,57 @@
       left: 0;
       width: 100%;
       padding: 0 1rem;
-      @include displayFlex(row, space-between, center);
+      @include displayFlex(row, end, center);
       @include screen(md) {
         top: 2rem;
         padding: 0 2rem;
       }
-      .toggle {
-        @include displayFlex(row, center, center);
-        background: transparent;
-        border: none;
-        cursor: pointer;
-        color: white;
-        gap: 0.2rem;
-        .avatar {
-          width: 1.5rem;
-          height: 1.5rem;
-          box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        }
-        .lang {
-          font-family: Poppins, Arial, Helvetica, sans-serif;
-          font-weight: 700;
-          font-size: 1rem;
-          text-transform: uppercase;
-          color: white;
-        }
-      }
     }
-    .menu {
-      @include directionX;
-      align-items: center;
-      .menuLang {
-        font-family: Poppins, Arial, Helvetica, sans-serif;
-        font-size: 0.2rem;
-        color: white;
-      }
-    }
-    .wrapperLogo {
-      width: 100%;
-      background-color: transparent;
+
+    .wrapperChildren {
       height: max-content;
-      padding: 6rem 0;
-      color: white;
-      cursor: pointer;
-      @include displayFlex(column, center, center);
-      @include screen(md) {
-        padding: 8rem 0 6rem 0;
-      }
-      .button {
-        background-color: transparent;
-        border: none;
-        color: white;
-        cursor: pointer;
-        .logo {
-          font-size: 1.8rem;
-          font-weight: 600;
-        }
-        .subLogo {
-          font-size: 0.8rem;
-          color: rgb(195, 190, 190);
-        }
-      }
-    }
-    .wrapperTitle {
       width: 100%;
-      @include displayFlex(row, center, center);
-      .title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        text-transform: capitalize;
+      @include displayFlex(column, center, center);
+      border-radius: 0.4rem;
+      padding: 1.5rem 1rem;
+      box-shadow:
+        0 0 #0000,
+        0 0 #0000,
+        1px 2px 2px 2px rgba(0, 0, 0, 0.1);
+      @include screen(md) {
+        padding: 1.5rem;
+      }
+      @include screen(xxl) {
+        max-width: 80%;
+        margin: auto;
+      }
+      .wrapperLogo {
+        @include displayFlex(row, start, center);
+        padding: 0 1rem;
+        width: 100%;
+        gap: 1rem;
+        .logo {
+          width: 3rem;
+          height: 3rem;
+        }
+        .wrapperText {
+          @include displayFlex(column, start, start);
+          gap: 0.2rem;
+          .title {
+            font-size: 1.5rem;
+            max-width: 90%;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            @include screen(xxl) {
+              max-width: 100%;
+            }
+          }
+          .subTitle {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: $color-gray-100;
+          }
+        }
       }
     }
   }

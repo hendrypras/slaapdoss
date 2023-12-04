@@ -2,51 +2,41 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('cabin_informations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      username: {
-        unique: true,
+      title: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      email: {
-        unique: true,
+      about_description: {
         allowNull: false,
-        type: Sequelize.STRING,
-      },
-      password: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        type: Sequelize.TEXT,
       },
       image_url: {
+        allowNull: false,
         type: Sequelize.STRING,
-        allowNull: true,
       },
-      image_public_id: {
+      image_public_url: {
         type: Sequelize.STRING,
         unique: true,
-        allowNull: true,
       },
-      role: {
+      additional_info_id: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false,
+      },
+      lat: {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
-      reset_password_token: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      refresh_token: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      reset_password_token_exp: {
-        type: Sequelize.STRING,
-        allowNull: true,
+      long: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -59,6 +49,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('users')
+    await queryInterface.dropTable('cabin_informations')
   },
 }

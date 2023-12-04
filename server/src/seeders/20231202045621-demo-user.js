@@ -7,10 +7,11 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     return queryInterface.bulkInsert('users', [
       {
-        first_name: 'hendry',
-        last_name: 'pras',
-        email: 'hendry@gmail.com',
-        password: hashPassword('password123'),
+        username: 'admin',
+        email: 'admin@gmail.com',
+        image_url: process.env.AVATAR_URL_DEFAULT,
+        image_public_id: 'avatar',
+        password: hashPassword('passwordadmin'),
         role: 2,
         createdAt: new Date(),
         updatedAt: new Date(),

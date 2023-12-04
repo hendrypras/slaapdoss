@@ -3,7 +3,6 @@
 .dialogWrapper {
   border-radius: 0.5rem !important;
   padding: 1rem;
-
   .title {
     font-size: 1rem;
     font-weight: 700;
@@ -23,11 +22,11 @@
       margin-top: 1rem;
       border-radius: 1rem;
       border: none;
-      font-family: Poppins, Arial, sans-serif;
+      font-family: Nunito, sans-serif;
       padding: 0.5rem;
       font-size: 0.7rem;
-      background-color: var(--color-button);
-      color: #ffffff;
+      background-color: $color-green-100;
+      color: $color-white;
       cursor: pointer;
     }
 
