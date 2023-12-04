@@ -1,20 +1,22 @@
 import { produce } from 'immer';
 
-import { SET_LOCAL, SET_THEME, SET_POPUP, SET_LOADING } from '@containers/App/constants';
+import { SET_LOCAL, SET_POPUP, SET_LOADING, SET_ASSETS } from '@containers/App/constants';
 
 export const initialState = {
   locale: 'id',
-  theme: 'dark',
   popup: {
     open: false,
     title: '',
+    titleId: '',
     message: '',
+    messageId: '',
     ok: '',
   },
   loading: false,
+  assets: null,
 };
 
-export const storedKey = ['locale'];
+export const storedKey = ['locale', 'assets'];
 
 const appReducer = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -22,14 +24,14 @@ const appReducer = (state = initialState, action) =>
       case SET_LOCAL:
         draft.locale = action.locale;
         break;
-      case SET_THEME:
-        draft.theme = action.theme;
-        break;
       case SET_POPUP:
         draft.popup = action.popup;
         break;
       case SET_LOADING:
         draft.loading = action.loading;
+        break;
+      case SET_ASSETS:
+        draft.assets = action.assets;
         break;
     }
   });

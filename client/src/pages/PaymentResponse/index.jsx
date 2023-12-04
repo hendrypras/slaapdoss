@@ -62,6 +62,18 @@ const PaymentResponse = ({ responsePayment }) => {
       clearInterval(timerId.current);
     };
   }, [responsePayment]);
+  // useEffect(() => {
+  //   const snapScript = 'https://app.sandbox.midtrans.com/snap/snap.js';
+  //   const clientKey = 'c79da583-5675-4635-8906-e766993011d6';
+  //   const script = document.createElement('script');
+  //   script.src = snapScript;
+  //   script.setAttribute('data-client-key', clientKey);
+  //   script.async = true;
+  //   document.body.appendChild(script);
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
   return (
     <Container className={classes.wrapper}>

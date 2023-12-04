@@ -1,5 +1,6 @@
 const crypto = require('crypto')
 const Redis = require('ioredis')
+const { Op } = require('sequelize')
 const { responseError, responseSuccess } = require('../helpers/responseHandler')
 const { Users } = require('../models')
 const { comparePassword } = require('../utils/bcryptPassword')
@@ -20,7 +21,7 @@ const {
 const { getLockingUser, setLockingUser } = require('../utils/guardLogin')
 
 const {
-  validateBodyGenerateOtpToeEmail,
+  validateBodyGenerateOtpToEmail,
   validateBodyVerifyOtp,
   validateBodyRegisterWithGoogle,
   validateBodyRegister,
@@ -45,7 +46,7 @@ exports.requestOtp = async (req, res) => {
     const emailDecoded = decryptTextPayload(email)
     if (!emailDecoded)
       return responseError(res, 400, 'Bad Request', 'Invalid payload')
-    const validate = validateBodyGenerateOtpToeEmail({ email: emailDecoded })
+    const validate = validateBodyGenerateOtpToEmail({ email: emailDecoded })
 
     if (validate) return responseError(res, 400, 'Validation Failed', validate)
 
@@ -145,12 +146,23 @@ exports.register = async (req, res) => {
         if (validate)
           return responseError(res, 400, 'Validation Failed', validate)
 
-        const user = await Users.findOne({ where: { email: decoded?.email } })
+        const user = await Users.findOne({
+          where: {
+            [Op.or]: [
+              { username: decData?.username },
+              { email: decoded?.email },
+            ],
+          },
+        })
         if (user)
-          return responseError(res, 400, 'Bad Request', 'Email already exists')
+          return responseError(
+            res,
+            400,
+            'Bad Request',
+            'Email or Username already exists'
+          )
         await Users.create({
-          first_name: decData.first_name,
-          last_name: decData.last_name,
+          username: decData.username,
           email: decoded?.email,
           password: decData.password,
         })
@@ -165,7 +177,7 @@ exports.register = async (req, res) => {
 // login or register using google
 exports.registerWithGoogle = async (req, res) => {
   try {
-    const { first_name, last_name, image, email } = req.body
+    const { username, image, email } = req.body
     const validate = validateBodyRegisterWithGoogle(req.body)
     if (validate) {
       return responseError(res, 400, 'Validation Failed', validate)
@@ -173,8 +185,7 @@ exports.registerWithGoogle = async (req, res) => {
     const findUser = await Users.findOne({ where: { email } })
     if (!findUser) {
       const user = await Users.create({
-        first_name,
-        last_name,
+        username: username + Math.floor(1000 + Math.random() * 9000),
         email,
         image,
         password:
@@ -362,7 +373,7 @@ exports.forgotPassword = async (req, res) => {
     if (!emailDecoded)
       return responseError(res, 400, 'Bad Request', 'Invalid payload')
 
-    const validate = validateBodyGenerateOtpToeEmail({ email: emailDecoded })
+    const validate = validateBodyGenerateOtpToEmail({ email: emailDecoded })
     if (validate) return responseError(res, 400, 'Validation Failed', validate)
 
     const user = await Users.findOne({ where: { email: emailDecoded } })

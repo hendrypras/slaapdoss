@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Users.init(
     {
-      first_name: DataTypes.STRING,
-      last_name: DataTypes.STRING,
+      username: DataTypes.STRING,
       email: DataTypes.STRING,
       password: DataTypes.STRING,
-      picture_url: DataTypes.STRING,
+      image_url: DataTypes.STRING,
+      image_public_id: DataTypes.STRING,
       role: DataTypes.INTEGER,
       refresh_token: DataTypes.STRING,
       reset_password_token: DataTypes.STRING,
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         beforeCreate: user => {
           user.password = hashPassword(user.password)
           user.role = 2
-          if (!user.image) {
+          if (!user.image_url) {
             user.image = process.env.AVATAR_URL_DEFAULT
           }
         },

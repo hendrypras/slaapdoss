@@ -5,7 +5,6 @@ import clientReducer, { storedKey as storedClientState } from '@containers/Clien
 import registerReducer, { storedKey as storedRegisterState } from '@pages/Register/reducer';
 import languageReducer from '@containers/Language/reducer';
 
-import loginReducer from '@pages/Login/reducer';
 import forgotPasswordReducer from '@pages/ForgotPassword/reducer';
 import resetPasswordReducer from '@pages/ResetPassword/reducer';
 import homeReducer from '@pages/Home/reducer';
@@ -21,7 +20,6 @@ const storedReducers = {
 
 const temporaryReducers = {
   language: languageReducer,
-  login: loginReducer,
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
   home: homeReducer,
