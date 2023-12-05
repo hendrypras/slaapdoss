@@ -12,6 +12,27 @@ export default {
   app_back_button_text: 'Kembali',
   app_component_btn_created: 'Buat',
 
+  app_title_satisfaction: 'Kepuasan di Depan Pintu Anda',
+
+  app_home_title_perfect_solition: 'Temukan Solusi Sempurna untuk Setiap Kebutuhan Anda',
+  app_home_sub_title_perfect_solition:
+    'Dari tempat yang terasa seperti rumah di kota-kota yang ramai hingga menjelajahi keindahan alam Indonesia, Slaapdoss siap membawa Anda ke petualangan dengan kenyamanan penuh di mana pun Anda berada.',
+  app_home_cabin_head_title: 'Rasakan sentuhan penyembuhan dari alam',
+  app_home_cabin_sub_title:
+    'Tinggalkan hiruk pikuk kota dan saksikan keindahan eksotis keajaiban alam Indonesia di Bobocabin. Hargai pemandangan menakjubkan langsung dari kehangatan kabin Anda.',
+  app_home_banner_title_1: 'Sudut pandang pribadi Anda ke Rinjani dari kabin Anda',
+  app_home_banner_sub_title_1: 'Kabin dengan kursi baris depan menuju keajaiban alam.',
+  app_home_banner_title_2: 'Anggaplah Seperti Rumah Sendiri Kemanapun Anda Pergi',
+  app_home_banner_sub_title_2: 'Carilah kehangatan di mana pun Anda berada; baik itu di kota yang ramai atau di hutan.',
+  app_home_title_location_search_selelct: 'Lokasi',
+  app_home_title_placeholder_location_search_selelct: 'Pilih Lokasi',
+  app_home_title_checkin_search_selelct: 'Mendaftar',
+  app_home_title_placeholder_checkin_search_selelct: 'Hari ini',
+  app_home_title_checkout_search_selelct: 'Periksa',
+  app_home_title_placeholder_checkout_search_selelct: 'Periksa',
+  app_home_title_duration_search_selelct: 'Durasi',
+  app_home_title_placeholder_duration_search_selelct: '1 Malam',
+
   app_respose_payment_success: 'Selamat orderan anda berhasil, silahkan lakukan pembayaran sebelum waktu berakhir!',
   app_response_payment_pay_in: 'Bayar Sebelum:',
   app_response_payment_button_continue: 'Lanjutkan',

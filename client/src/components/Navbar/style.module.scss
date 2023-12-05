@@ -1,13 +1,56 @@
 @import '@styles/base';
 
+.wrapperHead {
+  @include displayFlex(row, space-between, center);
+  width: 100%;
+  padding: 0.8rem 1rem;
+  .wrapperLogo {
+    @include displayFlex(row, center, center);
+    cursor: pointer;
+    align-items: center;
+    background: none;
+    border: none;
+    gap: 0.1rem;
+    .logo {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+    .logoTitle {
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: $color-green-100;
+    }
+  }
+  .closeBtn {
+    background-color: transparent;
+    width: max-content;
+    @include displayFlex(row, center, center);
+    border: none;
+    cursor: pointer;
+    .icon {
+      font-size: 2rem;
+    }
+  }
+}
+.wrapperContent {
+  width: 100%;
+  height: auto;
+  .wrapperBtn {
+    width: 100%;
+    @include displayFlex(row, center, center);
+    gap: 2rem;
+    padding: 0 2rem;
+    margin-top: 2rem;
+  }
+}
 .headerWrapper {
   background-color: $color-white;
-  position: fixed;
+  position: sticky;
   top: 0;
   width: 100%;
   height: max-content;
-  padding: 0.2rem 0.5rem;
-  border-top: 0.1px solid rgb(188, 183, 183);
+  padding: 1.2rem 0.5rem;
   border-bottom: 0.1px solid rgb(188, 183, 183);
   z-index: 99;
   @include screen(md) {
@@ -18,13 +61,9 @@
     @include directionX;
     max-width: 1200px;
     margin: auto;
-    color: var(--color-text);
     align-items: center;
     justify-content: space-between;
     font-size: 1rem;
-    @include screen('small') {
-      padding: 0 1rem;
-    }
     .wrapperLeft {
       @include displayFlex(row, center, center);
       gap: 1rem;
@@ -36,59 +75,59 @@
         border: none;
         gap: 0.1rem;
         .logo {
-          width: 2.5rem;
-          height: 2.5rem;
+          width: 1.8rem;
+          height: 1.8rem;
         }
         .logoTitle {
-          font-size: 18px;
-          font-weight: 200;
-          font-style: italic;
+          font-size: 1.3rem;
+          font-weight: 600;
+          letter-spacing: 1.5px;
           color: $color-green-100;
         }
       }
     }
 
-    .links {
+    .wrapperRight {
       @include displayFlex(row, center, center);
-      gap: 0.5rem;
-      .searchButton {
-        border: none;
-        cursor: pointer;
-        background-color: transparent;
-        color: rgb(171, 170, 170);
+      width: max-content;
+      gap: 1rem;
+      .menuBtn {
         @include displayFlex(row, center, center);
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        color: $color-green-100;
+        .icon {
+          font-size: 2rem;
+        }
         @include screen(md) {
           display: none;
         }
       }
-      .wrapperAvatar {
-        width: 27px;
-        height: 27px;
+      .wrapperBtn {
+        display: none;
         @include screen(md) {
-          margin-right: 1rem;
-          width: 30px;
-          height: 30px;
-        }
-        .avatar {
-          width: 1.7rem;
-          height: 1.7rem;
+          @include displayFlex(row, center, center);
+          .login {
+            padding: 0.7rem 1.5rem;
+            font-size: 0.9rem;
+            background-color: transparent;
+            color: $color-black-100;
+          }
+          .register {
+            padding: 0.7rem 1.8rem;
+            font-size: 0.9rem;
+            border-radius: 0.6rem;
+          }
         }
       }
-    }
-    .menu {
-      @include directionX;
-      align-items: center;
-
-      .menuAvatar {
-        width: 1rem;
-        height: 1rem;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        margin-right: 0.5rem;
-      }
-
-      .menuLang {
-        font-family: Poppins, Arial, Helvetica, sans-serif;
-        font-size: 0.8rem;
+      .wrapperBtnLang {
+        display: none;
+        @include screen(md) {
+          display: block;
+          height: max-content;
+          width: max-content;
+        }
       }
     }
   }
