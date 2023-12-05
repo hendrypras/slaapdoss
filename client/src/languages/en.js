@@ -62,4 +62,5 @@ export default {
   app_reset_password_title_input_confirm: 'Confirm Password',
   app_reset_password_popup_title_success: 'Congratulation!!!',
   app_reset_password_popup_message_success: 'Your password updated successfully, please login again with new password!',
+  app_reset_password_sub_title: 'Enter a complex and secure password',
 };

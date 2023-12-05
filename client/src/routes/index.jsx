@@ -7,6 +7,7 @@ import NotFound from '@pages/NotFound';
 import Register from '@pages/Register';
 import ResetPassword from '@pages/ResetPassword';
 import PaymentResponse from '@pages/PaymentResponse';
+import CallBack from '@pages/CallBack';
 
 const routes = [
   {
@@ -52,6 +53,13 @@ const routes = [
     component: PaymentResponse,
     adminOnly: false,
     layout: MainLayout,
+  },
+  {
+    path: '/callback/:status/:data',
+    name: 'Call Back page',
+    protected: false,
+    component: CallBack,
+    adminOnly: false,
   },
 
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },

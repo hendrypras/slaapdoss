@@ -9,6 +9,7 @@ const {
   requestOtp,
   refreshToken,
   logout,
+  verifyTokenResetPassword,
 } = require('../controllers/authCtrl')
 const router = express.Router()
 
@@ -19,6 +20,7 @@ router.post('/auth/forgot-password', forgotPassword)
 router.post('/auth/otp', requestOtp)
 router.post('/auth/verify-otp', verifyOtp)
 router.post('/auth/logout', logout)
+router.post('/auth/verify-token/:token', verifyTokenResetPassword)
 
 router.get('/auth/refresh-token', refreshToken)
 
