@@ -141,17 +141,20 @@
       @include displayFlex(row, center, center);
       width: max-content;
       gap: 1rem;
-      .menuBtn {
+      .wapperBtnRight {
         @include displayFlex(row, center, center);
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        color: $color-green-100;
-        .icon {
-          font-size: 2rem;
-        }
         @include screen(md) {
           display: none;
+        }
+        .menuBtn {
+          @include displayFlex(row, center, center);
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+          color: $color-green-100;
+          .icon {
+            font-size: 2rem;
+          }
         }
       }
       .wrapperAvatar {

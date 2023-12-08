@@ -6,13 +6,11 @@ const {
   paymentNotification,
   getPaymentMethods,
   getResponsePaymentByOrderId,
-  createPaymentSnap,
 } = require('../controllers/paymentCtrl')
 
 const router = express.Router()
 
 router.post('/payment', Authenticated, isUser, createPayment)
-router.post('/payment/snap', createPaymentSnap)
 router.post('/payment/notification', paymentNotification)
 
 router.get('/payment/methods', Authenticated, getPaymentMethods)

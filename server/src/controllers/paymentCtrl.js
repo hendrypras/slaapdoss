@@ -85,20 +85,6 @@ exports.createPayment = async (req, res) => {
   }
 }
 
-exports.createPaymentSnap = async (req, res) => {
-  try {
-    let parameter = {
-      transaction_details: {
-        order_id: 'YOUR-ORDERID-1234562',
-        gross_amount: 10000,
-      },
-    }
-    const token = await snap.createTransactionToken(parameter)
-    return responseSuccess(res, 200, 'success', { token })
-  } catch (error) {
-    return responseError(res)
-  }
-}
 exports.paymentNotification = async (req, res) => {
   const statusResponse = await coreApi.transaction.notification(req.body)
   const orderId = statusResponse.order_id
@@ -142,7 +128,7 @@ exports.getPaymentMethods = async (req, res) => {
     const database = path.join(__dirname, '../../database/paymentMethods.json')
     const response = loadData(database)
     if (!response) return responseError(res)
-    const filterData = response.filter(item => item.active)
+    const filterData = response.filter(item => item.is_active)
     return responseSuccess(res, 200, 'Ok', filterData)
   } catch (error) {
     return responseError(res)

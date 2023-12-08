@@ -69,5 +69,21 @@
   "images": {
     "emptyHistory": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008791/empty_wdzemb.svg",
     "notfound": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008984/404_eubyx8.svg"
+  },
+  "check_in_procedure": {
+    "check_in_rate": "14:00-23:59 WIB",
+    "check_out": "12:00 WIB",
+    "check_in": "14:00 WIB",
+    "refund_reschedule": "Not available. This room booking can't be cancelled, refunded, relocated, or rescheduled. If you don't arrive at the accommodation on the check-in date, you will be considered a no-show and will not be given a refund.",
+    "age_policies": [
+      "Children above 10 years old will be considered as an adult",
+      "Children must be under parents supervision all the time during the stay at cabin"
+    ],
+    "other_policies": [
+      "Pets are not allowed.",
+      "Breakfast is not provided. You can order separately or pay room with add-ons during booking.",
+      "Smoking inside room is not allowed. Smoking is allowed in the outdoor area.",
+      "Alcohol is not allowed."
+    ]
   }
 }

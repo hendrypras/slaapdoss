@@ -90,7 +90,21 @@
     "app_user_profile_text_button_close_camera": "Close Camera",
     "app_user_profile_text_button_captured": "Foto",
     "app_user_profile_text_button_save_image_profile": "Simpan Gambar",
-    "app_user_profile_text_button_history": "Riwayat"
+    "app_user_profile_text_button_history": "Riwayat",
+    "aap_reservation_title_back_btn": "Kembali untuk memilih cabin",
+    "app_reservation_order_detail_head_title": "Detail Pesanan",
+    "app_reservation_cabin_address_title": "Alamat Cabin",
+    "app_reservation_checkin_title": "Mendaftar",
+    "app_reservation_checkout_title": "Periksa",
+    "app_reservation_stay_duration_title": "Durasi Tinggal",
+    "app_reservation_cabin_type_title": "Tipe Cabin",
+    "app_reservation_cabin_total_title": "Total Cabin",
+    "app_reservation_room_capacity_title": "Kapasitas Ruangan",
+    "app_reservation_contact_detail_head_title": "Detail Kontak",
+    "app_reservation_price_detail_head_title": "Detail Harga",
+    "app_reservation_service_fee_title": "Service Fee",
+    "app_reservation_service_fee_value": "Gratis",
+    "app_reservation_continue_payment_title": "Lanjutkan Pembayaran"
   },
   "en": {
     "app_not_found": "Page not found",
@@ -184,6 +198,20 @@
     "app_user_profile_text_button_close_camera": "Close Camera",
     "app_user_profile_text_button_captured": "Take",
     "app_user_profile_text_button_save_image_profile": "Save Image",
-    "app_user_profile_text_button_history": "History"
+    "app_user_profile_text_button_history": "History",
+    "aap_reservation_title_back_btn": "Back to select cabin",
+    "app_reservation_order_detail_head_title": "Order Detail",
+    "app_reservation_cabin_address_title": "Cabin Address",
+    "app_reservation_checkin_title": "Check-in",
+    "app_reservation_checkout_title": "Check-out",
+    "app_reservation_stay_duration_title": "Stay Duration",
+    "app_reservation_cabin_type_title": "Cabin Type",
+    "app_reservation_cabin_total_title": "Total Cabin",
+    "app_reservation_room_capacity_title": "Room Capacity",
+    "app_reservation_contact_detail_head_title": "Contact Detail",
+    "app_reservation_price_detail_head_title": "Price Detail",
+    "app_reservation_service_fee_title": "Service Fee",
+    "app_reservation_service_fee_value": "Free",
+    "app_reservation_continue_payment_title": "Continue Payment"
   }
 }

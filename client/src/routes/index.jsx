@@ -9,6 +9,7 @@ import ResetPassword from '@pages/ResetPassword';
 import PaymentResponse from '@pages/PaymentResponse';
 import CallBack from '@pages/CallBack';
 import UserProfile from '@pages/UserProfile';
+import Reservation from '@pages/Reservation';
 
 const routes = [
   {
@@ -69,6 +70,14 @@ const routes = [
     protected: false,
     component: CallBack,
     adminOnly: false,
+  },
+  {
+    path: '/reservation/:cabinId',
+    name: 'Reservation',
+    protected: true,
+    component: Reservation,
+    adminOnly: false,
+    layout: MainLayout,
   },
 
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },
