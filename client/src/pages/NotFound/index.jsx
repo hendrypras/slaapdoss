@@ -1,16 +1,34 @@
 import { FormattedMessage } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
+import { connect } from 'react-redux';
+import icon from '@static/images/not-found.svg';
+import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
 
-import logo from '@static/images/not-found.png';
+import Button from '@components/Button';
+
+import { selectAssets } from '@containers/App/selectors';
 
 import classes from './style.module.scss';
 
-const NotFound = () => (
-  <div className={classes.contentWrapper}>
-    <img className={classes.image} src={logo} alt="Not Found" />
-    <div className={classes.title}>
-      <FormattedMessage id="app_not_found" />
+const NotFound = ({ assets }) => {
+  const navigate = useNavigate();
+  return (
+    <div className={classes.contentWrapper}>
+      <img className={classes.image} src={assets?.images?.notfound || icon} alt="Not Found" />
+      <div className={classes.title}>
+        <FormattedMessage id="app_not_found" />
+      </div>
+      <Button text="app_not_found_button_text" className={classes.button} onClick={() => navigate('/')} />
     </div>
-  </div>
-);
+  );
+};
+const mapStateToProps = createStructuredSelector({
+  assets: selectAssets,
+});
 
-export default NotFound;
+NotFound.propTypes = {
+  assets: PropTypes.object,
+};
+
+export default connect(mapStateToProps)(NotFound);

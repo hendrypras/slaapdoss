@@ -1,10 +1,125 @@
 @import '@styles/base';
 
-.home {
-  height: 100vh;
+.swiper {
+  max-height: auto;
   width: 100%;
-  .text {
-    margin-top: 10rem;
-    color: white;
+  @include screen(lg) {
+    padding-bottom: 2rem;
   }
+  .swiperSlide {
+    width: 100%;
+    @include displayFlex(column-reverse, center, start);
+    @include screen(lg) {
+      @include displayFlex(row, space-between, center);
+    }
+    .wrapperText {
+      width: 100%;
+      @include displayFlex(column, center, center);
+      padding: 2.5rem 1rem;
+      gap: 0.9rem;
+      @include screen(lg) {
+        padding: 2rem;
+      }
+      .title {
+        font-size: 1.3rem;
+        color: $color-black-100;
+        font-weight: 700;
+        width: 100%;
+        @include screen(lg) {
+          font-size: 2.5rem;
+        }
+      }
+      .subTitle {
+        font-size: 1rem;
+        color: $color-gray-300;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        width: 100%;
+        @include screen(lg) {
+          font-size: 1.2rem;
+        }
+      }
+    }
+    .img {
+      width: 100%;
+      @include screen(lg) {
+        width: 50%;
+      }
+    }
+  }
+}
+.searchWrapper {
+  margin: 2rem auto;
+  padding: 1rem;
+  box-shadow:
+    0 0 10px -2px rgb(0 0 0 / 0.1),
+    0 0 10px -2px rgb(0 0 0 / 0.1);
+  border-radius: 0.5rem;
+  font-family: Nunito, sans-serif;
+  @include displayFlex(column, center, start);
+  gap: 0.5rem;
+  width: 92%;
+  @include screen(lg) {
+    width: 100%;
+  }
+  .subTitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $color-gray-300;
+  }
+  .title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: $color-black-100;
+  }
+  .form {
+    @include displayFlex(column, center, center);
+    width: 100%;
+    gap: 1.2rem;
+    @include screen(lg) {
+      @include displayFlex(row, center, center);
+      height: 100%;
+      gap: 0;
+    }
+    .selectWrapper {
+      @include displayFlex(column, center, center);
+      gap: 1rem;
+      width: 100%;
+      @include screen(lg) {
+        @include displayFlex(row, center, center);
+        height: max-content;
+        border: 1.5px solid rgb(210, 202, 202);
+        border-radius: 0.3rem 0 0 0.3rem;
+        padding: 0.2rem 0;
+      }
+    }
+    .buttonSearch {
+      @include screen(lg) {
+        width: 20%;
+        padding: 1.4rem 0;
+        border-radius: 0 0.3rem 0.3rem 0;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
+
+.containerCabin {
+  width: 100%;
+  overflow: hidden;
+  padding: 0 1rem;
+  .img {
+    width: 100%;
+    @include screen(lg) {
+      width: 70%;
+      margin: auto;
+    }
+  }
+}
+.secSatisfication {
+  background-image: url('@static/images/SatisficationBG.webp');
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 50vh;
 }

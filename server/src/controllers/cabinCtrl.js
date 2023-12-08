@@ -16,7 +16,7 @@ exports.createCabin = async (req, res) => {
     }
     return responseSuccess(res, 200, 'Ok', imageResult)
   } catch (error) {
-    if (req.files.image && imageResult && imageResult.public_id) {
+    if (imageResult?.public_id) {
       const deleteImage = await cloudinaryDeleteImg(
         imageResult.public_id,
         'image'

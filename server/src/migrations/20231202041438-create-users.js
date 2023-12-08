@@ -36,6 +36,11 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      id_card_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        unique: true,
+      },
       reset_password_token: {
         type: Sequelize.STRING,
         allowNull: true,

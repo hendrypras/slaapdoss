@@ -7,23 +7,22 @@ cloudinary.config({
 })
 
 const uploadToCloudinary = async (file, resourceType) => {
-  try {
-    const result = await cloudinary.uploader.upload(file, {
-      resource_type: resourceType,
-    })
-
-    return {
-      success: true,
-      url: result.secure_url,
-      asset_id: result.asset_id,
-      public_id: result.public_id,
-    }
-  } catch (error) {
-    return {
-      success: false,
-      error,
-    }
-  }
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      {
+        resource_type: resourceType,
+        folder: resourceType,
+      },
+      (error, result) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(result)
+        }
+      }
+    )
+    uploadStream.end(file.buffer)
+  })
 }
 const cloudinaryDeleteImg = async (publicId, resourceType) => {
   try {

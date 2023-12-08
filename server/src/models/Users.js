@@ -4,7 +4,9 @@ const { hashPassword } = require('../utils/bcryptPassword')
 require('dotenv').config()
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
-    static associate(models) {}
+    static associate(models) {
+      Users.hasOne(models.IdCard, { foreignKey: 'user_id', as: 'id_card' })
+    }
   }
   Users.init(
     {
@@ -24,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
           user.password = hashPassword(user.password)
           user.role = 2
           if (!user.image_url) {
-            user.image = process.env.AVATAR_URL_DEFAULT
+            user.image_url = process.env.AVATAR_URL_DEFAULT
           }
         },
         beforeUpdate: user => {

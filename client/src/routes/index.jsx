@@ -8,6 +8,7 @@ import Register from '@pages/Register';
 import ResetPassword from '@pages/ResetPassword';
 import PaymentResponse from '@pages/PaymentResponse';
 import CallBack from '@pages/CallBack';
+import UserProfile from '@pages/UserProfile';
 
 const routes = [
   {
@@ -51,6 +52,14 @@ const routes = [
     name: 'Response Payment',
     protected: true,
     component: PaymentResponse,
+    adminOnly: false,
+    layout: MainLayout,
+  },
+  {
+    path: '/user/profile',
+    name: 'User Profile',
+    protected: true,
+    component: UserProfile,
     adminOnly: false,
     layout: MainLayout,
   },

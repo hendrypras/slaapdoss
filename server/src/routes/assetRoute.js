@@ -1,7 +1,8 @@
 const express = require('express')
-const { getAssets } = require('../controllers/assetCtrl')
+const { getStaticAssets, getTranslation } = require('../controllers/assetCtrl')
 const router = express.Router()
 
-router.get('/asset/web', getAssets)
+router.get('/asset/web', getStaticAssets)
+router.get('/translation/web', getTranslation)
 
 module.exports = router

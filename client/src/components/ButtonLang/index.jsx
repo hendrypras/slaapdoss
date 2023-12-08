@@ -4,10 +4,13 @@ import { Avatar, Modal, Fade, MenuItem, Divider, ListSubheader } from '@mui/mate
 import { FormattedMessage } from 'react-intl';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import classNames from 'classnames';
+
 import { setLocale } from '@containers/App/actions';
+
 import classes from './style.module.scss';
 
-const ButtonLang = ({ locale }) => {
+const ButtonLang = ({ locale, className }) => {
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState(false);
 
@@ -28,7 +31,7 @@ const ButtonLang = ({ locale }) => {
 
   return (
     <>
-      <button type="button" className={classes.toggle} onClick={handleOpenModal}>
+      <button type="button" className={classNames(classes.toggle, className)} onClick={handleOpenModal}>
         <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
         <div className={classes.lang}>{locale}</div>
         <KeyboardArrowRightOutlinedIcon className={classes.arrowIcon} />
@@ -78,6 +81,7 @@ const ButtonLang = ({ locale }) => {
 
 ButtonLang.propTypes = {
   locale: PropTypes.string.isRequired,
+  className: PropTypes.string,
 };
 
 export default ButtonLang;
