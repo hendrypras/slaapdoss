@@ -2,33 +2,45 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import { getAssets, hidePopup } from '@containers/App/actions';
-import { selectPopup, selectLoading, selectAssets } from '@containers/App/selectors';
-import { setLogin, setToken } from '@containers/Client/actions';
+import { getAssets, getTranslations, hidePopup } from '@containers/App/actions';
+import { selectPopup, selectLoading } from '@containers/App/selectors';
+import { selectLogin, selectToken } from '@containers/Client/selectors';
+import { setLogout } from '@containers/Client/actions';
 
 import Loader from '@components/Loader';
 import ClientRoutes from '@components/ClientRoutes';
 import PopupMessage from '@components/PopupMessage/Dialog';
 
-const App = ({ popup, loading, assets }) => {
+import decryptToken from '@utils/decryptToken';
+
+import { getUserProfile } from '@pages/UserProfile/actions';
+import { selectUserProfile } from '@pages/UserProfile/selectors';
+
+const App = ({ popup, loading, login, token, userProfile }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const decoded = decryptToken(token);
   const closePopup = () => {
     dispatch(hidePopup());
   };
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [pathname]);
+  useEffect(() => {
+    dispatch(getAssets());
+    dispatch(getTranslations());
+  }, [dispatch]);
 
   useEffect(() => {
-    if (!assets) {
-      dispatch(getAssets());
+    if (login && decoded && !userProfile) {
+      dispatch(getUserProfile());
     }
-  }, [assets, dispatch]);
+  }, [dispatch, login, token, userProfile]);
+
   const logout = () => {
-    dispatch(setLogin(false));
-    dispatch(setToken(null));
-    navigate('/login');
-    dispatch(hidePopup());
+    dispatch(setLogout());
   };
   return (
     <>
@@ -57,13 +69,17 @@ App.propTypes = {
     ok: PropTypes.string,
   }),
   loading: PropTypes.bool,
-  assets: PropTypes.object,
+  login: PropTypes.bool,
+  token: PropTypes.string,
+  userProfile: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
   popup: selectPopup,
+  login: selectLogin,
+  token: selectToken,
   loading: selectLoading,
-  assets: selectAssets,
+  userProfile: selectUserProfile,
 });
 
 export default connect(mapStateToProps)(App);

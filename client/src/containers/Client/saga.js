@@ -2,11 +2,11 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
-import { login, oAuthGoogle } from '@domain/api';
+import { login, logout, oAuthGoogle } from '@domain/api';
 
-import { setLoading, showPopup } from '@containers/App/actions';
+import { hidePopup, setLoading, showPopup } from '@containers/App/actions';
 import { setLogin, setToken, setLoading as setLoadingLogin } from '@containers/Client/actions';
-import { OAUTH_GOOGLE, USER_LOGIN } from '@containers/Client/constants';
+import { LOGOUT, OAUTH_GOOGLE, USER_LOGIN } from '@containers/Client/constants';
 
 import { auth } from '@utils/firebase';
 
@@ -48,8 +48,24 @@ function* doUserLogin({ data, cb }) {
     yield put(setLoadingLogin(false));
   }
 }
+function* doLogout() {
+  yield put(setLoading(true));
+  try {
+    const response = yield call(logout);
+    if (response) {
+      localStorage.clear();
+      yield put(hidePopup());
+      window.location.href = '/';
+    }
+  } catch (error) {
+    yield put(showPopup(error?.response?.data?.message));
+  } finally {
+    yield put(setLoading(false));
+  }
+}
 
 export default function* clientSaga() {
   yield takeLatest(OAUTH_GOOGLE, doOAuthGoogle);
   yield takeLatest(USER_LOGIN, doUserLogin);
+  yield takeLatest(LOGOUT, doLogout);
 }

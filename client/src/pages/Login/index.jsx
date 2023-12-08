@@ -40,6 +40,10 @@ const Login = ({ login, loading }) => {
       })
     );
   };
+  const handleOAuth = (e) => {
+    e.preventDefault();
+    dispatch(oAuthGoogle());
+  };
   return (
     <WrapperAuthentication title="app_login_sign_in_title" isBackBtn>
       <FormProvider {...method}>
@@ -102,7 +106,7 @@ const Login = ({ login, loading }) => {
               <FormattedMessage id="app_login_sign_in_or_text" />
             </div>
           </div>
-          <ButtonOauth handleClick={() => dispatch(oAuthGoogle())} />
+          <ButtonOauth handleClick={handleOAuth} />
           <div className={classes.toRegister}>
             <FormattedMessage id="app_login_sign_in_go_to_register_text" />
             <Link to="/register">

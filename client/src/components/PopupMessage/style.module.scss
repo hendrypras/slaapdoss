@@ -24,10 +24,14 @@
       border: none;
       font-family: Nunito, sans-serif;
       padding: 0.5rem;
-      font-size: 0.7rem;
+      font-size: 0.8rem;
+      font-weight: 700;
       background-color: $color-green-100;
       color: $color-white;
       cursor: pointer;
+      &.nonActive {
+        background-color: $color-gray-100;
+      }
     }
 
     .button:hover {

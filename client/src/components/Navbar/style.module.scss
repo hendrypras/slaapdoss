@@ -33,9 +33,32 @@
     }
   }
 }
-.wrapperContent {
+.wrapperContentDrawer {
   width: 100%;
   height: auto;
+  padding: 1rem;
+  .wrapperFooter {
+    @include displayFlex(row, space-between, center);
+    width: 100%;
+
+    .btnAvatar {
+      @include displayFlex(row, start, center);
+      width: max-content;
+      border: none;
+      background-color: transparent;
+      gap: 0.5rem;
+      cursor: pointer;
+      .username {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+    }
+    .logout {
+      width: 20%;
+      font-size: 0.9rem;
+      padding: 0.5rem 0;
+    }
+  }
   .wrapperBtn {
     width: 100%;
     @include displayFlex(row, center, center);
@@ -44,6 +67,33 @@
     margin-top: 2rem;
   }
 }
+.btnLang {
+  width: max-content;
+  position: absolute;
+  right: 4.5rem;
+  top: 0.8rem;
+}
+.wrapperAvatar {
+  display: none;
+  @include screen(md) {
+    border: none;
+    @include displayFlex(row, center, center);
+    background-color: transparent;
+    cursor: pointer;
+    gap: 0.2rem;
+    width: 100%;
+    max-width: 10rem;
+    .username {
+      font-size: 1.2rem;
+      font-weight: 500;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
 .headerWrapper {
   background-color: $color-white;
   position: sticky;
@@ -102,6 +152,26 @@
         }
         @include screen(md) {
           display: none;
+        }
+      }
+      .wrapperAvatar {
+        display: none;
+        @include screen(md) {
+          border: none;
+          @include displayFlex(row, center, center);
+          background-color: transparent;
+          cursor: pointer;
+          gap: 0.2rem;
+          width: 100%;
+          max-width: 10rem;
+          .username {
+            font-size: 1.2rem;
+            font-weight: 500;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
         }
       }
       .wrapperBtn {

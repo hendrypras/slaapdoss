@@ -1,11 +1,13 @@
 export default {
   app_not_found: 'Halaman tidak ditemukan',
+  app_not_found_button_text: 'Kembali Ke Beranda',
   app_lang_id: 'Bahasa Indonesia',
   app_lang_en: 'Bahasa Inggris',
   app_popup_error_title: 'Terjadi kesalahan!',
   app_popup_error_message: 'Maaf, telah terjadi kesalahan. Silakan coba beberapa saat lagi',
   app_popup_close_button_label: 'Tutup',
   app_popup_logout_title: 'Apakah kamu yakin ingin keluar?',
+  app_logout_text_button: 'Keluar',
   app_popup_logout_message: 'Jika kamu keluar, kamu harus masuk kembali lagi!',
   app_popup_ok_button_label: 'Oke',
   app_text_loading_button: 'Memuat...',
@@ -32,6 +34,8 @@ export default {
   app_home_title_placeholder_checkout_search_selelct: 'Periksa',
   app_home_title_duration_search_selelct: 'Durasi',
   app_home_title_placeholder_duration_search_selelct: '1 Malam',
+  app_home_title_search_select: 'Dimana kamu ingin tinggal?',
+  app_home_button_text_search_select: 'Cari',
 
   app_respose_payment_success: 'Selamat orderan anda berhasil, silahkan lakukan pembayaran sebelum waktu berakhir!',
   app_response_payment_pay_in: 'Bayar Sebelum:',
@@ -83,4 +87,19 @@ export default {
   app_reset_password_popup_title_success: 'Selamat!!!',
   app_reset_password_popup_message_success: 'Password kamu berhasil di ubah, silahkan login dengan kata sandi baru!',
   app_reset_password_sub_title: 'Masukan kata sandi yang rumit dan aman',
+
+  app_user_profile_head_title: 'Profil Pengguna',
+  app_user_profile_profile_picture_text: 'Foto Profil',
+  app_user_profile_id_card_text: 'KTP',
+  app_user_profile_button_edit_text: 'Sunting',
+  app_user_profile_text_warning_update_data_id_card:
+    'Silakan ubah data di bawah ini sesuai dengan data pribadi Anda. Jika ada kesalahan pada data dibawah ini silahkan di rubah dan pastikan datanya valid!',
+  app_user_profile_text_button_submit_data_id_card: 'Kirim',
+  app_user_profile_title_success_submit_id_card: 'Yeay, data kamu sudah terverifikasi!!!',
+  app_user_profile_message_success_submit_id_card: 'Kamu bisa pesan cabin sekarang!',
+  app_user_profile_text_button_open_camera: 'Menangkap',
+  app_user_profile_text_button_close_camera: 'Close Camera',
+  app_user_profile_text_button_captured: 'Foto',
+  app_user_profile_text_button_save_image_profile: 'Simpan Gambar',
+  app_user_profile_text_button_history: 'Riwayat',
 };

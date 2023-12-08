@@ -1,11 +1,13 @@
 export default {
   app_not_found: 'Page not found',
+  app_not_found_button_text: 'Back To Home',
   app_lang_id: 'Indonesian',
   app_lang_en: 'English',
   app_popup_error_title: 'Something went wrong!',
   app_popup_error_message: 'Sorry, an error has occurred. Please try again later',
   app_popup_close_button_label: 'Close',
   app_popup_logout_title: 'Are you sure you want to log out?',
+  app_logout_text_button: 'Logout',
   app_popup_logout_message: 'If you log out, you have to log back in again!',
   app_popup_ok_button_label: 'Ok',
   app_text_loading_button: 'Loading...',
@@ -32,6 +34,8 @@ export default {
   app_home_title_placeholder_checkout_search_selelct: 'Check-out',
   app_home_title_duration_search_selelct: 'Duration',
   app_home_title_placeholder_duration_search_selelct: '1 Night(s)',
+  app_home_title_search_select: 'Where do you want to stay?',
+  app_home_button_text_search_select: 'Search',
 
   app_respose_payment_success: 'Congratulations, your order is successful, please make payment before the end of time!',
   app_response_payment_pay_in: 'Pay in:',
@@ -84,4 +88,19 @@ export default {
   app_reset_password_popup_title_success: 'Congratulation!!!',
   app_reset_password_popup_message_success: 'Your password updated successfully, please login again with new password!',
   app_reset_password_sub_title: 'Enter a complex and secure password',
+
+  app_user_profile_head_title: 'User Profile',
+  app_user_profile_profile_picture_text: 'Profile Picture',
+  app_user_profile_id_card_text: 'ID Card',
+  app_user_profile_button_edit_text: 'Edit',
+  app_user_profile_text_warning_update_data_id_card:
+    'Please change the data below according to your personal data. If there are errors in the data below, please change them and make sure the data is valid!',
+  app_user_profile_text_button_submit_data_id_card: 'Submit',
+  app_user_profile_title_success_submit_id_card: 'Yey, your data has been verified!!!',
+  app_user_profile_message_success_submit_id_card: 'You can book a cabin now!',
+  app_user_profile_text_button_open_camera: 'Capture',
+  app_user_profile_text_button_close_camera: 'Close Camera',
+  app_user_profile_text_button_captured: 'Take',
+  app_user_profile_text_button_save_image_profile: 'Save Image',
+  app_user_profile_text_button_history: 'History',
 };

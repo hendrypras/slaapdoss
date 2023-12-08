@@ -39,5 +39,35 @@
       "title": "24-hour Host Support",
       "description": "Our hosts are always one call away. Simply leave a chat through the DM in our application and let them know what you need."
     }
-  ]
+  ],
+  "locationCabin": [
+    {
+      "city": "Bandung",
+      "places": [
+        { "codePlace": "001", "place": "Slaapcabin Alun-Alun, Bandung" },
+        {
+          "codePlace": "002",
+          "place": "Slaapcabin Dago, Bandung"
+        }
+      ]
+    },
+    {
+      "city": "Bogor",
+      "places": [
+        { "codePlace": "003", "place": "Slaapcabin The Tavia, Puncak" },
+        {
+          "codePlace": "004",
+          "place": "Slaapcabin Gunung Mas, Bogor"
+        }
+      ]
+    },
+    {
+      "city": "Bali",
+      "places": [{ "codePlace": "005", "place": "Slaapcabin Ubud, Bali" }]
+    }
+  ],
+  "images": {
+    "emptyHistory": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008791/empty_wdzemb.svg",
+    "notfound": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008984/404_eubyx8.svg"
+  }
 }

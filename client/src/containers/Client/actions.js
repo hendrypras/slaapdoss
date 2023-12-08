@@ -1,4 +1,4 @@
-import { OAUTH_GOOGLE, SET_LOADING, SET_LOGIN, SET_TOKEN, USER_LOGIN } from '@containers/Client/constants';
+import { LOGOUT, OAUTH_GOOGLE, SET_LOADING, SET_LOGIN, SET_TOKEN, USER_LOGIN } from '@containers/Client/constants';
 
 export const setLogin = (login) => ({
   type: SET_LOGIN,
@@ -10,16 +10,19 @@ export const setToken = (token) => ({
   token,
 });
 
-export const oAuthGoogle = (data) => ({
+export const oAuthGoogle = () => ({
   type: OAUTH_GOOGLE,
-  data,
 });
 export const userLogin = (data, cb) => ({
   type: USER_LOGIN,
   data,
   cb,
 });
+
 export const setLoading = (loading) => ({
   type: SET_LOADING,
   loading,
+});
+export const setLogout = () => ({
+  type: LOGOUT,
 });

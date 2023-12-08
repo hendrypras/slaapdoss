@@ -9,15 +9,26 @@
   @include displayFlex(column, center, start);
   overflow: hidden;
   gap: 0.2rem;
-  cursor: pointer;
+  font-family: Nunito, sans-serif;
+  @include screen(lg) {
+    border: none;
+    border-radius: 0;
+  }
   .locationTitle {
     font-size: 0.8rem;
-    font-weight: 600;
+    font-weight: 700;
+
     color: $color-black-100;
   }
-  .wrapperValue {
+  .btnValue {
     @include displayFlex(row, space-between, center);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
     width: 100%;
+    &.disBtnValue {
+      cursor: default;
+    }
     .wrapperLeft {
       @include displayFlex(row, start, center);
       gap: 0.6rem;

@@ -12,13 +12,13 @@ const LoaderDots = ({ isLoading }) => (
     })}
   >
     <div className={classes.loading}>
-      <span className={classes.dot} />
-      <span className={classes.dot} />
-      <span className={classes.dot} />
+      <div className={classes.bounceLoader} />
     </div>
   </div>
 );
+
 LoaderDots.propTypes = {
   isLoading: PropTypes.bool.isRequired,
 };
+
 export default LoaderDots;

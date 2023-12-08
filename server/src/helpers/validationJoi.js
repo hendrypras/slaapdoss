@@ -273,6 +273,116 @@ const validateBodyCreateRoomType = reqBody => {
 
   return null
 }
+const validateResultOcrIdCard = result => {
+  const schema = Joi.object({
+    nik: Joi.string().pattern(/^\d+$/).length(16).required().messages({
+      'string.base': 'nik must be a string.',
+      'string.empty': 'nik is required.',
+      'string.pattern.base': 'nik must only contain digits.',
+      'string.length': 'nik must be exactly 16 characters long.',
+      'any.required': 'nik is required.',
+    }),
+    name: Joi.string().required().messages({
+      'string.base': 'name must be a string.',
+      'string.empty': 'name is required.',
+    }),
+    birthday: Joi.string().required().messages({
+      'string.base': 'birthday must be a string.',
+      'string.empty': 'birthday is required.',
+    }),
+    address: Joi.string().required().messages({
+      'string.base': 'address must be a string.',
+      'string.empty': 'address is required.',
+    }),
+    marial_status: Joi.string().allow('').messages({
+      'string.base': 'marial_status must be a string.',
+    }),
+    job: Joi.string().allow('').messages({
+      'string.base': 'job must be a string.',
+    }),
+    citizenship: Joi.string().required().messages({
+      'string.base': 'citizenship must be a string.',
+      'string.empty': 'citizenship is required.',
+    }),
+    religion: Joi.string().required().messages({
+      'string.base': 'religion must be a string.',
+      'string.empty': 'religion is required.',
+    }),
+  })
+
+  const { error } = schema.validate(result, {
+    abortEarly: false,
+  })
+
+  if (error) {
+    return error.details.map(err => err.message).join(', ')
+  }
+
+  return null
+}
+const validateBodyCreateIdCard = result => {
+  const schema = Joi.object({
+    nik: Joi.string().pattern(/^\d+$/).length(16).required().messages({
+      'string.base': 'nik must be a string.',
+      'string.empty': 'nik is required.',
+      'string.pattern.base': 'nik must only contain digits.',
+      'string.length': 'nik must be exactly 16 characters long.',
+      'any.required': 'nik is required.',
+    }),
+    name: Joi.string().required().messages({
+      'string.base': 'name must be a string.',
+      'string.empty': 'name is required.',
+    }),
+    birthday: Joi.date().iso().required().messages({
+      'date.base': 'Birthday must be a date.',
+      'date.empty': 'Birthday is required.',
+      'date.isoDate': 'Birthday must be in ISO date format.',
+    }),
+
+    address: Joi.string().required().messages({
+      'string.base': 'address must be a string.',
+      'string.empty': 'address is required.',
+    }),
+    marial_status: Joi.string().allow('').messages({
+      'string.base': 'maritalStatus must be a string.',
+    }),
+    job: Joi.string().allow('').messages({
+      'string.base': 'job must be a string.',
+    }),
+    citizenship: Joi.string().required().messages({
+      'string.base': 'citizenship must be a string.',
+      'string.empty': 'citizenship is required.',
+    }),
+    religion: Joi.string().required().messages({
+      'string.base': 'religion must be a string.',
+      'string.empty': 'religion is required.',
+    }),
+    id_card_url: Joi.string()
+      .uri({
+        scheme: ['http', 'https'],
+      })
+      .required()
+      .messages({
+        'string.base': 'id_card_url must be a string.',
+        'string.uri': 'id_card_url must be a valid URL.',
+        'any.required': 'id_card_url is required.',
+      }),
+    id_card_public_id: Joi.string().required().messages({
+      'string.base': 'id_card_public_id must be a string.',
+      'string.empty': 'id_card_public_id is required.',
+    }),
+  })
+
+  const { error } = schema.validate(result, {
+    abortEarly: false,
+  })
+
+  if (error) {
+    return error.details.map(err => err.message).join(', ')
+  }
+
+  return null
+}
 
 module.exports = {
   validateBodyCreateRoom,
@@ -283,4 +393,6 @@ module.exports = {
   validateBodyLogin,
   validateBodyChangePassword,
   validateBodyCreateRoomType,
+  validateResultOcrIdCard,
+  validateBodyCreateIdCard,
 }

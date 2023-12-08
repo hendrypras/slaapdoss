@@ -1,35 +1,48 @@
-import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FormattedMessage } from 'react-intl';
 import { Autoplay, Pagination } from 'swiper/modules';
-import moment from 'moment';
 import { selectAssets } from '@containers/App/selectors';
+import moment from 'moment';
+import { DateRange, Schedule as ScheduleIcon, LocationOn as LocationOnIcon } from '@mui/icons-material';
 
 import Container from '@components/Container';
 import HeadTitle from '@components/HeadTitle';
 import SubHeadTitle from '@components/SubHeadTitle';
+import SearchSelect from '@components/SearchSelect';
+import DrawerMobile from '@components/DrawerMobile';
+import Maps from '@components/Maps';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import SearchSelect from '@components/SearchSelect';
+import Button from '@components/Button';
 import classes from './style.module.scss';
 
 const HomePage = ({ assets }) => {
-  const marker = [{ geocode: [-6.177082, 106.838581] }];
+  const [openDrawer, setOpenDrawer] = useState({
+    location: false,
+    duration: false,
+  });
   const [valueSelect, setValueSelect] = useState({
     location: '',
-    checkIn: new Date(),
+    checkIn: moment().format('ddd, D MMMM YYYY'),
     duration: '',
     checkOut: '',
   });
-
+  const handleOpenDrawerSearchSelect = (selectName) => {
+    if (selectName === 'duration' && !valueSelect.location) {
+      return;
+    }
+    setOpenDrawer((prevState) => ({
+      ...prevState,
+      [selectName]: !prevState[selectName],
+    }));
+  };
   return (
     <>
       <Container>
@@ -62,29 +75,56 @@ const HomePage = ({ assets }) => {
             ))}
           </Swiper>
           <div className={classes.searchWrapper}>
-            <div>Good afternoon</div>
-            <div>where do you want to stay</div>
+            <div className={classes.subTitle}>Good afternoon</div>
+            <div className={classes.title}>
+              <FormattedMessage id="app_home_title_search_select" />
+            </div>
             <form className={classes.form}>
-              <SearchSelect
-                value={valueSelect.location}
-                title="app_home_title_location_search_selelct"
-                placeHolder="app_home_title_placeholder_location_search_selelct"
-              />
-              <SearchSelect
-                value={valueSelect.checkIn}
-                title="app_home_title_checkin_search_selelct"
-                placeHolder="app_home_title_placeholder_checkin_search_selelct"
-              />
-              <SearchSelect
-                value={valueSelect.duration}
-                title="app_home_title_duration_search_selelct"
-                placeHolder="app_home_title_placeholder_duration_search_selelct"
-              />
-              <SearchSelect
-                value={valueSelect.checkOut}
-                title="app_home_title_checkout_search_selelct"
-                placeHolder="app_home_title_placeholder_checkout_search_selelct"
-              />
+              <div className={classes.selectWrapper}>
+                <SearchSelect
+                  value={valueSelect.location}
+                  title="app_home_title_location_search_selelct"
+                  placeHolder="app_home_title_placeholder_location_search_selelct"
+                  icon={LocationOnIcon}
+                  handleClick={() => handleOpenDrawerSearchSelect('location')}
+                />
+                <DrawerMobile
+                  height="80vh"
+                  open={openDrawer.location}
+                  onClose={() => handleOpenDrawerSearchSelect('location')}
+                >
+                  <div>location</div>
+                </DrawerMobile>
+                <SearchSelect
+                  value={valueSelect.checkIn}
+                  title="app_home_title_checkin_search_selelct"
+                  placeHolder="app_home_title_placeholder_checkin_search_selelct"
+                  icon={DateRange}
+                  disabled
+                />
+                <SearchSelect
+                  value={valueSelect.duration}
+                  title="app_home_title_duration_search_selelct"
+                  placeHolder="app_home_title_placeholder_duration_search_selelct"
+                  icon={ScheduleIcon}
+                  handleClick={() => handleOpenDrawerSearchSelect('duration')}
+                />
+                <DrawerMobile
+                  height="80vh"
+                  open={openDrawer.duration}
+                  onClose={() => handleOpenDrawerSearchSelect('duration')}
+                >
+                  <div>durasi</div>
+                </DrawerMobile>
+                <SearchSelect
+                  value={valueSelect.checkOut}
+                  title="app_home_title_checkout_search_selelct"
+                  placeHolder="app_home_title_placeholder_checkout_search_selelct"
+                  icon={DateRange}
+                  disabled
+                />
+              </div>
+              <Button className={classes.buttonSearch} text="app_home_button_text_search_select" />
             </form>
           </div>
         </>
@@ -103,15 +143,7 @@ const HomePage = ({ assets }) => {
       <section className={classes.secSatisfication}>
         <div>test</div>
       </section>
-      {/* <MapContainer style={{ width: '100%', height: '100vh' }} center={[-6.17476, 106.827072]} zoom={13}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {marker.map((val, i) => (
-            <Marker key={i} position={val.geocode} />
-          ))}
-        </MapContainer> */}
+      <Maps lat={-6.23827} lng={106.975571} draggable />
     </>
   );
 };

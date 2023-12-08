@@ -1,21 +1,34 @@
 @import '@styles/base';
 
 .contentWrapper {
-  @include directionY;
+  @include displayFlex(column, center, center);
   padding: 1rem;
   box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
   width: 100%;
-  height: calc(100vh - 3.5rem);
-
+  height: calc(100vh - 5rem);
+  gap: 1rem;
+  @include screen(lg) {
+    gap: 2rem;
+  }
   .image {
-    width: 7rem;
+    width: 80%;
+    @include screen(lg) {
+      width: 25%;
+    }
   }
 
   .title {
     margin-top: 1rem;
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: 700;
+    @include screen(lg) {
+      font-size: 1.5rem;
+    }
+  }
+  .button {
+    width: 70%;
+    @include screen(lg) {
+      width: 14%;
+    }
   }
 }

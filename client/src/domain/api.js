@@ -7,7 +7,6 @@ const urls = {
   auth: 'auth',
   payment: 'payment',
   user: 'user',
-  asset: 'asset',
 };
 export const callAPI = async (endpoint, method, header, params, data, withCredentials) => {
   const defaultHeader = {
@@ -41,10 +40,23 @@ export const register = (data) => callAPI(`${urls.auth}/register`, 'POST', {}, {
 export const forgotPassword = (data) => callAPI(`${urls.auth}/forgot-password`, 'POST', {}, {}, data);
 export const resetPassword = (token, data) => callAPI(`${urls.auth}/reset-password/${token}`, 'PATCH', {}, {}, data);
 export const verifyTokenResetPassword = (token) => callAPI(`${urls.auth}/verify-token/${token}`, 'POST', {}, {}, {});
-export const getAssets = () => callAPI(`${urls.asset}/web`, 'GET');
 
+export const getAssets = () => callAPI('asset/web', 'GET');
+export const getTranslation = () => callAPI('translation/web', 'GET');
+export const getDetailLocation = (lat, lng) =>
+  request({
+    url: `${config.api.openStreetMap}/reverse?lat=${lat}&lon=${lng}&zoom=18&format=json`,
+    method: 'GET',
+  }).then((response) => response.data);
+
+// user
 export const getUserProfile = () => callAPI(`${urls.user}/profile`, 'GET');
-export const getUserProfile2 = () => callAPI(`${urls.user}/profile/2`, 'GET');
+export const uploadIdCard = (data) =>
+  callAPI(`${urls.user}/upload/idcard`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
+export const createIdCard = (data) => callAPI(`${urls.user}/idcard`, 'POST', {}, {}, data);
+export const getDataCredentialUser = () => callAPI(`${urls.user}/credential`, 'GET');
+export const updateUserProfile = (data) =>
+  callAPI(`${urls.user}/update/profile`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, data);
 
 // Premium account
 

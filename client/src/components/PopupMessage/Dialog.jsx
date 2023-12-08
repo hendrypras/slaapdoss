@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-
+import classNames from 'classnames';
 import { Dialog } from '@mui/material';
 
 import classes from './style.module.scss';
@@ -19,9 +19,8 @@ const PopupMessage = ({ open, title, message, titleId, messageId, onClose, onOk 
         <button
           type="button"
           onClick={onClose}
-          className={classes.button}
+          className={classNames({ [classes.button]: true, [classes.nonActive]: onOk || false })}
           aria-label="cancel"
-          style={onOk ? { backgroundColor: '#858585' } : { backgroundColor: '#00b4ab' }}
         >
           <FormattedMessage id="app_popup_close_button_label" />
         </button>

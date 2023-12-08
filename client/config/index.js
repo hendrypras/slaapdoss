@@ -8,6 +8,7 @@ const env = { production, development }[nodeENV];
 const config = {
   api: {
     host: env.API_HOST,
+    openStreetMap: env.API_OPEN_STREET_MAP,
   },
   auth: {
     tokenPayload: env.TOKEN_PAYLOAD,
