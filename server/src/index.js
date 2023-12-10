@@ -45,7 +45,6 @@ app.use('/api', Routes)
 app.get('/', (req, res) => {
   const myCookie = req.cookies.__refreshToken__
   res.send(`Value of my cookie is: ${myCookie}`)
-  // res.send('API is running ...')
 })
 
 app.all('*', (req, res) => {

@@ -13,9 +13,8 @@ export default {
   app_text_loading_button: 'Memuat...',
   app_back_button_text: 'Kembali',
   app_component_btn_created: 'Buat',
-
   app_title_satisfaction: 'Kepuasan di Depan Pintu Anda',
-
+  app_subtitle_satisfaction: 'Kenali lebih banyak tentang Bobobox dan hal-hal yang paling kami hargai.',
   app_home_title_perfect_solition: 'Temukan Solusi Sempurna untuk Setiap Kebutuhan Anda',
   app_home_sub_title_perfect_solition:
     'Dari tempat yang terasa seperti rumah di kota-kota yang ramai hingga menjelajahi keindahan alam Indonesia, Slaapdoss siap membawa Anda ke petualangan dengan kenyamanan penuh di mana pun Anda berada.',
@@ -25,7 +24,7 @@ export default {
   app_home_banner_title_1: 'Sudut pandang pribadi Anda ke Rinjani dari kabin Anda',
   app_home_banner_sub_title_1: 'Kabin dengan kursi baris depan menuju keajaiban alam.',
   app_home_banner_title_2: 'Anggaplah Seperti Rumah Sendiri Kemanapun Anda Pergi',
-  app_home_banner_sub_title_2: 'Carilah kehangatan di mana pun Anda berada; baik itu di kota yang ramai atau di hutan.',
+  app_home_banner_sub_title_2: 'Carilah kehangatan di mana pun Anda berada; baik itu di kota yang ramai atau di huta.',
   app_home_title_location_search_selelct: 'Lokasi',
   app_home_title_placeholder_location_search_selelct: 'Pilih Lokasi',
   app_home_title_checkin_search_selelct: 'Mendaftar',
@@ -36,12 +35,10 @@ export default {
   app_home_title_placeholder_duration_search_selelct: '1 Malam',
   app_home_title_search_select: 'Dimana kamu ingin tinggal?',
   app_home_button_text_search_select: 'Cari',
-
   app_respose_payment_success: 'Selamat orderan anda berhasil, silahkan lakukan pembayaran sebelum waktu berakhir!',
   app_response_payment_pay_in: 'Bayar Sebelum:',
   app_response_payment_button_continue: 'Lanjutkan',
   app_response_payment_title_button_copy_va: 'Salin!',
-
   app_login_sign_in_title: 'Masuk ke akun anda',
   app_login_sign_in_submit_text: 'Masuk',
   app_login_sign_in_subtitle: 'Liburan menakjubkan Kamu akan dimulai di sini',
@@ -52,7 +49,6 @@ export default {
   app_login_sign_in_with_google_text: 'Masuk dengan Google',
   app_login_sign_in_go_to_register_text: 'Belum menjadi anggota Slaapdoss?',
   app_login_sign_in_go_to_register_button: 'Daftar disini',
-
   app_sign_up_title: 'Bergabunglah dengan Slaapdoss',
   app_sign_up_button_text: 'Daftar',
   app_sign_up_email_title: 'Email',
@@ -71,7 +67,6 @@ export default {
   app_sign_up_resend_otp_text: 'Kirim ulang OTP',
   app_sign_up_title_response_success: 'Yeay, Pendaftaran Berhasil',
   app_sign_up_sub_titile_response_success: 'Silahkan masuk dan nikmati fitur-fitur canggih',
-
   app_forgot_password_title: 'Lupa Kata Sandi',
   app_forgot_password_paragraf_info:
     'Masukkan alamat email terverifikasi akun pengguna Anda dan kami akan mengirimkan Anda tautan pengaturan ulang kata sandi.',
@@ -81,13 +76,11 @@ export default {
   app_forgot_password_popup_title_success: 'Selamat...',
   app_forgot_password_popup_message_success: 'Cek email kamu untuk merubah kata sandi baru!',
   app_forgot_submit_button_title: 'Kirim',
-
   app_reset_password_title: 'Kata Sandi Baru',
   app_reset_password_title_input_confirm: 'Konfirmasi Kata Sandi',
   app_reset_password_popup_title_success: 'Selamat!!!',
   app_reset_password_popup_message_success: 'Password kamu berhasil di ubah, silahkan login dengan kata sandi baru!',
   app_reset_password_sub_title: 'Masukan kata sandi yang rumit dan aman',
-
   app_user_profile_head_title: 'Profil Pengguna',
   app_user_profile_profile_picture_text: 'Foto Profil',
   app_user_profile_id_card_text: 'KTP',
@@ -102,4 +95,136 @@ export default {
   app_user_profile_text_button_captured: 'Foto',
   app_user_profile_text_button_save_image_profile: 'Simpan Gambar',
   app_user_profile_text_button_history: 'Riwayat',
+  aap_reservation_title_back_btn: 'Kembali untuk memilih cabin',
+  app_reservation_order_detail_head_title: 'Detail Pesanan',
+  app_reservation_cabin_address_title: 'Alamat Cabin',
+  app_reservation_checkin_title: 'Mendaftar',
+  app_reservation_checkout_title: 'Periksa',
+  app_reservation_stay_duration_title: 'Durasi Tinggal',
+  app_reservation_cabin_type_title: 'Tipe Cabin',
+  app_reservation_cabin_total_title: 'Total Cabin',
+  app_reservation_room_capacity_title: 'Kapasitas Ruangan',
+  app_reservation_contact_detail_head_title: 'Detail Kontak',
+  app_reservation_price_detail_head_title: 'Detail Harga',
+  app_reservation_service_fee_title: 'Biaya Jasa',
+  app_reservation_service_fee_value: 'Gratis',
+  app_reservation_continue_payment_title: 'Lanjutkan Pembayaran',
+  app_reservation_payment_method_title: 'Pilih Metode Pembayaran',
+  app_reservation_virtual_account_title: 'Akun Virtual',
+
+  app_reservation_payment_va_bca_desc: 'Pembayaran melalui ATM BCA atau Internet Banking',
+  app_reservation_payment_va_bca_atm_step_1: 'Pada menu utama, pilih “Transaksi Lainnya”',
+  app_reservation_payment_va_bca_atm_step_2: 'Pilih “Transfer”',
+  app_reservation_payment_va_bca_atm_step_3: 'Pilih “Ke Rekening Virtual BCA”',
+  app_reservation_payment_va_bca_atm_step_4: 'Masukkan kode pembayaran Anda (kode 11 digit) dan tekan “Benar”',
+  app_reservation_payment_va_bca_atm_step_5: 'Masukkan jumlah pembayaran yang akan dibayarkan dan tekan “Benar”',
+  app_reservation_payment_va_bca_atm_step_6:
+    'Detail pembayaran Anda akan muncul di halaman konfirmasi. Jika informasinya benar, tekan “Ya”',
+
+  app_reservation_payment_va_bca_klik_step_1: 'Masuk ke situs web KLIK BCA',
+  app_reservation_payment_va_bca_klik_step_2: 'Pilih menu “Transfer Dana”',
+  app_reservation_payment_va_bca_klik_step_3: 'Pilih “Transfer ke Rekening Virtual BCA”',
+  app_reservation_payment_va_bca_klik_step_4:
+    '“Masukkan Nomor Rekening Virtual BCA” atau “Pilih dari Daftar Transfer” dan klik “Lanjut”',
+  app_reservation_payment_va_bca_klik_step_5:
+    'Jumlah yang akan dibayarkan, nomor rekening, dan nama Merchant akan muncul di halaman konfirmasi pembayaran. Jika informasinya benar, klik “Lanjut”',
+  app_reservation_payment_va_bca_klik_step_6:
+    'Dapatkan “Token BCA” Anda dan masukkan KEYBCA Response “APPLY1” lalu klik “Kirim”',
+  app_reservation_payment_va_bca_klik_step_7: 'Transaksi Anda selesai',
+
+  app_reservation_payment_va_bca_m_bca_step_1: 'Login ke aplikasi Mobile BCA Anda',
+  app_reservation_payment_va_bca_m_bca_step_2: 'Pilih “m-BCA”, kemudian masukkan kode akses m-BCA Anda',
+  app_reservation_payment_va_bca_m_bca_step_3: 'Pilih “m-Transfer”, lalu pilih Rekening Virtual BCA',
+  app_reservation_payment_va_bca_m_bca_step_4:
+    'Masukkan “Nomor Rekening Virtual” atau pilih akun yang ada dari Daftar Transfer',
+  app_reservation_payment_va_bca_m_bca_step_5: 'Masukkan jumlah yang harus dibayarkan',
+  app_reservation_payment_va_bca_m_bca_step_6: 'Masukkan PIN “m-BCA” Anda',
+  app_reservation_payment_va_bca_m_bca_step_7: 'Pembayaran selesai. Simpan notifikasi sebagai bukti pembayaran Anda',
+
+  app_reservation_payment_va_bri_desc: 'Pembayaran melalui BRI ATM, M-Banking, atau Internet Banking',
+
+  app_reservation_payment_va_bri_atm_step_1: "Masukkan kartu ATM dan pilih 'BAHASA'",
+  app_reservation_payment_va_bri_atm_step_2: "Masukkan PIN ATM, lalu pilih 'LANJUT'",
+  app_reservation_payment_va_bri_atm_step_3: "Pilih 'PEMBAYARAN'",
+  app_reservation_payment_va_bri_atm_step_4: "Pilih 'MULTI PEMBAYARAN'",
+  app_reservation_payment_va_bri_atm_step_5:
+    "Masukkan kode perusahaan: 'YOUR_MIDTRANS_COMPANY_CODE', lalu tekan 'BENAR'",
+  app_reservation_payment_va_bri_atm_step_6: "Masukkan Nomor Rekening Virtual, lalu tekan 'BENAR'",
+  app_reservation_payment_va_bri_atm_step_7: "Masukkan JUMLAH yang akan ditransfer, lalu tekan 'BENAR'",
+  app_reservation_payment_va_bri_atm_step_8:
+    "Detail Pelanggan akan muncul. Pilih nomor 1 sesuai dengan jumlah tagihan, lalu tekan 'YA'",
+  app_reservation_payment_va_bri_atm_step_9:
+    "Konfirmasi pembayaran akan muncul. Pilih 'YA' untuk melanjutkan pembayaran",
+  app_reservation_payment_va_bri_atm_step_10: 'Simpan struk sebagai bukti formal pembayaran dari Bank BRI',
+  app_reservation_payment_va_bri_atm_step_11: 'Transaksi Anda berhasil',
+
+  app_reservation_payment_va_bri_m_banking_step_1: 'Login ke BRI Mobile Banking',
+  app_reservation_payment_va_bri_m_banking_step_2: "Klik 'Icon Menu' di sudut kiri atas",
+  app_reservation_payment_va_bri_m_banking_step_3: "Pilih 'Pembayaran'",
+  app_reservation_payment_va_bri_m_banking_step_4: "Pilih 'Buat Pembayaran Baru'",
+  app_reservation_payment_va_bri_m_banking_step_5: "Pilih 'Multi Pembayaran'",
+  app_reservation_payment_va_bri_m_banking_step_6: 'Pilih Slaapdoss sebagai penyedia layanan',
+  app_reservation_payment_va_bri_m_banking_step_7: "Pilih 'Nomor Rekening Virtual'",
+  app_reservation_payment_va_bri_m_banking_step_8:
+    "Masukkan nomor rekening virtual Anda dengan Slaapdoss sebagai Kode Perusahaan, lalu pilih 'Tambah sebagai Nomor Baru'",
+  app_reservation_payment_va_bri_m_banking_step_9: "Masukkan 'Jumlah' lalu pilih 'Konfirmasi'",
+  app_reservation_payment_va_bri_m_banking_step_10: "Pilih 'Lanjut'",
+  app_reservation_payment_va_bri_m_banking_step_11: 'Halaman Konfirmasi Pembayaran akan muncul',
+  app_reservation_payment_va_bri_m_banking_step_12:
+    "Gulir ke bawah pada halaman konfirmasi pembayaran, lalu pilih 'Konfirmasi'",
+  app_reservation_payment_va_bri_m_banking_step_13: "Masukkan 'PIN' dan transaksi Anda akan selesai",
+
+  app_reservation_payment_va_bri_internet_bank_step_1: 'Buka situs web Internet Banking BRI: https://ib.bri.co.id/',
+  app_reservation_payment_va_bri_internet_bank_step_2: 'Login dengan USER ID dan PIN Anda',
+  app_reservation_payment_va_bri_internet_bank_step_3: "Pilih 'Pembayaran'",
+  app_reservation_payment_va_bri_internet_bank_step_4: "Pilih 'Multi Pembayaran'",
+  app_reservation_payment_va_bri_internet_bank_step_5: "Pilih 'Nomor Rekening Saya'",
+  app_reservation_payment_va_bri_internet_bank_step_6: 'Pilih Slaapdoss sebagai penyedia layanan',
+  app_reservation_payment_va_bri_internet_bank_step_7: "Pilih 'Nomor Rekening Virtual'",
+  app_reservation_payment_va_bri_internet_bank_step_8: 'Masukkan nomor rekening virtual Anda',
+  app_reservation_payment_va_bri_internet_bank_step_9: 'Beralih ke halaman konfirmasi 1',
+  app_reservation_payment_va_bri_internet_bank_step_10:
+    "Klik 'TOTAL' jika semua detail sudah benar, lalu klik 'LANJUT'",
+  app_reservation_payment_va_bri_internet_bank_step_11: 'Beralih ke halaman konfirmasi 2',
+  app_reservation_payment_va_bri_internet_bank_step_12:
+    "Masukkan Kode Tantangan dari token Internet Banking Anda, lalu klik 'Kirim'",
+  app_reservation_payment_va_bri_internet_bank_step_13:
+    'Anda akan diarahkan ke halaman konfirmasi setelah pembayaran selesai',
+
+  app_reservation_payment_va_bni_desc: 'Pembayaran melalui ATM BNI atau Internet Banking',
+  app_reservation_payment_va_bni_atm_step_1: 'Masukkan kartu ATM Anda',
+  app_reservation_payment_va_bni_atm_step_2: 'Pilih bahasa Anda',
+  app_reservation_payment_va_bni_atm_step_3: 'Masukkan PIN ATM Anda',
+  app_reservation_payment_va_bni_atm_step_4: "Pilih 'Transaksi Lainnya'",
+  app_reservation_payment_va_bni_atm_step_5: "Pilih 'Transfer'",
+  app_reservation_payment_va_bni_atm_step_6:
+    'Pilih jenis rekening yang Anda gunakan untuk transfer (contoh: dari rekening tabungan)',
+  app_reservation_payment_va_bni_atm_step_7: "Pilih 'Pembayaran Virtual Account'",
+  app_reservation_payment_va_bni_atm_step_8: 'Masukkan Nomor Virtual Account Anda (contoh: 88089999XXXXXX)',
+  app_reservation_payment_va_bni_atm_step_9: 'Konfirmasi transaksi, jika sudah benar, lanjutkan',
+  app_reservation_payment_va_bni_atm_step_10: 'Transaksi Anda selesai',
+
+  app_reservation_payment_va_bni_m_banking_step_1:
+    'Akses BNI Mobile Banking dari ponsel Anda, dan masukkan user ID dan password',
+  app_reservation_payment_va_bni_m_banking_step_2: "Pilih menu 'Transfer'",
+  app_reservation_payment_va_bni_m_banking_step_3: "Pilih menu 'Pembayaran Virtual Account', lalu pilih rekening debit",
+  app_reservation_payment_va_bni_m_banking_step_4:
+    "Masukkan Nomor Virtual Account Anda (contoh: 88089999XXXXXX) pada menu 'input baru'",
+  app_reservation_payment_va_bni_m_banking_step_5: 'Konfirmasi pembayaran Anda',
+  app_reservation_payment_va_bni_m_banking_step_6: 'Masukkan password Anda',
+  app_reservation_payment_va_bni_m_banking_step_7: 'Transaksi Anda selesai',
+
+  app_reservation_payment_va_bni_internet_banking_step_1:
+    "Masukkan alamat berikut: https://ibank.bni.co.id dan klik 'Enter'",
+  app_reservation_payment_va_bni_internet_banking_step_2: 'Masukkan User ID dan Password Anda',
+  app_reservation_payment_va_bni_internet_banking_step_3: "Pilih menu 'Transfer'",
+  app_reservation_payment_va_bni_internet_banking_step_4: "Pilih 'Pembayaran Virtual Account'",
+  app_reservation_payment_va_bni_internet_banking_step_5:
+    "Masukkan Nomor Virtual Account Anda (contoh: 88089999XXXXXX). Pilih jenis rekening yang Anda gunakan untuk transfer, lalu tekan 'Lanjut'",
+  app_reservation_payment_va_bni_internet_banking_step_6: 'Rekonfirmasi transaksi Anda',
+  app_reservation_payment_va_bni_internet_banking_step_7: 'Masukkan kode token otentikasi Anda',
+  app_reservation_payment_va_bni_internet_banking_step_8: 'Transaksi Anda selesai',
+
+  app_reservation_title_empty_payment_method: 'Metode pembayaran tidak boleh kosong',
+  app_reservation_message_empty_payment_method: 'Silahkan pilih metode pembayaran terlebih dahulu',
 };

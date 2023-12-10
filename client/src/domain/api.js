@@ -7,6 +7,7 @@ const urls = {
   auth: 'auth',
   payment: 'payment',
   user: 'user',
+  cabins: 'cabins',
 };
 export const callAPI = async (endpoint, method, header, params, data, withCredentials) => {
   const defaultHeader = {
@@ -64,3 +65,14 @@ export const updateUserProfile = (data) =>
 export const requestPayment = (data) => callAPI(urls.payment, 'POST', {}, {}, data);
 export const getPaymentMethods = () => callAPI(`${urls.payment}/methods`, 'GET');
 export const getResponsePaymentByOrderId = (orderId) => callAPI(`${urls.payment}/response/${orderId}`, 'GET');
+
+// cabin
+export const getDetailCabins = (data) => {
+  let url = `${urls.cabins}?province=${data?.province}`;
+  if (data?.slug) {
+    url += `&slug=${data?.slug}`;
+  } else if (data?.city) {
+    url += `&city=${data?.data?.city}`;
+  }
+  return callAPI(url, 'GET');
+};

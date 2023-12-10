@@ -28,6 +28,7 @@ const App = ({ popup, loading, login, token, userProfile }) => {
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, [pathname]);
+
   useEffect(() => {
     dispatch(getAssets());
     dispatch(getTranslations());

@@ -1,0 +1,308 @@
+@import '@styles/base';
+
+.container {
+  @include displayFlex(column, center, center);
+  gap: 2rem;
+  padding: 2rem 1rem;
+  @include screen(lg) {
+    @include displayFlex(row, center, start);
+  }
+  .leftWrapper {
+    @include displayFlex(column, center, center);
+    width: 100%;
+    gap: 2rem;
+    .btnBack {
+      width: 100%;
+      @include displayFlex(row, start, center);
+      gap: 0.5rem;
+      cursor: pointer;
+      border: none;
+      @include shadow;
+      background-color: $color-white;
+      border-radius: 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.8rem 1rem;
+      @include screen(lg) {
+        font-size: 1.2rem;
+        padding: 1.1rem;
+      }
+      .icon {
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+      }
+    }
+    .wrapperOrderDetail {
+      width: 100%;
+      @include shadow;
+      padding: 2rem 1.5rem;
+      border-radius: 1rem;
+      @include screen(lg) {
+        padding: 2rem;
+      }
+      .headTitle {
+        font-size: 1.5rem;
+        font-weight: 700;
+        width: max-content;
+        color: $color-black-100;
+      }
+      .addressTitle {
+        font-size: 1rem;
+        margin-top: 0.5rem;
+        font-weight: 700;
+        width: max-content;
+        color: $color-black-100;
+      }
+      .cabinAddress {
+        font-size: 0.9rem;
+        margin-top: 0.2rem;
+        font-weight: 600;
+        color: $color-gray-100;
+        @include displayFlex(row, start, start);
+        gap: 0.2rem;
+        .icon {
+          font-size: 1rem;
+          color: $color-black-100;
+        }
+      }
+      .listDetail {
+        display: grid;
+        width: 100%;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-top: 1.5rem;
+        @include screen(md) {
+          grid-template-columns: 1fr 1fr 1fr;
+        }
+        .list {
+          width: 100%;
+          .title {
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            font-weight: 700;
+            width: max-content;
+            color: $color-black-100;
+          }
+          .value {
+            color: $color-gray-200;
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+            font-weight: 500;
+          }
+          .time {
+            color: $color-black-100;
+            font-size: 0.8rem;
+            font-weight: 700;
+          }
+        }
+      }
+    }
+    .wrapperContactDetail {
+      width: 100%;
+      @include shadow;
+      padding: 2rem 1.5rem;
+      border-radius: 1rem;
+      @include screen(lg) {
+        padding: 2rem;
+      }
+      .headTitle {
+        font-size: 1.8rem;
+        font-weight: 700;
+        width: max-content;
+        color: $color-black-100;
+        margin-bottom: 1.5rem;
+      }
+      .box {
+        margin-top: 1rem;
+        width: 100%;
+        position: relative;
+        .value {
+          width: 100%;
+          padding: 0.9rem 0.6rem;
+          font-size: 1.2rem;
+          border-radius: 0.5rem;
+          outline: none;
+          transition: 0.3s ease-in-out;
+          font-weight: 600;
+          border: 2px solid $color-gray-100;
+          background-color: transparent;
+        }
+        .title {
+          background-color: $color-white;
+          position: absolute;
+          top: -0.5rem;
+          font-size: 1rem;
+          font-weight: 700;
+          left: 0.7rem;
+          padding: 0 0.5rem;
+          transition: 0.3s ease-in-out;
+          color: $color-gray-100;
+        }
+      }
+    }
+  }
+  .rightWrapper {
+    @include displayFlex(column, center, center);
+    width: 100%;
+    gap: 2rem;
+    @include screen(lg) {
+      width: 65%;
+    }
+    .wrapperPriceDetail {
+      width: 100%;
+      @include shadow;
+      padding: 2rem 1.5rem;
+      border-radius: 1rem;
+      @include screen(lg) {
+        padding: 2rem;
+      }
+      .headTitle {
+        font-size: 1.5rem;
+        font-weight: 700;
+        width: max-content;
+        color: $color-black-100;
+      }
+      .wrapperPriceList {
+        margin-top: 2rem;
+        @include displayFlex(column, center, start);
+        width: 100%;
+        gap: 0.5rem;
+        .list {
+          @include displayFlex(row, space-between, center);
+          width: 100%;
+          .title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: $color-gray-200;
+            margin-top: 0.5rem;
+            width: max-content;
+            &.value {
+              font-size: 1.3rem;
+              color: $color-black-100;
+            }
+            &.total {
+              font-size: 1.3rem;
+              color: $color-black-100;
+              font-weight: 700;
+              margin-top: 0.8rem;
+            }
+          }
+          .value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: $color-black-100;
+            &.cabin {
+              font-size: 1.3rem;
+              color: $color-black-100;
+            }
+            &.total {
+              font-size: 1.3rem;
+              color: $color-black-100;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+      .btnContinue {
+        margin-top: 2rem;
+      }
+    }
+    .wrapperPaymentMethod {
+      width: 100%;
+      @include shadow;
+      padding: 2rem 1.5rem;
+      border-radius: 1rem;
+      @include screen(md) {
+        max-height: 44.5vh;
+        overflow-y: scroll;
+      }
+      .headTitle {
+        font-size: 1.5rem;
+        font-weight: 700;
+        width: max-content;
+        color: $color-black-100;
+      }
+      .accordion {
+        margin-top: 2rem;
+        background-color: transparent;
+        box-shadow: none;
+        .summary {
+          background-color: transparent;
+          color: $color-black-100;
+          font-weight: 600;
+        }
+        .accordionDetails {
+          @include displayFlex(column, center, center);
+          gap: 1rem;
+          width: 100%;
+          .wrapperCotentDetails {
+            width: 100%;
+            border: 1px solid $color-gray-100;
+            padding: 1rem;
+            border-radius: 0.3rem;
+            @include displayFlex(row, start, start);
+            gap: 0.76rem;
+            position: relative;
+            .icon {
+              width: 15%;
+            }
+            .content {
+              width: calc(100% - 15%);
+              .radioButton {
+                position: absolute;
+                top: 0.5rem;
+                right: 0.5rem;
+              }
+              .title {
+                font-size: 1.1rem;
+              }
+              .desc {
+                font-size: 0.9rem;
+                font-weight: 600;
+                width: 90%;
+              }
+              .accordionStep {
+                background-color: transparent;
+                box-shadow: none;
+                overflow: hidden;
+                width: 100%;
+                margin: 0;
+                .summary {
+                  border-bottom: 1px solid gray;
+                  margin: 0;
+                  padding: 0;
+                  font-size: 0.9rem;
+                  font-weight: 600;
+                }
+                .accordionDetails {
+                  @include displayFlex(row, start, start);
+                  width: 100%;
+                  padding: 0.2rem 0;
+                  font-size: 0.8rem;
+                  font-weight: 600;
+                  gap: 0.4rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    .wrapperPaymentMethod::-webkit-scrollbar,
+    .wrapperPaymentMethod::-webkit-scrollbar-thumb {
+      border-radius: 1.5rem; /* Radius untuk scrollbar */
+      background-color: $color-white; /* Warna latar belakang scrollbar */
+      width: 0.5rem;
+    }
+    .wrapperPaymentMethod::-webkit-scrollbar-thumb {
+      /* Warna thumb scrollbar */
+      background-color: rgb(193, 187, 187);
+    }
+
+    /* Styling untuk bagian track scrollbar */
+    .wrapperPaymentMethod::-webkit-scrollbar-track {
+      /* Warna track scrollbar */
+      background-color: $color-white;
+    }
+  }
+}

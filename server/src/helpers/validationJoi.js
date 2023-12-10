@@ -1,72 +1,56 @@
 const Joi = require('joi')
 
-const validateRequestMidtrans = requestMidtrans => {
+const validateBodyCreatePayment = reqBody => {
   const schema = Joi.object({
-    payment_type: Joi.string().valid('bank_transfer').required().messages({
-      'any.required': 'payment_type is required.',
-      'string.base': 'payment_type must be a string.',
-      'string.empty': 'payment_type cannot be empty.',
-      'any.only': 'payment_type must be "bank_transfer".',
+    paymentType: Joi.string().valid('bank_transfer').required().messages({
+      'any.required': 'paymentType is required.',
+      'string.base': 'paymentType must be a string.',
+      'string.empty': 'paymentType cannot be empty.',
+      'any.only': 'paymentType must be "bank_transfer".',
     }),
-    transaction_details: Joi.object({
-      order_id: Joi.string().required().messages({
-        'any.required': 'order_id is required.',
-        'string.base': 'order_id must be a string.',
-        'string.empty': 'order_id cannot be empty.',
-      }),
-      gross_amount: Joi.number().positive().required().messages({
-        'number.base': 'gross_amount must be a number.',
-        'number.positive': 'gross_amount must be a positive number.',
-        'any.required': 'gross_amount is required.',
-        'number.strict': 'gross_amount must be a strict number type.',
-      }),
-    }).required(),
-    bank_transfer: Joi.object({
-      bank: Joi.string().valid('bca', 'bri', 'bni').required().messages({
-        'any.only': 'Only "bca", "bri", or "bni" are allowed for bank.',
-        'any.required': 'bank is required for bank transfer.',
-        'string.base': 'bank must be a string.',
-        'string.empty': 'bank cannot be empty.',
-      }),
-    }).required(),
-  })
-  return schema.validate(requestMidtrans, { abortEarly: false })
-}
-
-const validateBodyCreateRoom = reqBody => {
-  const schema = Joi.object({
-    title: Joi.string().min(5).required().messages({
-      'string.min': 'title should be at least 5 characters long.',
-      'any.required': 'title is required.',
+    bank: Joi.string().valid('bca', 'bri', 'bni').required().messages({
+      'any.only': 'Only "bca", "bri", or "bni" are allowed for bank.',
+      'any.required': 'bank is required for bank transfer.',
+      'string.base': 'bank must be a string.',
+      'string.empty': 'bank cannot be empty.',
     }),
-    description: Joi.string().required().messages({
-      'any.required': 'description is required.',
+    cabinRoomId: Joi.number().positive().required().strict().messages({
+      'number.base': 'cabinRoomId must be a number.',
+      'number.positive': 'cabinRoomId must be a positive number.',
+      'any.required': 'cabinRoomId is required.',
+      'number.strict': 'cabinRoomId must be a strict number type.',
     }),
-    room_type_id: Joi.number().positive().required().messages({
-      'number.base': 'room_type_id must be a number.',
-      'number.positive': 'room_type_id must be a positive number.',
-      'any.required': 'room_type_id is required.',
+    startReservation: Joi.string().isoDate().required().messages({
+      'any.required': 'startReservation date is required.',
+      'string.base': 'startReservation date must be a string in ISO format.',
+      'string.empty': 'startReservation date cannot be empty.',
+      'string.isoDate': 'startReservation date must be in ISO date format.',
     }),
-    rate: Joi.string().valid('night', 'day').required().messages({
-      'any.only': 'Only "night", or "day" are allowed for rate.',
-      'any.required': 'rate is required for room.',
-      'string.base': 'rate must be a string.',
-      'string.empty': 'rate cannot be empty.',
+    endReservation: Joi.string().isoDate().required().messages({
+      'any.required': 'endReservation date is required.',
+      'string.base': 'endReservation date must be a string in ISO format.',
+      'string.empty': 'endReservation date cannot be empty.',
+      'string.isoDate': 'endReservation date must be in ISO date format.',
     }),
-    price: Joi.number().positive().required().messages({
+    price: Joi.number().positive().required().strict().messages({
       'number.base': 'Price must be a number.',
       'number.positive': 'Price must be a positive number.',
       'any.required': 'Price is required.',
+      'number.strict': 'Price must be a strict number type.',
     }),
-    room_number: Joi.string().required(),
-    availability: Joi.string().required(),
-    floor: Joi.number().positive().required().messages({
-      'number.base': 'Floor must be a number.',
-      'number.positive': 'Floor must be a positive number.',
-      'any.required': 'Floor is required.',
+    quantity: Joi.number().positive().required().strict().not(0).messages({
+      'number.base': 'Quantity must be a number.',
+      'number.positive': 'Quantity must be a positive number.',
+      'any.required': 'Quantity is required.',
+      'number.strict': 'Quantity must be a strict number type.',
+      'number.not': 'Quantity cannot be 0.',
     }),
-    amenities: Joi.string().allow('', null).messages({
-      'any.only': 'Amenities should be a string or null.',
+    stayDuration: Joi.number().positive().required().strict().not(0).messages({
+      'number.base': 'Stay duration must be a number.',
+      'number.positive': 'Stay duration must be a positive number.',
+      'any.required': 'Stay duration is required.',
+      'number.strict': 'Stay duration must be a strict number type.',
+      'number.not': 'Stay duration cannot be 0.',
     }),
   })
   const { error } = schema.validate(reqBody, {
@@ -252,14 +236,127 @@ const validateBodyChangePassword = reqBody => {
 
   return null
 }
-const validateBodyCreateRoomType = reqBody => {
+const validateBodyCreateCabin = reqBody => {
   const schema = Joi.object({
-    name: Joi.string().min(3).lowercase().required().messages({
+    name: Joi.string().required().messages({
       'string.base': 'Name must be a string.',
       'string.empty': 'Name is required.',
-      'string.min': 'Name must be at least 3 characters long.',
       'any.required': 'Name is required.',
-      'string.lowercase': 'Name must be in lowercase.',
+    }),
+    city: Joi.string().required().messages({
+      'string.base': 'city must be a string.',
+      'string.empty': 'city is required.',
+      'any.required': 'city is required.',
+    }),
+    description: Joi.string().required().messages({
+      'string.base': 'description must be a string.',
+      'string.empty': 'description is required.',
+      'any.required': 'description is required.',
+    }),
+    address: Joi.string().required().messages({
+      'string.base': 'address must be a string.',
+      'string.empty': 'address is required.',
+      'any.required': 'address is required.',
+    }),
+    image_url: Joi.string().uri().required().messages({
+      'string.base': 'The image URL must be a string.',
+      'string.empty': 'The image URL is required.',
+      'any.required': 'The image URL is required.',
+      'string.uri': 'The image URL must be a valid URI.',
+    }),
+    image_public_id: Joi.string().required().messages({
+      'string.base': 'image_public_id must be a string.',
+      'string.empty': 'image_public_id is required.',
+      'any.required': 'image_public_id is required.',
+    }),
+    slug: Joi.string().required().messages({
+      'string.base': 'slug must be a string.',
+      'string.empty': 'slug is required.',
+      'any.required': 'slug is required.',
+    }),
+    province: Joi.string().required().messages({
+      'string.base': 'province must be a string.',
+      'string.empty': 'province is required.',
+      'any.required': 'province is required.',
+    }),
+    village: Joi.string().required().messages({
+      'string.base': 'village must be a string.',
+      'string.empty': 'village is required.',
+      'any.required': 'village is required.',
+    }),
+    district: Joi.string().required().messages({
+      'string.base': 'district must be a string.',
+      'string.empty': 'district is required.',
+      'any.required': 'district is required.',
+    }),
+    city_name: Joi.string().required().messages({
+      'string.base': 'city_name must be a string.',
+      'string.empty': 'city_name is required.',
+      'any.required': 'city_name is required.',
+    }),
+    latitude: Joi.number().required().messages({
+      'number.base': 'Latitude should be a number.',
+      'number.empty': 'Latitude is required.',
+      'any.required': 'Latitude is required.',
+    }),
+
+    longitude: Joi.number().required().messages({
+      'number.base': 'Longitude should be a number.',
+      'number.empty': 'Longitude is required.',
+      'any.required': 'Longitude is required.',
+    }),
+  })
+
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  })
+
+  if (error) {
+    return error.details.map(err => err.message).join(', ')
+  }
+
+  return null
+}
+const validateBodyCreateRoom = reqBody => {
+  const schema = Joi.object({
+    name: Joi.string().required().messages({
+      'string.base': 'Name must be a string.',
+      'string.empty': 'Name is required.',
+      'any.required': 'Name is required.',
+    }),
+    information: Joi.string().required().messages({
+      'string.base': 'information must be a string.',
+      'string.empty': 'information is required.',
+      'any.required': 'information is required.',
+    }),
+    image_url: Joi.string().uri().required().messages({
+      'string.base': 'The image URL must be a string.',
+      'string.empty': 'The image URL is required.',
+      'any.required': 'The image URL is required.',
+      'string.uri': 'The image URL must be a valid URI.',
+    }),
+    image_public_id: Joi.string().required().messages({
+      'string.base': 'image_public_id must be a string.',
+      'string.empty': 'image_public_id is required.',
+      'any.required': 'image_public_id is required.',
+    }),
+    price: Joi.number().integer().positive().required().messages({
+      'number.base': 'price must be a number.',
+      'number.integer': 'price must be an integer.',
+      'number.positive': 'price must be a positive number.',
+      'any.required': 'price is required.',
+    }),
+    type_cabin: Joi.number().integer().positive().required().messages({
+      'number.base': 'type_cabin must be a number.',
+      'number.integer': 'type_cabin must be an integer.',
+      'number.positive': 'type_cabin must be a positive number.',
+      'any.required': 'type_cabin is required.',
+    }),
+    quantity: Joi.number().integer().positive().required().messages({
+      'number.base': 'Quantity must be a number.',
+      'number.integer': 'Quantity must be an integer.',
+      'number.positive': 'Quantity must be a positive number.',
+      'any.required': 'Quantity is required.',
     }),
   })
 
@@ -392,7 +489,8 @@ module.exports = {
   validateBodyRegisterWithGoogle,
   validateBodyLogin,
   validateBodyChangePassword,
-  validateBodyCreateRoomType,
+  validateBodyCreateCabin,
   validateResultOcrIdCard,
   validateBodyCreateIdCard,
+  validateBodyCreatePayment,
 }

@@ -108,18 +108,131 @@
   width: 100%;
   overflow: hidden;
   padding: 0 1rem;
-  .img {
+  .wrapperTitle {
     width: 100%;
+    @include displayFlex(column, center, center);
     @include screen(lg) {
-      width: 70%;
-      margin: auto;
+      margin-top: 2rem;
+    }
+    .headTitle {
+      width: 100%;
+      font-size: 1.3rem;
+      @include screen(lg) {
+        text-align: center;
+        font-size: 2rem;
+      }
+    }
+    .subTitle {
+      display: none;
+      @include screen(lg) {
+        display: block;
+        width: 67%;
+        text-align: center;
+        font-size: 1rem;
+      }
+    }
+  }
+  .wrapperCard {
+    margin-top: 2rem;
+    .img {
+      width: 100%;
+      @include screen(lg) {
+        width: 70%;
+        margin: auto;
+      }
+    }
+    .title {
+      font-size: 1.2rem;
+      width: 100%;
+      margin-top: 1.2rem;
+      @include screen(lg) {
+        font-size: 1.8rem;
+      }
+    }
+    .subTitle {
+      @include screen(lg) {
+        font-size: 1rem;
+        width: 50%;
+      }
     }
   }
 }
 .secSatisfication {
-  background-image: url('@static/images/SatisficationBG.webp');
-  background-repeat: no-repeat;
-  background-size: cover;
   width: 100%;
-  height: 50vh;
+  height: max-content;
+  @include displayFlex(column, start, center);
+  padding: 0 1rem;
+  margin-top: 5rem;
+  @include screen(lg) {
+    background-image: url('@static/images/SatisficationBG.webp');
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 3rem 0;
+  }
+  .headTitle {
+    width: 100%;
+    text-align: start;
+    @include screen(lg) {
+      font-size: 1.8rem;
+      text-align: center;
+    }
+  }
+  .subTitle {
+    width: 100%;
+    display: none;
+    @include screen(lg) {
+      text-align: center;
+      display: block;
+      font-size: 1.2rem;
+    }
+  }
+  .wrapperCard {
+    width: 100%;
+    @include displayFlex(column, start, center);
+    gap: 2rem;
+    margin-top: 2rem;
+    @include screen(lg) {
+      @include displayFlex(row, start, start);
+      max-width: 1200px;
+      margin: 5rem auto 0 auto;
+      gap: 1rem;
+    }
+    .card {
+      @include displayFlex(row, start, start);
+      gap: 1rem;
+      width: 100%;
+      @include screen(md) {
+        gap: 2rem;
+        padding: 1rem;
+      }
+      .icon {
+        width: 10%;
+        @include screen(md) {
+          width: 15%;
+        }
+      }
+      .wrapperText {
+        @include displayFlex(column, start, start);
+        gap: 0.6rem;
+        .title {
+          font-size: 1rem;
+          color: $color-black-100;
+          font-weight: 700;
+          @include screen(md) {
+            font-size: 1.2rem;
+          }
+        }
+        .description {
+          font-size: 0.8rem;
+          font-weight: 500;
+          width: 95%;
+          color: $color-gray-300;
+          @include screen(md) {
+            font-size: 0.9rem;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+  }
 }

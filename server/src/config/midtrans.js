@@ -6,9 +6,4 @@ const coreApi = new midtransClient.CoreApi({
   clientKey: process.env.MIDTRANS_CLIENT_KEY,
 })
 
-let snap = new midtransClient.Snap({
-  isProduction: false,
-  serverKey: process.env.MIDTRANS_SERVER_KEY,
-})
-
-module.exports = { coreApi, snap }
+module.exports = { coreApi }

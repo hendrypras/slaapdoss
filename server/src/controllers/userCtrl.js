@@ -17,7 +17,13 @@ exports.getUserProfile = async (req, res) => {
   try {
     const authData = req.user
     const response = await Users.findByPk(authData?.id, {
-      attributes: ['id', 'image_url', 'image_public_id', 'username'],
+      attributes: [
+        'id',
+        'image_url',
+        'image_public_id',
+        'username',
+        'verified',
+      ],
     })
     if (!response) return responseError(res, 404, 'Not Found', 'User not found')
     return responseSuccess(res, 200, 'success', response)
@@ -60,21 +66,11 @@ exports.updateUserProfile = async (req, res) => {
     )
     if (!response.length)
       return responseError(res, 404, 'Not Found', 'User not found')
+
     return responseSuccess(res, 200, 'success')
   } catch (error) {
     if (imageResult?.public_id) {
-      const deleteImage = await cloudinaryDeleteImg(
-        imageResult.public_id,
-        'image'
-      )
-      if (!deleteImage) {
-        return responseError(
-          res,
-          500,
-          'Internal server error',
-          'Failed to delete image in cloud'
-        )
-      }
+      await cloudinaryDeleteImg(imageResult.public_id, 'image')
     }
     return responseError(res, error?.status, error?.message)
   }
@@ -125,18 +121,7 @@ exports.uploadIdCard = async (req, res) => {
     const result = parseOCRTextToKTPObject(ret.data.text)
     const validate = validateResultOcrIdCard(result)
     if (validate) {
-      const deleteImage = await cloudinaryDeleteImg(
-        imageResult.public_id,
-        'image'
-      )
-      if (!deleteImage) {
-        return responseError(
-          res,
-          500,
-          'Internal server error',
-          'Failed to delete image in cloud'
-        )
-      }
+      await cloudinaryDeleteImg(imageResult.public_id, 'image')
       return responseError(
         res,
         400,
@@ -153,18 +138,7 @@ exports.uploadIdCard = async (req, res) => {
     })
   } catch (error) {
     if (imageResult?.public_id) {
-      const deleteImage = await cloudinaryDeleteImg(
-        imageResult.public_id,
-        'image'
-      )
-      if (!deleteImage) {
-        return responseError(
-          res,
-          500,
-          'Internal server error',
-          'Failed to delete image in cloud'
-        )
-      }
+      await cloudinaryDeleteImg(imageResult.public_id, 'image')
     }
     return responseError(res, error?.status, error?.message)
   }
@@ -180,25 +154,23 @@ exports.createIdCard = async (req, res) => {
     const findIdCard = await IdCard.findOne({ where: { nik: decoded?.nik } })
     if (findIdCard) {
       if (decoded?.id_card_public_id) {
-        const deleteImage = await cloudinaryDeleteImg(
-          decoded?.id_card_public_id,
-          'image'
-        )
-        if (!deleteImage) {
-          return responseError(
-            res,
-            500,
-            'Internal server error',
-            'Failed to delete image in cloud'
-          )
-        }
+        await cloudinaryDeleteImg(decoded?.id_card_public_id, 'image')
       }
       return responseError(res, 400, 'Bad Request', 'Id card already exist')
     }
+
     await IdCard.create({
       user_id: authData.id,
       ...decoded,
     })
+    await Users.update(
+      { verified: true },
+      {
+        where: {
+          id: authData?.id,
+        },
+      }
+    )
     return responseSuccess(res, 201, 'success')
   } catch (error) {
     return responseError(res, error?.status, error?.message)

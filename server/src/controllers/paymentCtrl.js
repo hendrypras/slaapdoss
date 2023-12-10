@@ -1,104 +1,186 @@
 const { Op } = require('sequelize')
-const moment = require('moment')
 const path = require('path')
 
-const { coreApi, snap } = require('../config/midtrans')
+const { coreApi } = require('../config/midtrans')
+const generateIdPayment = require('../utils/generateIdPayment')
 const { decryptTextPayload } = require('../utils/decryptPayload')
-const { ResponsePayments, Users } = require('../models')
+const { ResponsePayments, Orders, CabinRoom } = require('../models')
 const { validateBodyCreatePayment } = require('../helpers/validationJoi')
 const loadData = require('../helpers/databaseHelper')
 const sequelize = require('../config/connectDb')
 const { responseError, responseSuccess } = require('../helpers/responseHandler')
+
 exports.createPayment = async (req, res) => {
   try {
-    const { order_detail, request_midtrans } = req.body
-    const { sku, limit_in_month } = order_detail
-    const grossAmount = request_midtrans?.transaction_details?.gross_amount
-    const decGrossAmount = decryptTextPayload(grossAmount)
-    if (!decGrossAmount)
-      return responseError(res, 403, 'Forbidden', 'Invalid payload')
+    const {
+      price,
+      quantity,
+      cabinRoomId,
+      stayDuration,
+      startReservation,
+      endReservation,
+      paymentType,
+      bank,
+    } = req.body
     const authData = req.user
-    request_midtrans.transaction_details.gross_amount = Number(decGrossAmount)
+
+    if (!authData?.verified) {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        'Sorry, your account has not been verified. Please verify your account on the user profile page'
+      )
+    }
+
+    const priceDec = decryptTextPayload(price)
+    const stayDurationDec = decryptTextPayload(stayDuration)
+    const startReservationDec = decryptTextPayload(startReservation)
+    const endReservationDec = decryptTextPayload(endReservation)
+
+    if (!priceDec || !startReservationDec || !endReservationDec) {
+      return responseError(res, 400, 'Bad Request', 'Invalid payload')
+    }
     const validate = validateBodyCreatePayment({
-      order_detail,
-      request_midtrans,
+      price: Number(priceDec),
+      quantity: Number(quantity),
+      cabinRoomId: Number(cabinRoomId),
+      stayDuration: Number(stayDurationDec),
+      startReservation: startReservationDec,
+      endReservation: endReservationDec,
+      paymentType,
+      bank,
     })
+
     if (validate) {
       return responseError(res, 400, 'Validation Failed', validate)
     }
-    const database = path.join(
-      __dirname,
-      '../../database/priceListPremiumAccount.json'
-    )
-    const packet = loadData(database)
-    const findPacket = packet?.find(item => item.sku === sku)
-    if (!packet || !findPacket)
-      return responseError(res, 404, 'Not found', 'packet not found')
 
-    const currentDateTime = moment()
-    const premiumDateTime = moment(authData?.premium_date)
-    if (authData?.premium_date && premiumDateTime.isAfter(currentDateTime)) {
-      return responseError(res, 400, 'Bad Request', 'You have subscribed')
+    const checkRoomAvailability = await CabinRoom.findByPk(cabinRoomId)
+
+    if (!checkRoomAvailability) {
+      return responseError(res, 404, 'Not Found', 'Cabin room not found')
     }
 
-    coreApi
-      .charge(request_midtrans)
-      .then(async chargeResponse => {
-        try {
-          const { va_numbers, ...rest } = chargeResponse
-          if (va_numbers && va_numbers?.length > 0) {
-            await ResponsePayments.create({
+    if (checkRoomAvailability?.quantity < quantity) {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        'The cabin space you are looking for is no longer available'
+      )
+    }
+
+    const totalPrice = Number(priceDec) * Number(quantity)
+
+    const requestMidtrans = {
+      payment_type: paymentType,
+      transaction_details: {
+        order_id: `ID-${generateIdPayment()}`,
+        gross_amount: totalPrice,
+      },
+      bank_transfer: {
+        bank,
+      },
+    }
+
+    let chargeResponse
+
+    try {
+      chargeResponse = await coreApi.charge(requestMidtrans)
+    } catch (e) {
+      if (e.ApiResponse) {
+        const errorMessage = e.ApiResponse.status_message
+        const statusCode = e.ApiResponse.status_code
+        return responseError(
+          res,
+          statusCode,
+          'Internal Server Error',
+          errorMessage
+        )
+      } else {
+        return responseError(res, e.status, e.message)
+      }
+    }
+
+    let createdOrder
+
+    try {
+      createdOrder = await sequelize.transaction(async t => {
+        const updatedRoom = await CabinRoom.findByPk(cabinRoomId, {
+          transaction: t,
+          lock: true, // lock the row for update
+        })
+
+        if (!updatedRoom) {
+          throw new Error('Cabin room not found')
+        }
+
+        if (updatedRoom.quantity < quantity) {
+          throw new Error('Insufficient quantity available')
+        }
+
+        updatedRoom.quantity -= quantity
+        await updatedRoom.save({ transaction: t })
+
+        const { va_numbers, ...rest } = chargeResponse
+
+        if (va_numbers && va_numbers?.length > 0) {
+          await ResponsePayments.create(
+            {
               va_number: va_numbers[0]?.va_number,
               bank: va_numbers[0]?.bank,
               ...rest,
-            })
-          }
-          const newPremiumDateTime = currentDateTime.add(
-            limit_in_month,
-            'months'
+            },
+            { transaction: t }
           )
-          await Users.update(
-            { premium_date: newPremiumDateTime },
-            { where: { id: authData?.id } }
-          )
-          return responseSuccess(res, 201, 'Created', chargeResponse)
-        } catch (error) {
-          return responseError(res)
         }
+
+        const order = await Orders.create(
+          {
+            cabin_room_id: cabinRoomId,
+            order_id: chargeResponse?.order_id,
+            user_id: authData?.id,
+            total_price: totalPrice,
+            quantity,
+            stay_duration: Number(stayDurationDec),
+            start_reservation: startReservationDec,
+            end_reservation: endReservationDec,
+          },
+          { transaction: t }
+        )
+
+        return order
       })
-      .catch(e => {
-        if (e.ApiResponse) {
-          const errorMessage = e.ApiResponse.status_message
-          const statusCode = e.ApiResponse.status_code
-          return responseError(
-            res,
-            statusCode,
-            'Internal Server Error',
-            errorMessage
-          )
-        } else {
-          return responseError(res)
-        }
-      })
+    } catch (error) {
+      await responseError(
+        res,
+        500,
+        'Internal Server Error',
+        error.message || 'An error occurred while processing your request'
+      )
+    }
+
+    if (!createdOrder) {
+      return responseError(
+        res,
+        500,
+        'Internal Server Error',
+        'Failed to create order'
+      )
+    }
+
+    return responseSuccess(res, 201, 'success', chargeResponse)
   } catch (error) {
-    return responseError(res)
+    return responseError(
+      res,
+      500,
+      'Internal Server Error',
+      'An error occurred while processing your request'
+    )
   }
 }
 
-exports.createPaymentSnap = async (req, res) => {
-  try {
-    let parameter = {
-      transaction_details: {
-        order_id: 'YOUR-ORDERID-1234562',
-        gross_amount: 10000,
-      },
-    }
-    const token = await snap.createTransactionToken(parameter)
-    return responseSuccess(res, 200, 'success', { token })
-  } catch (error) {
-    return responseError(res)
-  }
-}
 exports.paymentNotification = async (req, res) => {
   const statusResponse = await coreApi.transaction.notification(req.body)
   const orderId = statusResponse.order_id
@@ -142,7 +224,7 @@ exports.getPaymentMethods = async (req, res) => {
     const database = path.join(__dirname, '../../database/paymentMethods.json')
     const response = loadData(database)
     if (!response) return responseError(res)
-    const filterData = response.filter(item => item.active)
+    const filterData = response.filter(item => item.is_active)
     return responseSuccess(res, 200, 'Ok', filterData)
   } catch (error) {
     return responseError(res)

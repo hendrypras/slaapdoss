@@ -1,0 +1,84 @@
+{
+  "facilities": [
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/parking-space-limited_clapee.png",
+      "title": "Parking Space (Limited)"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/smart-glass_chexfx.png",
+      "title": "Smart Window"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/Private-bathroom_ksjrgg.png",
+      "title": "Bathroom"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/hair-dryer_f78wbu.png",
+      "title": "Hair Dryer"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/api-unggun_ynkvld.png",
+      "title": "Fire Pit"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/toilet_e0i22i.png",
+      "title": "Toilet"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/king-size-bed_jc3rr5.png",
+      "title": "King-size bed"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/wifi_acwsdt.png",
+      "title": "Wifi"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/communal-space_xfbmnf.png",
+      "title": "Communal Space"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/mushola_apqvqo.png",
+      "title": "Mushola"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/kettle-jug_f8pihj.png",
+      "title": "Kettle Jug"
+    },
+    {
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/Onsen_hjfzz7.png",
+      "title": "Onsen"
+    }
+  ],
+  "thingsToKnow": {
+    "check_in": "14:00 WIB",
+    "check_out": "12:00 WIB",
+    "queit_ours": "21:00 WIB",
+    "pet": "No pet allowed",
+    "additional_service": "Room only (No breakfast included)",
+    "services": "24-hour receptionist"
+  },
+  "accomodationPolicy": {
+    "check_in_rate": "14:00-23:59 WIB",
+    "check_out": "12:00 WIB",
+    "check_in": "14:00 WIB",
+    "refund_reschedule": "Not available. This room booking can't be cancelled, refunded, relocated, or rescheduled. If you don't arrive at the accommodation on the check-in date, you will be considered a no-show and will not be given a refund.",
+    "age_policies": [
+      "Children above 10 years old will be considered as an adult",
+      "Children must be under parents supervision all the time during the stay at cabin"
+    ],
+    "other_policies": [
+      "Pets are not allowed.",
+      "Breakfast is not provided. You can order separately or pay room with add-ons during booking.",
+      "Smoking inside room is not allowed. Smoking is allowed in the outdoor area.",
+      "Alcohol is not allowed."
+    ]
+  },
+  "preperation": [
+    "Use bags instead of suitcases",
+    "Bring warm clothes",
+    "Check the weather",
+    "Bring water bottle",
+    "Bring both sandals and shoes",
+    "Bring sunscreen"
+  ]
+}

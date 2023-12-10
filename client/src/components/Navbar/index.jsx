@@ -66,7 +66,6 @@ const Navbar = ({ locale, login, token, userProfile }) => {
           </div>
         )}
       </div>
-      <ButtonLang locale={locale} className={classes.btnLang} />
     </>
   );
 
@@ -80,14 +79,17 @@ const Navbar = ({ locale, login, token, userProfile }) => {
           </button>
         </div>
         <div className={classes.wrapperRight}>
-          <button
-            aria-label="menu-button"
-            type="button"
-            onClick={() => setOpenDrawer(true)}
-            className={classes.menuBtn}
-          >
-            <MenuIcon className={classes.icon} />
-          </button>
+          <div className={classes.wapperBtnRight}>
+            <ButtonLang locale={locale} />
+            <button
+              aria-label="menu-button"
+              type="button"
+              onClick={() => setOpenDrawer(true)}
+              className={classes.menuBtn}
+            >
+              <MenuIcon className={classes.icon} />
+            </button>
+          </div>
           {login && decoded ? (
             <button type="button" onClick={() => navigate('/user/profile')} className={classes.wrapperAvatar}>
               <Avatar alt="avatar" src={userProfile?.image_url || avatar} />

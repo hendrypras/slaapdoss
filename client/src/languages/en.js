@@ -13,9 +13,8 @@ export default {
   app_text_loading_button: 'Loading...',
   app_component_btn_created: 'Create',
   app_back_button_text: 'Back',
-
   app_title_satisfaction: 'Satisfaction on Your Doorstep',
-
+  app_subtitle_satisfaction: 'Get to know more about Bobobox and the things we value most.',
   app_home_title_perfect_solition: 'Find the Perfect Solution for Your Every Need',
   app_home_sub_title_perfect_solition:
     'From a place to call home in lively cities to exploring Indonesia’s natural beauty, Slaapdoss is prepared to bring you to an adventure with utter comfort no matter where you are.',
@@ -36,12 +35,10 @@ export default {
   app_home_title_placeholder_duration_search_selelct: '1 Night(s)',
   app_home_title_search_select: 'Where do you want to stay?',
   app_home_button_text_search_select: 'Search',
-
   app_respose_payment_success: 'Congratulations, your order is successful, please make payment before the end of time!',
   app_response_payment_pay_in: 'Pay in:',
   app_response_payment_button_continue: 'Continue',
   app_response_payment_title_button_copy_va: 'Copy!',
-
   app_login_sign_in_title: 'Login to your account',
   app_login_sign_in_submit_text: 'Login',
   app_login_sign_in_subtitle: 'Your amazing staycation will begin here',
@@ -52,7 +49,6 @@ export default {
   app_login_sign_in_with_google_text: 'Sign in with Google',
   app_login_sign_in_go_to_register_text: 'Not a Slaapdoss member yet?',
   app_login_sign_in_go_to_register_button: 'Register here',
-
   app_sign_up_title: 'Join Slaapdoss',
   app_sign_up_button_text: 'Register',
   app_sign_up_email_title: 'Email',
@@ -71,7 +67,6 @@ export default {
   app_sign_up_resend_otp_text: 'Resend OTP',
   app_sign_up_title_response_success: 'Yeay, Register Successful',
   app_sign_up_sub_titile_response_success: 'Please log in to enjoy superior features',
-
   app_forgot_password_title: 'Forgot Password',
   app_forgot_password_paragraf_info:
     "Enter your user account's verified email address and we will send you a password reset link.",
@@ -81,14 +76,12 @@ export default {
   app_forgot_password_success_text_message: 'Please check your email to reset your password!',
   app_forgot_password_popup_title_success: 'Conratulation...',
   app_forgot_password_popup_message_success: 'Check Your Email for reset password!',
-
   app_reset_password_title: 'New Password',
   app_reset_password_title_input: 'Password',
   app_reset_password_title_input_confirm: 'Confirm Password',
   app_reset_password_popup_title_success: 'Congratulation!!!',
   app_reset_password_popup_message_success: 'Your password updated successfully, please login again with new password!',
   app_reset_password_sub_title: 'Enter a complex and secure password',
-
   app_user_profile_head_title: 'User Profile',
   app_user_profile_profile_picture_text: 'Profile Picture',
   app_user_profile_id_card_text: 'ID Card',
@@ -103,4 +96,136 @@ export default {
   app_user_profile_text_button_captured: 'Take',
   app_user_profile_text_button_save_image_profile: 'Save Image',
   app_user_profile_text_button_history: 'History',
+  aap_reservation_title_back_btn: 'Back to select cabin',
+  app_reservation_order_detail_head_title: 'Order Detail',
+  app_reservation_cabin_address_title: 'Cabin Address',
+  app_reservation_checkin_title: 'Check-in',
+  app_reservation_checkout_title: 'Check-out',
+  app_reservation_stay_duration_title: 'Stay Duration',
+  app_reservation_cabin_type_title: 'Cabin Type',
+  app_reservation_cabin_total_title: 'Total Cabin',
+  app_reservation_room_capacity_title: 'Room Capacity',
+  app_reservation_contact_detail_head_title: 'Contact Detail',
+  app_reservation_price_detail_head_title: 'Price Detail',
+  app_reservation_service_fee_title: 'Service Fee',
+  app_reservation_service_fee_value: 'Free',
+  app_reservation_continue_payment_title: 'Continue Payment',
+  app_reservation_payment_method_title: 'Select Payment Method',
+  app_reservation_virtual_account_title: 'Virtual Account',
+
+  app_reservation_payment_va_bca_desc: 'Pay at ATM BCA or Internet Banking',
+  app_reservation_payment_va_bca_atm_step_1: 'On the main menu, choose “Other Transactions”',
+  app_reservation_payment_va_bca_atm_step_2: 'Choose “Transfer”',
+  app_reservation_payment_va_bca_atm_step_3: 'Choose “To BCA Virtual Account”',
+  app_reservation_payment_va_bca_atm_step_4: 'Enter your payment code (11 digit code) and press “Correct',
+  app_reservation_payment_va_bca_atm_step_5: 'Enter the full amount to be paid and press “Correct”',
+  app_reservation_payment_va_bca_atm_step_6:
+    'Your payment details will appear on the confirmation page. If the information is correct press “Yes”',
+
+  app_reservation_payment_va_bca_klik_step_1: 'Login to KLIK BCA website',
+  app_reservation_payment_va_bca_klik_step_2: 'Choose menu “Fund Transfer”',
+  app_reservation_payment_va_bca_klik_step_3: 'Choose “Transfer to BCA Virtual Account',
+  app_reservation_payment_va_bca_klik_step_4:
+    '“Input BCA Virtual Account Number” or “Choose from Transfer List” and click “Continue”',
+  app_reservation_payment_va_bca_klik_step_5:
+    'Amount to be paid, account number and Merchant name will appear on the payment confirmation page, if the information is right click “Continue”',
+  app_reservation_payment_va_bca_klik_step_6:
+    'Get your “BCA token” and input KEYBCA Response “APPLY1” and click “Submit”',
+  app_reservation_payment_va_bca_klik_step_7: 'Your transaction is done',
+
+  app_reservation_payment_va_bca_m_bca_step_1: 'Log in to your BCA Mobile app',
+  app_reservation_payment_va_bca_m_bca_step_2: 'Choose “m-BCA”, then input your m-BCA access code',
+  app_reservation_payment_va_bca_m_bca_step_3: 'Choose “m-Transfer”, then choose BCA Virtual Account',
+  app_reservation_payment_va_bca_m_bca_step_4:
+    'Input ”Virtual Account Number” or choose an existing account from Daftar Transfer',
+  app_reservation_payment_va_bca_m_bca_step_5: 'Input the payable amount',
+  app_reservation_payment_va_bca_m_bca_step_6: 'Input your “m-BCA” PIN',
+  app_reservation_payment_va_bca_m_bca_step_7: 'Payment is finished. Save the notification as your payment receipt.',
+
+  app_reservation_payment_va_bri_desc: 'Payment through BRI ATM, M-Banking, or Internet Banking',
+  app_reservation_payment_va_bri_atm_step_1: "Insert ATM card and select 'BAHASA' (LANGUAGE)'",
+  app_reservation_payment_va_bri_atm_step_2: "Enter PIN, then select 'LANJUT' (CONTINUE)'",
+  app_reservation_payment_va_bri_atm_step_3: "Select 'PEMBAYARAN' (PAYMENT)'",
+  app_reservation_payment_va_bri_atm_step_4: "Select 'MULTI PEMBAYARAN' (MULTI PAYMENT)'",
+  app_reservation_payment_va_bri_atm_step_5:
+    "Enter company code: 'YOUR_MIDTRANS_COMPANY_CODE', then press 'BENAR' (CORRECT)'",
+  app_reservation_payment_va_bri_atm_step_6: "Enter Virtual Account Number, then press 'BENAR' (CORRECT)'",
+  app_reservation_payment_va_bri_atm_step_7: "Enter the AMOUNT to be transferred, then press 'BENAR' (CORRECT)'",
+  app_reservation_payment_va_bri_atm_step_8:
+    "Customer details will appear. Select number 1 according to the bill amount, then press 'YA' (YES)'",
+  app_reservation_payment_va_bri_atm_step_9:
+    "Payment confirmation will appear. Select 'YA' (YES) to proceed with payment",
+  app_reservation_payment_va_bri_atm_step_10: 'Save the receipt as a formal proof of payment from Bank BRI',
+  app_reservation_payment_va_bri_atm_step_11: 'Your transaction is successful',
+
+  app_reservation_payment_va_bri_m_banking_step_1: 'Login to BRI Mobile Banking',
+  app_reservation_payment_va_bri_m_banking_step_2: "Click the 'Menu Icon' in the top left corner",
+  app_reservation_payment_va_bri_m_banking_step_3: "Select 'Payment'",
+  app_reservation_payment_va_bri_m_banking_step_4: "Select 'Create New Payment'",
+  app_reservation_payment_va_bri_m_banking_step_5: "Select 'Multi Payment'",
+  app_reservation_payment_va_bri_m_banking_step_6: 'Select Slaapdoss as the service provider',
+  app_reservation_payment_va_bri_m_banking_step_7: "Select 'Virtual Account Number'",
+  app_reservation_payment_va_bri_m_banking_step_8:
+    "Enter your virtual account number with Slaapdoss as the Company Code, then select 'Add as New Number'",
+  app_reservation_payment_va_bri_m_banking_step_9: "Enter the 'Amount' then select 'Confirm'",
+  app_reservation_payment_va_bri_m_banking_step_10: "Select 'Continue'",
+  app_reservation_payment_va_bri_m_banking_step_11: 'The Payment Confirmation Page will appear',
+  app_reservation_payment_va_bri_m_banking_step_12:
+    "Scroll down on the payment confirmation page, then select 'Confirm'",
+  app_reservation_payment_va_bri_m_banking_step_13: "Enter your 'PIN' and the transaction will be completed",
+
+  app_reservation_payment_va_bri_internet_bank_step_1: 'Open the Internet Banking BRI website: https://ib.bri.co.id/',
+  app_reservation_payment_va_bri_internet_bank_step_2: 'Log in with your USER ID and PIN',
+  app_reservation_payment_va_bri_internet_bank_step_3: "Select 'Payment'",
+  app_reservation_payment_va_bri_internet_bank_step_4: "Select 'Multi Payment'",
+  app_reservation_payment_va_bri_internet_bank_step_5: "Select 'My Account'",
+  app_reservation_payment_va_bri_internet_bank_step_6: 'Select Slaapdoss as the service provider',
+  app_reservation_payment_va_bri_internet_bank_step_7: "Select 'Virtual Account Number'",
+  app_reservation_payment_va_bri_internet_bank_step_8: 'Enter your virtual account number',
+  app_reservation_payment_va_bri_internet_bank_step_9: 'Switch to confirmation page 1',
+  app_reservation_payment_va_bri_internet_bank_step_10:
+    "Click 'TOTAL' if all details are correct, then click 'CONTINUE'",
+  app_reservation_payment_va_bri_internet_bank_step_11: 'Switch to confirmation page 2',
+  app_reservation_payment_va_bri_internet_bank_step_12:
+    "Enter the Challenge Code from your Internet Banking token, then click 'Send'",
+  app_reservation_payment_va_bri_internet_bank_step_13:
+    'You will be redirected to the confirmation page after the payment is completed',
+
+  app_reservation_payment_va_bni_desc: 'Pay at ATM BNI or Internet Banking',
+  app_reservation_payment_va_bni_atm_step_1: 'Insert your card',
+  app_reservation_payment_va_bni_atm_step_2: 'Select your language',
+  app_reservation_payment_va_bni_atm_step_3: 'Enter your ATM PIN',
+  app_reservation_payment_va_bni_atm_step_4: "Select 'Other Transaction'",
+  app_reservation_payment_va_bni_atm_step_5: "Select 'Transfer'",
+  app_reservation_payment_va_bni_atm_step_6:
+    'Select the type of account you are using to transfer (e.g., from Savings account)',
+  app_reservation_payment_va_bni_atm_step_7: "Choose 'Virtual Account Billing'",
+  app_reservation_payment_va_bni_atm_step_8: 'Enter your Virtual Account Number (e.g.: 88089999XXXXXX)',
+  app_reservation_payment_va_bni_atm_step_9: 'Confirm the transaction, if it’s correct, continue',
+  app_reservation_payment_va_bni_atm_step_10: 'Your transaction is completed',
+
+  app_reservation_payment_va_bni_m_banking_step_1:
+    'Access BNI Mobile Banking from your phone, and enter your user ID and password',
+  app_reservation_payment_va_bni_m_banking_step_2: "Select the 'Transfer' menu",
+  app_reservation_payment_va_bni_m_banking_step_3:
+    "Select the 'Virtual Account Billing' menu, then choose the debit account",
+  app_reservation_payment_va_bni_m_banking_step_4:
+    "Enter your Virtual Account Number (e.g.: 88089999XXXXXX) in the 'input new' menu",
+  app_reservation_payment_va_bni_m_banking_step_5: 'Confirm your billing',
+  app_reservation_payment_va_bni_m_banking_step_6: 'Enter your password',
+  app_reservation_payment_va_bni_m_banking_step_7: 'Your transaction is complete',
+
+  app_reservation_payment_va_bni_internet_banking_step_1:
+    "Enter the following address: https://ibank.bni.co.id and click 'Enter'",
+  app_reservation_payment_va_bni_internet_banking_step_2: 'Insert your User ID and Password',
+  app_reservation_payment_va_bni_internet_banking_step_3: "Select the 'Transfer' menu",
+  app_reservation_payment_va_bni_internet_banking_step_4: "Select 'Virtual Account Billing'",
+  app_reservation_payment_va_bni_internet_banking_step_5:
+    "Enter your Virtual Account Number (e.g.: 88089999XXXXXX). Choose the type of account you are using to transfer, and press 'Continue'",
+  app_reservation_payment_va_bni_internet_banking_step_6: 'Reconfirm the transaction',
+  app_reservation_payment_va_bni_internet_banking_step_7: 'Enter the authentication token code',
+  app_reservation_payment_va_bni_internet_banking_step_8: 'Your transaction is complete',
+
+  app_reservation_title_empty_payment_method: 'Payment method cannot be empty',
+  app_reservation_message_empty_payment_method: 'Please select a payment method first',
 };

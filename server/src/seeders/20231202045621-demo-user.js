@@ -12,6 +12,7 @@ module.exports = {
         image_url: process.env.AVATAR_URL_DEFAULT,
         image_public_id: 'avatar',
         password: hashPassword('passwordadmin'),
+        verified: false,
         role: 1,
         createdAt: new Date(),
         updatedAt: new Date(),

@@ -8,18 +8,24 @@
   background-color: $color-white;
   cursor: pointer;
   color: $color-black-100;
-  gap: 0.2rem;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 8px 0px;
+  @include screen(md) {
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 2px 8px 0px;
+    gap: 0.2rem;
+  }
   .avatar {
     width: 1.5rem;
     height: 1.5rem;
   }
   .lang {
-    font-family: Nunito, sans-serif;
-    font-weight: 900;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    color: $color-black-100;
+    display: none;
+    @include screen(md) {
+      font-family: Nunito, sans-serif;
+      font-weight: 900;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: $color-black-100;
+      display: block;
+    }
   }
   .arrowIcon {
     font-size: 1.3rem;
