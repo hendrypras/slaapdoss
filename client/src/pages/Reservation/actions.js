@@ -1,11 +1,11 @@
-import { GET_DATAIL_LOCATION, SET_DATAIL_LOCATION } from '@pages/CreateDeatilCabin/constants';
+import { CREATE_PAYMENT_RESERVATION, SELECT_PAYMENT_METHOD } from '@pages/Reservation/constants';
 
-export const getDetailLocation = (lat, lng) => ({
-  type: GET_DATAIL_LOCATION,
-  lat,
-  lng,
+export const createPayment = (data, cbSuccess) => ({
+  type: CREATE_PAYMENT_RESERVATION,
+  data,
+  cbSuccess,
 });
-export const setDetailLocation = (displayName) => ({
-  type: SET_DATAIL_LOCATION,
-  displayName,
+export const selectPaymentMethod = (method) => ({
+  type: SELECT_PAYMENT_METHOD,
+  method,
 });

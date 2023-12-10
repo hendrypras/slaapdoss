@@ -1,18 +1,17 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import { getDetailLocation } from '@domain/api';
+import { requestPayment } from '@domain/api';
+
+import { CREATE_PAYMENT_RESERVATION } from '@pages/Reservation/constants';
 
 import { showPopup, setLoading } from '@containers/App/actions';
 
-import { GET_DATAIL_LOCATION } from '@pages/CreateDeatilCabin/constants';
-import { setDetailLocation } from './actions';
-
-function* doGetDetailLocation({ lat, lng }) {
+function* doCreatePayment({ data, cbSuccess }) {
   yield put(setLoading(true));
   try {
-    const response = yield call(getDetailLocation, lat, lng);
+    const response = yield call(requestPayment, data);
     if (response) {
-      yield put(setDetailLocation(response?.display_name));
+      cbSuccess(response?.data?.order_id);
     }
   } catch (error) {
     yield put(showPopup(error.response.data.message));
@@ -21,6 +20,6 @@ function* doGetDetailLocation({ lat, lng }) {
   }
 }
 
-export default function* createDetailCabinSaga() {
-  yield takeLatest(GET_DATAIL_LOCATION, doGetDetailLocation);
+export default function* reservationSaga() {
+  yield takeLatest(CREATE_PAYMENT_RESERVATION, doCreatePayment);
 }

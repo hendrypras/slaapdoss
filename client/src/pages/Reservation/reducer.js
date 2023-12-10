@@ -1,18 +1,18 @@
 import { produce } from 'immer';
 
-import { SET_DATAIL_LOCATION } from '@pages/CreateDeatilCabin/constants';
+import { SELECT_PAYMENT_METHOD } from '@pages/Reservation/constants';
 
 export const initialState = {
-  displayNameLocation: '',
+  method: null,
 };
 
-const createDetailCabinReducer = (state = initialState, action) =>
+const reservationReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
-      case SET_DATAIL_LOCATION:
-        draft.displayNameLocation = action.displayName;
+      case SELECT_PAYMENT_METHOD:
+        draft.method = action.method;
         break;
     }
   });
 
-export default createDetailCabinReducer;
+export default reservationReducer;

@@ -36,6 +36,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      verified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
       id_card_id: {
         type: Sequelize.INTEGER,
         allowNull: true,

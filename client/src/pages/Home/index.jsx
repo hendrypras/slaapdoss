@@ -23,7 +23,7 @@ import 'swiper/css/pagination';
 import Button from '@components/Button';
 import classes from './style.module.scss';
 
-const HomePage = ({ assets }) => {
+const Home = ({ assets }) => {
   const [openDrawer, setOpenDrawer] = useState({
     location: false,
     duration: false,
@@ -130,18 +130,34 @@ const HomePage = ({ assets }) => {
         </>
       </Container>
       <Container className={classes.containerCabin}>
-        <div>
+        <>
+          <div className={classes.wrapperTitle}>
+            <HeadTitle titleId="app_home_title_perfect_solition" className={classes.headTitle} />
+            <SubHeadTitle className={classes.subTitle} textId="app_home_sub_title_perfect_solition" />
+          </div>
           {assets?.cabin?.map((val, i) => (
-            <div key={i}>
+            <div key={i} className={classes.wrapperCard}>
               <img src={val?.imageUrl} alt="cabin" className={classes.img} />
-              <HeadTitle titleId="app_home_cabin_head_title" />
-              <SubHeadTitle textId="app_home_cabin_sub_title" />
+              <HeadTitle className={classes.title} titleId="app_home_cabin_head_title" />
+              <SubHeadTitle className={classes.subTitle} textId="app_home_cabin_sub_title" />
+            </div>
+          ))}
+        </>
+      </Container>
+      <section className={classes.secSatisfication}>
+        <HeadTitle titleId="app_title_satisfaction" className={classes.headTitle} />
+        <SubHeadTitle className={classes.subTitle} textId="app_subtitle_satisfaction" />
+        <div className={classes.wrapperCard}>
+          {assets?.dropStep?.map((val, i) => (
+            <div key={i} className={classes.card}>
+              <img src={val?.icon} alt="icon" className={classes.icon} />
+              <div className={classes.wrapperText}>
+                <div className={classes.title}>{val?.title}</div>
+                <div className={classes.description}>{val?.description}</div>
+              </div>
             </div>
           ))}
         </div>
-      </Container>
-      <section className={classes.secSatisfication}>
-        <div>test</div>
       </section>
       <Maps lat={-6.23827} lng={106.975571} draggable />
     </>
@@ -152,8 +168,8 @@ const mapStateToProps = createStructuredSelector({
   assets: selectAssets,
 });
 
-HomePage.propTypes = {
+Home.propTypes = {
   assets: PropTypes.object,
 };
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps)(Home);

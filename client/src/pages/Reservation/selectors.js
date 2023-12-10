@@ -1,10 +1,7 @@
 import { createSelector } from 'reselect';
 
-import { initialState } from '@pages/CreateDeatilCabin/reducer';
+import { initialState } from '@pages/Reservation/reducer';
 
-const selectCreateDetailCabinState = (state) => state.createDetailCabin || initialState;
+const selectReservationState = (state) => state.reservation || initialState;
 
-export const selectDisplayNameLocation = createSelector(
-  selectCreateDetailCabinState,
-  (state) => state.displayNameLocation
-);
+export const selectMethod = createSelector(selectReservationState, (state) => state.method);

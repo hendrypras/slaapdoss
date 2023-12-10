@@ -2,10 +2,10 @@ const express = require('express')
 const Authenticated = require('../middleware/authentication')
 const { isUser } = require('../middleware/authorization')
 const {
-  createPayment,
   paymentNotification,
   getPaymentMethods,
   getResponsePaymentByOrderId,
+  createPayment,
 } = require('../controllers/paymentCtrl')
 
 const router = express.Router()

@@ -1,5 +1,5 @@
 import { FormattedMessage } from 'react-intl';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -12,7 +12,6 @@ import { getResponsePaymentById } from '@pages/PaymentResponse/actions';
 
 import Container from '@components/Container';
 
-import formatCountdown from '@utils/formatCountdown';
 import copyTextToClipboadrd from '@utils/copyTextToClipboadrd';
 
 import classes from './style.module.scss';
@@ -21,8 +20,6 @@ const PaymentResponse = ({ responsePayment }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { orderId, status } = useParams();
-  const [countdown, setCountdown] = useState(0);
-  const timerId = useRef();
   const VAnumber = responsePayment?.va_numbers?.length
     ? responsePayment?.va_numbers[0]?.va_number
     : responsePayment?.va_number;
@@ -36,44 +33,6 @@ const PaymentResponse = ({ responsePayment }) => {
       dispatch(getResponsePaymentById(orderId));
     }
   }, [dispatch, status, orderId, responsePayment]);
-  useEffect(() => {
-    const targetTime = new Date(responsePayment?.expiry_time).getTime() / 1000; // Konversi prop seconds menjadi timestamp dalam detik
-    const currentTime = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
-    const remainingSeconds = targetTime - currentTime; // Jumlah detik yang tersisa
-
-    if (remainingSeconds <= 0) {
-      clearInterval(timerId.current);
-      setCountdown(0);
-    } else {
-      setCountdown(remainingSeconds);
-
-      timerId.current = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timerId.current);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-
-    return () => {
-      clearInterval(timerId.current);
-    };
-  }, [responsePayment]);
-  // useEffect(() => {
-  //   const snapScript = 'https://app.sandbox.midtrans.com/snap/snap.js';
-  //   const clientKey = 'c79da583-5675-4635-8906-e766993011d6';
-  //   const script = document.createElement('script');
-  //   script.src = snapScript;
-  //   script.setAttribute('data-client-key', clientKey);
-  //   script.async = true;
-  //   document.body.appendChild(script);
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
 
   return (
     <Container className={classes.wrapper}>
@@ -87,7 +46,7 @@ const PaymentResponse = ({ responsePayment }) => {
             <div>
               <FormattedMessage id="app_response_payment_pay_in" />
             </div>
-            <div className={classes.countdown}>{formatCountdown(countdown)}</div>
+            <div className={classes.countdown}>ASDAS</div>
           </div>
           <div className={classes.wrapperVA}>
             <div className={classes.title}>No Virtual Account</div>

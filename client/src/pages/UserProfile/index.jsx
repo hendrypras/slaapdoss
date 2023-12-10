@@ -27,7 +27,7 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
-  const [fileSelcted, setFileSelected] = useState(null);
+  const [fileSelected, setFileSelected] = useState(null);
 
   const [openCamera, setOpenCamera] = useState(false);
   useEffect(() => {
@@ -61,8 +61,8 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
 
       formData.append('profile', blob);
     }
-    if (fileSelcted) {
-      formData.append('profile', fileSelcted);
+    if (fileSelected) {
+      formData.append('profile', fileSelected);
     }
     formData.append('imagePublicId', userProfile?.image_public_id);
 
@@ -140,7 +140,7 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                       </button>
                     </div>
                   </div>
-                  {imageCaptured || fileSelcted ? (
+                  {imageCaptured || fileSelected ? (
                     <Button
                       text="app_user_profile_text_button_save_image_profile"
                       type="button"

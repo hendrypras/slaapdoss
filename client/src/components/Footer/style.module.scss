@@ -1,0 +1,24 @@
+@import '@styles/base';
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.5rem 0;
+  border-top: 1px solid gray;
+
+  .profile,
+  .links,
+  .support {
+    padding: 0 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-bottom: 0.75rem;
+  }
+
+  p {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+}

@@ -10,6 +10,7 @@ import PaymentResponse from '@pages/PaymentResponse';
 import CallBack from '@pages/CallBack';
 import UserProfile from '@pages/UserProfile';
 import Reservation from '@pages/Reservation';
+import DetailCabins from '@pages/DetailCabins';
 
 const routes = [
   {
@@ -76,6 +77,14 @@ const routes = [
     name: 'Reservation',
     protected: true,
     component: Reservation,
+    adminOnly: false,
+    layout: MainLayout,
+  },
+  {
+    path: '/cabins/:province/:slug',
+    name: 'Detail Cabins',
+    protected: false,
+    component: DetailCabins,
     adminOnly: false,
     layout: MainLayout,
   },

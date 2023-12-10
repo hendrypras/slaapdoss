@@ -70,20 +70,163 @@
     "emptyHistory": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008791/empty_wdzemb.svg",
     "notfound": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008984/404_eubyx8.svg"
   },
-  "check_in_procedure": {
-    "check_in_rate": "14:00-23:59 WIB",
-    "check_out": "12:00 WIB",
-    "check_in": "14:00 WIB",
-    "refund_reschedule": "Not available. This room booking can't be cancelled, refunded, relocated, or rescheduled. If you don't arrive at the accommodation on the check-in date, you will be considered a no-show and will not be given a refund.",
-    "age_policies": [
-      "Children above 10 years old will be considered as an adult",
-      "Children must be under parents supervision all the time during the stay at cabin"
-    ],
-    "other_policies": [
-      "Pets are not allowed.",
-      "Breakfast is not provided. You can order separately or pay room with add-ons during booking.",
-      "Smoking inside room is not allowed. Smoking is allowed in the outdoor area.",
-      "Alcohol is not allowed."
-    ]
-  }
+  "payment_method": [
+    {
+      "id": 1,
+      "category": "virtual_account",
+      "label": "Virtual Account",
+      "type": "bank_transfer",
+      "type_label": "BCA Virtual Account",
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702020515/Icon-payment-BCA_rx6ijk.jpg",
+      "is_active": true,
+      "method": "bca",
+      "instraction": {
+        "desc": "app_reservation_payment_va_bca_desc",
+        "atm": {
+          "step": {
+            "1": "app_reservation_payment_va_bca_atm_step_1",
+            "2": "app_reservation_payment_va_bca_atm_step_2",
+            "3": "app_reservation_payment_va_bca_atm_step_3",
+            "4": "app_reservation_payment_va_bca_atm_step_4",
+            "5": "app_reservation_payment_va_bca_atm_step_5",
+            "6": "app_reservation_payment_va_bca_atm_step_6"
+          }
+        },
+        "klik_bca": {
+          "step": {
+            "1": "app_reservation_payment_va_bca_klik_step_1",
+            "2": "app_reservation_payment_va_bca_klik_step_2",
+            "3": "app_reservation_payment_va_bca_klik_step_3",
+            "4": "app_reservation_payment_va_bca_klik_step_4",
+            "5": "app_reservation_payment_va_bca_klik_step_5",
+            "6": "app_reservation_payment_va_bca_klik_step_6",
+            "7": "app_reservation_payment_va_bca_klik_step_7"
+          }
+        },
+        "m_bca": {
+          "step": {
+            "1": "app_reservation_payment_va_bca_m_bca_step_1",
+            "2": "app_reservation_payment_va_bca_m_bca_step_2",
+            "3": "app_reservation_payment_va_bca_m_bca_step_3",
+            "4": "app_reservation_payment_va_bca_m_bca_step_4",
+            "5": "app_reservation_payment_va_bca_m_bca_step_5",
+            "6": "app_reservation_payment_va_bca_m_bca_step_6",
+            "7": "app_reservation_payment_va_bca_m_bca_step_7"
+          }
+        }
+      }
+    },
+    {
+      "id": 2,
+      "category": "virtual_account",
+      "label": "Virtual Account",
+      "type": "bank_transfer",
+      "type_label": "BRI Virtual Account",
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702020528/jotaecojnrx0xgtcgk9d_enav4p.svg",
+      "is_active": true,
+      "method": "bri",
+      "instraction": {
+        "desc": "app_reservation_payment_va_bri_desc",
+        "atm": {
+          "step": {
+            "1": "app_reservation_payment_va_bri_atm_step_1",
+            "2": "app_reservation_payment_va_bri_atm_step_2",
+            "3": "app_reservation_payment_va_bri_atm_step_3",
+            "4": "app_reservation_payment_va_bri_atm_step_4",
+            "5": "app_reservation_payment_va_bri_atm_step_5",
+            "6": "app_reservation_payment_va_bri_atm_step_6",
+            "7": "app_reservation_payment_va_bri_atm_step_7",
+            "8": "app_reservation_payment_va_bri_atm_step_8",
+            "9": "app_reservation_payment_va_bri_atm_step_9",
+            "10": "app_reservation_payment_va_bri_atm_step_10",
+            "11": "app_reservation_payment_va_bri_atm_step_11"
+          }
+        },
+        "m_banking": {
+          "step": {
+            "1": "app_reservation_payment_va_bri_m_banking_step_1",
+            "2": "app_reservation_payment_va_bri_m_banking_step_2",
+            "3": "app_reservation_payment_va_bri_m_banking_step_3",
+            "4": "app_reservation_payment_va_bri_m_banking_step_4",
+            "5": "app_reservation_payment_va_bri_m_banking_step_5",
+            "6": "app_reservation_payment_va_bri_m_banking_step_6",
+            "7": "app_reservation_payment_va_bri_m_banking_step_7",
+            "8": "app_reservation_payment_va_bri_m_banking_step_8",
+            "9": "app_reservation_payment_va_bri_m_banking_step_9",
+            "10": "app_reservation_payment_va_bri_m_banking_step_10",
+            "11": "app_reservation_payment_va_bri_m_banking_step_11",
+            "12": "app_reservation_payment_va_bri_m_banking_step_12",
+            "13": "app_reservation_payment_va_bri_m_banking_step_13"
+          }
+        },
+        "internet_banking": {
+          "step": {
+            "1": "app_reservation_payment_va_bri_internet_bank_step_1",
+            "2": "app_reservation_payment_va_bri_internet_bank_step_2",
+            "3": "app_reservation_payment_va_bri_internet_bank_step_3",
+            "4": "app_reservation_payment_va_bri_internet_bank_step_4",
+            "5": "app_reservation_payment_va_bri_internet_bank_step_5",
+            "6": "app_reservation_payment_va_bri_internet_bank_step_6",
+            "7": "app_reservation_payment_va_bri_internet_bank_step_7",
+            "8": "app_reservation_payment_va_bri_internet_bank_step_8",
+            "9": "app_reservation_payment_va_bri_internet_bank_step_9",
+            "10": "app_reservation_payment_va_bri_internet_bank_step_10",
+            "11": "app_reservation_payment_va_bri_internet_bank_step_11",
+            "12": "app_reservation_payment_va_bri_internet_bank_step_12",
+            "13": "app_reservation_payment_va_bri_internet_bank_step_13"
+          }
+        }
+      }
+    },
+    {
+      "id": 3,
+      "category": "virtual_account",
+      "label": "Virtual Account",
+      "type": "bank_transfer",
+      "type_label": "BNI Virtual Account",
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702020521/Icon-payment-BNI_ihtz9b.jpg",
+      "is_active": true,
+      "method": "bni",
+      "instraction": {
+        "desc": "app_reservation_payment_va_bni_desc",
+        "atm": {
+          "step": {
+            "1": "app_reservation_payment_va_bni_atm_step_1",
+            "2": "app_reservation_payment_va_bni_atm_step_2",
+            "3": "app_reservation_payment_va_bni_atm_step_3",
+            "4": "app_reservation_payment_va_bni_atm_step_4",
+            "5": "app_reservation_payment_va_bni_atm_step_5",
+            "6": "app_reservation_payment_va_bni_atm_step_6",
+            "7": "app_reservation_payment_va_bni_atm_step_7",
+            "8": "app_reservation_payment_va_bni_atm_step_8",
+            "9": "app_reservation_payment_va_bni_atm_step_9",
+            "10": "app_reservation_payment_va_bni_atm_step_10"
+          }
+        },
+        "m_banking": {
+          "step": {
+            "1": "app_reservation_payment_va_bni_m_banking_step_1",
+            "2": "app_reservation_payment_va_bni_m_banking_step_2",
+            "3": "app_reservation_payment_va_bni_m_banking_step_3",
+            "4": "app_reservation_payment_va_bni_m_banking_step_4",
+            "5": "app_reservation_payment_va_bni_m_banking_step_5",
+            "6": "app_reservation_payment_va_bni_m_banking_step_6",
+            "7": "app_reservation_payment_va_bni_m_banking_step_7"
+          }
+        },
+        "internet_banking": {
+          "step": {
+            "1": "app_reservation_payment_va_bni_internet_banking_step_1",
+            "2": "app_reservation_payment_va_bni_internet_banking_step_2",
+            "3": "app_reservation_payment_va_bni_internet_banking_step_3",
+            "4": "app_reservation_payment_va_bni_internet_banking_step_4",
+            "5": "app_reservation_payment_va_bni_internet_banking_step_5",
+            "6": "app_reservation_payment_va_bni_internet_banking_step_6",
+            "7": "app_reservation_payment_va_bni_internet_banking_step_7",
+            "8": "app_reservation_payment_va_bni_internet_banking_step_8"
+          }
+        }
+      }
+    }
+  ]
 }

@@ -16,14 +16,17 @@ module.exports = (sequelize, DataTypes) => {
       image_url: DataTypes.STRING,
       image_public_id: DataTypes.STRING,
       role: DataTypes.INTEGER,
-      refresh_token: DataTypes.STRING,
+      verified: DataTypes.BOOLEAN,
+      id_card_id: DataTypes.INTEGER,
       reset_password_token: DataTypes.STRING,
+      refresh_token: DataTypes.STRING,
       reset_password_token_exp: DataTypes.STRING,
     },
     {
       hooks: {
         beforeCreate: user => {
           user.password = hashPassword(user.password)
+          user.verified = false
           user.role = 2
           if (!user.image_url) {
             user.image_url = process.env.AVATAR_URL_DEFAULT
