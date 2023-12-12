@@ -5,7 +5,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { Divider } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import InputForm from '@components/InputForm';
 import Button from '@components/Button';
 import ButtonOauth from '@components/ButtonOauth';
 
@@ -13,6 +12,7 @@ import { registEmail } from '@pages/Register/actions';
 
 import encryptPayload from '@utils/encryptPayload';
 
+import InputFormBasic from '@components/InputForm/Basic';
 import classes from './style.module.scss';
 
 const StepOne = ({ loading, handleAuth, loadingOauth, intl: { formatMessage } }) => {
@@ -25,22 +25,16 @@ const StepOne = ({ loading, handleAuth, loadingOauth, intl: { formatMessage } })
   return (
     <FormProvider {...method}>
       <form action="#" onSubmit={method.handleSubmit(onSubmit)} className={classes.form}>
-        <div className={classes.wrapperInput}>
-          <div className={classes.title}>
-            <FormattedMessage id="app_login_sign_in_email_title" />
-          </div>
-          <InputForm
-            className={classes.input}
-            name="email"
-            type="text"
-            placeholder={formatMessage({ id: 'app_sign_up_email_place_holder' })}
-            errorStyle={classes.errorInput}
-            rules={{
-              required: 'Email is required',
-              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' },
-            }}
-          />
-        </div>
+        <InputFormBasic
+          title="app_login_sign_in_email_title"
+          name="email"
+          type="text"
+          placeholder={formatMessage({ id: 'app_sign_up_email_place_holder' })}
+          rules={{
+            required: 'Email is required',
+            pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' },
+          }}
+        />
         <Button
           isLoading={loading}
           type="submit"

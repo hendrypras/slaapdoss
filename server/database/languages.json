@@ -35,7 +35,7 @@
     "app_home_title_search_select": "Dimana kamu ingin tinggal?",
     "app_home_button_text_search_select": "Cari",
     "app_respose_payment_success": "Selamat orderan anda berhasil, silahkan lakukan pembayaran sebelum waktu berakhir!",
-    "app_response_payment_pay_in": "Bayar Sebelum:",
+    "app_response_payment_pay_in": "Silakan selesaikan pembayaran Anda sebelumnya",
     "app_response_payment_button_continue": "Lanjutkan",
     "app_response_payment_title_button_copy_va": "Salin!",
     "app_login_sign_in_title": "Masuk ke akun anda",
@@ -205,7 +205,19 @@
     "app_reservation_payment_va_bni_internet_banking_step_8": "Transaksi Anda selesai",
 
     "app_reservation_title_empty_payment_method": "Metode pembayaran tidak boleh kosong",
-    "app_reservation_message_empty_payment_method": "Silahkan pilih metode pembayaran terlebih dahulu"
+    "app_reservation_message_empty_payment_method": "Silahkan pilih metode pembayaran terlebih dahulu",
+
+    "app_payment_response_pending_reservation_message": "Reservasi akan diproses setelah Anda menyelesaikan pembayaran",
+
+    "app_dashboard_create_cabins_title_form_name": "Nama",
+    "app_dashboard_create_cabins_title_form_city": "Kota",
+    "app_dashboard_create_cabins_title_form_description": "Deskripsi",
+    "app_dashboard_create_cabins_title_form_address": "Alamat",
+    "app_dashboard_create_cabins_title_form_province": "Provinsi",
+    "app_dashboard_create_cabins_title_form_village": "Desa",
+    "app_dashboard_create_cabins_title_form_district": "Kecamatan",
+    "app_dashboard_create_cabins_title_form_city_name": "Nama Kota",
+    "app_dashboard_create_cabins_title_select_location": "Silahkan pilih lokasi yang sesuai"
   },
   "en": {
     "app_not_found": "Page not found",
@@ -243,7 +255,7 @@
     "app_home_title_search_select": "Where do you want to stay?",
     "app_home_button_text_search_select": "Search",
     "app_respose_payment_success": "Congratulations, your order is successful, please make payment before the end of time!",
-    "app_response_payment_pay_in": "Pay in:",
+    "app_response_payment_pay_in": "Please complete your payment before",
     "app_response_payment_button_continue": "Continue",
     "app_response_payment_title_button_copy_va": "Copy!",
     "app_login_sign_in_title": "Login to your account",
@@ -413,6 +425,18 @@
     "app_reservation_payment_va_bni_internet_banking_step_8": "Your transaction is complete",
 
     "app_reservation_title_empty_payment_method": "Payment method cannot be empty",
-    "app_reservation_message_empty_payment_method": "Please select a payment method first"
+    "app_reservation_message_empty_payment_method": "Please select a payment method first",
+
+    "app_payment_response_pending_reservation_message": "Reservation will be processed after you complete the payment",
+
+    "app_dashboard_create_cabins_title_form_name": "Name",
+    "app_dashboard_create_cabins_title_form_city": "City",
+    "app_dashboard_create_cabins_title_form_description": "Descrition",
+    "app_dashboard_create_cabins_title_form_address": "Address",
+    "app_dashboard_create_cabins_title_form_province": "Province",
+    "app_dashboard_create_cabins_title_form_village": "village",
+    "app_dashboard_create_cabins_title_form_district": "District",
+    "app_dashboard_create_cabins_title_form_city_name": "City Name",
+    "app_dashboard_create_cabins_title_select_location": "Please select the appropriate location"
   }
 }

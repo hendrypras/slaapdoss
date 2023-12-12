@@ -1,6 +1,6 @@
 import { produce } from 'immer';
 
-import { SET_LOCAL, SET_POPUP, SET_LOADING, SET_ASSETS } from '@containers/App/constants';
+import { SET_LOCAL, SET_POPUP, SET_LOADING, SET_ASSETS, GET_CURRENT_LOCATION } from '@containers/App/constants';
 
 export const initialState = {
   locale: 'id',
@@ -13,10 +13,11 @@ export const initialState = {
     ok: '',
   },
   loading: false,
+  position: { lat: 0, lng: 0 },
   assets: null,
 };
 
-export const storedKey = ['locale', 'assets'];
+export const storedKey = ['locale', 'assets', 'position'];
 
 const appReducer = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -32,6 +33,9 @@ const appReducer = (state = initialState, action) =>
         break;
       case SET_ASSETS:
         draft.assets = action.assets;
+        break;
+      case GET_CURRENT_LOCATION:
+        draft.position = action.position;
         break;
     }
   });

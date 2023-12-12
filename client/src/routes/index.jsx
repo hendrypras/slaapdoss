@@ -1,4 +1,5 @@
 import MainLayout from '@layouts/MainLayout';
+import AdminLayout from '@layouts/AdminLayout';
 
 import ForgotPassword from '@pages/ForgotPassword';
 import Home from '@pages/Home';
@@ -11,6 +12,7 @@ import CallBack from '@pages/CallBack';
 import UserProfile from '@pages/UserProfile';
 import Reservation from '@pages/Reservation';
 import DetailCabins from '@pages/DetailCabins';
+import CreateDeatilCabin from '@pages/CreateDeatilCabin';
 
 const routes = [
   {
@@ -87,6 +89,14 @@ const routes = [
     component: DetailCabins,
     adminOnly: false,
     layout: MainLayout,
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    protected: true,
+    component: CreateDeatilCabin,
+    adminOnly: true,
+    layout: AdminLayout,
   },
 
   { path: '*', name: 'Not Found', component: NotFound, layout: MainLayout, protected: false },

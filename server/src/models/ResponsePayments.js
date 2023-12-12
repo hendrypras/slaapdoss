@@ -2,7 +2,13 @@
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class ResponsePayments extends Model {
-    static associate(models) {}
+    static associate(models) {
+      ResponsePayments.belongsTo(models.Orders, {
+        foreignKey: 'order_id',
+        sourceKey: 'order_id',
+        as: 'response_payment',
+      })
+    }
   }
   ResponsePayments.init(
     {

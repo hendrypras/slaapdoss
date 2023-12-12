@@ -1184,6 +1184,7 @@ _Response (400) Validation Failed_
     "message": "Validate Joi"
 }
 ```
+
 _Response (500) Failed Upload_
 
 ```

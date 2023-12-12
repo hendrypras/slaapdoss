@@ -1,18 +1,18 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import { getResponsePaymentByOrderId } from '@domain/api';
+import { getOrders } from '@domain/api';
 
-import { setLoading, showPopup } from '@containers/App/actions';
+import { showPopup } from '@containers/App/actions';
 
-import { GET_RESPONSE_PAYMENT_BY_ORDER_ID } from '@pages/PaymentResponse/constants';
-import { setResponsePayment } from '@pages/PaymentResponse/actions';
+import { GET_ORDERS_USER } from '@pages/PaymentResponse/constants';
+import { setOrdersUser, setLoading } from '@pages/PaymentResponse/actions';
 
 function* doGetListPaymentMethod({ orderId }) {
   yield put(setLoading(true));
   try {
-    const response = yield call(getResponsePaymentByOrderId, orderId);
+    const response = yield call(getOrders, orderId);
     if (response) {
-      yield put(setResponsePayment(response?.data));
+      yield put(setOrdersUser(response?.data));
     }
   } catch (error) {
     yield put(showPopup(error.response.data.message));
@@ -22,5 +22,5 @@ function* doGetListPaymentMethod({ orderId }) {
 }
 
 export default function* paymentResponseSaga() {
-  yield takeLatest(GET_RESPONSE_PAYMENT_BY_ORDER_ID, doGetListPaymentMethod);
+  yield takeLatest(GET_ORDERS_USER, doGetListPaymentMethod);
 }

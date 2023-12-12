@@ -38,13 +38,6 @@ const validateBodyCreatePayment = reqBody => {
       'any.required': 'Price is required.',
       'number.strict': 'Price must be a strict number type.',
     }),
-    quantity: Joi.number().positive().required().strict().not(0).messages({
-      'number.base': 'Quantity must be a number.',
-      'number.positive': 'Quantity must be a positive number.',
-      'any.required': 'Quantity is required.',
-      'number.strict': 'Quantity must be a strict number type.',
-      'number.not': 'Quantity cannot be 0.',
-    }),
     stayDuration: Joi.number().positive().required().strict().not(0).messages({
       'number.base': 'Stay duration must be a number.',
       'number.positive': 'Stay duration must be a positive number.',
@@ -317,7 +310,37 @@ const validateBodyCreateCabin = reqBody => {
 
   return null
 }
-const validateBodyCreateRoom = reqBody => {
+const validateBodyCreateCabinRoom = reqBody => {
+  const schema = Joi.object({
+    cabinsSlug: Joi.string().required().messages({
+      'string.base': 'cabinsSlug must be a string.',
+      'string.empty': 'cabinsSlug is required.',
+      'any.required': 'cabinsSlug is required.',
+    }),
+    typeCabinId: Joi.number().positive().required().strict().messages({
+      'number.base': 'typeCabinId must be a number.',
+      'number.positive': 'typeCabinId must be a positive number.',
+      'any.required': 'typeCabinId is required.',
+      'number.strict': 'typeCabinId must be a strict number type.',
+    }),
+    roomNumber: Joi.string().required().messages({
+      'string.base': 'roomNumber must be a string.',
+      'string.empty': 'roomNumber is required.',
+      'any.required': 'roomNumber is required.',
+    }),
+  })
+
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  })
+
+  if (error) {
+    return error.details.map(err => err.message).join(', ')
+  }
+
+  return null
+}
+const validateBodyCreateTypeCabin = reqBody => {
   const schema = Joi.object({
     name: Joi.string().required().messages({
       'string.base': 'Name must be a string.',
@@ -346,17 +369,13 @@ const validateBodyCreateRoom = reqBody => {
       'number.positive': 'price must be a positive number.',
       'any.required': 'price is required.',
     }),
-    type_cabin: Joi.number().integer().positive().required().messages({
-      'number.base': 'type_cabin must be a number.',
-      'number.integer': 'type_cabin must be an integer.',
-      'number.positive': 'type_cabin must be a positive number.',
-      'any.required': 'type_cabin is required.',
+    capacity: Joi.string().required().messages({
+      'string.base': 'capacity must be a string.',
+      'string.empty': 'capacity is required.',
+      'any.required': 'capacity is required.',
     }),
-    quantity: Joi.number().integer().positive().required().messages({
-      'number.base': 'Quantity must be a number.',
-      'number.integer': 'Quantity must be an integer.',
-      'number.positive': 'Quantity must be a positive number.',
-      'any.required': 'Quantity is required.',
+    breakfast: Joi.boolean().optional().messages({
+      'string.base': 'Breakfast must be a boolean.',
     }),
   })
 
@@ -482,7 +501,8 @@ const validateBodyCreateIdCard = result => {
 }
 
 module.exports = {
-  validateBodyCreateRoom,
+  validateBodyCreateCabinRoom,
+  validateBodyCreateTypeCabin,
   validateBodyGenerateOtpToEmail,
   validateBodyVerifyOtp,
   validateBodyRegister,

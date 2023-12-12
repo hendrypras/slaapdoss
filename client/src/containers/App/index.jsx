@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useLocation } from 'react-router-dom';
 
-import { getAssets, getTranslations, hidePopup } from '@containers/App/actions';
+import { getAssets, getCurrentLocation, getTranslations, hidePopup, showPopup } from '@containers/App/actions';
 import { selectPopup, selectLoading } from '@containers/App/selectors';
 import { selectLogin, selectToken } from '@containers/Client/selectors';
 import { setLogout } from '@containers/Client/actions';
@@ -32,6 +32,18 @@ const App = ({ popup, loading, login, token, userProfile }) => {
   useEffect(() => {
     dispatch(getAssets());
     dispatch(getTranslations());
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          dispatch(getCurrentLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }));
+        },
+        (error) => {
+          dispatch(showPopup('Error getting the location', error?.message));
+        }
+      );
+    } else {
+      dispatch(showPopup('Geolocation not support in this browser'));
+    }
   }, [dispatch]);
 
   useEffect(() => {

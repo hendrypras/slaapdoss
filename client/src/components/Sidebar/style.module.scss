@@ -1,0 +1,97 @@
+@import '@styles/base';
+
+.wrapper {
+  height: 100%;
+  width: 100%;
+  .aside {
+    width: 15%;
+    height: 100vh;
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    padding: 0 1rem;
+    @include shadow;
+    .wrapperLogo {
+      padding: 2rem 0;
+      @include displayFlex(column, center, center);
+      width: 100%;
+      gap: 0.2rem;
+      cursor: pointer;
+      align-items: center;
+      background: none;
+      border: none;
+      .logo {
+        width: 1.8rem;
+        height: 1.8rem;
+      }
+      .logoTitle {
+        font-size: 1.3rem;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        color: $color-green-100;
+      }
+    }
+    .links {
+      width: 100%;
+      @include displayFlex(column, center, start);
+      gap: 1rem;
+      list-style: none;
+      margin-top: 4rem;
+      .link {
+        width: 100%;
+        a {
+          text-decoration: none;
+          background-color: #ffffff;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          display: block;
+          border-radius: 0.5rem;
+          font-size: 1.1rem;
+          color: $color-black-100;
+          padding: 1rem;
+          font-weight: 600;
+          &:hover {
+            background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+          }
+        }
+      }
+    }
+    .wrapperFooter {
+      @include displayFlex(row, space-between, center);
+      width: 100%;
+      margin-top: 3rem;
+      .btnAvatar {
+        @include displayFlex(row, start, center);
+        width: max-content;
+        border: none;
+        background-color: transparent;
+        gap: 0.5rem;
+        cursor: pointer;
+        .username {
+          font-size: 1.2rem;
+          font-weight: 500;
+        }
+      }
+      .logout {
+        width: max-content;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+      }
+    }
+  }
+  .wrapperBtnLang {
+    width: 100%;
+    @include displayFlex(row, end, center);
+    padding: 1rem 3rem;
+    position: sticky;
+    top: 0;
+    right: 0;
+  }
+  .main {
+    width: 100%;
+    padding-left: 17%;
+    min-height: 150vh;
+    overflow-y: scroll;
+  }
+}

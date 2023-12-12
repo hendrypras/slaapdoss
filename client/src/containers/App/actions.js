@@ -1,4 +1,12 @@
-import { SET_LOCAL, SET_POPUP, SET_LOADING, GET_ASSETS, SET_ASSETS, GET_TRANSLATIONS } from '@containers/App/constants';
+import {
+  SET_LOCAL,
+  SET_POPUP,
+  SET_LOADING,
+  GET_ASSETS,
+  SET_ASSETS,
+  GET_TRANSLATIONS,
+  GET_CURRENT_LOCATION,
+} from '@containers/App/constants';
 
 export const setLocale = (locale) => ({
   type: SET_LOCAL,
@@ -35,9 +43,16 @@ export const setAssets = (assets) => ({
   type: SET_ASSETS,
   assets,
 });
+
 export const getAssets = () => ({
   type: GET_ASSETS,
 });
+
 export const getTranslations = () => ({
   type: GET_TRANSLATIONS,
+});
+
+export const getCurrentLocation = (position) => ({
+  type: GET_CURRENT_LOCATION,
+  position,
 });

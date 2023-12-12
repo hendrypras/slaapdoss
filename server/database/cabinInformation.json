@@ -67,10 +67,22 @@
       "Children must be under parents supervision all the time during the stay at cabin"
     ],
     "other_policies": [
-      "Pets are not allowed.",
-      "Breakfast is not provided. You can order separately or pay room with add-ons during booking.",
-      "Smoking inside room is not allowed. Smoking is allowed in the outdoor area.",
-      "Alcohol is not allowed."
+      {
+        "title": "Pets",
+        "value": "Pets are not allowed."
+      },
+      {
+        "title": "Breakfast",
+        "value": "Breakfast is not provided. You can order separately or pay room with add-ons during booking."
+      },
+      {
+        "title": "Smoking",
+        "value": "Smoking inside room is not allowed. Smoking is allowed in the outdoor area."
+      },
+      {
+        "title": "Alcohol",
+        "value": "Alcohol is not allowed."
+      }
     ]
   },
   "preperation": [

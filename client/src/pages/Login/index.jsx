@@ -12,9 +12,9 @@ import { selectLogin, selectLoading } from '@containers/Client/selectors';
 import { oAuthGoogle, userLogin } from '@containers/Client/actions';
 
 import WrapperAuthentication from '@components/WrapperAuthentication';
-import InputForm from '@components/InputForm';
 import Button from '@components/Button';
 import ButtonOauth from '@components/ButtonOauth';
+import InputFormBasic from '@components/InputForm/Basic';
 
 import encryptPayload from '@utils/encryptPayload';
 
@@ -48,38 +48,27 @@ const Login = ({ login, loading }) => {
     <WrapperAuthentication title="app_login_sign_in_title" isBackBtn>
       <FormProvider {...method}>
         <form action="#" onSubmit={method.handleSubmit(onSubmit)} className={classes.form}>
-          <div className={classes.wrapperInput}>
-            <div className={classes.title}>
-              <FormattedMessage id="app_login_sign_in_email_title" />
-            </div>
-            <InputForm
-              className={classes.input}
-              name="email"
-              type="text"
-              placeholder="Enter your email"
-              errorStyle={classes.errorInput}
-              rules={{
-                required: 'Email is required',
-                pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' },
-              }}
-            />
-          </div>
-
-          <div className={classes.wrapperInput}>
-            <div className={classes.title}>
-              <FormattedMessage id="app_login_sign_in_password_title" />
-            </div>
-            <InputForm
-              errorStyle={classes.errorInput}
-              className={classes.input}
-              name="password"
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Enter your password"
-              rules={{
-                required: 'Password is required',
-                minLength: { value: 6, message: 'Password must be at least 6 characters' },
-              }}
-            />
+          <InputFormBasic
+            title="app_login_sign_in_email_title"
+            name="email"
+            type="text"
+            placeholder="Enter your email"
+            rules={{
+              required: 'Email is required',
+              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' },
+            }}
+          />
+          <InputFormBasic
+            title="app_login_sign_in_password_title"
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Enter your password"
+            classWrapper={classes.wrapperInput}
+            rules={{
+              required: 'Password is required',
+              // minLength: { value: 6, message: 'Password must be at least 6 characters' },
+            }}
+          >
             <button
               onClick={() => setShowPassword(!showPassword)}
               type="button"
@@ -88,7 +77,8 @@ const Login = ({ login, loading }) => {
             >
               {showPassword ? <Visibility /> : <VisibilityOff />}
             </button>
-          </div>
+          </InputFormBasic>
+
           <div className={classes.wrapperForgot}>
             <Link className={classes.forgot} to="/forgot-password">
               <FormattedMessage id="app_login_sign_in_forgot_password_text" />

@@ -36,7 +36,7 @@ export default {
   app_home_title_search_select: 'Dimana kamu ingin tinggal?',
   app_home_button_text_search_select: 'Cari',
   app_respose_payment_success: 'Selamat orderan anda berhasil, silahkan lakukan pembayaran sebelum waktu berakhir!',
-  app_response_payment_pay_in: 'Bayar Sebelum:',
+  app_response_payment_pay_in: 'Silakan selesaikan pembayaran Anda sebelumnya',
   app_response_payment_button_continue: 'Lanjutkan',
   app_response_payment_title_button_copy_va: 'Salin!',
   app_login_sign_in_title: 'Masuk ke akun anda',
@@ -227,4 +227,16 @@ export default {
 
   app_reservation_title_empty_payment_method: 'Metode pembayaran tidak boleh kosong',
   app_reservation_message_empty_payment_method: 'Silahkan pilih metode pembayaran terlebih dahulu',
+
+  app_payment_response_pending_reservation_message: 'Reservasi akan diproses setelah Anda menyelesaikan pembayaran',
+
+  app_dashboard_create_cabins_title_form_name: 'Nama',
+  app_dashboard_create_cabins_title_form_city: 'Kota',
+  app_dashboard_create_cabins_title_form_description: 'Deskripsi',
+  app_dashboard_create_cabins_title_form_address: 'Alamat',
+  app_dashboard_create_cabins_title_form_province: 'Provinsi',
+  app_dashboard_create_cabins_title_form_village: 'Desa',
+  app_dashboard_create_cabins_title_form_district: 'Kecamatan',
+  app_dashboard_create_cabins_title_form_city_name: 'Nama Kota',
+  app_dashboard_create_cabins_title_select_location: 'Silahkan pilih lokasi yang sesuai',
 };

@@ -1,10 +1,10 @@
 import { produce } from 'immer';
 
-import { SET_RESPONSE_PAYMENT, SET_LOADING } from '@pages/PaymentResponse/constants';
+import { SET_LOADING, SET_ORDERS_USER } from '@pages/PaymentResponse/constants';
 
 export const initialState = {
   loading: false,
-  responsePayment: {},
+  orders: {},
 };
 
 const paymentResponseReducer = (state = initialState, action) =>
@@ -13,8 +13,8 @@ const paymentResponseReducer = (state = initialState, action) =>
       case SET_LOADING:
         draft.loading = action.data;
         break;
-      case SET_RESPONSE_PAYMENT:
-        draft.responsePayment = action.data;
+      case SET_ORDERS_USER:
+        draft.orders = action.orders;
         break;
     }
   });
