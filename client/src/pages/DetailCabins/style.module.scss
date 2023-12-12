@@ -1,1 +1,145 @@
 @import '@styles/base';
+.container {
+  background-color: $color-green-400;
+  .wrapperImg {
+    width: 100%;
+    height: 100%;
+    background-color: $color-white;
+    .mainImg {
+      width: 100%;
+      height: 40vh;
+    }
+    .wrapperTextContent {
+      padding: 0.8rem 1rem;
+      width: 100%;
+      overflow: hidden;
+      .subHead {
+        margin-top: 0.2rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+  .wrapperFasilities {
+    background-color: $color-white;
+    padding: 1rem;
+    height: max-content;
+    margin-top: 0.3rem;
+    width: 100%;
+    .title {
+      font-size: 1rem;
+    }
+    .wrapperContent {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: start;
+      justify-items: center;
+      width: 100%;
+      gap: 1.2rem;
+      margin-top: 1rem;
+      .content {
+        @include displayFlex(row, start, center);
+        gap: 0.5rem;
+        width: 100%;
+        .icon {
+          width: 15%;
+        }
+        .titleContent {
+          font-size: 0.9rem;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  .wrapperLocationDetails {
+    background-color: $color-white;
+    padding: 1rem;
+    height: max-content;
+    margin-top: 0.3rem;
+    width: 100%;
+    .title {
+      font-size: 1rem;
+    }
+    .maps {
+      border-radius: 1rem;
+      margin-top: 1.5rem;
+    }
+    .titleAddress {
+      font-size: 0.85rem;
+      margin-top: 0.8rem;
+    }
+    .subTitle {
+      margin-top: 0.2rem;
+      font-size: 0.8rem;
+    }
+  }
+  .wrapperCtnExp {
+    background-color: $color-white;
+    padding: 1rem;
+    height: max-content;
+    margin-top: 0.3rem;
+    width: 100%;
+    .title {
+      font-size: 1rem;
+    }
+    .contentTitle {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-top: 1rem;
+      color: $color-gray-300;
+    }
+    .wrapperContent {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-items: start;
+      justify-items: start;
+      width: 100%;
+      gap: 1rem;
+      margin-top: 1rem;
+      .content {
+        @include displayFlex(row, start, start);
+        gap: 0.2rem;
+        .icon {
+          font-size: 1.3rem;
+          color: $color-green-100;
+          margin-top: 0.1rem;
+        }
+        .title {
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  .wrapperAccpolicy {
+    width: 100%;
+    margin-top: 0.5rem;
+    background-color: $color-white;
+    height: max-content;
+    padding: 1rem;
+    .title {
+      font-size: 1rem;
+    }
+    .wrapperContent {
+      background-color: $color-green-400;
+      border-radius: 1rem;
+      padding: 2rem;
+      margin-top: 1rem;
+      @include displayFlex(column, start, start);
+      gap: 1.3rem;
+      .wrapperTextContent {
+        @include displayFlex(column, start, start);
+        gap: 0.8rem;
+        .headTitle {
+          font-size: 1.02rem;
+          width: 100%;
+        }
+        .wrapperTextValue {
+          @include displayFlex(column, start, start);
+          .title {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+}

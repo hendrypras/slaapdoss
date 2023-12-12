@@ -159,7 +159,7 @@ const Home = ({ assets }) => {
           ))}
         </div>
       </section>
-      <Maps lat={-6.23827} lng={106.975571} draggable />
+      <Maps />
     </>
   );
 };

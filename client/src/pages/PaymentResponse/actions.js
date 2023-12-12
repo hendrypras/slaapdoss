@@ -1,12 +1,12 @@
-import { GET_RESPONSE_PAYMENT_BY_ORDER_ID, SET_LOADING, SET_RESPONSE_PAYMENT } from '@pages/PaymentResponse/constants';
+import { GET_ORDERS_USER, SET_LOADING, SET_ORDERS_USER } from '@pages/PaymentResponse/constants';
 
-export const getResponsePaymentById = (orderId) => ({
-  type: GET_RESPONSE_PAYMENT_BY_ORDER_ID,
+export const getOrdersUser = (orderId) => ({
+  type: GET_ORDERS_USER,
   orderId,
 });
-export const setResponsePayment = (data) => ({
-  type: SET_RESPONSE_PAYMENT,
-  data,
+export const setOrdersUser = (orders) => ({
+  type: SET_ORDERS_USER,
+  orders,
 });
 export const setLoading = (data) => ({
   type: SET_LOADING,

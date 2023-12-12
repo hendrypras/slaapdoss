@@ -1,24 +1,42 @@
 'use strict'
 const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
-  class CabinRoom extends Model {
-    static associate(models) {}
+  class CabinRooms extends Model {
+    static associate(models) {
+      CabinRooms.hasMany(models.Orders, {
+        as: 'room',
+        foreignKey: {
+          name: 'cabin_room_id',
+        },
+      })
+      CabinRooms.belongsTo(models.TypeCabin, {
+        as: 'type_cabin',
+        foreignKey: {
+          name: 'type_cabin_id',
+        },
+      })
+      CabinRooms.belongsTo(models.Cabins, {
+        foreignKey: 'cabins_slug',
+        sourceKey: 'slug',
+        as: 'cabins_rooms',
+      })
+      CabinRooms.hasMany(models.RoomDateReservations, {
+        foreignKey: 'cabin_room_id',
+        as: 'reservation_date',
+      })
+    }
   }
-  CabinRoom.init(
+  CabinRooms.init(
     {
-      name: DataTypes.STRING,
-      image_url: DataTypes.STRING,
-      image_public_id: DataTypes.STRING,
-      price: DataTypes.INTEGER,
-      type_cabin: DataTypes.INTEGER,
-      information: DataTypes.STRING,
-      quantity: DataTypes.INTEGER,
+      cabins_slug: DataTypes.STRING,
+      room_number: DataTypes.STRING,
+      type_cabin_id: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: 'CabinRoom',
+      modelName: 'CabinRooms',
       tableName: 'cabin_rooms',
     }
   )
-  return CabinRoom
+  return CabinRooms
 }

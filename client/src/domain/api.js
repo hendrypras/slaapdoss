@@ -8,6 +8,8 @@ const urls = {
   payment: 'payment',
   user: 'user',
   cabins: 'cabins',
+  cabin: 'cabin',
+  orders: 'orders',
 };
 export const callAPI = async (endpoint, method, header, params, data, withCredentials) => {
   const defaultHeader = {
@@ -64,7 +66,13 @@ export const updateUserProfile = (data) =>
 // Payment
 export const requestPayment = (data) => callAPI(urls.payment, 'POST', {}, {}, data);
 export const getPaymentMethods = () => callAPI(`${urls.payment}/methods`, 'GET');
-export const getResponsePaymentByOrderId = (orderId) => callAPI(`${urls.payment}/response/${orderId}`, 'GET');
+export const getOrders = (orderId) => {
+  let url = `${urls.orders}`;
+  if (orderId) {
+    url += `?orderId=${orderId}`;
+  }
+  return callAPI(url, 'GET');
+};
 
 // cabin
 export const getDetailCabins = (data) => {
@@ -76,3 +84,5 @@ export const getDetailCabins = (data) => {
   }
   return callAPI(url, 'GET');
 };
+export const createCabin = (formData) =>
+  callAPI(`${urls.cabin}`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);

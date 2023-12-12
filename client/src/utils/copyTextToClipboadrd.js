@@ -9,9 +9,7 @@ const copyTextToClipboadrd = (text, messageSuccess, messageFail) => {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    console.log(messageSuccess);
   } else {
-    console.log(messageFail);
   }
 };
 

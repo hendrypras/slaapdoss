@@ -25,10 +25,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
-      quantity: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
       stay_duration: {
         allowNull: false,
         type: Sequelize.INTEGER,

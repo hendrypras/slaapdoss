@@ -35,6 +35,7 @@ module.exports = {
       slug: {
         allowNull: false,
         type: Sequelize.STRING,
+        unique: true,
       },
       province: {
         allowNull: false,

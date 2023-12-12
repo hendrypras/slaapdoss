@@ -36,7 +36,7 @@ export default {
   app_home_title_search_select: 'Where do you want to stay?',
   app_home_button_text_search_select: 'Search',
   app_respose_payment_success: 'Congratulations, your order is successful, please make payment before the end of time!',
-  app_response_payment_pay_in: 'Pay in:',
+  app_response_payment_pay_in: 'Please complete your payment before',
   app_response_payment_button_continue: 'Continue',
   app_response_payment_title_button_copy_va: 'Copy!',
   app_login_sign_in_title: 'Login to your account',
@@ -228,4 +228,16 @@ export default {
 
   app_reservation_title_empty_payment_method: 'Payment method cannot be empty',
   app_reservation_message_empty_payment_method: 'Please select a payment method first',
+
+  app_payment_response_pending_reservation_message: 'Reservation will be processed after you complete the payment',
+
+  app_dashboard_create_cabins_title_form_name: 'Name',
+  app_dashboard_create_cabins_title_form_city: 'City',
+  app_dashboard_create_cabins_title_form_description: 'Descrition',
+  app_dashboard_create_cabins_title_form_address: 'Address',
+  app_dashboard_create_cabins_title_form_province: 'Province',
+  app_dashboard_create_cabins_title_form_village: 'village',
+  app_dashboard_create_cabins_title_form_district: 'District',
+  app_dashboard_create_cabins_title_form_city_name: 'City Name',
+  app_dashboard_create_cabins_title_select_location: 'Please select the appropriate location',
 };

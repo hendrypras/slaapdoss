@@ -5,3 +5,4 @@ export const SET_LOADING = 'App/SET_LOADING';
 export const GET_ASSETS = 'App/GET_ASSETS';
 export const GET_TRANSLATIONS = 'App/GET_TRANSLATIONS';
 export const SET_ASSETS = 'App/SET_ASSETS';
+export const GET_CURRENT_LOCATION = 'App/GET_CURRENT_LOCATION';

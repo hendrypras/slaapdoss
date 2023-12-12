@@ -2,28 +2,22 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('cabin_rooms', {
+    await queryInterface.createTable('room_date_reservations', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      cabins_slug: {
-        allowNull: false,
-        type: Sequelize.STRING,
+      start_reservation: {
+        allowNull: true,
+        type: Sequelize.DATE,
       },
-      room_number: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        indexes: [
-          {
-            fields: ['room_number'],
-            name: 'room_number_index',
-          },
-        ],
+      end_reservation: {
+        allowNull: true,
+        type: Sequelize.DATE,
       },
-      type_cabin_id: {
+      cabin_room_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
@@ -38,6 +32,6 @@ module.exports = {
     })
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('cabin_rooms')
+    await queryInterface.dropTable('room_date_reservations')
   },
 }
