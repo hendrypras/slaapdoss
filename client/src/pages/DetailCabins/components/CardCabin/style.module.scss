@@ -1,0 +1,101 @@
+@import '@styles/base';
+.card {
+  border-radius: 1rem;
+  background-color: $color-white;
+  @include shadow;
+  padding: 1.5rem;
+  width: 100%;
+  @include screen(lg) {
+    @include displayFlex(row, center, center);
+    overflow: hidden;
+    gap: 1rem;
+  }
+  .cardTop {
+    @include displayFlex(column, start, start);
+    @include screen(lg) {
+      width: 50%;
+    }
+    .titleCard {
+      text-transform: capitalize;
+      @include screen(lg) {
+        font-size: 1.5rem;
+      }
+    }
+    .img {
+      width: 100%;
+      border-radius: 0.8rem;
+      margin-top: 1rem;
+    }
+    .btnDetail {
+      background-color: transparent;
+      color: $color-green-100;
+      border: 1.5px solid $color-green-100;
+      font-size: 0.95rem;
+      padding: 0.6rem;
+      margin-top: 0.8rem;
+      border-radius: 0.5rem;
+    }
+  }
+  .wrapperCenter {
+    @include screen(lg) {
+      width: 100%;
+      height: auto !important;
+      @include displayFlex(row, space-between, center);
+      padding: 0 2rem;
+    }
+    .wrapperFacilities {
+      @include displayFlex(column, start, center);
+      gap: 0.5rem;
+      width: 100%;
+      margin-top: 1rem;
+      @include screen(lg) {
+        @include displayFlex(column, center, center);
+        height: 100%;
+      }
+      .content {
+        @include displayFlex(row, start, center);
+        gap: 0.5rem;
+        width: 100%;
+        &.info {
+          color: $color-gray-100;
+        }
+        .icon {
+          width: 10%;
+          @include screen(lg) {
+            width: 8%;
+          }
+          &.facility {
+            width: 8%;
+          }
+        }
+        .titleContent {
+          font-size: 1rem;
+          font-weight: 600;
+          @include screen(lg) {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+    .cardFooter {
+      margin-top: 1rem;
+      @include screen(lg) {
+        margin-top: 0;
+      }
+      .price {
+        font-size: 1.5rem;
+        font-weight: 700;
+      }
+      .information {
+        font-size: 0.9rem;
+        text-transform: capitalize;
+        font-weight: 600;
+      }
+      .btnSelect {
+        margin-top: 1rem;
+        border-radius: 0.5rem;
+        padding: 0.8rem;
+      }
+    }
+  }
+}

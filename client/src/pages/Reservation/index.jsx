@@ -2,7 +2,7 @@ import { connect, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
 import { TrendingFlatOutlined, LocationOn, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
@@ -19,19 +19,35 @@ import { selectUserData, selectUserProfile } from '@pages/UserProfile/selectors'
 import { getDataCrutialUser } from '@pages/UserProfile/actions';
 import { selectMethod } from '@pages/Reservation/selectors';
 import { createPayment, selectPaymentMethod } from '@pages/Reservation/actions';
+import { selectDetailRoomCabin } from '@pages/DetailCabins/selectors';
 
 import formatCurrency from '@utils/formatCurrency';
 import encryptPayload from '@utils/encryptPayload';
 
+import { getDetailRoomCabin } from '@pages/DetailCabins/actions';
+import moment from 'moment';
+import formateDate from '@utils/formateDate';
 import classes from './style.module.scss';
 
-const Reservation = ({ assets, dataUser, userProfile, method, loading }) => {
+const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoomCabin }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { slugCabin, roomId } = useParams();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const dateStart = queryParams.get('dateStart');
+  const dateEnd = queryParams.get('dateEnd');
+  const stayDuration = queryParams.get('duration');
+  const unixDateStart = moment(`${dateStart} 14:00:00`).valueOf();
+  const unixDateEnd = moment(`${dateEnd} 12:00:00`).valueOf();
 
   useEffect(() => {
+    if (slugCabin && roomId && dateStart && dateEnd) {
+      dispatch(getDetailRoomCabin(slugCabin, roomId));
+    }
     dispatch(getDataCrutialUser());
-  }, [dispatch]);
+  }, [dispatch, slugCabin, roomId, dateStart, dateEnd]);
   const handleSubmitPayment = (e) => {
     e.preventDefault();
     if (!method) {
@@ -51,12 +67,11 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading }) => {
         {
           paymentType: method?.paymentType,
           bank: method?.bank,
-          cabinRoomId: 1,
-          startReservation: encryptPayload('2023-12-11 20:54:38'),
-          endReservation: encryptPayload('2023-12-11 20:54:38'),
-          stayDuration: encryptPayload('1'),
-          price: encryptPayload('20000'),
-          quantity: 1,
+          cabinRoomId: roomId,
+          startReservation: parseInt(unixDateStart, 10),
+          endReservation: parseInt(unixDateEnd, 10),
+          stayDuration: encryptPayload(stayDuration),
+          price: encryptPayload(detailRoomCabin?.price?.toString()),
         },
         (orderId) => {
           navigate(`/payment/pending/${orderId}`);
@@ -81,47 +96,46 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading }) => {
             </div>
             <div className={classes.cabinAddress}>
               <LocationOn className={classes.icon} />
-              Bobopod Alun-Alun, Bandung Jl. Kepatihan No.8, Balonggede, Kec. Regol, Kota Bandung, West Java 40251,
-              Indonesia
+              {detailRoomCabin?.address}
             </div>
             <div className={classes.listDetail}>
               <div className={classes.list}>
                 <div className={classes.title}>
                   <FormattedMessage id="app_reservation_checkin_title" />
                 </div>
-                <div className={classes.value}>08 desc 2023</div>
-                <div className={classes.time}>{assets?.check_in_procedure?.check_in}</div>
+                <div className={classes.value}>{formateDate(dateStart, 'DD MMM YYYY')}</div>
+                <div className={classes.time}>14:00</div>
               </div>
               <div className={classes.list}>
                 <div className={classes.title}>
                   <FormattedMessage id="app_reservation_checkout_title" />
                 </div>
-                <div className={classes.value}>08 desc 2023</div>
-                <div className={classes.time}>{assets?.check_in_procedure?.check_out}</div>
+                <div className={classes.value}>{formateDate(dateEnd, 'DD MMM YYYY')}</div>
+                <div className={classes.time}>12:00</div>
               </div>
               <div className={classes.list}>
                 <div className={classes.title}>
                   <FormattedMessage id="app_reservation_stay_duration_title" />
                 </div>
-                <div className={classes.value}>1 Night</div>
+                <div className={classes.value}>{stayDuration} Night</div>
               </div>
               <div className={classes.list}>
                 <div className={classes.title}>
                   <FormattedMessage id="app_reservation_cabin_type_title" />
                 </div>
-                <div className={classes.value}>Deluxe</div>
+                <div className={classes.value}>{detailRoomCabin?.typeCabin}</div>
               </div>
               <div className={classes.list}>
                 <div className={classes.title}>
-                  <FormattedMessage id="app_reservation_cabin_total_title" />
+                  <FormattedMessage id="app_reservation_room_number_title" />
                 </div>
-                <div className={classes.value}>1 Cabin</div>
+                <div className={classes.value}>{detailRoomCabin?.roomNumber}</div>
               </div>
               <div className={classes.list}>
                 <div className={classes.title}>
                   <FormattedMessage id="app_reservation_room_capacity_title" />
                 </div>
-                <div className={classes.value}>1 Adult, 0 Children</div>
+                <div className={classes.value}>{detailRoomCabin?.capacity}</div>
               </div>
             </div>
           </div>
@@ -284,8 +298,8 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading }) => {
             </div>
             <div className={classes.wrapperPriceList}>
               <div className={classes.list}>
-                <div className={classNames(classes.title, classes.value)}>1 Standard Cabin</div>
-                <div className={classNames(classes.value, classes.cabin)}>{formatCurrency(466333)}</div>
+                <div className={classNames(classes.title, classes.value)}>{detailRoomCabin?.typeCabin}</div>
+                <div className={classNames(classes.value, classes.cabin)}>{formatCurrency(detailRoomCabin?.price)}</div>
               </div>
               <div className={classes.list}>
                 <div className={classNames(classes.title)}>
@@ -297,7 +311,7 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading }) => {
               </div>
               <div className={classes.list}>
                 <div className={classNames(classes.title, classes.total)}>TOTAL</div>
-                <div className={classNames(classes.value, classes.total)}>{formatCurrency(466333)}</div>
+                <div className={classNames(classes.value, classes.total)}>{formatCurrency(detailRoomCabin?.price)}</div>
               </div>
             </div>
             <Button
@@ -320,6 +334,7 @@ const mapStateToProps = createStructuredSelector({
   dataUser: selectUserData,
   userProfile: selectUserProfile,
   loading: selectLoading,
+  detailRoomCabin: selectDetailRoomCabin,
 });
 
 Reservation.propTypes = {
@@ -328,6 +343,7 @@ Reservation.propTypes = {
   method: PropTypes.object,
   userProfile: PropTypes.object,
   loading: PropTypes.bool,
+  detailRoomCabin: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(Reservation);

@@ -102,7 +102,7 @@ export default {
   app_reservation_checkout_title: 'Periksa',
   app_reservation_stay_duration_title: 'Durasi Tinggal',
   app_reservation_cabin_type_title: 'Tipe Cabin',
-  app_reservation_cabin_total_title: 'Total Cabin',
+  app_reservation_room_number_title: 'Nomor Ruangan',
   app_reservation_room_capacity_title: 'Kapasitas Ruangan',
   app_reservation_contact_detail_head_title: 'Detail Kontak',
   app_reservation_price_detail_head_title: 'Detail Harga',

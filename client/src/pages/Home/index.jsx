@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { useState } from 'react';
-import { connect } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { connect, useDispatch } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FormattedMessage } from 'react-intl';
 import { Autoplay, Pagination } from 'swiper/modules';
+import { useNavigate } from 'react-router-dom';
 import { selectAssets } from '@containers/App/selectors';
-import moment from 'moment';
 import { DateRange, Schedule as ScheduleIcon, LocationOn as LocationOnIcon } from '@mui/icons-material';
 
 import Container from '@components/Container';
@@ -14,34 +14,47 @@ import HeadTitle from '@components/HeadTitle';
 import SubHeadTitle from '@components/SubHeadTitle';
 import SearchSelect from '@components/SearchSelect';
 import DrawerMobile from '@components/DrawerMobile';
+import Button from '@components/Button';
 import Maps from '@components/Maps';
+
+import { selectSearchValue } from '@pages/Home/selectors';
+import { getCabinsLocation } from '@pages/DetailCabins/actions';
+import ContentDrawerLocation from '@pages/Home/components/ContentDrawerLocation';
+import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import Button from '@components/Button';
 import classes from './style.module.scss';
+import ContentDrawerCheckin from './components/ContentDrawerCheckin';
 
-const Home = ({ assets }) => {
+const Home = ({ assets, searchValue, cabinsLocation }) => {
+  const navigate = useNavigate();
   const [openDrawer, setOpenDrawer] = useState({
     location: false,
     duration: false,
+    checkIn: false,
   });
-  const [valueSelect, setValueSelect] = useState({
-    location: '',
-    checkIn: moment().format('ddd, D MMMM YYYY'),
-    duration: '',
-    checkOut: '',
-  });
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getCabinsLocation());
+  }, [dispatch]);
   const handleOpenDrawerSearchSelect = (selectName) => {
-    if (selectName === 'duration' && !valueSelect.location) {
+    if (selectName === 'duration' && !searchValue.location.value) {
       return;
     }
     setOpenDrawer((prevState) => ({
       ...prevState,
       [selectName]: !prevState[selectName],
     }));
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(
+      `/cabins/${searchValue.location.value}?dateStart=${searchValue.checkIn.value}&dateEnd=${searchValue.checkOut.value}&duration=${searchValue.duration.value}`
+    );
   };
   return (
     <>
@@ -82,28 +95,42 @@ const Home = ({ assets }) => {
             <form className={classes.form}>
               <div className={classes.selectWrapper}>
                 <SearchSelect
-                  value={valueSelect.location}
+                  value={searchValue.location.display}
                   title="app_home_title_location_search_selelct"
                   placeHolder="app_home_title_placeholder_location_search_selelct"
                   icon={LocationOnIcon}
                   handleClick={() => handleOpenDrawerSearchSelect('location')}
                 />
                 <DrawerMobile
-                  height="80vh"
+                  height="60vh"
                   open={openDrawer.location}
                   onClose={() => handleOpenDrawerSearchSelect('location')}
                 >
-                  <div>location</div>
+                  <ContentDrawerLocation
+                    onClose={() => handleOpenDrawerSearchSelect('location')}
+                    searchValue={searchValue}
+                    cabinsLocation={cabinsLocation}
+                  />
                 </DrawerMobile>
                 <SearchSelect
-                  value={valueSelect.checkIn}
+                  value={searchValue.checkIn.display}
                   title="app_home_title_checkin_search_selelct"
                   placeHolder="app_home_title_placeholder_checkin_search_selelct"
                   icon={DateRange}
-                  disabled
+                  handleClick={() => handleOpenDrawerSearchSelect('checkIn')}
                 />
+                <DrawerMobile
+                  height="50vh"
+                  open={openDrawer.checkIn}
+                  onClose={() => handleOpenDrawerSearchSelect('checkIn')}
+                >
+                  <ContentDrawerCheckin
+                    searchValue={searchValue}
+                    onClose={() => handleOpenDrawerSearchSelect('checkIn')}
+                  />
+                </DrawerMobile>
                 <SearchSelect
-                  value={valueSelect.duration}
+                  value={searchValue.duration.display}
                   title="app_home_title_duration_search_selelct"
                   placeHolder="app_home_title_placeholder_duration_search_selelct"
                   icon={ScheduleIcon}
@@ -114,17 +141,22 @@ const Home = ({ assets }) => {
                   open={openDrawer.duration}
                   onClose={() => handleOpenDrawerSearchSelect('duration')}
                 >
-                  <div>durasi</div>
+                  <ContentDrawerCheckin />
                 </DrawerMobile>
                 <SearchSelect
-                  value={valueSelect.checkOut}
+                  value={searchValue.checkOut.display}
                   title="app_home_title_checkout_search_selelct"
                   placeHolder="app_home_title_placeholder_checkout_search_selelct"
                   icon={DateRange}
                   disabled
                 />
               </div>
-              <Button className={classes.buttonSearch} text="app_home_button_text_search_select" />
+              <Button
+                onClick={handleSearch}
+                disabled={!searchValue.location.value}
+                className={classes.buttonSearch}
+                text="app_home_button_text_search_select"
+              />
             </form>
           </div>
         </>
@@ -166,10 +198,14 @@ const Home = ({ assets }) => {
 
 const mapStateToProps = createStructuredSelector({
   assets: selectAssets,
+  searchValue: selectSearchValue,
+  cabinsLocation: selectCabinsLocation,
 });
 
 Home.propTypes = {
   assets: PropTypes.object,
+  searchValue: PropTypes.object,
+  cabinsLocation: PropTypes.array,
 };
 
 export default connect(mapStateToProps)(Home);

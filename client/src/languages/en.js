@@ -103,7 +103,7 @@ export default {
   app_reservation_checkout_title: 'Check-out',
   app_reservation_stay_duration_title: 'Stay Duration',
   app_reservation_cabin_type_title: 'Cabin Type',
-  app_reservation_cabin_total_title: 'Total Cabin',
+  app_reservation_room_number_title: 'Room Number',
   app_reservation_room_capacity_title: 'Room Capacity',
   app_reservation_contact_detail_head_title: 'Contact Detail',
   app_reservation_price_detail_head_title: 'Price Detail',

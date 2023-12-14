@@ -1,0 +1,36 @@
+@import '@styles/base';
+.wrapper {
+  height: 100%;
+  position: relative;
+  width: 100%;
+  padding: 2.5rem 0;
+  .wrapperBtn {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, max-content);
+    justify-content: center;
+    gap: 1.4rem;
+    margin-top: 2rem;
+    .btnRoomNumber {
+      background-color: transparent;
+      padding: 0.5rem 0.8rem;
+      border-radius: 0.5rem;
+      width: max-content;
+      color: $color-black-100;
+      border: 2px solid $color-black-100;
+      &.dissabled {
+        cursor: not-allowed;
+        color: $color-gray-100;
+        border-color: $color-gray-100;
+      }
+      &.selected {
+        color: $color-green-100;
+        border-color: $color-green-100;
+      }
+    }
+  }
+  .btnConfirm {
+    position: absolute;
+    bottom: 1rem;
+  }
+}

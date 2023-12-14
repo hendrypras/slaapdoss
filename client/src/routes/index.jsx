@@ -75,7 +75,7 @@ const routes = [
     adminOnly: false,
   },
   {
-    path: '/reservation/:cabinId',
+    path: '/reservation/:slugCabin/:roomId',
     name: 'Reservation',
     protected: true,
     component: Reservation,
@@ -83,7 +83,7 @@ const routes = [
     layout: MainLayout,
   },
   {
-    path: '/cabins/:province/:slug',
+    path: '/cabins/:slugCabin',
     name: 'Detail Cabins',
     protected: false,
     component: DetailCabins,

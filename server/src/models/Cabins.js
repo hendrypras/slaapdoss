@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
       Cabins.hasMany(models.CabinRooms, {
         foreignKey: 'cabins_slug',
         sourceKey: 'slug',
-        as: 'cabin_rooms',
+        as: 'cabins_rooms',
       })
     }
   }

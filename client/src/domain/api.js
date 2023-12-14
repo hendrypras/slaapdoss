@@ -75,14 +75,9 @@ export const getOrders = (orderId) => {
 };
 
 // cabin
-export const getDetailCabins = (data) => {
-  let url = `${urls.cabins}?province=${data?.province}`;
-  if (data?.slug) {
-    url += `&slug=${data?.slug}`;
-  } else if (data?.city) {
-    url += `&city=${data?.data?.city}`;
-  }
-  return callAPI(url, 'GET');
-};
+export const getDetailCabins = (slug, dateStart, dateEnd) =>
+  callAPI(`${urls.cabins}/detail/${slug}?dateStart=${dateStart}&dateEnd=${dateEnd}`, 'GET');
+export const getCabinsLocation = () => callAPI(`${urls.cabins}/location`, 'GET');
+export const getDetailCabinRoom = (slug, roomId) => callAPI(`${urls.cabin}/room/${slug}/${roomId}`, 'GET');
 export const createCabin = (formData) =>
   callAPI(`${urls.cabin}`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);

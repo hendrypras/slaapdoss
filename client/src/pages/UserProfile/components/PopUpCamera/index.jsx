@@ -9,7 +9,7 @@ import { setImageCaptured } from '@pages/UserProfile/actions';
 import Button from '@components/Button';
 import classes from './style.module.scss';
 
-const PopUpCamera = ({ open, onClose }) => {
+const PopUpCamera = ({ open = true, onClose }) => {
   const [webcamRef, setWebcamRef] = useState(null);
   const dispatch = useDispatch();
 

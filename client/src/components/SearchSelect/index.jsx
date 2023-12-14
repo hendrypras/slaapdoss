@@ -19,7 +19,12 @@ const SearchSelect = ({ className, title, placeHolder, icon: IconComponent, valu
     >
       <div className={classes.wrapperLeft}>
         {IconComponent && <IconComponent className={classes.iconLocation} />}
-        <div className={classNames({ [classes.placeHolder]: true, [classes.value]: value || false })}>
+        <div
+          className={classNames({
+            [classes.placeHolder]: true,
+            [classes.value]: (value && title !== 'app_home_title_checkout_search_selelct') || false,
+          })}
+        >
           {value || <FormattedMessage id={placeHolder} />}
         </div>
       </div>

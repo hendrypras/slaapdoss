@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import classes from './style.module.scss';
 
-const SubHeadTitle = ({ textId, text, className }) => (
-  <div className={classNames(classes.text, className)}>{text || <FormattedMessage id={textId} />}</div>
-);
+const SubHeadTitle = ({ textId, text, className }) => <div className={classNames(classes.text, className)}>{text}</div>;
 
 SubHeadTitle.propTypes = {
   textId: PropTypes.string,
