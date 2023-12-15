@@ -12,12 +12,13 @@ import {
   setLoading as setLoadingDetailCabins,
 } from '@pages/DetailCabins/actions';
 
-function* doGetDetailCabins({ slug, dateStart, dateEnd }) {
+function* doGetDetailCabins({ slug, dateStart, dateEnd, cbSuccess }) {
   yield put(setLoadingDetailCabins(true));
   try {
     const response = yield call(getDetailCabins, slug, dateStart, dateEnd);
     if (response) {
       yield put(setDetailCabin(response?.data));
+      cbSuccess && cbSuccess();
     }
   } catch (error) {
     yield put(showPopup(error.response.data.message));

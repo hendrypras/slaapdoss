@@ -31,7 +31,7 @@ const {
 const {
   requestOtpBodyEmail,
   forgotPasswordBodyEmail,
-} = require('../helpers/bodyEmai')
+} = require('../helpers/bodyEmail')
 const redisClient = new Redis()
 
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET

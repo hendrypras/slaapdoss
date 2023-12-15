@@ -17,6 +17,8 @@ const {
   checkDateRange,
   calculateDurationInDays,
 } = require('../services/paymentService')
+const sendEmail = require('../utils/sendEmail')
+const { responsePaymentBodyEmail } = require('../helpers/bodyEmail')
 
 exports.createPayment = async (req, res) => {
   let t
@@ -177,6 +179,14 @@ exports.createPayment = async (req, res) => {
       },
       { transaction: t }
     )
+    const paymentBodyEmail = responsePaymentBodyEmail()
+    const data = {
+      to: authData.email,
+      text: `Hey ${authData.username}`,
+      subject: 'Payment response',
+      htm: paymentBodyEmail,
+    }
+    await sendEmail(data)
 
     await t.commit() // Commit transaction if success all
     return responseSuccess(res, 201, 'success', chargeResponse)

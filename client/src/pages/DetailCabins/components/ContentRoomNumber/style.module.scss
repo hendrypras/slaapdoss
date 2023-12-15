@@ -3,7 +3,10 @@
   height: 100%;
   position: relative;
   width: 100%;
-  padding: 2.5rem 0;
+  padding: 1rem 0;
+  @include screen(lg) {
+    padding: 0;
+  }
   .wrapperBtn {
     width: 100%;
     display: grid;
@@ -30,7 +33,7 @@
     }
   }
   .btnConfirm {
-    position: absolute;
-    bottom: 1rem;
+    position: static;
+    margin-top: 2rem;
   }
 }

@@ -6,12 +6,12 @@ import languageReducer from '@containers/Language/reducer';
 
 import userProfileReducer, { storedKey as storedUserProfile } from '@pages/UserProfile/reducer';
 import registerReducer, { storedKey as storedRegisterState } from '@pages/Register/reducer';
+import detailCabinsReducer, { storedKey as storedDetailCabins } from '@pages/DetailCabins/reducer';
 import homeReducer from '@pages/Home/reducer';
 import forgotPasswordReducer from '@pages/ForgotPassword/reducer';
 import resetPasswordReducer from '@pages/ResetPassword/reducer';
 import paymentResponseReducer from '@pages/PaymentResponse/reducer';
 import createDetailCabinReducer from '@pages/CreateDeatilCabin/reducer';
-import detailCabinsReducer from '@pages/DetailCabins/reducer';
 import reservationReducer from '@pages/Reservation/reducer';
 
 import { mapWithPersistor } from './persistence';
@@ -21,6 +21,7 @@ const storedReducers = {
   client: { reducer: clientReducer, whitelist: storedClientState },
   register: { reducer: registerReducer, whitelist: storedRegisterState },
   userProfile: { reducer: userProfileReducer, whitelist: storedUserProfile },
+  detailCabins: { reducer: detailCabinsReducer, whitelist: storedDetailCabins },
 };
 
 const temporaryReducers = {
@@ -30,7 +31,6 @@ const temporaryReducers = {
   home: homeReducer,
   responsePayment: paymentResponseReducer,
   createDetailCabin: createDetailCabinReducer,
-  detailCabins: detailCabinsReducer,
   reservation: reservationReducer,
 };
 

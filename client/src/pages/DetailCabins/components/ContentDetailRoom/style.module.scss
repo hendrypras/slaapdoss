@@ -3,9 +3,11 @@
   width: 100% !important;
   height: 100% !important;
   padding: 1rem 0;
+  @include screen(lg) {
+    padding: 0;
+  }
   .headTitle {
     font-size: 1.4rem;
-    text-transform: capitalize;
   }
   .divider {
     margin-top: 1.2rem;
@@ -17,7 +19,8 @@
     margin-top: 1.2rem;
     @include screen(lg) {
       @include displayFlex(column, center, center);
-      height: 100%;
+      height: max-content;
+      padding: 0;
     }
 
     .titleContent {

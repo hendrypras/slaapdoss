@@ -33,6 +33,7 @@ export default {
   app_home_title_placeholder_checkout_search_selelct: 'Check-out',
   app_home_title_duration_search_selelct: 'Duration',
   app_home_title_placeholder_duration_search_selelct: '1 Night(s)',
+  ap_home_component_title_list_duration: 'List Duration',
   app_home_title_search_select: 'Where do you want to stay?',
   app_home_button_text_search_select: 'Search',
   app_respose_payment_success: 'Congratulations, your order is successful, please make payment before the end of time!',
@@ -240,4 +241,14 @@ export default {
   app_dashboard_create_cabins_title_form_district: 'District',
   app_dashboard_create_cabins_title_form_city_name: 'City Name',
   app_dashboard_create_cabins_title_select_location: 'Please select the appropriate location',
+
+  app_detail_cabin_title_facilities_service: 'Facilities and Services',
+  app_detail_cabin_title_location_details: 'Location Details',
+  app_detail_cabin_title_address_details: 'Address Details',
+  app_detail_cabin_title_condition_expected: 'Field Condition and Expectation',
+  app_detail_cabin_title_prepare: 'What you need to prepare',
+  app_detail_cabin_title_accommodation_policy: 'Accommodation Policy',
+  app_detail_cabin_title_checkin_procedur: 'Check-in Procedure',
+  app_detail_cabin_title_reschedule_and_cancel: 'Refund, Reschedule, Relocate, and Cancellations',
+  app_detail_cabin_title_age_policies: 'Age Policies',
 };

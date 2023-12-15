@@ -18,7 +18,6 @@ const filterRoomsByDateRange = (cabinRooms, dateStart, dateEnd) => {
 }
 const groupCabinRoomsByType = (rooms, includeData) => {
   const groupedCabins = []
-
   // Iterasi melalui setiap cabin room
   rooms?.forEach(cabinRoom => {
     const { type_cabin } = cabinRoom

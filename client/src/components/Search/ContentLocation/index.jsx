@@ -10,7 +10,7 @@ import { setSearchValue } from '@pages/Home/actions';
 
 import classes from './style.module.scss';
 
-const ContentDrawerLocation = ({ cabinsLocation, onClose, searchValue }) => {
+const ContentLocation = ({ cabinsLocation, onClose, searchValue }) => {
   const dispatch = useDispatch();
 
   const handleSetSearchValue = (location) => {
@@ -59,10 +59,10 @@ const ContentDrawerLocation = ({ cabinsLocation, onClose, searchValue }) => {
   );
 };
 
-ContentDrawerLocation.propTypes = {
+ContentLocation.propTypes = {
   cabinsLocation: PropTypes.array,
   searchValue: PropTypes.object,
   onClose: PropTypes.func,
 };
 
-export default ContentDrawerLocation;
+export default ContentLocation;

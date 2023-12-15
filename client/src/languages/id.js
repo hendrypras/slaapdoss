@@ -33,6 +33,7 @@ export default {
   app_home_title_placeholder_checkout_search_selelct: 'Periksa',
   app_home_title_duration_search_selelct: 'Durasi',
   app_home_title_placeholder_duration_search_selelct: '1 Malam',
+  ap_home_component_title_list_duration: 'Daftar Durasi',
   app_home_title_search_select: 'Dimana kamu ingin tinggal?',
   app_home_button_text_search_select: 'Cari',
   app_respose_payment_success: 'Selamat orderan anda berhasil, silahkan lakukan pembayaran sebelum waktu berakhir!',
@@ -239,4 +240,14 @@ export default {
   app_dashboard_create_cabins_title_form_district: 'Kecamatan',
   app_dashboard_create_cabins_title_form_city_name: 'Nama Kota',
   app_dashboard_create_cabins_title_select_location: 'Silahkan pilih lokasi yang sesuai',
+
+  app_detail_cabin_title_facilities_service: 'Fasilitas dan Layanan',
+  app_detail_cabin_title_location_details: 'Detail Lokasi',
+  app_detail_cabin_title_address_details: 'Detail Alamat',
+  app_detail_cabin_title_condition_expected: 'Kondisi Lapangan dan Ekspektasinya',
+  app_detail_cabin_title_prepare: 'Yang Harus Disiapkan',
+  app_detail_cabin_title_accommodation_policy: 'Kebijakan Akomodasi',
+  app_detail_cabin_title_checkin_procedur: 'Prosedur Check-in',
+  app_detail_cabin_title_reschedule_and_cancel: 'Pengembalian Dana, Penjadwalan Ulang, Relokasi, dan Pembatalan',
+  app_detail_cabin_title_age_policies: 'Kebijakan Usia',
 };

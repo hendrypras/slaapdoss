@@ -9,7 +9,7 @@ import { setSearchValue } from '@pages/Home/actions';
 
 import classes from './style.module.scss';
 
-const ContentDrawerCheckin = ({ searchValue, onClose }) => {
+const ContentCheckin = ({ searchValue, onClose }) => {
   const value = moment(searchValue?.checkIn?.value);
   const today = moment();
   const dispatch = useDispatch();
@@ -42,8 +42,8 @@ const ContentDrawerCheckin = ({ searchValue, onClose }) => {
     </div>
   );
 };
-ContentDrawerCheckin.propTypes = {
+ContentCheckin.propTypes = {
   searchValue: PropTypes.object,
   onClose: PropTypes.func,
 };
-export default ContentDrawerCheckin;
+export default ContentCheckin;

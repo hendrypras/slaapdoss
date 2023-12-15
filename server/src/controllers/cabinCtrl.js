@@ -341,11 +341,11 @@ exports.getCabins = async (req, res) => {
       loadData(cabinIncludeByTypeJson),
     ])
     const filteredRooms = filterRoomsByDateRange(
-      responseCabin.cabin_rooms,
+      responseCabin.cabins_rooms,
       dateStart,
       dateEnd
     )
-    const { cabin_rooms, ...cabinDetail } = responseCabin.toJSON()
+    const { cabins_rooms, ...cabinDetail } = responseCabin.toJSON()
     const filteredRoomsWithoutReservation = groupCabinRoomsByType(
       filteredRooms,
       cabinInclude

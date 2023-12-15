@@ -1,4 +1,13 @@
 @import '@styles/base';
+.modalDetailRoom {
+  height: 50vh !important;
+  overflow-y: scroll;
+}
+
+.modalRoomNumber {
+  height: max-content;
+  width: 100%;
+}
 .card {
   border-radius: 1rem;
   background-color: $color-white;
@@ -16,7 +25,6 @@
       width: 50%;
     }
     .titleCard {
-      text-transform: capitalize;
       @include screen(lg) {
         font-size: 1.5rem;
       }
@@ -36,6 +44,7 @@
       border-radius: 0.5rem;
     }
   }
+
   .wrapperCenter {
     @include screen(lg) {
       width: 100%;
@@ -60,12 +69,12 @@
           color: $color-gray-100;
         }
         .icon {
-          width: 10%;
+          width: 9%;
           @include screen(lg) {
-            width: 8%;
+            width: 7%;
           }
           &.facility {
-            width: 8%;
+            width: 6%;
           }
         }
         .titleContent {

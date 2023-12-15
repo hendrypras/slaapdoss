@@ -1,7 +1,6 @@
 import { produce } from 'immer';
 
 import {
-  ROOM_SELECTED_TO_PAYMENT,
   SET_CABINS_LOCATION,
   SET_DATAIL_CABINS,
   SET_DETAIL_ROOM_CABIN,
@@ -12,9 +11,10 @@ export const initialState = {
   cabins: null,
   loading: false,
   cabinsLocation: [],
-  roomId: null,
   detailRoomCabin: null,
 };
+
+export const storedKey = ['cabinsLocation'];
 
 const detailCabinsReducer = (state = initialState, action) =>
   produce(state, (draft) => {
@@ -27,9 +27,6 @@ const detailCabinsReducer = (state = initialState, action) =>
         break;
       case SET_CABINS_LOCATION:
         draft.cabinsLocation = action.cabinsLocation;
-        break;
-      case ROOM_SELECTED_TO_PAYMENT:
-        draft.roomId = action.roomId;
         break;
       case SET_DETAIL_ROOM_CABIN:
         draft.detailRoomCabin = action.data;

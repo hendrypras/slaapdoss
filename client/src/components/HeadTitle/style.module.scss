@@ -1,8 +1,9 @@
 @import '@styles/base';
 
 .text {
-  font-size: 1.2rem;
   font-weight: 700;
-  width: max-content;
   color: $color-black-100;
+  width: 100%;
+  overflow: hidden;
+  text-transform: capitalize;
 }
