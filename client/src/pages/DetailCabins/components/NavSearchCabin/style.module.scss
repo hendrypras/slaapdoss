@@ -1,0 +1,47 @@
+@import '@styles/base';
+
+.wrapper {
+  width: 100%;
+  height: max-content;
+  padding: 1.3rem 0.9rem;
+  background-color: $color-green-100;
+  z-index: 990999;
+  position: fixed;
+  top: 4.1rem;
+  transition: ease-in-out;
+  .wrapperContent {
+    width: 100%;
+    @include shadow;
+    border-radius: 0.5rem;
+    padding: 0.7rem 0.8rem;
+    background-color: $color-white;
+    .head {
+      @include displayFlex(row, space-between, center);
+      width: 100%;
+      .leftHead {
+        @include displayFlex(row, center, center);
+        gap: 0.4rem;
+        .iconSearch {
+          font-size: 1.5rem;
+          color: $color-gray-300;
+        }
+      }
+      .btnEdit {
+        background-color: transparent;
+        padding: 0;
+        width: max-content;
+        color: $color-green-100;
+      }
+    }
+    .bottom {
+      @include displayFlex(row, start, center);
+      margin-top: 0.2rem;
+      width: 100%;
+      gap: 0.4rem;
+      .iconDate {
+        color: $color-gray-100;
+        font-size: 1.2rem;
+      }
+    }
+  }
+}

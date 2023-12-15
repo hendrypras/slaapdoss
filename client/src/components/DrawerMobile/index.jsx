@@ -2,18 +2,18 @@ import PropTypes from 'prop-types';
 import { Drawer } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-const DrawerMobile = ({ open, onClose, height, children }) => (
+const DrawerMobile = ({ open, onClose, height = '100vh', padding = '0 1rem', display, children }) => (
   <Drawer
     sx={{
       height: '100vh',
       width: '100%',
       '& .MuiDrawer-paper': {
-        height: height || '100vh',
-        padding: '0 1rem',
+        height,
+        padding,
         boxSizing: 'border-box',
         position: 'absolute',
         bottom: '0',
-        borderRadius: '.5rem',
+        borderRadius: '.5rem .5rem 0 0',
       },
     }}
     anchor="bottom"
@@ -32,7 +32,9 @@ const DrawerMobile = ({ open, onClose, height, children }) => (
         backgroundColor: 'transparent',
         border: 'none',
         color: 'white',
+        zIndex: '99',
         cursor: 'pointer',
+        display,
       }}
     >
       <CloseIcon style={{ color: 'black' }} />
@@ -42,9 +44,11 @@ const DrawerMobile = ({ open, onClose, height, children }) => (
 );
 
 DrawerMobile.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element,
   open: PropTypes.bool,
   height: PropTypes.string,
+  padding: PropTypes.string,
+  display: PropTypes.string,
   onClose: PropTypes.func,
 };
 export default DrawerMobile;

@@ -32,6 +32,7 @@
     "app_home_title_placeholder_checkout_search_selelct": "Periksa",
     "app_home_title_duration_search_selelct": "Durasi",
     "app_home_title_placeholder_duration_search_selelct": "1 Malam",
+    "ap_home_component_title_list_duration": "Daftar Durasi",
     "app_home_title_search_select": "Dimana kamu ingin tinggal?",
     "app_home_button_text_search_select": "Cari",
     "app_respose_payment_success": "Selamat orderan anda berhasil, silahkan lakukan pembayaran sebelum waktu berakhir!",
@@ -99,7 +100,7 @@
     "app_reservation_checkout_title": "Periksa",
     "app_reservation_stay_duration_title": "Durasi Tinggal",
     "app_reservation_cabin_type_title": "Tipe Cabin",
-    "app_reservation_cabin_total_title": "Total Cabin",
+    "app_reservation_room_number_title": "Nomor Ruangan",
     "app_reservation_room_capacity_title": "Kapasitas Ruangan",
     "app_reservation_contact_detail_head_title": "Detail Kontak",
     "app_reservation_price_detail_head_title": "Detail Harga",
@@ -217,7 +218,17 @@
     "app_dashboard_create_cabins_title_form_village": "Desa",
     "app_dashboard_create_cabins_title_form_district": "Kecamatan",
     "app_dashboard_create_cabins_title_form_city_name": "Nama Kota",
-    "app_dashboard_create_cabins_title_select_location": "Silahkan pilih lokasi yang sesuai"
+    "app_dashboard_create_cabins_title_select_location": "Silahkan pilih lokasi yang sesuai",
+
+    "app_detail_cabin_title_facilities_service": "Fasilitas dan Layanan",
+    "app_detail_cabin_title_location_details": "Detail Lokasi",
+    "app_detail_cabin_title_address_details": "Detail Alamat",
+    "app_detail_cabin_title_condition_expected": "Kondisi Lapangan dan Ekspektasinya",
+    "app_detail_cabin_title_prepare": "Yang Harus Disiapkan",
+    "app_detail_cabin_title_accommodation_policy": "Kebijakan Akomodasi",
+    "app_detail_cabin_title_checkin_procedur": "Prosedur Check-in",
+    "app_detail_cabin_title_reschedule_and_cancel": "Pengembalian Dana, Penjadwalan Ulang, Relokasi, dan Pembatalan",
+    "app_detail_cabin_title_age_policies": "Kebijakan Usia"
   },
   "en": {
     "app_not_found": "Page not found",
@@ -252,6 +263,7 @@
     "app_home_title_placeholder_checkout_search_selelct": "Check-out",
     "app_home_title_duration_search_selelct": "Duration",
     "app_home_title_placeholder_duration_search_selelct": "1 Night(s)",
+    "ap_home_component_title_list_duration": "List Duration",
     "app_home_title_search_select": "Where do you want to stay?",
     "app_home_button_text_search_select": "Search",
     "app_respose_payment_success": "Congratulations, your order is successful, please make payment before the end of time!",
@@ -320,7 +332,7 @@
     "app_reservation_checkout_title": "Check-out",
     "app_reservation_stay_duration_title": "Stay Duration",
     "app_reservation_cabin_type_title": "Cabin Type",
-    "app_reservation_cabin_total_title": "Total Cabin",
+    "app_reservation_room_number_title": "Room Number",
     "app_reservation_room_capacity_title": "Room Capacity",
     "app_reservation_contact_detail_head_title": "Contact Detail",
     "app_reservation_price_detail_head_title": "Price Detail",
@@ -437,6 +449,16 @@
     "app_dashboard_create_cabins_title_form_village": "village",
     "app_dashboard_create_cabins_title_form_district": "District",
     "app_dashboard_create_cabins_title_form_city_name": "City Name",
-    "app_dashboard_create_cabins_title_select_location": "Please select the appropriate location"
+    "app_dashboard_create_cabins_title_select_location": "Please select the appropriate location",
+
+    "app_detail_cabin_title_facilities_service": "Facilities and Services",
+    "app_detail_cabin_title_location_details": "Location Details",
+    "app_detail_cabin_title_address_details": "Address Details",
+    "app_detail_cabin_title_condition_expected": "Field Condition and Expectation",
+    "app_detail_cabin_title_prepare": "What you need to prepare",
+    "app_detail_cabin_title_accommodation_policy": "Accommodation Policy",
+    "app_detail_cabin_title_checkin_procedur": "Check-in Procedure",
+    "app_detail_cabin_title_reschedule_and_cancel": "Refund, Reschedule, Relocate, and Cancellations",
+    "app_detail_cabin_title_age_policies": "Age Policies"
   }
 }

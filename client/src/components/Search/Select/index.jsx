@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 import classes from './style.module.scss';
 
-const SearchSelect = ({ className, title, placeHolder, icon: IconComponent, value, handleClick, disabled }) => (
+const select = ({ className, title, placeHolder, icon: IconComponent, value, handleClick, disabled }) => (
   <div className={classNames(classes.wrapper, className)}>
     <div className={classes.locationTitle}>
       <FormattedMessage id={title} />
@@ -19,7 +19,12 @@ const SearchSelect = ({ className, title, placeHolder, icon: IconComponent, valu
     >
       <div className={classes.wrapperLeft}>
         {IconComponent && <IconComponent className={classes.iconLocation} />}
-        <div className={classNames({ [classes.placeHolder]: true, [classes.value]: value || false })}>
+        <div
+          className={classNames({
+            [classes.placeHolder]: true,
+            [classes.value]: (value && title !== 'app_home_title_checkout_search_selelct') || false,
+          })}
+        >
           {value || <FormattedMessage id={placeHolder} />}
         </div>
       </div>
@@ -27,7 +32,7 @@ const SearchSelect = ({ className, title, placeHolder, icon: IconComponent, valu
     </button>
   </div>
 );
-SearchSelect.propTypes = {
+select.propTypes = {
   value: PropTypes.string,
   placeHolder: PropTypes.string.isRequired,
   className: PropTypes.string,
@@ -36,4 +41,4 @@ SearchSelect.propTypes = {
   icon: PropTypes.elementType,
   disabled: PropTypes.bool,
 };
-export default SearchSelect;
+export default select;

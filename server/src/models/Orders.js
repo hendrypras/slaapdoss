@@ -28,10 +28,9 @@ module.exports = (sequelize, DataTypes) => {
       order_id: DataTypes.STRING,
       user_id: DataTypes.INTEGER,
       total_price: DataTypes.INTEGER,
-      quantity: DataTypes.INTEGER,
       stay_duration: DataTypes.INTEGER,
-      start_reservation: DataTypes.DATE,
-      end_reservation: DataTypes.DATE,
+      start_reservation: DataTypes.STRING,
+      end_reservation: DataTypes.STRING,
     },
     {
       sequelize,

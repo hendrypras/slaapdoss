@@ -77,9 +77,8 @@
     }
     .wrapperTime {
       width: 100%;
-      @include displayFlex(row, center, start);
+      @include displayFlex(row, center, stretch);
       gap: 0.2rem;
-      height: 100%;
       margin-top: 1rem;
       .wrapperContent {
         @include displayFlex(column, start, center);
@@ -87,7 +86,6 @@
         width: 100%;
         padding: 0.5rem;
         border-right: 1px solid gray;
-        height: 100%;
         .titleContent {
           font-size: 0.9rem;
         }
@@ -100,8 +98,8 @@
     }
     .wrapperDetailRoom {
       margin-top: 1rem;
-      .titleCabin {
-        font-size: 0.9rem;
+      .title {
+        font-size: 0.8rem;
         font-weight: 500;
         color: $color-gray-100;
       }

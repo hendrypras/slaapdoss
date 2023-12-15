@@ -1,0 +1,13 @@
+@import '@styles/base';
+.wrapper {
+  margin-top: 2rem;
+  overflow: hidden;
+  width: 100%;
+  @include screen(lg) {
+    margin-top: 0;
+    width: max-content;
+  }
+  .calender {
+    width: 100%;
+  }
+}

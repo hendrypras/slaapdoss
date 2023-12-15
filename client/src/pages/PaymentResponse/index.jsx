@@ -26,6 +26,8 @@ const PaymentResponse = ({ orders }) => {
   const VAnumber = responsePayment?.va_numbers?.length
     ? responsePayment?.va_numbers[0]?.va_number
     : responsePayment?.va_number;
+  const startReservation = parseInt(orders?.results?.start_reservation, 10);
+  const endReservation = parseInt(orders?.results?.end_reservation, 10);
   useEffect(() => {
     if (orderId && status && Object.keys(orders).length === 0 && orders.constructor === Object) {
       dispatch(getOrdersUser(orderId));
@@ -62,7 +64,9 @@ const PaymentResponse = ({ orders }) => {
           <div className={classes.titlePayBefore}>
             <FormattedMessage id="app_response_payment_pay_in" />
           </div>
-          <div className={classes.expiry_date}>{formateDate(PaymentResponse?.expiry_time, 'DD MMMM YYYY, hh:mm')}</div>
+          <div className={classes.expiry_date}>
+            {formateDate(orders?.results?.response_payment?.expiry_time, 'DD MMMM YYYY, hh:mm')}
+          </div>
         </div>
         <div className={classes.wrapperOrderDetail}>
           <div className={classes.wrapperOrderid}>
@@ -76,15 +80,15 @@ const PaymentResponse = ({ orders }) => {
               <div className={classes.titleContent}>
                 <FormattedMessage id="app_reservation_checkin_title" />
               </div>
-              <div className={classes.value}>{formateDate(orders?.results?.startReservation, 'DD MMMM YYYY')}</div>
-              <div className={classes.timeValue}>{formateDate(orders?.results?.startReservation, 'hh:mm')}</div>
+              <div className={classes.value}>{formateDate(startReservation, 'DD MMMM YYYY')}</div>
+              <div className={classes.timeValue}>{formateDate(startReservation, 'HH:mm')}</div>
             </div>
             <div className={classes.wrapperContent}>
               <div className={classes.titleContent}>
                 <FormattedMessage id="app_reservation_checkout_title" />
               </div>
-              <div className={classes.value}>{formateDate(orders?.results?.endReservation, 'DD MMMM YYYY')}</div>
-              <div className={classes.timeValue}>{formateDate(orders?.results?.endReservation, 'hh:mm')}</div>
+              <div className={classes.value}>{formateDate(endReservation, 'DD MMMM YYYY')}</div>
+              <div className={classes.timeValue}>{formateDate(endReservation, 'HH:mm')}</div>
             </div>
             <div className={classes.wrapperContent}>
               <div className={classes.titleContent}>
@@ -95,6 +99,11 @@ const PaymentResponse = ({ orders }) => {
           </div>
           <div className={classes.wrapperDetailRoom}>
             <div className={classes.title}>Cabin(s)</div>
+            <div className={classes.wrapperContent}>
+              <div>
+                <div />
+              </div>
+            </div>
           </div>
           {console.log(orders)}
         </div>

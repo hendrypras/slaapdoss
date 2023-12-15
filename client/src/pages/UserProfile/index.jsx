@@ -4,9 +4,8 @@ import { createStructuredSelector } from 'reselect';
 import { connect, useDispatch } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { useEffect, useState } from 'react';
-import VerifiedIcon from '@mui/icons-material/Verified';
 import classNames from 'classnames';
-import { PhotoCamera, Edit, Logout, History } from '@mui/icons-material';
+import { PhotoCamera, Edit, Logout, History, Close, Verified as VerifiedIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 import Container from '@components/Container';
@@ -15,35 +14,63 @@ import HeadTitle from '@components/HeadTitle';
 
 import { selectDataIdCard, selectImageCaptured, selectUserData, selectUserProfile } from '@pages/UserProfile/selectors';
 import IdCard from '@pages/UserProfile/components/IdCard';
-import { getDataCrutialUser, getUserProfile, setImageCaptured, updateUserProfile } from '@pages/UserProfile/actions';
+import {
+  getDataCrutialUser,
+  getUserProfile,
+  setImageCaptured,
+  updateUserProfile,
+  uploadIdCard,
+} from '@pages/UserProfile/actions';
 import PopUpCamera from '@pages/UserProfile/components/PopUpCamera';
+import PopUpForm from '@pages/UserProfile/components/PopUpForm';
+
+import defaultIdCard from '@static/images/default-id.svg';
 
 import { selectLoading } from '@containers/App/selectors';
 import { showPopup } from '@containers/App/actions';
+import { decryptTextPayload } from '@utils/decryptPayload';
 
 import classes from './style.module.scss';
 
 const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCaptured }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState({
+    profile: null,
+    idCard: null,
+  });
   const [fileSelected, setFileSelected] = useState(null);
 
-  const [openCamera, setOpenCamera] = useState(false);
+  const [open, setOpen] = useState({
+    camera: false,
+    popUp: false,
+  });
+
+  const idCardUrl = decryptTextPayload(dataIdCard?.imageIdCard?.url);
   useEffect(() => {
     dispatch(getDataCrutialUser());
   }, [dispatch]);
 
-  const handleImageChange = (e) => {
+  const handleImageChange = (e, type) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       dispatch(setImageCaptured(null));
       reader.onload = (event) => {
-        setSelectedImage(event.target.result);
+        if (type === 'profile') {
+          setSelectedImage({ profile: event.target.result });
+        } else if (type === 'idCard') {
+          setSelectedImage({ idCard: event.target.result });
+        }
       };
       reader.readAsDataURL(file);
-      setFileSelected(file);
+      if (type === 'profile') {
+        setFileSelected(file);
+      } else if (type === 'idCard') {
+        const formData = new FormData();
+        formData.append('image', file);
+        dispatch(uploadIdCard(formData));
+      }
     }
   };
 
@@ -74,10 +101,16 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
       })
     );
   };
+  const handleRemoveResultImage = (e) => {
+    e.preventDefault();
+    setSelectedImage({ profile: null });
+    dispatch(setImageCaptured(null));
+    setFileSelected(null);
+  };
 
   return (
     <>
-      <PopUpCamera open={openCamera} onClose={() => setOpenCamera(false)} />
+      <PopUpCamera open={open.camera} onClose={() => setOpen({ camera: false })} />
       <Container className={classes.container}>
         <>
           <HeadTitle titleId="app_user_profile_head_title" className={classes.headTitle} />
@@ -114,46 +147,82 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                     <FormattedMessage id="app_user_profile_profile_picture_text" />
                   </div>
                   <div className={classes.wrapperImage}>
+                    {(imageCaptured || selectedImage.profile) && (
+                      <Button onClick={handleRemoveResultImage} className={classes.btnRemoveImg}>
+                        <Close className={classes.icon} />
+                      </Button>
+                    )}
                     <img
-                      src={imageCaptured || selectedImage || userProfile?.image_url}
+                      src={imageCaptured || selectedImage.profile || userProfile?.image_url}
                       alt="avatar"
                       className={classes.img}
                     />
-                    <div className={classes.wrapperBtn}>
-                      <label htmlFor="fileInputProfile" className={classes.btnEdit}>
-                        <Edit />
-                      </label>
-                      <input
-                        id="fileInputProfile"
-                        type="file"
-                        accept=".png, .jpg, .jpeg"
-                        onChange={handleImageChange}
-                        className={classes.input}
-                      />
-                      <button
-                        aria-label="button"
-                        className={classes.btnEdit}
-                        type="button"
-                        onClick={() => setOpenCamera(true)}
-                      >
-                        <PhotoCamera />
-                      </button>
-                    </div>
+                    {!imageCaptured && !selectedImage.profile && (
+                      <div className={classes.wrapperBtn}>
+                        <label htmlFor="fileInputProfile" className={classes.btnEdit}>
+                          <Edit />
+                        </label>
+                        <input
+                          id="fileInputProfile"
+                          type="file"
+                          accept=".png, .jpg, .jpeg"
+                          onChange={(e) => handleImageChange(e, 'profile')}
+                          className={classes.input}
+                        />
+                        <Button
+                          aria-label="button"
+                          className={classes.btnEdit}
+                          type="button"
+                          onClick={() => setOpen({ camera: true })}
+                        >
+                          <PhotoCamera />
+                        </Button>
+                      </div>
+                    )}
                   </div>
-                  {imageCaptured || fileSelected ? (
+                  {(imageCaptured || fileSelected) && (
                     <Button
                       text="app_user_profile_text_button_save_image_profile"
                       type="button"
                       className={classes.btnSaveImage}
                       onClick={handleSubmiChangeImage}
                     />
-                  ) : null}
+                  )}
                 </div>
                 <div className={classes.wrapperImageContent}>
                   <div className={classes.title}>
                     <FormattedMessage id="app_user_profile_id_card_text" />
                   </div>
+                  <div className={classes.wrapperImage}>
+                    <img
+                      src={dataUser?.id_card?.id_card_url || idCardUrl || selectedImage.idCard || defaultIdCard}
+                      alt="idCard"
+                      className={classes.img}
+                    />
+                    {!selectedImage.idCard && !idCardUrl && !dataUser?.id_card?.id_card_url ? (
+                      <div className={classes.wrapperBtn}>
+                        <label htmlFor="idCard" className={classes.btnEdit}>
+                          <FormattedMessage id="app_user_profile_button_edit_text" />
+                        </label>
+                        <input
+                          id="idCard"
+                          accept=".png, .jpg, .jpeg"
+                          type="file"
+                          onChange={(e) => handleImageChange(e, 'idCard')}
+                          className={classes.input}
+                        />
+                      </div>
+                    ) : null}
+                  </div>
                   <IdCard dataIdCard={dataIdCard} dataUser={dataUser} loading={loadingGlobal} />
+                  <Button onClick={() => setOpen({ popUp: true })} text="Edit and submit your data" />
+                  <PopUpForm
+                    open={open.popUp}
+                    onClose={() => setOpen({ popUp: false })}
+                    dataIdCard={dataIdCard}
+                    dataUser={dataUser}
+                    loadingGlobal={loadingGlobal}
+                  />
                 </div>
               </div>
 

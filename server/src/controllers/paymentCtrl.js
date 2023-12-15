@@ -1,6 +1,5 @@
 const { Op } = require('sequelize')
 const path = require('path')
-const moment = require('moment')
 const { coreApi } = require('../config/midtrans')
 const generateIdPayment = require('../utils/generateIdPayment')
 const { decryptTextPayload } = require('../utils/decryptPayload')
@@ -14,6 +13,12 @@ const { validateBodyCreatePayment } = require('../helpers/validationJoi')
 const loadData = require('../helpers/databaseHelper')
 const sequelize = require('../config/connectDb')
 const { responseError, responseSuccess } = require('../helpers/responseHandler')
+const {
+  checkDateRange,
+  calculateDurationInDays,
+} = require('../services/paymentService')
+const sendEmail = require('../utils/sendEmail')
+const { responsePaymentBodyEmail } = require('../helpers/bodyEmail')
 
 exports.createPayment = async (req, res) => {
   let t
@@ -41,61 +46,38 @@ exports.createPayment = async (req, res) => {
 
     const priceDec = decryptTextPayload(price)
     const stayDurationDec = decryptTextPayload(stayDuration)
-    const startReservationDec = decryptTextPayload(startReservation)
-    const endReservationDec = decryptTextPayload(endReservation)
-    console.log(startReservationDec, '<<start')
-    console.log(endReservationDec, '<<end')
-    const startOfDayStartReservation =
-      moment(startReservationDec).startOf('day')
-    const startOfDayEndReservation = moment(endReservationDec).startOf('day')
 
-    if (
-      !priceDec ||
-      !stayDurationDec ||
-      !startOfDayStartReservation.isValid() ||
-      !startOfDayEndReservation.isValid()
-    ) {
+    if (!priceDec || !stayDurationDec) {
       return responseError(res, 400, 'Bad Request', 'Invalid payload')
-    }
-
-    if (
-      startOfDayStartReservation.isSameOrAfter(startOfDayEndReservation, 'day')
-    ) {
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        'Check-in and check-out dates cannot be the same or check-out date cannot be before 1 day from check-in date'
-      )
-    }
-
-    if (
-      startOfDayStartReservation.format('HH:mm:ss') !== '00:00:00' ||
-      startOfDayEndReservation.format('HH:mm:ss') !== '00:00:00'
-    ) {
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        'Check-in date must be 00:00:00 and check-out date must be 00:00:00'
-      )
     }
 
     const validate = validateBodyCreatePayment({
       price: Number(priceDec),
       cabinRoomId: Number(cabinRoomId),
       stayDuration: Number(stayDurationDec),
-      startReservation: startReservationDec,
-      endReservation: endReservationDec,
+      startReservation: parseInt(startReservation),
+      endReservation: parseInt(endReservation),
       paymentType,
       bank,
     })
-
     if (validate) {
       return responseError(res, 400, 'Validation Failed', validate)
     }
+    if (endReservation <= startReservation) {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        'End reservation date should not be earlier than start reservation date'
+      )
+    }
+    const numberOfDay = calculateDurationInDays(
+      parseInt(startReservation),
+      parseInt(endReservation)
+    )
 
     const checkRoomAvailability = await CabinRooms.findByPk(cabinRoomId, {
+      attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
       include: [
         {
           model: RoomDateReservations,
@@ -103,16 +85,6 @@ exports.createPayment = async (req, res) => {
           attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
           where: {
             cabin_room_id: cabinRoomId,
-            [Op.or]: [
-              {
-                start_reservation: { [Op.lt]: endReservationDec },
-                end_reservation: { [Op.gt]: startReservationDec },
-              },
-              {
-                start_reservation: { [Op.eq]: endReservationDec },
-                end_reservation: { [Op.eq]: startReservationDec },
-              },
-            ],
           },
           required: false,
         },
@@ -123,17 +95,20 @@ exports.createPayment = async (req, res) => {
       return responseError(res, 404, 'Not Found', 'Cabin room not found')
     }
 
-    if (checkRoomAvailability?.reservation_date?.length > 0) {
+    const checkDate = checkDateRange(
+      startReservation,
+      endReservation,
+      checkRoomAvailability?.reservation_date
+    )
+    if (
+      checkRoomAvailability?.reservation_date?.length > 0 ||
+      checkDate.length > 0
+    ) {
       return responseError(res, 400, 'Bad Request', 'Room not available')
     }
-    const daysDiff = startOfDayEndReservation.diff(
-      startOfDayStartReservation,
-      'days'
-    )
 
-    const totalPrice = Number(priceDec) * daysDiff
-
-    t = await sequelize.transaction() // start transaction
+    const totalPrice = Number(priceDec) * numberOfDay
+    t = await sequelize.transaction()
 
     const requestMidtrans = {
       payment_type: paymentType,
@@ -187,8 +162,8 @@ exports.createPayment = async (req, res) => {
     await RoomDateReservations.create(
       {
         cabin_room_id: cabinRoomId,
-        start_reservation: startReservationDec,
-        end_reservation: endReservationDec,
+        start_reservation: startReservation.toString(),
+        end_reservation: endReservation.toString(),
       },
       { transaction: t }
     )
@@ -199,11 +174,19 @@ exports.createPayment = async (req, res) => {
         user_id: authData?.id,
         total_price: totalPrice,
         stay_duration: Number(stayDurationDec),
-        start_reservation: startReservationDec,
-        end_reservation: endReservationDec,
+        start_reservation: startReservation.toString(),
+        end_reservation: endReservation.toString(),
       },
       { transaction: t }
     )
+    const paymentBodyEmail = responsePaymentBodyEmail()
+    const data = {
+      to: authData.email,
+      text: `Hey ${authData.username}`,
+      subject: 'Payment response',
+      htm: paymentBodyEmail,
+    }
+    await sendEmail(data)
 
     await t.commit() // Commit transaction if success all
     return responseSuccess(res, 201, 'success', chargeResponse)

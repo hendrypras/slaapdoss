@@ -1,0 +1,31 @@
+@import '@styles/base';
+.form {
+  @include displayFlex(column, center, center);
+  width: 100%;
+  gap: 1.2rem;
+  @include screen(lg) {
+    @include displayFlex(row, center, center);
+    height: 100%;
+    gap: 0;
+  }
+  .selectWrapper {
+    @include displayFlex(column, center, center);
+    gap: 1rem;
+    width: 100%;
+    @include screen(lg) {
+      @include displayFlex(row, center, center);
+      height: max-content;
+      border: 1.5px solid rgb(210, 202, 202);
+      border-radius: 0.3rem 0 0 0.3rem;
+      padding: 0.2rem 0;
+    }
+  }
+  .buttonSearch {
+    @include screen(lg) {
+      width: 20%;
+      padding: 1.4rem 0;
+      border-radius: 0 0.3rem 0.3rem 0;
+      font-size: 1.2rem;
+    }
+  }
+}

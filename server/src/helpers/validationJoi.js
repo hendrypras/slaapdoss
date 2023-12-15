@@ -1,5 +1,17 @@
+const moment = require('moment')
 const Joi = require('joi')
+const isUnixTimestamp = value => {
+  return !isNaN(value) && parseInt(value) == value && value >= 0
+}
+const isValidStartTime = unix => {
+  const formattedTime = moment(unix).format('HH:mm:ss')
+  return formattedTime === '14:00:00'
+}
 
+const isValidEndTime = unix => {
+  const formattedTime = moment(unix).format('HH:mm:ss')
+  return formattedTime === '12:00:00'
+}
 const validateBodyCreatePayment = reqBody => {
   const schema = Joi.object({
     paymentType: Joi.string().valid('bank_transfer').required().messages({
@@ -20,18 +32,38 @@ const validateBodyCreatePayment = reqBody => {
       'any.required': 'cabinRoomId is required.',
       'number.strict': 'cabinRoomId must be a strict number type.',
     }),
-    startReservation: Joi.string().isoDate().required().messages({
-      'any.required': 'startReservation date is required.',
-      'string.base': 'startReservation date must be a string in ISO format.',
-      'string.empty': 'startReservation date cannot be empty.',
-      'string.isoDate': 'startReservation date must be in ISO date format.',
-    }),
-    endReservation: Joi.string().isoDate().required().messages({
-      'any.required': 'endReservation date is required.',
-      'string.base': 'endReservation date must be a string in ISO format.',
-      'string.empty': 'endReservation date cannot be empty.',
-      'string.isoDate': 'endReservation date must be in ISO date format.',
-    }),
+    startReservation: Joi.custom((value, helpers) => {
+      if (!isUnixTimestamp(value)) {
+        return helpers.error('any.custom')
+      }
+
+      if (!isValidStartTime(value)) {
+        return helpers.message('startReservation must be at 14:00:00')
+      }
+
+      return value
+    })
+      .required()
+      .messages({
+        'any.required': 'startReservation must be a valid Unix timestamp.',
+        'any.custom': 'startReservation must be a valid Unix timestamp.',
+      }),
+    endReservation: Joi.custom((value, helpers) => {
+      if (!isUnixTimestamp(value)) {
+        return helpers.error('any.custom')
+      }
+
+      if (!isValidEndTime(value)) {
+        return helpers.message('endReservation must be at 12:00:00')
+      }
+
+      return value
+    })
+      .required()
+      .messages({
+        'any.required': 'endReservation must be a valid Unix timestamp.',
+        'any.custom': 'endReservation must be a valid Unix timestamp.',
+      }),
     price: Joi.number().positive().required().strict().messages({
       'number.base': 'Price must be a number.',
       'number.positive': 'Price must be a positive number.',
@@ -352,16 +384,10 @@ const validateBodyCreateTypeCabin = reqBody => {
       'string.empty': 'information is required.',
       'any.required': 'information is required.',
     }),
-    image_url: Joi.string().uri().required().messages({
-      'string.base': 'The image URL must be a string.',
-      'string.empty': 'The image URL is required.',
-      'any.required': 'The image URL is required.',
-      'string.uri': 'The image URL must be a valid URI.',
-    }),
-    image_public_id: Joi.string().required().messages({
-      'string.base': 'image_public_id must be a string.',
-      'string.empty': 'image_public_id is required.',
-      'any.required': 'image_public_id is required.',
+    cabinsSlug: Joi.string().required().messages({
+      'string.base': 'cabinsSlug must be a string.',
+      'string.empty': 'cabinsSlug is required.',
+      'any.required': 'cabinsSlug is required.',
     }),
     price: Joi.number().integer().positive().required().messages({
       'number.base': 'price must be a number.',
@@ -389,6 +415,62 @@ const validateBodyCreateTypeCabin = reqBody => {
 
   return null
 }
+
+const validateBodyUpdateTypeCabin = reqBody => {
+  const schema = Joi.object({
+    name: Joi.string().required().messages({
+      'string.base': 'Name must be a string.',
+      'string.empty': 'Name is required.',
+      'any.required': 'Name is required.',
+    }),
+    cabinsSlug: Joi.string().required().messages({
+      'string.base': 'cabinsSlug must be a string.',
+      'string.empty': 'cabinsSlug is required.',
+      'any.required': 'cabinsSlug is required.',
+    }),
+    information: Joi.string().required().messages({
+      'string.base': 'information must be a string.',
+      'string.empty': 'information is required.',
+      'any.required': 'information is required.',
+    }),
+    imageUrl: Joi.string().uri().required().messages({
+      'string.base': 'The image URL must be a string.',
+      'string.empty': 'The image URL is required.',
+      'any.required': 'The image URL is required.',
+      'string.uri': 'The image URL must be a valid URI.',
+    }),
+    imagePublicId: Joi.string().required().messages({
+      'string.base': 'imagePublicId must be a string.',
+      'string.empty': 'imagePublicId is required.',
+      'any.required': 'imagePublicId is required.',
+    }),
+    price: Joi.number().integer().positive().required().messages({
+      'number.base': 'price must be a number.',
+      'number.integer': 'price must be an integer.',
+      'number.positive': 'price must be a positive number.',
+      'any.required': 'price is required.',
+    }),
+    capacity: Joi.string().required().messages({
+      'string.base': 'capacity must be a string.',
+      'string.empty': 'capacity is required.',
+      'any.required': 'capacity is required.',
+    }),
+    breakfast: Joi.boolean().optional().messages({
+      'string.base': 'Breakfast must be a boolean.',
+    }),
+  })
+
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  })
+
+  if (error) {
+    return error.details.map(err => err.message).join(', ')
+  }
+
+  return null
+}
+
 const validateResultOcrIdCard = result => {
   const schema = Joi.object({
     nik: Joi.string().pattern(/^\d+$/).length(16).required().messages({
@@ -503,6 +585,7 @@ const validateBodyCreateIdCard = result => {
 module.exports = {
   validateBodyCreateCabinRoom,
   validateBodyCreateTypeCabin,
+  validateBodyUpdateTypeCabin,
   validateBodyGenerateOtpToEmail,
   validateBodyVerifyOtp,
   validateBodyRegister,

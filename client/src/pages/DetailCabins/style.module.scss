@@ -1,22 +1,42 @@
 @import '@styles/base';
+.containerSearch {
+  position: fixed;
+  top: 4.1rem;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  .searchCabin {
+    max-width: 1200px;
+    background: $color-white;
+    margin: auto;
+  }
+}
 .container {
   background-color: $color-green-400;
+  @include screen(lg) {
+    background-color: transparent;
+  }
   .wrapperImg {
     width: 100%;
     height: 100%;
     background-color: $color-white;
+    @include screen(lg) {
+      padding: 2rem;
+      @include displayFlex(column-reverse, start, center);
+    }
     .mainImg {
       width: 100%;
       height: 40vh;
+      @include screen(lg) {
+        border-radius: 1rem;
+        margin-top: 1.6rem;
+        height: 50vh;
+      }
     }
     .wrapperTextContent {
       padding: 0.8rem 1rem;
       width: 100%;
       overflow: hidden;
-      .subHead {
-        margin-top: 0.2rem;
-        font-size: 0.8rem;
-      }
     }
   }
   .wrapperFasilities {
@@ -25,27 +45,39 @@
     height: max-content;
     margin-top: 0.3rem;
     width: 100%;
-    .title {
-      font-size: 1rem;
-    }
+
     .wrapperContent {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      align-items: start;
+      align-items: center;
       justify-items: center;
       width: 100%;
       gap: 1.2rem;
       margin-top: 1rem;
+      @include screen(md) {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @include screen(lg) {
+        grid-template-columns: repeat(4, 1fr);
+      }
       .content {
         @include displayFlex(row, start, center);
         gap: 0.5rem;
         width: 100%;
+        @include screen(lg) {
+          margin-top: 1rem;
+        }
         .icon {
           width: 15%;
-        }
-        .titleContent {
-          font-size: 0.9rem;
-          font-weight: 500;
+          @include screen(sm) {
+            width: 10%;
+          }
+          @include screen(md) {
+            width: 8%;
+          }
+          @include screen(lg) {
+            width: 10%;
+          }
         }
       }
     }
@@ -56,20 +88,23 @@
     height: max-content;
     margin-top: 0.3rem;
     width: 100%;
-    .title {
-      font-size: 1rem;
+    @include screen(lg) {
+      margin-top: 2rem;
     }
-    .maps {
-      border-radius: 1rem;
-      margin-top: 1.5rem;
-    }
-    .titleAddress {
-      font-size: 0.85rem;
-      margin-top: 0.8rem;
-    }
-    .subTitle {
-      margin-top: 0.2rem;
-      font-size: 0.8rem;
+
+    .wrapperContent {
+      width: 100%;
+      @include screen(lg) {
+        @include displayFlex(column-reverse, start, start);
+      }
+
+      .maps {
+        border-radius: 1rem;
+        margin-top: 1.5rem;
+        @include screen(lg) {
+          margin-top: 1rem !important;
+        }
+      }
     }
   }
   .wrapperCtnExp {
@@ -78,14 +113,8 @@
     height: max-content;
     margin-top: 0.3rem;
     width: 100%;
-    .title {
-      font-size: 1rem;
-    }
-    .contentTitle {
-      font-size: 0.9rem;
-      font-weight: 700;
-      margin-top: 1rem;
-      color: $color-gray-300;
+    @include screen(lg) {
+      margin-top: 2rem;
     }
     .wrapperContent {
       display: grid;
@@ -98,14 +127,17 @@
       .content {
         @include displayFlex(row, start, start);
         gap: 0.2rem;
+        @include screen(lg) {
+          @include displayFlex(row, center, center);
+        }
         .icon {
           font-size: 1.3rem;
           color: $color-green-100;
           margin-top: 0.1rem;
-        }
-        .title {
-          font-size: 0.9rem;
-          font-weight: 600;
+          @include screen(lg) {
+            margin-top: 0;
+            font-size: 1.8rem;
+          }
         }
       }
     }
@@ -116,8 +148,8 @@
     background-color: $color-white;
     height: max-content;
     padding: 1rem;
-    .title {
-      font-size: 1rem;
+    @include screen(lg) {
+      margin-top: 2rem;
     }
     .wrapperContent {
       background-color: $color-green-400;
@@ -126,20 +158,61 @@
       margin-top: 1rem;
       @include displayFlex(column, start, start);
       gap: 1.3rem;
+      @include screen(lg) {
+        gap: 2rem;
+        padding: 3rem;
+      }
       .wrapperTextContent {
         @include displayFlex(column, start, start);
         gap: 0.8rem;
+        width: 100%;
+        @include screen(lg) {
+          @include displayFlex(row, start, start);
+        }
         .headTitle {
-          font-size: 1.02rem;
           width: 100%;
+          @include screen(lg) {
+            width: 40%;
+            overflow: hiden;
+          }
+          &.check {
+            display: none;
+            @include screen(lg) {
+              display: block;
+            }
+          }
+        }
+        .textValue {
+          font-size: 0.9rem;
+          font-weight: 600;
+          @include screen(lg) {
+            width: 60%;
+            overflow: hidden;
+          }
+        }
+        .wrapperLi {
+          @include screen(lg) {
+            @include displayFlex(column, center, start);
+            gap: 1rem;
+          }
         }
         .wrapperTextValue {
           @include displayFlex(column, start, start);
           .title {
             font-size: 1rem;
           }
+          .textValue {
+            font-size: 0.9rem;
+            font-weight: 600;
+          }
         }
       }
     }
+  }
+  .wrapperCard {
+    width: 100%;
+    padding: 2rem 1rem;
+    @include displayFlex(column, center, center);
+    gap: 1rem;
   }
 }

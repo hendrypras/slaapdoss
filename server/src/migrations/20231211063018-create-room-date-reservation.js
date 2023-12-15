@@ -11,11 +11,11 @@ module.exports = {
       },
       start_reservation: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
       },
       end_reservation: {
         allowNull: true,
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
       },
       cabin_room_id: {
         allowNull: false,
