@@ -236,7 +236,9 @@
     "app_detail_cabin_title_age_policies": "Kebijakan Usia",
 
     "app_orders_head_title": "Pesanan",
-    "app_orders_waiting_for_payment_title": "Menunggu Pembayaran"
+    "app_orders_waiting_for_payment_title": "Menunggu Pembayaran",
+    "app_orders_text_button_continue_payment": "Lanjutkan Pembayaran",
+    "app_orders_text_button_cancel_reservation": "Batalkan Reservasi"
   },
   "en": {
     "app_component_button_title_select": "Select",
@@ -475,6 +477,8 @@
     "app_detail_cabin_title_age_policies": "Age Policies",
 
     "app_orders_head_title": "Orders",
-    "app_orders_waiting_for_payment_title": "Waiting For Payment"
+    "app_orders_waiting_for_payment_title": "Waiting For Payment",
+    "app_orders_text_button_continue_payment": "Continue To Payment",
+    "app_orders_text_button_cancel_reservation": "Cancel Reservation"
   }
 }

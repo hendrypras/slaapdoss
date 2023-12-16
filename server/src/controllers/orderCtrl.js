@@ -5,6 +5,7 @@ const {
   Rooms,
   ResponsePayments,
   TypeRoom,
+  Cabins,
 } = require('../models')
 exports.getOrders = async (req, res) => {
   try {
@@ -27,9 +28,20 @@ exports.getOrders = async (req, res) => {
           attributes: { exclude: ['createdAt', 'updatedAt'] },
           include: [
             {
+              model: Cabins,
+              as: 'cabin',
+              attributes: ['address', 'name', 'city'],
+            },
+            {
               model: TypeRoom,
               as: 'type_room',
-              attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
+              attributes: [
+                'name',
+                'capacity',
+                'price',
+                'information',
+                'breakfast',
+              ],
             },
           ],
         },

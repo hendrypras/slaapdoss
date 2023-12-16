@@ -32,9 +32,9 @@ import classes from './style.module.scss';
 const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoomCabin, intl: { formatMessage } }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
   const [acceptPayment, setAcceptPayment] = useState(false);
   const { slugCabin, roomId } = useParams();
-  const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
   const dateStart = queryParams.get('dateStart');

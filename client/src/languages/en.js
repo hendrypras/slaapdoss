@@ -259,4 +259,6 @@ export default {
 
   app_orders_head_title: 'Orders',
   app_orders_waiting_for_payment_title: 'Waiting For Payment',
+  app_orders_text_button_continue_payment: 'Continue To Payment',
+  app_orders_text_button_cancel_reservation: 'Cancel Reservation',
 };

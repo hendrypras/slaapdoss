@@ -258,4 +258,6 @@ export default {
 
   app_orders_head_title: 'Pesanan',
   app_orders_waiting_for_payment_title: 'Menunggu Pembayaran',
+  app_orders_text_button_continue_payment: 'Lanjutkan Pembayaran',
+  app_orders_text_button_cancel_reservation: 'Batalkan Reservasi',
 };

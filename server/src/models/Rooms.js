@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       })
       Rooms.belongsTo(models.Cabins, {
         foreignKey: 'cabins_slug',
-        sourceKey: 'slug',
-        as: 'rooms',
+        targetKey: 'slug',
+        as: 'cabin',
       })
       Rooms.hasMany(models.RoomDateReservations, {
         foreignKey: 'room_id',
