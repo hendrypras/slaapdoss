@@ -5,7 +5,7 @@ const formatCurrency = (value) => {
     minimumFractionDigits: 0,
   });
 
-  return formatter.format(value);
+  return value ? formatter.format(value) : '0';
 };
 
 export default formatCurrency;

@@ -42,7 +42,8 @@
   ],
   "images": {
     "emptyHistory": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008791/empty_wdzemb.svg",
-    "notfound": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008984/404_eubyx8.svg"
+    "notfound": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702008984/404_eubyx8.svg",
+    "branch": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702759872/sds-branch-bg_xuzcx1.svg"
   },
   "durationSearch": [
     {

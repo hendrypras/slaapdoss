@@ -110,8 +110,8 @@ const PaymentResponse = ({ orders }) => {
             <div className={classes.title}>Cabin(s)</div>
             <div className={classes.wrapperContent}>
               <div className={classes.content}>
-                <HeadTitle size={12} title={detailCabin?.type_cabin?.name} />
-                <SubHeadTitle size={11} title={formatCurrency(Number(detailCabin?.type_cabin?.price))} mt={0} />
+                <HeadTitle size={12} title={detailCabin?.type_room?.name} />
+                <SubHeadTitle size={11} title={formatCurrency(Number(detailCabin?.type_room?.price))} mt={0} />
               </div>
               <div className={classes.content}>
                 <HeadTitle size={12}>

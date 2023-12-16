@@ -3,26 +3,37 @@ import Container from '@components/Container';
 import classes from './style.module.scss';
 
 const Footer = () => (
-  <Container>
-    <div className={classes.wrapper}>
-      <div className={classes.profile}>
-        <h2>Career</h2>
-        <p>Company</p>
-        <p>Consumer Complaint Service</p>
+  <footer className={classes.footer}>
+    <Container>
+      <div className={classes.footerContent}>
+        <div className={classes.logo}>
+          <img src="/logo.svg" alt="Enterprise Logo" />
+        </div>
+        <div className={classes.links}>
+          <ul>
+            <li>
+              <a href="#">About</a>
+            </li>
+            <li>
+              <a href="#">Services</a>
+            </li>
+            <li>
+              <a href="#">Contact</a>
+            </li>
+          </ul>
+        </div>
+        <div className={classes.contactInfo}>
+          <p>123 Enterprise St,</p>
+          <p>Enterprise City,</p>
+          <p>Country</p>
+          <p>Email: enterprise@example.com</p>
+        </div>
       </div>
-      <div className={classes.links}>
-        <h2>Promotion</h2>
-        <p>Blog</p>
-        <p>Experience more for less</p>
+      <div className={classes.footerBottom}>
+        <p>© {new Date().getFullYear()} Your Enterprise. All Rights Reserved.</p>
       </div>
-      <div className={classes.support}>
-        <h2>WhatsApp</h2>
-        <p>+6282119007791</p>
-        <h2>Email</h2>
-        <p>help@bobobox.com</p>
-      </div>
-    </div>
-  </Container>
+    </Container>
+  </footer>
 );
 
 export default Footer;

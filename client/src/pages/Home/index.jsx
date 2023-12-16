@@ -8,12 +8,12 @@ import { selectAssets } from '@containers/App/selectors';
 import Container from '@components/Container';
 import HeadTitle from '@components/HeadTitle';
 import SubHeadTitle from '@components/SubHeadTitle';
-import Maps from '@components/Maps';
 
 import { selectSearchValue } from '@pages/Home/selectors';
 import { getCabinsLocation } from '@pages/DetailCabins/actions';
 import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
 
+import Footer from '@components/Footer';
 import Banner from './components/Banner';
 
 import classes from './style.module.scss';
@@ -36,7 +36,7 @@ const Home = ({ assets, searchValue, cabinsLocation }) => {
       <Container className={classes.containerCabin}>
         <>
           <div className={classes.wrapperTitle}>
-            <HeadTitle className={classes.headTitle}>
+            <HeadTitle size={19} className={classes.headTitle}>
               <FormattedMessage id="app_home_title_perfect_solition" />
             </HeadTitle>
             <SubHeadTitle className={classes.subTitle}>
@@ -57,8 +57,12 @@ const Home = ({ assets, searchValue, cabinsLocation }) => {
         </>
       </Container>
       <section className={classes.secSatisfication}>
-        <HeadTitle titleId="app_title_satisfaction" className={classes.headTitle} />
-        <SubHeadTitle className={classes.subTitle} textId="app_subtitle_satisfaction" />
+        <HeadTitle size={19} className={classes.headTitle}>
+          <FormattedMessage id="app_title_satisfaction" />
+        </HeadTitle>
+        <SubHeadTitle className={classes.subTitle}>
+          <FormattedMessage id="app_subtitle_satisfaction" />
+        </SubHeadTitle>
         <div className={classes.wrapperCard}>
           {assets?.dropStep?.map((val, i) => (
             <div key={i} className={classes.card}>
@@ -71,7 +75,10 @@ const Home = ({ assets, searchValue, cabinsLocation }) => {
           ))}
         </div>
       </section>
-      <Maps />
+      <section className={classes.wrapperBranch}>
+        <img className={classes.img} src={assets?.images?.branch} alt="branch" />
+      </section>
+      <Footer />
     </>
   );
 };
