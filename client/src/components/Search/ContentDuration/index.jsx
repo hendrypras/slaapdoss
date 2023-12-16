@@ -18,10 +18,11 @@ import classes from './style.module.scss';
 const ContentDuration = ({ searchValue, onClose, assets }) => {
   const dispatch = useDispatch();
   const handleSetSearchValue = (duration) => {
+    const { location, checkIn } = searchValue;
     dispatch(
-      setSearchValue(searchValue.location, searchValue.checkIn, duration, {
-        display: moment(searchValue.checkIn.value).add(duration.value, 'days').format('ddd, D MMMM YYYY'),
-        value: moment(searchValue.checkIn.value).add(duration.value, 'days').format('YYYY-MM-DD'),
+      setSearchValue(location, checkIn, duration, {
+        display: moment(checkIn.value).add(duration.value, 'days').format('ddd, D MMMM YYYY'),
+        value: moment(checkIn.value).add(duration.value, 'days').format('YYYY-MM-DD'),
       })
     );
     onClose();

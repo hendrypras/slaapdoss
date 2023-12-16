@@ -4,6 +4,7 @@ import {
   SET_DATA_CRUTIAL_USER,
   SET_DATA_ID_CARD,
   SET_IMAGE_CAPTURED,
+  SET_IMAGE_SELECTED,
   SET_LOADING,
   SET_USER_PROFILE,
 } from '@pages/UserProfile/constants';
@@ -14,6 +15,10 @@ export const initialState = {
   loading: false,
   dataIdCard: null,
   imageCaptured: null,
+  imageSelected: {
+    idCard: null,
+    profile: null,
+  },
 };
 export const storedKey = ['userProfile', 'dataIdCard'];
 
@@ -34,6 +39,9 @@ const userProfileReducer = (state = initialState, action) =>
         break;
       case SET_IMAGE_CAPTURED:
         draft.imageCaptured = action.image;
+        break;
+      case SET_IMAGE_SELECTED:
+        draft.imageSelected = action.imageSelected;
         break;
     }
   });

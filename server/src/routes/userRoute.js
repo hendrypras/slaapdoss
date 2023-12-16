@@ -14,13 +14,7 @@ const router = express.Router()
 
 router.get('/user/profile', Authenticated, getUserProfile)
 router.get('/user/credential', Authenticated, isUser, getDataCrutialUser)
-router.post(
-  '/user/upload/idcard',
-  Authenticated,
-  isUser,
-  uploadMedia.fields([{ name: 'image', maxCount: 1 }]),
-  uploadIdCard
-)
+router.post('/user/upload/idcard', Authenticated, isUser, uploadIdCard)
 router.put(
   '/user/update/profile',
   Authenticated,

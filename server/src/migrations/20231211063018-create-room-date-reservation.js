@@ -17,7 +17,7 @@ module.exports = {
         allowNull: true,
         type: Sequelize.STRING,
       },
-      cabin_room_id: {
+      room_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
       },

@@ -8,28 +8,32 @@
     gap: 2rem;
   }
   .headTitle {
-    font-size: 1.7rem;
-    font-weight: 800;
+    text-align: center;
   }
   .wrapper {
     margin-top: 2rem;
+    @include screen(md) {
+      @include displayFlex(column-reverse, center, center);
+      gap: 2rem;
+    }
     @include screen(lg) {
       @include displayFlex(row, center, start);
       width: 100%;
-      gap: 2rem;
+      padding: 1rem;
     }
     .leftWrapper {
       display: none;
-      @include screen(lg) {
+      @include screen(md) {
+        width: 100%;
+        @include shadow;
         display: block;
-        width: 40%;
-        box-shadow:
-          0 0 10px -2px rgb(0 0 0 / 0.1),
-          0 0 10px -2px rgb(0 0 0 / 0.1);
         height: max-content;
         border-radius: 1rem;
         background-color: $color-white;
         padding: 2rem 3rem;
+      }
+      @include screen(lg) {
+        width: 40%;
       }
       .username {
         width: 100%;
@@ -51,6 +55,8 @@
           cursor: pointer;
           font-size: 1.2rem;
           font-weight: 500;
+          padding: 0;
+          width: max-content;
         }
       }
     }
@@ -81,11 +87,6 @@
           width: 100%;
           @include screen(sm) {
             @include displayFlex(column, center, center);
-          }
-          .title {
-            font-size: 1.4rem;
-            color: $color-black-100;
-            font-weight: 700;
           }
           .wrapperImage {
             position: relative;

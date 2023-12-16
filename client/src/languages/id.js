@@ -1,4 +1,6 @@
 export default {
+  app_component_button_title_select: 'Pilih',
+  app_component_button_title_room_details: 'Detail Ruangan',
   app_not_found: 'Halaman tidak ditemukan',
   app_not_found_button_text: 'Kembali Ke Beranda',
   app_lang_id: 'Bahasa Indonesia',
@@ -95,7 +97,8 @@ export default {
   app_user_profile_text_button_close_camera: 'Close Camera',
   app_user_profile_text_button_captured: 'Foto',
   app_user_profile_text_button_save_image_profile: 'Simpan Gambar',
-  app_user_profile_text_button_history: 'Riwayat',
+  app_user_profile_text_button_save_image_id_card: 'Ubah dan Simpan',
+  app_user_profile_text_button_history: 'Riwayat Pesanan',
   aap_reservation_title_back_btn: 'Kembali untuk memilih cabin',
   app_reservation_order_detail_head_title: 'Detail Pesanan',
   app_reservation_cabin_address_title: 'Alamat Cabin',
@@ -112,6 +115,8 @@ export default {
   app_reservation_continue_payment_title: 'Lanjutkan Pembayaran',
   app_reservation_payment_method_title: 'Pilih Metode Pembayaran',
   app_reservation_virtual_account_title: 'Akun Virtual',
+  app_reservation_title_warning_duration: 'Anda belum memasukkan tanggal checkin dan checkout',
+  app_reservation_message_warning_duration: 'Jika dilanjutkan, akan check in hari ini dan check out besok',
 
   app_reservation_payment_va_bca_desc: 'Pembayaran melalui ATM BCA atau Internet Banking',
   app_reservation_payment_va_bca_atm_step_1: 'Pada menu utama, pilih “Transaksi Lainnya”',
@@ -250,4 +255,7 @@ export default {
   app_detail_cabin_title_checkin_procedur: 'Prosedur Check-in',
   app_detail_cabin_title_reschedule_and_cancel: 'Pengembalian Dana, Penjadwalan Ulang, Relokasi, dan Pembatalan',
   app_detail_cabin_title_age_policies: 'Kebijakan Usia',
+
+  app_orders_head_title: 'Pesanan',
+  app_orders_waiting_for_payment_title: 'Menunggu Pembayaran',
 };

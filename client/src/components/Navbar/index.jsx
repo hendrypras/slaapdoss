@@ -5,8 +5,10 @@ import { createStructuredSelector } from 'reselect';
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import { useState } from 'react';
 import { SwipeableDrawer, Divider, Avatar } from '@mui/material';
+import { FormattedMessage } from 'react-intl';
 
 import { selectLogin, selectToken } from '@containers/Client/selectors';
+import { showPopup } from '@containers/App/actions';
 
 import ButtonLang from '@components/ButtonLang';
 import Button from '@components/Button';
@@ -17,7 +19,6 @@ import decryptToken from '@utils/decryptToken';
 
 import { selectUserProfile } from '@pages/UserProfile/selectors';
 
-import { showPopup } from '@containers/App/actions';
 import classes from './style.module.scss';
 
 const Navbar = ({ locale, login, token, userProfile }) => {
@@ -56,13 +57,18 @@ const Navbar = ({ locale, login, token, userProfile }) => {
               onClick={() =>
                 dispatch(showPopup('', '', 'logout', 'app_popup_logout_title', 'app_popup_logout_message'))
               }
-              text="app_logout_text_button"
-            />
+            >
+              <FormattedMessage id="app_logout_text_button" />
+            </Button>
           </div>
         ) : (
           <div className={classes.wrapperBtn}>
-            <Button type="button" onClick={() => navigate('/login')} text="app_login_sign_in_submit_text" />
-            <Button type="button" onClick={() => navigate('/register')} text="app_sign_up_button_text" />
+            <Button type="button" onClick={() => navigate('/login')}>
+              <FormattedMessage id="app_login_sign_in_submit_text" />
+            </Button>
+            <Button type="button" onClick={() => navigate('/register')}>
+              <FormattedMessage id="app_sign_up_button_text" />
+            </Button>
           </div>
         )}
       </div>
@@ -97,17 +103,12 @@ const Navbar = ({ locale, login, token, userProfile }) => {
             </button>
           ) : (
             <div className={classes.wrapperBtn}>
-              <Button
-                className={classes.login}
-                type="button"
-                onClick={() => navigate('/login')}
-                text="app_login_sign_in_submit_text"
-              />
-              <Button
-                onClick={() => navigate('/register')}
-                className={classes.register}
-                text="app_sign_up_button_text"
-              />
+              <Button className={classes.login} type="button" onClick={() => navigate('/login')}>
+                <FormattedMessage id="app_login_sign_in_submit_text" />
+              </Button>
+              <Button onClick={() => navigate('/register')} className={classes.register}>
+                <FormattedMessage id="app_sign_up_button_text" />
+              </Button>
             </div>
           )}
           <div className={classes.wrapperBtnLang}>

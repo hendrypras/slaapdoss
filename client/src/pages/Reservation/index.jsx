@@ -1,65 +1,76 @@
-import { connect, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import PropTypes from 'prop-types';
-import { createStructuredSelector } from 'reselect';
-import { TrendingFlatOutlined, LocationOn, ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
-import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
-import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { connect, useDispatch } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { TrendingFlatOutlined, LocationOn } from '@mui/icons-material';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { FormattedMessage, injectIntl } from 'react-intl';
 
 import { selectAssets, selectLoading } from '@containers/App/selectors';
 import { showPopup } from '@containers/App/actions';
 
 import Button from '@components/Button';
 import Container from '@components/Container';
-import HeadTitle from '@components/HeadTitle';
 
+import PaymentMethod from '@pages/Reservation/components/PaymentMethod';
 import { selectUserData, selectUserProfile } from '@pages/UserProfile/selectors';
 import { getDataCrutialUser } from '@pages/UserProfile/actions';
 import { selectMethod } from '@pages/Reservation/selectors';
-import { createPayment, selectPaymentMethod } from '@pages/Reservation/actions';
+import { createPayment } from '@pages/Reservation/actions';
 import { selectDetailRoomCabin } from '@pages/DetailCabins/selectors';
+import { getDetailRoomCabin } from '@pages/DetailCabins/actions';
 
 import formatCurrency from '@utils/formatCurrency';
 import encryptPayload from '@utils/encryptPayload';
-
-import { getDetailRoomCabin } from '@pages/DetailCabins/actions';
-import moment from 'moment';
 import formateDate from '@utils/formateDate';
+import { calculateDurationInDays, getCheckIn, getCheckOut } from '@utils/times';
+
 import classes from './style.module.scss';
 
-const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoomCabin }) => {
+const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoomCabin, intl: { formatMessage } }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [acceptPayment, setAcceptPayment] = useState(false);
   const { slugCabin, roomId } = useParams();
   const location = useLocation();
 
   const queryParams = new URLSearchParams(location.search);
   const dateStart = queryParams.get('dateStart');
   const dateEnd = queryParams.get('dateEnd');
-  const stayDuration = queryParams.get('duration');
-  const unixDateStart = moment(`${dateStart} 14:00:00`).valueOf();
-  const unixDateEnd = moment(`${dateEnd} 12:00:00`).valueOf();
-
+  const dateCheckIn = getCheckIn(dateStart);
+  const dateCheckOut = getCheckOut(dateEnd);
+  const priceCabin = detailRoomCabin?.price;
+  const stayDuration = calculateDurationInDays(parseInt(dateCheckIn.unix, 10), parseInt(dateCheckOut.unix, 10));
   useEffect(() => {
-    if (slugCabin && roomId && dateStart && dateEnd) {
+    if (slugCabin && roomId) {
       dispatch(getDetailRoomCabin(slugCabin, roomId));
     }
     dispatch(getDataCrutialUser());
-  }, [dispatch, slugCabin, roomId, dateStart, dateEnd]);
+  }, [dispatch, slugCabin, roomId]);
   const handleSubmitPayment = (e) => {
     e.preventDefault();
     if (!method) {
       dispatch(
         showPopup(
-          null,
-          null,
-          null,
+          '',
+          '',
+          '',
           'app_reservation_title_empty_payment_method',
           'app_reservation_message_empty_payment_method'
         )
       );
+      return;
+    }
+    if (!dateStart && !dateEnd && !acceptPayment) {
+      Swal.fire({
+        title: formatMessage({ id: 'app_reservation_title_warning_duration' }),
+        text: formatMessage({ id: 'app_reservation_message_warning_duration' }),
+        icon: 'question',
+        confirmButtonText: 'Oke',
+        preConfirm: () => setAcceptPayment(true),
+      });
       return;
     }
     dispatch(
@@ -67,11 +78,11 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoo
         {
           paymentType: method?.paymentType,
           bank: method?.bank,
-          cabinRoomId: roomId,
-          startReservation: parseInt(unixDateStart, 10),
-          endReservation: parseInt(unixDateEnd, 10),
-          stayDuration: encryptPayload(stayDuration),
-          price: encryptPayload(detailRoomCabin?.price?.toString()),
+          roomId,
+          startReservation: parseInt(dateCheckIn.unix, 10),
+          endReservation: parseInt(dateCheckOut.unix, 10),
+          stayDuration: encryptPayload(stayDuration.toString()),
+          price: encryptPayload(priceCabin?.toString()),
         },
         (orderId) => {
           navigate(`/payment/pending/${orderId}`);
@@ -110,7 +121,7 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoo
                 <div className={classes.title}>
                   <FormattedMessage id="app_reservation_checkout_title" />
                 </div>
-                <div className={classes.value}>{formateDate(dateEnd, 'DD MMM YYYY')}</div>
+                <div className={classes.value}>{formateDate(dateCheckOut.unix, 'DD MMM YYYY')}</div>
                 <div className={classes.time}>12:00</div>
               </div>
               <div className={classes.list}>
@@ -154,144 +165,7 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoo
           </div>
         </div>
         <div className={classes.rightWrapper}>
-          <div className={classes.wrapperPaymentMethod}>
-            <div className={classes.headTitle}>
-              <FormattedMessage id="app_reservation_payment_method_title" />
-            </div>
-            <Accordion className={classes.accordion}>
-              <AccordionSummary
-                className={classes.summary}
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <FormattedMessage id="app_reservation_virtual_account_title" />
-              </AccordionSummary>
-              <AccordionDetails className={classes.accordionDetails}>
-                {assets?.payment_method?.map((val, i) => (
-                  <div
-                    hidden
-                    key={i}
-                    className={classes.wrapperCotentDetails}
-                    onClick={() => dispatch(selectPaymentMethod({ paymentType: val?.type, bank: val?.method }))}
-                  >
-                    <img src={val?.icon_url} alt="icon" className={classes.icon} />
-                    <div className={classes.content}>
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        checked={method?.bank === val?.method}
-                        onChange={() => dispatch(selectPaymentMethod({ paymentType: val?.type, bank: val?.method }))}
-                        className={classes.radioButton}
-                      />
-                      <HeadTitle className={classes.title} title={val?.type_label} />
-                      <div className={classes.desc}>
-                        <FormattedMessage id={val?.instraction?.desc} />
-                      </div>
-                      <Accordion className={classes.accordionStep}>
-                        <AccordionSummary
-                          className={classes.summary}
-                          expandIcon={<ExpandMoreIcon />}
-                          aria-controls="panel1a-content"
-                          id="panel1a-header"
-                        >
-                          ATM
-                        </AccordionSummary>
-                        {Object.values(val?.instraction?.atm?.step)?.map((step, stepIndex) => (
-                          <AccordionDetails key={stepIndex} className={classes.accordionDetails}>
-                            <div className={classes.number}>{stepIndex + 1}</div>
-                            <div className={classes.stepText}>
-                              <FormattedMessage id={step} />
-                            </div>
-                          </AccordionDetails>
-                        ))}
-                      </Accordion>
-                      {val?.instraction && val?.instraction?.internet_banking && (
-                        <Accordion className={classes.accordionStep}>
-                          <AccordionSummary
-                            className={classes.summary}
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                          >
-                            Internet Banking
-                          </AccordionSummary>
-                          {Object.values(val?.instraction?.internet_banking?.step)?.map((step, stepIndex) => (
-                            <AccordionDetails key={stepIndex} className={classes.accordionDetails}>
-                              <div className={classes.number}>{stepIndex + 1}</div>
-                              <div className={classes.stepText}>
-                                <FormattedMessage id={step} />
-                              </div>
-                            </AccordionDetails>
-                          ))}
-                        </Accordion>
-                      )}
-                      {val?.instraction && val?.instraction?.klik_bca && (
-                        <Accordion className={classes.accordionStep}>
-                          <AccordionSummary
-                            className={classes.summary}
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                          >
-                            Klick BCA
-                          </AccordionSummary>
-                          {Object.values(val?.instraction?.klik_bca?.step)?.map((step, stepIndex) => (
-                            <AccordionDetails key={stepIndex} className={classes.accordionDetails}>
-                              <div className={classes.number}>{stepIndex + 1}</div>
-                              <div className={classes.stepText}>
-                                <FormattedMessage id={step} />
-                              </div>
-                            </AccordionDetails>
-                          ))}
-                        </Accordion>
-                      )}
-                      {val?.instraction && val?.instraction?.m_bca && (
-                        <Accordion className={classes.accordionStep}>
-                          <AccordionSummary
-                            className={classes.summary}
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                          >
-                            M BCA
-                          </AccordionSummary>
-                          {Object.values(val?.instraction?.m_bca?.step)?.map((step, stepIndex) => (
-                            <AccordionDetails key={stepIndex} className={classes.accordionDetails}>
-                              <div className={classes.number}>{stepIndex + 1}</div>
-                              <div className={classes.stepText}>
-                                <FormattedMessage id={step} />
-                              </div>
-                            </AccordionDetails>
-                          ))}
-                        </Accordion>
-                      )}
-                      {val?.instraction && val?.instraction?.m_banking && (
-                        <Accordion className={classes.accordionStep}>
-                          <AccordionSummary
-                            className={classes.summary}
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1a-content"
-                            id="panel1a-header"
-                          >
-                            M Banking
-                          </AccordionSummary>
-                          {Object.values(val?.instraction?.m_banking?.step)?.map((step, stepIndex) => (
-                            <AccordionDetails key={stepIndex} className={classes.accordionDetails}>
-                              <div className={classes.number}>{stepIndex + 1}</div>
-                              <div className={classes.stepText}>
-                                <FormattedMessage id={step} />
-                              </div>
-                            </AccordionDetails>
-                          ))}
-                        </Accordion>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </AccordionDetails>
-            </Accordion>
-          </div>
+          <PaymentMethod methodList={assets.payment_method} methodSelected={method} />
           <div className={classes.wrapperPriceDetail}>
             <div className={classes.headTitle}>
               <FormattedMessage id="app_reservation_price_detail_head_title" />
@@ -299,7 +173,7 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoo
             <div className={classes.wrapperPriceList}>
               <div className={classes.list}>
                 <div className={classNames(classes.title, classes.value)}>{detailRoomCabin?.typeCabin}</div>
-                <div className={classNames(classes.value, classes.cabin)}>{formatCurrency(detailRoomCabin?.price)}</div>
+                <div className={classNames(classes.value, classes.cabin)}>{formatCurrency(priceCabin)}</div>
               </div>
               <div className={classes.list}>
                 <div className={classNames(classes.title)}>
@@ -310,17 +184,21 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoo
                 </div>
               </div>
               <div className={classes.list}>
+                <div className={classNames(classes.title)}>
+                  <FormattedMessage id="app_home_title_duration_search_selelct" />
+                </div>
+                <div className={classNames(classes.value)}>{stayDuration}</div>
+              </div>
+              <div className={classes.list}>
                 <div className={classNames(classes.title, classes.total)}>TOTAL</div>
-                <div className={classNames(classes.value, classes.total)}>{formatCurrency(detailRoomCabin?.price)}</div>
+                <div className={classNames(classes.value, classes.total)}>
+                  {formatCurrency(Number(priceCabin) * Number(stayDuration))}
+                </div>
               </div>
             </div>
-            <Button
-              className={classes.btnContinue}
-              onClick={handleSubmitPayment}
-              isLoading={loading}
-              type="button"
-              text="app_reservation_continue_payment_title"
-            />
+            <Button className={classes.btnContinue} onClick={handleSubmitPayment} isLoading={loading} type="button">
+              <FormattedMessage id="app_reservation_continue_payment_title" />
+            </Button>
           </div>
         </div>
       </>
@@ -344,6 +222,7 @@ Reservation.propTypes = {
   userProfile: PropTypes.object,
   loading: PropTypes.bool,
   detailRoomCabin: PropTypes.object,
+  intl: PropTypes.object,
 };
 
-export default connect(mapStateToProps)(Reservation);
+export default injectIntl(connect(mapStateToProps)(Reservation));

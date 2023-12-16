@@ -1,9 +1,9 @@
+import OtpInput from 'react-otp-input';
+import Countdown from 'react-countdown';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
-import OtpInput from 'react-otp-input';
-import Countdown from 'react-countdown';
 
 import { registEmail, verifyOtp } from '@pages/Register/actions';
 
@@ -13,7 +13,7 @@ import encryptPayload from '@utils/encryptPayload';
 
 import classes from './style.module.scss';
 
-const StepTwo = ({ loading, token, email, otpExp }) => {
+const StepTwo = ({ loading, token, email, otpExp, handleBack }) => {
   const dispatch = useDispatch();
   const [otp, setOtp] = useState('');
   const currentTime = Math.floor(Date.now() / 1000);
@@ -38,17 +38,15 @@ const StepTwo = ({ loading, token, email, otpExp }) => {
 
   return (
     <form className={classes.form} onSubmit={handleSubmitOtp}>
-      <div className={classes.wrapperInput}>
-        <OtpInput
-          containerStyle={classes.containerInput}
-          inputStyle={classes.input}
-          shouldAutoFocus
-          value={otp}
-          onChange={setOtp}
-          numInputs={6}
-          renderInput={(props) => <input {...props} />}
-        />
-      </div>
+      <OtpInput
+        containerStyle={classes.containerInput}
+        inputStyle={classes.input}
+        shouldAutoFocus
+        value={otp}
+        onChange={setOtp}
+        numInputs={6}
+        renderInput={(props) => <input {...props} />}
+      />
       <div className={classes.resendWrapper}>
         <FormattedMessage id="app_sign_up_otp_message" />
         <Countdown
@@ -79,11 +77,18 @@ const StepTwo = ({ loading, token, email, otpExp }) => {
           }}
         />
       </div>
-      <Button
-        isLoading={loading}
-        type="submit"
-        text={loading ? 'app_text_loading_button' : 'app_sign_up_button_verify_text'}
-      />
+      <div className={classes.wrapperBtn}>
+        <Button isLoading={loading} type="submit">
+          {loading ? (
+            <FormattedMessage id="app_text_loading_button" />
+          ) : (
+            <FormattedMessage id="app_sign_up_button_verify_text" />
+          )}
+        </Button>
+        <Button type="button" className={classes.btnBack} onClick={handleBack}>
+          <FormattedMessage id="app_back_button_text" />
+        </Button>
+      </div>
     </form>
   );
 };
@@ -92,5 +97,6 @@ StepTwo.propTypes = {
   token: PropTypes.string,
   email: PropTypes.string,
   otpExp: PropTypes.number,
+  handleBack: PropTypes.func,
 };
 export default StepTwo;

@@ -1,20 +1,21 @@
 /* eslint-disable no-underscore-dangle */
+import PropTypes from 'prop-types';
 import { useDispatch, connect } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { useEffect, useState } from 'react';
 import { jwtDecode } from 'jwt-decode';
-import PropTypes from 'prop-types';
 
 import { selectLogin } from '@containers/Client/selectors';
 import { showPopup } from '@containers/App/actions';
 import { selectLoading as selectLoadingOauth } from '@containers/App/selectors';
 import { oAuthGoogle } from '@containers/Client/actions';
 
-import { selectExpOtp, selectLoading, selectTokenStep } from '@pages/Register/selectors';
 import StepThree from '@pages/Register/components/StepThree';
 import StepOne from '@pages/Register/components/StepOne';
 import StepTwo from '@pages/Register/components/StepTwo';
+import { setExpOtp, setTokenStep } from '@pages/Register/actions';
+import { selectExpOtp, selectLoading, selectTokenStep } from '@pages/Register/selectors';
 
 import WrapperAuthentication from '@components/WrapperAuthentication';
 
@@ -43,6 +44,12 @@ const Register = ({ login, loading, tokenStep, loadingOauth, otpExp }) => {
     }
   }, [login, navigate]);
 
+  const handleBtnBack = () => {
+    setStep(1);
+    dispatch(setTokenStep(null));
+    dispatch(setExpOtp(null));
+  };
+
   switch (step) {
     case 1:
       return (
@@ -53,7 +60,7 @@ const Register = ({ login, loading, tokenStep, loadingOauth, otpExp }) => {
     case 2:
       return (
         <WrapperAuthentication title="app_sign_up_title">
-          <StepTwo loading={loading} token={tokenStep} email={email} otpExp={otpExp} />
+          <StepTwo loading={loading} token={tokenStep} email={email} otpExp={otpExp} handleBack={handleBtnBack} />
         </WrapperAuthentication>
       );
     case 3:

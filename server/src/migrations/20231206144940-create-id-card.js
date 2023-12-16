@@ -30,7 +30,7 @@ module.exports = {
       },
       birthday: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
       },
       religion: {
         type: Sequelize.STRING,

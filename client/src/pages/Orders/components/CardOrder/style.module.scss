@@ -1,0 +1,13 @@
+@import '@styles/base';
+
+.card {
+  @include shadow;
+  border-radius: 1rem;
+  background-color: $color-white;
+  padding: 1.2rem 1rem;
+  width: 100%;
+  .wrapperOrderId {
+    width: 100%;
+    @include displayFlex(row, space-between, center);
+  }
+}

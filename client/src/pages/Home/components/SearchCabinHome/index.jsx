@@ -2,7 +2,7 @@ import { FormattedMessage } from 'react-intl';
 
 import SearchCabin from '@components/Search/Cabin';
 
-import getGreeting from '@utils/getGreeting';
+import { getGreeting } from '@utils/times';
 
 import classes from './style.module.scss';
 

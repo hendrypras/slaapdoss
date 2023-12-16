@@ -19,7 +19,9 @@ const NotFound = ({ assets }) => {
       <div className={classes.title}>
         <FormattedMessage id="app_not_found" />
       </div>
-      <Button text="app_not_found_button_text" className={classes.button} onClick={() => navigate('/')} />
+      <Button className={classes.button} onClick={() => navigate('/')}>
+        <FormattedMessage id="app_not_found_button_text" />
+      </Button>
     </div>
   );
 };

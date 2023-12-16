@@ -3,10 +3,10 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class Cabins extends Model {
     static associate(models) {
-      Cabins.hasMany(models.CabinRooms, {
+      Cabins.hasMany(models.Rooms, {
         foreignKey: 'cabins_slug',
         sourceKey: 'slug',
-        as: 'cabins_rooms',
+        as: 'rooms',
       })
     }
   }
@@ -19,10 +19,6 @@ module.exports = (sequelize, DataTypes) => {
       image_url: DataTypes.STRING,
       image_public_id: DataTypes.STRING,
       slug: DataTypes.STRING,
-      province: DataTypes.STRING,
-      village: DataTypes.STRING,
-      district: DataTypes.STRING,
-      city_name: DataTypes.STRING,
       latitude: DataTypes.FLOAT,
       longitude: DataTypes.FLOAT,
     },

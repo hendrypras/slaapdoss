@@ -1,0 +1,13 @@
+@import '@styles/base';
+
+.wrapper {
+  @include displayFlex(column, center, center);
+  padding: 1rem;
+  overflow: hidden;
+  width: 100%;
+  .wrapperCardOrder {
+    width: 100%;
+    @include displayFlex(column, center, center);
+    gap: 1rem;
+  }
+}

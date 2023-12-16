@@ -19,10 +19,12 @@ module.exports = {
       transaction_id: {
         type: Sequelize.STRING,
         allowNull: true,
+        unique: true,
       },
       order_id: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       gross_amount: {
         type: Sequelize.STRING,
@@ -49,7 +51,7 @@ module.exports = {
         allowNull: false,
       },
       expiry_time: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
         allowNull: true,
       },
     })

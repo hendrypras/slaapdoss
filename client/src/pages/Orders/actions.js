@@ -1,4 +1,4 @@
-import { GET_ORDERS_USER, SET_LOADING, SET_ORDERS_USER } from '@pages/PaymentResponse/constants';
+import { GET_ORDERS_USER, SET_LOADING, SET_ORDERS_USER } from '@pages/Orders/constants';
 
 export const getOrdersUser = (orderId) => ({
   type: GET_ORDERS_USER,

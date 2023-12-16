@@ -7,12 +7,12 @@ import { Link } from 'react-router-dom';
 
 import Button from '@components/Button';
 import ButtonOauth from '@components/ButtonOauth';
+import InputFormBasic from '@components/InputForm/Basic';
 
 import { registEmail } from '@pages/Register/actions';
 
 import encryptPayload from '@utils/encryptPayload';
 
-import InputFormBasic from '@components/InputForm/Basic';
 import classes from './style.module.scss';
 
 const StepOne = ({ loading, handleAuth, loadingOauth, intl: { formatMessage } }) => {
@@ -35,11 +35,13 @@ const StepOne = ({ loading, handleAuth, loadingOauth, intl: { formatMessage } })
             pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: 'Invalid email address' },
           }}
         />
-        <Button
-          isLoading={loading}
-          type="submit"
-          text={loading ? 'app_text_loading_button' : 'app_sign_up_button_text'}
-        />
+        <Button isLoading={loading} type="submit">
+          {loading ? (
+            <FormattedMessage id="app_text_loading_button" />
+          ) : (
+            <FormattedMessage id="app_sign_up_button_text" />
+          )}
+        </Button>
 
         <div className={classes.orText}>
           <Divider />

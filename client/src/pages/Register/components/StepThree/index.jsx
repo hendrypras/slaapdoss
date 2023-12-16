@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
+import Swal from 'sweetalert2';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useState } from 'react';
-import Swal from 'sweetalert2';
 
 import { userRegister } from '@pages/Register/actions';
 
@@ -102,11 +102,13 @@ const StepThree = ({ loading, token, intl: { formatMessage } }) => {
             {show.confirmPassword ? <Visibility /> : <VisibilityOff />}
           </button>
         </InputFormBasic>
-        <Button
-          isLoading={loading}
-          type="submit"
-          text={loading ? 'app_text_loading_button' : 'app_forgot_submit_button_title'}
-        />
+        <Button isLoading={loading} type="submit">
+          {loading ? (
+            <FormattedMessage id="app_text_loading_button" />
+          ) : (
+            <FormattedMessage id="app_forgot_submit_button_title" />
+          )}
+        </Button>
       </form>
     </FormProvider>
   );

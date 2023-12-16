@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       transaction_status: DataTypes.STRING,
       va_number: DataTypes.STRING,
       bank: DataTypes.STRING,
-      expiry_time: DataTypes.DATE,
+      expiry_time: DataTypes.STRING,
     },
     {
       sequelize,

@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import { FormattedMessage } from 'react-intl';
 import { NoFood } from '@mui/icons-material';
 import { useState } from 'react';
 import { useMediaQuery } from '@mui/material';
@@ -24,6 +25,9 @@ const CardCabin = ({ cabins }) => {
     drawerRoomNumber: false,
     drawerDetailRoom: false,
   });
+  const handleOpenAndCloseDrawer = (drawerName) => {
+    setOpen((prev) => ({ ...prev, [drawerName]: !prev[drawerName] }));
+  };
   return (
     <>
       {isDesktop ? (
@@ -31,27 +35,31 @@ const CardCabin = ({ cabins }) => {
           <ModalPopUp
             className={classes.modalDetailRoom}
             open={open.drawerDetailRoom}
-            onClose={() => setOpen({ drawerDetailRoom: false })}
+            onClose={() => handleOpenAndCloseDrawer('drawerDetailRoom')}
           >
-            <ContentDetailRoom data={cabins?.include} nameCabin={cabins?.type_cabin?.name} />
+            <ContentDetailRoom data={cabins?.include} nameCabin={cabins?.type_room?.name} />
           </ModalPopUp>
           <ModalPopUp
             className={classes.modalRoomNumber}
             open={open.drawerRoomNumber}
-            onClose={() => setOpen({ drawerRoomNumber: false })}
+            onClose={() => handleOpenAndCloseDrawer('drawerRoomNumber')}
           >
             <ContentRoomNumber rooms={cabins?.cabins} />
           </ModalPopUp>
         </>
       ) : (
         <>
-          <DrawerMobile open={open.drawerDetailRoom} height="70vh" onClose={() => setOpen({ drawerDetailRoom: false })}>
-            <ContentDetailRoom data={cabins?.include} nameCabin={cabins?.type_cabin?.name} />
+          <DrawerMobile
+            open={open.drawerDetailRoom}
+            height="70vh"
+            onClose={() => handleOpenAndCloseDrawer('drawerDetailRoom')}
+          >
+            <ContentDetailRoom data={cabins?.include} nameCabin={cabins?.type_room?.name} />
           </DrawerMobile>
           <DrawerMobile
             open={open.drawerRoomNumber}
             height="max-content"
-            onClose={() => setOpen({ drawerRoomNumber: false })}
+            onClose={() => handleOpenAndCloseDrawer('drawerRoomNumber')}
           >
             <ContentRoomNumber rooms={cabins?.cabins} />
           </DrawerMobile>
@@ -59,13 +67,15 @@ const CardCabin = ({ cabins }) => {
       )}
       <div className={classes.card}>
         <div className={classes.cardTop}>
-          <HeadTitle size={16} title={cabins?.type_cabin?.name} />
-          <img src={cabins?.type_cabin?.image_url} alt="cabins" className={classes.img} />
+          <HeadTitle size={16} title={cabins?.type_room?.name} />
+          <img src={cabins?.type_room?.image_url} alt="cabins" className={classes.img} />
           <Button
+            type="button"
             className={classes.btnDetail}
-            title="Room Details"
-            onClick={() => setOpen({ drawerDetailRoom: true })}
-          />
+            onClick={() => handleOpenAndCloseDrawer('drawerDetailRoom')}
+          >
+            <FormattedMessage id="app_component_button_title_room_details" />
+          </Button>
         </div>
 
         <div className={classes.wrapperCenter}>
@@ -79,7 +89,7 @@ const CardCabin = ({ cabins }) => {
             <div className={classNames(classes.content, classes.info)}>
               <NoFood className={classes.icon} />
               <div className={classes.titleContent}>
-                {cabins?.type_cabin?.breakfast ? 'Include Breakfast' : 'No Breakfast'}
+                {cabins?.type_room?.breakfast ? 'Include Breakfast' : 'No Breakfast'}
               </div>
             </div>
             <div className={classNames(classes.content, classes.info)}>
@@ -88,9 +98,15 @@ const CardCabin = ({ cabins }) => {
             </div>
           </div>
           <div className={classes.cardFooter}>
-            <div className={classes.price}>{formatCurrency(cabins?.type_cabin?.price)}</div>
-            <div className={classes.information}>{cabins?.type_cabin?.information}</div>
-            <Button title="Select" className={classes.btnSelect} onClick={() => setOpen({ drawerRoomNumber: true })} />
+            <div className={classes.price}>{formatCurrency(cabins?.type_room?.price)}</div>
+            <div className={classes.information}>{cabins?.type_room?.information}</div>
+            <Button
+              type="button"
+              className={classes.btnSelect}
+              onClick={() => handleOpenAndCloseDrawer('drawerRoomNumber')}
+            >
+              <FormattedMessage id="app_component_button_title_select" />
+            </Button>
           </div>
         </div>
       </div>

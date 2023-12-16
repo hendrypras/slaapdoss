@@ -6,7 +6,7 @@ import clientSaga from '@containers/Client/saga';
 import registerSaga from '@pages/Register/saga';
 import forgotPasswordSaga from '@pages/ForgotPassword/saga';
 import resetPasswordSaga from '@pages/ResetPassword/saga';
-import paymentResponseSaga from '@pages/PaymentResponse/saga';
+import ordersSaga from '@pages/Orders/saga';
 import createDetailCabinSaga from '@pages/CreateDeatilCabin/saga';
 import userProfileSaga from '@pages/UserProfile/saga';
 import detailCabinsSaga from '@pages/DetailCabins/saga';
@@ -19,7 +19,7 @@ export default function* rootSaga() {
     registerSaga(),
     forgotPasswordSaga(),
     resetPasswordSaga(),
-    paymentResponseSaga(),
+    ordersSaga(),
     createDetailCabinSaga(),
     userProfileSaga(),
     detailCabinsSaga(),

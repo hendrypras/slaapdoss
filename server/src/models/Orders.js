@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes) => {
           name: 'user_id',
         },
       })
-      Orders.belongsTo(models.CabinRooms, {
+      Orders.belongsTo(models.Rooms, {
         as: 'room',
         foreignKey: {
-          name: 'cabin_room_id',
+          name: 'room_id',
         },
       })
       Orders.hasOne(models.ResponsePayments, {
@@ -24,10 +24,10 @@ module.exports = (sequelize, DataTypes) => {
   }
   Orders.init(
     {
-      cabin_room_id: DataTypes.INTEGER,
+      room_id: DataTypes.INTEGER,
       order_id: DataTypes.STRING,
       user_id: DataTypes.INTEGER,
-      total_price: DataTypes.INTEGER,
+      total_price: DataTypes.BIGINT,
       stay_duration: DataTypes.INTEGER,
       start_reservation: DataTypes.STRING,
       end_reservation: DataTypes.STRING,

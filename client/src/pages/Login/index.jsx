@@ -66,7 +66,7 @@ const Login = ({ login, loading }) => {
             classWrapper={classes.wrapperInput}
             rules={{
               required: 'Password is required',
-              // minLength: { value: 6, message: 'Password must be at least 6 characters' },
+              minLength: { value: 6, message: 'Password must be at least 6 characters' },
             }}
           >
             <button
@@ -84,11 +84,13 @@ const Login = ({ login, loading }) => {
               <FormattedMessage id="app_login_sign_in_forgot_password_text" />
             </Link>
           </div>
-          <Button
-            isLoading={loading}
-            type="submit"
-            text={loading ? 'app_text_loading_button' : 'app_login_sign_in_submit_text'}
-          />
+          <Button isLoading={loading} type="submit">
+            {loading ? (
+              <FormattedMessage id="app_text_loading_button" />
+            ) : (
+              <FormattedMessage id="app_login_sign_in_submit_text" />
+            )}
+          </Button>
 
           <div className={classes.orText}>
             <Divider />

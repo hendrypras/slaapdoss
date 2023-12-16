@@ -5,6 +5,7 @@ import {
   SET_DATA_CRUTIAL_USER,
   SET_DATA_ID_CARD,
   SET_IMAGE_CAPTURED,
+  SET_IMAGE_SELECTED,
   SET_LOADING,
   SET_USER_PROFILE,
   UPDATE_USER_PROFILE,
@@ -18,14 +19,15 @@ export const setUserProfile = (profile) => ({
   type: SET_USER_PROFILE,
   profile,
 });
-export const createIdCard = (data, cbSuccess) => ({
+export const createIdCard = (data, cbSuccess, cbError) => ({
   type: CREATE_ID_CARD,
   data,
   cbSuccess,
+  cbError,
 });
-export const uploadIdCard = (formData) => ({
+export const uploadIdCard = (imageUrl) => ({
   type: UPLOAD_ID_CARD,
-  formData,
+  imageUrl,
 });
 export const setDataIdCard = (data) => ({
   type: SET_DATA_ID_CARD,
@@ -50,4 +52,11 @@ export const updateUserProfile = (data, cbSuccess) => ({
   type: UPDATE_USER_PROFILE,
   data,
   cbSuccess,
+});
+export const setImageSelected = (idCard, profile) => ({
+  type: SET_IMAGE_SELECTED,
+  imageSelected: {
+    idCard,
+    profile,
+  },
 });

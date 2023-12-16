@@ -7,23 +7,22 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import Swal from 'sweetalert2';
 
-import { createIdCard, getDataCrutialUser, setDataIdCard } from '@pages/UserProfile/actions';
+import { createIdCard, getDataCrutialUser, setDataIdCard, setImageSelected } from '@pages/UserProfile/actions';
 
 import InputForm from '@components/InputForm';
 import Button from '@components/Button';
 
-import { decryptObjectPayload, decryptTextPayload } from '@utils/decryptPayload';
+import { decryptObjectPayload } from '@utils/decryptPayload';
 import encryptPayload from '@utils/encryptPayload';
 
 import classNames from 'classnames';
 import classes from './style.module.scss';
 
-const IdCard = ({ disabled, dataIdCard, loading, intl: { formatMessage } }) => {
+const IdCard = ({ disabled, dataIdCard, loading, imageSelected, onCloseDrawerPopUp, intl: { formatMessage } }) => {
   const dispatch = useDispatch();
   const method = useForm();
   const idCardResult = decryptObjectPayload(dataIdCard?.idCard);
-  const idCardUrl = decryptTextPayload(dataIdCard?.imageIdCard?.url);
-  const idCardPublicId = decryptTextPayload(dataIdCard?.imageIdCard?.publicId);
+  const idCardUrl = dataIdCard?.idCardUrl;
   useEffect(() => {
     if (idCardResult) {
       Object.entries(idCardResult).forEach(([key, value]) => {
@@ -33,24 +32,31 @@ const IdCard = ({ disabled, dataIdCard, loading, intl: { formatMessage } }) => {
   }, [dataIdCard, method]);
 
   const onSubmitIdCard = (data) => {
+    onCloseDrawerPopUp();
     const { birthday: birthdayDate, ...rest } = data;
     const dataEncrypted = encryptPayload({
-      id_card_url: idCardUrl,
-      id_card_public_id: idCardPublicId,
-      birthday: moment(birthdayDate, 'DD-MM-YYYY').toISOString(),
+      birthday: moment(birthdayDate, 'DD-MM-YYYY').valueOf(),
       ...rest,
     });
     dispatch(
-      createIdCard({ payload: dataEncrypted }, () => {
-        dispatch(setDataIdCard(null));
-        dispatch(getDataCrutialUser());
-        Swal.fire({
-          title: formatMessage({ id: 'app_user_profile_title_success_submit_id_card' }),
-          text: formatMessage({ id: 'app_user_profile_message_success_submit_id_card' }),
-          icon: 'success',
-          confirmButtonText: 'Oke',
-        });
-      })
+      createIdCard(
+        { idCard: dataEncrypted, idCardUrl },
+        () => {
+          dispatch(setDataIdCard(null));
+          dispatch(setImageSelected(null, imageSelected.profile));
+          dispatch(getDataCrutialUser());
+          Swal.fire({
+            title: formatMessage({ id: 'app_user_profile_title_success_submit_id_card' }),
+            text: formatMessage({ id: 'app_user_profile_message_success_submit_id_card' }),
+            icon: 'success',
+            confirmButtonText: 'Oke',
+          });
+        },
+        () => {
+          dispatch(setDataIdCard(null));
+          dispatch(setImageSelected(null, imageSelected.profile));
+        }
+      )
     );
   };
 
@@ -140,12 +146,9 @@ const IdCard = ({ disabled, dataIdCard, loading, intl: { formatMessage } }) => {
             <div className={classes.title}>Marial Status</div>
           </div>
 
-          <Button
-            isLoading={loading}
-            className={classes.button}
-            text="app_user_profile_text_button_submit_data_id_card"
-            type="submit"
-          />
+          <Button isLoading={loading} className={classes.button} type="submit">
+            <FormattedMessage id="app_user_profile_text_button_submit_data_id_card" />
+          </Button>
         </form>
       </FormProvider>
     )
@@ -158,6 +161,8 @@ IdCard.propTypes = {
   loading: PropTypes.bool,
   disabled: PropTypes.bool,
   intl: PropTypes.object,
+  imageSelected: PropTypes.object,
+  onCloseDrawerPopUp: PropTypes.func,
 };
 
 export default injectIntl(IdCard);
