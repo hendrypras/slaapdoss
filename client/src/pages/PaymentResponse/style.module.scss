@@ -5,56 +5,70 @@
   padding: 1rem;
   overflow: hidden;
   width: 100%;
-  .title {
-    margin-top: 2rem;
-    font-size: 1.3rem;
-    width: fit-content;
-    text-align: center;
+  @include screen(lg) {
+    @include displayFlex(row, center, start);
+    gap: 2rem;
   }
-  .titleAccountNumber {
-    font-size: 1.2rem;
-    margin-top: 1rem;
-    font-weight: 500;
-  }
-  .noVa {
-    margin-top: 0.5rem;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-  .btnCopy {
-    margin-top: 0.3rem;
-    width: 60%;
-    font-size: 1.2rem;
-    padding: 0.8rem 0;
-  }
-  .boxinterval {
-    width: 80%;
-    margin: 2rem auto;
-    border: 1.2px solid rgb(199, 194, 194);
-    padding: 1.5rem 0;
+  .wrapperCountdown {
     @include displayFlex(column, center, center);
-    .countdownTime {
-      font-size: 2.2rem;
-      font-weight: 700;
+    width: 100%;
+    @include screen(lg) {
+      width: 62%;
     }
-    .titlePayBefore {
-      font-size: 1.2rem;
-      font-weight: 400;
-      width: 70%;
+    .title {
+      margin-top: 2rem;
+      width: fit-content;
       text-align: center;
-      margin-top: 0.3rem;
     }
-    .expiry_date {
+    .titleAccountNumber {
       font-size: 1.2rem;
-      font-weight: 700;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+    .noVa {
+      margin-top: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .btnCopy {
+      margin-top: 0.3rem;
+      width: 60%;
+      font-size: 1.2rem;
+      padding: 0.8rem 0;
+    }
+    .boxinterval {
+      width: 80%;
+      margin: 2rem auto;
+      border: 1.2px solid rgb(199, 194, 194);
+      padding: 1.5rem 0;
+      @include displayFlex(column, center, center);
+      .countdownTime {
+        font-size: 2.2rem;
+        font-weight: 700;
+      }
+      .titlePayBefore {
+        font-size: 1.2rem;
+        font-weight: 400;
+        width: 70%;
+        text-align: center;
+        margin-top: 0.3rem;
+      }
+      .expiry_date {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
     }
   }
+
   .wrapperOrderDetail {
     margin-top: 1rem;
     @include shadow;
     width: 100%;
     padding: 2rem 1.8rem;
     border-radius: 1.2rem;
+    @include screen(lg) {
+      width: 38%;
+    }
     .wrapperOrderid {
       width: 100%;
       @include displayFlex(row, space-between, center);
@@ -98,10 +112,24 @@
     }
     .wrapperDetailRoom {
       margin-top: 1rem;
+      width: 100%;
+      @include displayFlex(column, center, space-between);
+      gap: 0.5rem;
       .title {
         font-size: 0.8rem;
         font-weight: 500;
         color: $color-gray-100;
+      }
+      .content {
+        @include displayFlex(row, space-between, center);
+        width: 100%;
+      }
+      .dividerDetail {
+        margin: 0.8rem 0;
+      }
+      .valueTotalPrice {
+        font-size: 1rem;
+        font-weight: 700;
       }
     }
   }

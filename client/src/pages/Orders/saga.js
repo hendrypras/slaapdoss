@@ -4,10 +4,10 @@ import { getOrders } from '@domain/api';
 
 import { showPopup } from '@containers/App/actions';
 
-import { GET_ORDERS_USER } from '@pages/PaymentResponse/constants';
-import { setOrdersUser, setLoading } from '@pages/PaymentResponse/actions';
+import { GET_ORDERS_USER } from '@pages/Orders/constants';
+import { setOrdersUser, setLoading } from '@pages/Orders/actions';
 
-function* doGetListPaymentMethod({ orderId }) {
+function* doGetordersUser({ orderId }) {
   yield put(setLoading(true));
   try {
     const response = yield call(getOrders, orderId);
@@ -21,6 +21,6 @@ function* doGetListPaymentMethod({ orderId }) {
   }
 }
 
-export default function* paymentResponseSaga() {
-  yield takeLatest(GET_ORDERS_USER, doGetListPaymentMethod);
+export default function* ordersSaga() {
+  yield takeLatest(GET_ORDERS_USER, doGetordersUser);
 }

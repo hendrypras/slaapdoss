@@ -26,11 +26,11 @@ const validateBodyCreatePayment = reqBody => {
       'string.base': 'bank must be a string.',
       'string.empty': 'bank cannot be empty.',
     }),
-    cabinRoomId: Joi.number().positive().required().strict().messages({
-      'number.base': 'cabinRoomId must be a number.',
-      'number.positive': 'cabinRoomId must be a positive number.',
-      'any.required': 'cabinRoomId is required.',
-      'number.strict': 'cabinRoomId must be a strict number type.',
+    roomId: Joi.number().positive().required().strict().messages({
+      'number.base': 'roomId must be a number.',
+      'number.positive': 'roomId must be a positive number.',
+      'any.required': 'roomId is required.',
+      'number.strict': 'roomId must be a strict number type.',
     }),
     startReservation: Joi.custom((value, helpers) => {
       if (!isUnixTimestamp(value)) {
@@ -299,26 +299,6 @@ const validateBodyCreateCabin = reqBody => {
       'string.empty': 'slug is required.',
       'any.required': 'slug is required.',
     }),
-    province: Joi.string().required().messages({
-      'string.base': 'province must be a string.',
-      'string.empty': 'province is required.',
-      'any.required': 'province is required.',
-    }),
-    village: Joi.string().required().messages({
-      'string.base': 'village must be a string.',
-      'string.empty': 'village is required.',
-      'any.required': 'village is required.',
-    }),
-    district: Joi.string().required().messages({
-      'string.base': 'district must be a string.',
-      'string.empty': 'district is required.',
-      'any.required': 'district is required.',
-    }),
-    city_name: Joi.string().required().messages({
-      'string.base': 'city_name must be a string.',
-      'string.empty': 'city_name is required.',
-      'any.required': 'city_name is required.',
-    }),
     latitude: Joi.number().required().messages({
       'number.base': 'Latitude should be a number.',
       'number.empty': 'Latitude is required.',
@@ -349,11 +329,11 @@ const validateBodyCreateCabinRoom = reqBody => {
       'string.empty': 'cabinsSlug is required.',
       'any.required': 'cabinsSlug is required.',
     }),
-    typeCabinId: Joi.number().positive().required().strict().messages({
-      'number.base': 'typeCabinId must be a number.',
-      'number.positive': 'typeCabinId must be a positive number.',
-      'any.required': 'typeCabinId is required.',
-      'number.strict': 'typeCabinId must be a strict number type.',
+    typeRoomId: Joi.number().positive().required().strict().messages({
+      'number.base': 'typeRoomId must be a number.',
+      'number.positive': 'typeRoomId must be a positive number.',
+      'any.required': 'typeRoomId is required.',
+      'number.strict': 'typeRoomId must be a strict number type.',
     }),
     roomNumber: Joi.string().required().messages({
       'string.base': 'roomNumber must be a string.',
@@ -373,12 +353,18 @@ const validateBodyCreateCabinRoom = reqBody => {
   return null
 }
 const validateBodyCreateTypeCabin = reqBody => {
+  const allowedNames = ['standard cabin', 'deluxe cabin', 'executive cabin']
   const schema = Joi.object({
-    name: Joi.string().required().messages({
-      'string.base': 'Name must be a string.',
-      'string.empty': 'Name is required.',
-      'any.required': 'Name is required.',
-    }),
+    name: Joi.string()
+      .valid(...allowedNames.map(name => name.toLowerCase()))
+      .required()
+      .insensitive()
+      .messages({
+        'string.base': 'Name must be a string.',
+        'string.empty': 'Name is required.',
+        'any.required': 'Name is required.',
+        'any.only': `Name must be one of: ${allowedNames.join(', ')}.`,
+      }),
     information: Joi.string().required().messages({
       'string.base': 'information must be a string.',
       'string.empty': 'information is required.',
@@ -417,12 +403,19 @@ const validateBodyCreateTypeCabin = reqBody => {
 }
 
 const validateBodyUpdateTypeCabin = reqBody => {
+  const allowedNames = ['standard cabin', 'deluxe cabin', 'executive cabin']
+
   const schema = Joi.object({
-    name: Joi.string().required().messages({
-      'string.base': 'Name must be a string.',
-      'string.empty': 'Name is required.',
-      'any.required': 'Name is required.',
-    }),
+    name: Joi.string()
+      .valid(...allowedNames.map(name => name.toLowerCase()))
+      .required()
+      .insensitive()
+      .messages({
+        'string.base': 'Name must be a string.',
+        'string.empty': 'Name is required.',
+        'any.required': 'Name is required.',
+        'any.only': `Name must be one of: ${allowedNames.join(', ')}.`,
+      }),
     cabinsSlug: Joi.string().required().messages({
       'string.base': 'cabinsSlug must be a string.',
       'string.empty': 'cabinsSlug is required.',
@@ -531,11 +524,16 @@ const validateBodyCreateIdCard = result => {
       'string.base': 'name must be a string.',
       'string.empty': 'name is required.',
     }),
-    birthday: Joi.date().iso().required().messages({
-      'date.base': 'Birthday must be a date.',
-      'date.empty': 'Birthday is required.',
-      'date.isoDate': 'Birthday must be in ISO date format.',
-    }),
+    birthday: Joi.custom((value, helpers) => {
+      if (!isUnixTimestamp(value)) {
+        return helpers.error('any.custom')
+      }
+      return value
+    })
+      .required()
+      .messages({
+        'any.required': 'birthday must be a valid Unix timestamp.',
+      }),
 
     address: Joi.string().required().messages({
       'string.base': 'address must be a string.',
@@ -554,20 +552,6 @@ const validateBodyCreateIdCard = result => {
     religion: Joi.string().required().messages({
       'string.base': 'religion must be a string.',
       'string.empty': 'religion is required.',
-    }),
-    id_card_url: Joi.string()
-      .uri({
-        scheme: ['http', 'https'],
-      })
-      .required()
-      .messages({
-        'string.base': 'id_card_url must be a string.',
-        'string.uri': 'id_card_url must be a valid URL.',
-        'any.required': 'id_card_url is required.',
-      }),
-    id_card_public_id: Joi.string().required().messages({
-      'string.base': 'id_card_public_id must be a string.',
-      'string.empty': 'id_card_public_id is required.',
     }),
   })
 

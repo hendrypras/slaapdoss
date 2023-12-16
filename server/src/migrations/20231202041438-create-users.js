@@ -23,18 +23,17 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      role: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       image_url: {
         type: Sequelize.STRING,
         allowNull: true,
       },
       image_public_id: {
         type: Sequelize.STRING,
-        unique: true,
         allowNull: true,
-      },
-      role: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
       },
       verified: {
         type: Sequelize.BOOLEAN,

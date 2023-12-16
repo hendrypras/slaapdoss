@@ -54,8 +54,7 @@ export const getDetailLocation = (lat, lng) =>
 
 // user
 export const getUserProfile = () => callAPI(`${urls.user}/profile`, 'GET');
-export const uploadIdCard = (data) =>
-  callAPI(`${urls.user}/upload/idcard`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, data);
+export const uploadIdCard = (data) => callAPI(`${urls.user}/upload/idcard`, 'POST', {}, {}, data);
 export const createIdCard = (data) => callAPI(`${urls.user}/idcard`, 'POST', {}, {}, data);
 export const getDataCredentialUser = () => callAPI(`${urls.user}/credential`, 'GET');
 export const updateUserProfile = (data) =>

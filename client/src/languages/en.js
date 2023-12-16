@@ -1,4 +1,6 @@
 export default {
+  app_component_button_title_select: 'Select',
+  app_component_button_title_room_details: 'Room Details',
   app_not_found: 'Page not found',
   app_not_found_button_text: 'Back To Home',
   app_lang_id: 'Indonesian',
@@ -96,7 +98,8 @@ export default {
   app_user_profile_text_button_close_camera: 'Close Camera',
   app_user_profile_text_button_captured: 'Take',
   app_user_profile_text_button_save_image_profile: 'Save Image',
-  app_user_profile_text_button_history: 'History',
+  app_user_profile_text_button_history: 'History Orders',
+  app_user_profile_text_button_save_image_id_card: 'Edit and Submit',
   aap_reservation_title_back_btn: 'Back to select cabin',
   app_reservation_order_detail_head_title: 'Order Detail',
   app_reservation_cabin_address_title: 'Cabin Address',
@@ -113,6 +116,8 @@ export default {
   app_reservation_continue_payment_title: 'Continue Payment',
   app_reservation_payment_method_title: 'Select Payment Method',
   app_reservation_virtual_account_title: 'Virtual Account',
+  app_reservation_title_warning_duration: 'You have not entered checkin and checkout dates',
+  app_reservation_message_warning_duration: 'If continued, will check in today and check out tomorrow',
 
   app_reservation_payment_va_bca_desc: 'Pay at ATM BCA or Internet Banking',
   app_reservation_payment_va_bca_atm_step_1: 'On the main menu, choose “Other Transactions”',
@@ -251,4 +256,7 @@ export default {
   app_detail_cabin_title_checkin_procedur: 'Check-in Procedure',
   app_detail_cabin_title_reschedule_and_cancel: 'Refund, Reschedule, Relocate, and Cancellations',
   app_detail_cabin_title_age_policies: 'Age Policies',
+
+  app_orders_head_title: 'Orders',
+  app_orders_waiting_for_payment_title: 'Waiting For Payment',
 };

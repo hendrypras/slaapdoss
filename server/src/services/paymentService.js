@@ -17,4 +17,11 @@ const checkDateRange = (startReserve, endReserve, data) => {
   })
 }
 
-module.exports = { checkDateRange, calculateDurationInDays }
+const generateUnixTimeOneHourAhead = () => {
+  return moment().add(2, 'minutes').valueOf()
+}
+module.exports = {
+  checkDateRange,
+  calculateDurationInDays,
+  generateUnixTimeOneHourAhead,
+}

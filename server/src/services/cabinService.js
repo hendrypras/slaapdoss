@@ -20,27 +20,27 @@ const groupCabinRoomsByType = (rooms, includeData) => {
   const groupedCabins = []
   // Iterasi melalui setiap cabin room
   rooms?.forEach(cabinRoom => {
-    const { type_cabin } = cabinRoom
+    const { type_room } = cabinRoom
 
     // Cari indeks dari tipe kabin dalam groupedCabins
     const index = groupedCabins.findIndex(
-      item => item.type_cabin.name === type_cabin.name
+      item => item.type_room.name === type_room.name
     )
     const cabinInfo = includeData.find(
-      item => item.typeCabin.toLowerCase() === type_cabin.name.toLowerCase()
+      item => item.typeCabin.toLowerCase() === type_room.name.toLowerCase()
     )
 
     if (index === -1) {
       // Jika belum ada, buat objek baru untuk tipe kabin tersebut dan tambahkan ke groupedCabins
       groupedCabins.push({
-        type_cabin,
+        type_room,
         include: cabinInfo || null,
         cabins: [
           {
             id: cabinRoom.id,
             cabins_slug: cabinRoom.cabins_slug,
             room_number: cabinRoom.room_number,
-            type_cabin_id: cabinRoom.type_cabin_id,
+            type_room_id: cabinRoom.type_room_id,
           },
         ],
       })
@@ -50,7 +50,7 @@ const groupCabinRoomsByType = (rooms, includeData) => {
         id: cabinRoom.id,
         cabins_slug: cabinRoom.cabins_slug,
         room_number: cabinRoom.room_number,
-        type_cabin_id: cabinRoom.type_cabin_id,
+        type_room_id: cabinRoom.type_room_id,
       })
     }
   })
@@ -62,11 +62,11 @@ const modifiedResponseDetailRoomCabin = detailData => {
   return {
     address: detailData?.address,
     slug: detailData?.slug,
-    roomNumber: detailData?.cabins_rooms[0]?.room_number,
-    typeCabin: detailData?.cabins_rooms[0]?.type_cabin?.name,
-    price: detailData?.cabins_rooms[0]?.type_cabin?.price,
-    information: detailData?.cabins_rooms[0]?.type_cabin?.information,
-    capacity: detailData?.cabins_rooms[0]?.type_cabin?.capacity,
+    roomNumber: detailData?.rooms[0]?.room_number,
+    typeCabin: detailData?.rooms[0]?.type_room?.name,
+    price: detailData?.rooms[0]?.type_room?.price,
+    information: detailData?.rooms[0]?.type_room?.information,
+    capacity: detailData?.rooms[0]?.type_room?.capacity,
   }
 }
 

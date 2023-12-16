@@ -9,3 +9,4 @@ export const selectDataIdCard = createSelector(selectUserProfileState, (state) =
 export const selectUserData = createSelector(selectUserProfileState, (state) => state.userData);
 export const selectLoading = createSelector(selectUserProfileState, (state) => state.loading);
 export const selectImageCaptured = createSelector(selectUserProfileState, (state) => state.imageCaptured);
+export const selectImageSelected = createSelector(selectUserProfileState, (state) => state.imageSelected);

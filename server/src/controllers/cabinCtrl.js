@@ -6,12 +6,7 @@ const {
   uploadToCloudinary,
 } = require('../config/cloudinary')
 const slugify = require('slugify')
-const {
-  Cabins,
-  TypeCabin,
-  CabinRooms,
-  RoomDateReservations,
-} = require('../models')
+const { Cabins, TypeRoom, Rooms, RoomDateReservations } = require('../models')
 const path = require('path')
 const {
   validateBodyCreateCabin,
@@ -84,28 +79,30 @@ exports.createCabin = async (req, res) => {
   }
 }
 
-exports.createCabinRoom = async (req, res) => {
+exports.createRoom = async (req, res) => {
   try {
-    const newData = req.body
-    const validate = validateBodyCreateCabinRoom(newData)
+    const { cabinsSlug, roomNumber, typeRoomId } = req.body
+    const validate = validateBodyCreateCabinRoom(req.body)
     if (validate) {
       return responseError(res, 400, 'Validation Failed', validate)
     }
 
-    const [findTypeCabin, findCabins, findCabinRoom] = await Promise.all([
-      TypeCabin.findByPk(newData?.typeCabinId),
+    const [findTypeRoom, findCabins, findCabinRoom] = await Promise.all([
+      TypeRoom.findByPk(typeRoomId),
       Cabins.findOne({
-        where: { slug: newData?.cabinsSlug },
+        where: { slug: cabinsSlug },
       }),
-      CabinRooms.findOne({
+      Rooms.findOne({
         where: {
-          cabins_slug: newData?.cabinsSlug,
-          room_number: newData?.roomNumber,
-          type_cabin_id: newData?.typeCabinId,
+          cabins_slug: cabinsSlug,
+          room_number: roomNumber,
+          type_room_id: typeRoomId,
         },
       }),
     ])
 
+    if (!findTypeRoom)
+      return responseError(res, 404, 'Not Found', 'Type Cabin not found')
     if (!findCabins)
       return responseError(
         res,
@@ -113,8 +110,6 @@ exports.createCabinRoom = async (req, res) => {
         'Not Found',
         'Cabins with this slug not found'
       )
-    if (!findTypeCabin)
-      return responseError(res, 404, 'Not Found', 'Type Cabin not found')
     if (findCabinRoom)
       return responseError(
         res,
@@ -123,10 +118,10 @@ exports.createCabinRoom = async (req, res) => {
         'Room number already axist for this location'
       )
 
-    await CabinRooms.create({
-      cabins_slug: newData?.cabinsSlug,
-      room_number: newData?.roomNumber,
-      type_cabin_id: newData?.typeCabinId,
+    await Rooms.create({
+      cabins_slug: cabinsSlug,
+      room_number: roomNumber,
+      type_room_id: typeRoomId,
     })
     return responseSuccess(res, 201, 'success')
   } catch (error) {
@@ -134,7 +129,7 @@ exports.createCabinRoom = async (req, res) => {
   }
 }
 
-exports.createTypeCabin = async (req, res) => {
+exports.createTypeRoom = async (req, res) => {
   let imageResult
   try {
     if (req.fileValidationError) {
@@ -150,14 +145,25 @@ exports.createTypeCabin = async (req, res) => {
     }
     const newData = req.body
     const { typeImage, cabinsSlug, ...rest } = newData
-
-    const findTypeCabin = await TypeCabin.findAll({
-      where: {
-        name: { [Op.like]: newData?.name },
-        cabins_slug: cabinsSlug,
-      },
+    const validate = validateBodyCreateTypeCabin({
+      cabinsSlug,
+      ...rest,
     })
-    if (findTypeCabin.length > 0) {
+    if (validate) {
+      return responseError(res, 400, 'Validatin Failed', validate)
+    }
+    const [findTypeRoom, findCabins] = await Promise.all([
+      TypeRoom.findAll({
+        where: {
+          name: { [Op.like]: newData?.name },
+          cabins_slug: cabinsSlug,
+        },
+      }),
+      Cabins.findOne({
+        where: { slug: newData.cabinsSlug },
+      }),
+    ])
+    if (findTypeRoom.length > 0) {
       return responseError(
         res,
         400,
@@ -165,23 +171,19 @@ exports.createTypeCabin = async (req, res) => {
         'Type Room with this name already exist'
       )
     }
+    if (!findCabins)
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        'Cabins with this slug already exist'
+      )
     imageResult = await uploadToCloudinary(req.files.typeImage[0], 'image')
     if (!imageResult?.url) {
       return responseError(res, 500, 'Internal server error', imageResult.error)
     }
 
-    const validate = validateBodyCreateTypeCabin({
-      cabinsSlug,
-      ...rest,
-    })
-    if (validate) {
-      if (imageResult?.public_id) {
-        await cloudinaryDeleteImg(imageResult.public_id, 'image')
-      }
-      return responseError(res, 400, 'Validatin Failed', validate)
-    }
-
-    await TypeCabin.create({
+    await TypeRoom.create({
       image_url: imageResult?.url,
       image_public_id: imageResult?.public_id,
       cabins_slug: cabinsSlug,
@@ -225,7 +227,7 @@ exports.updateTypeCabin = async (req, res) => {
       return responseError(res, 400, 'Validation Failed', validate)
     }
 
-    const findTypeCabin = await TypeCabin.findAll({
+    const findTypeRoom = await TypeRoom.findAll({
       where: {
         name: { [Op.like]: newData?.name },
         cabins_slug: cabinsSlug,
@@ -233,7 +235,7 @@ exports.updateTypeCabin = async (req, res) => {
       },
     })
 
-    if (findTypeCabin.length > 0) {
+    if (findTypeRoom.length > 0) {
       return responseError(
         res,
         400,
@@ -256,7 +258,7 @@ exports.updateTypeCabin = async (req, res) => {
     // Begin Sequelize transaction
     transaction = await sequelize.transaction()
 
-    await TypeCabin.update(
+    await TypeRoom.update(
       {
         image_url: imageResult?.url || imageUrl,
         image_public_id: imageResult?.public_id || imagePublicId,
@@ -314,13 +316,13 @@ exports.getCabins = async (req, res) => {
     const responseCabin = await Cabins.findOne({
       attributes: { exclude: ['createdAt', 'updatedAt'] },
       include: {
-        model: CabinRooms,
-        as: 'cabins_rooms',
+        model: Rooms,
+        as: 'rooms',
         attributes: { exclude: ['createdAt', 'updatedAt'] },
         include: [
           {
-            model: TypeCabin,
-            as: 'type_cabin',
+            model: TypeRoom,
+            as: 'type_room',
             attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
           },
           {
@@ -341,11 +343,11 @@ exports.getCabins = async (req, res) => {
       loadData(cabinIncludeByTypeJson),
     ])
     const filteredRooms = filterRoomsByDateRange(
-      responseCabin.cabins_rooms,
+      responseCabin.rooms,
       dateStart,
       dateEnd
     )
-    const { cabins_rooms, ...cabinDetail } = responseCabin.toJSON()
+    const { rooms, ...cabinDetail } = responseCabin.toJSON()
     const filteredRoomsWithoutReservation = groupCabinRoomsByType(
       filteredRooms,
       cabinInclude
@@ -373,7 +375,6 @@ exports.getCabinsLocation = async (req, res) => {
         'image_url',
         'latitude',
         'longitude',
-        'province',
         'slug',
       ],
     })
@@ -386,7 +387,7 @@ exports.getCabinsLocation = async (req, res) => {
 
 exports.getTypeCabin = async (req, res) => {
   try {
-    const response = await TypeCabin.findAll({
+    const response = await TypeRoom.findAll({
       attributes: { exclude: ['createdAt', 'updatedAt'] },
     })
     return responseSuccess(res, 200, 'success', response)
@@ -403,13 +404,13 @@ exports.getDetailCabinRoomById = async (req, res) => {
       attributes: ['address', 'slug'],
       include: {
         where: { id: roomId },
-        model: CabinRooms,
-        as: 'cabins_rooms',
+        model: Rooms,
+        as: 'rooms',
         attributes: { exclude: ['createdAt', 'updatedAt'] },
         include: [
           {
-            model: TypeCabin,
-            as: 'type_cabin',
+            model: TypeRoom,
+            as: 'type_room',
             attributes: ['name', 'price', 'information', 'capacity'],
           },
         ],
@@ -421,6 +422,7 @@ exports.getDetailCabinRoomById = async (req, res) => {
     const modifiedResponse = modifiedResponseDetailRoomCabin(responseCabin)
     return responseSuccess(res, 200, 'success', modifiedResponse)
   } catch (error) {
+    console.log(error)
     return responseError(res, error?.status, error?.message)
   }
 }

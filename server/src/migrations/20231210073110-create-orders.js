@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      cabin_room_id: {
+      room_id: {
         allowNull: false,
         type: Sequelize.INTEGER,
       },
@@ -23,7 +23,7 @@ module.exports = {
       },
       total_price: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.BIGINT,
       },
       stay_duration: {
         allowNull: false,

@@ -5,6 +5,7 @@ import { useMediaQuery } from '@mui/material';
 import { useState } from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 
 import ContentLocation from '@components/Search/ContentLocation';
@@ -118,12 +119,9 @@ const SearchCabin = ({ searchValue, cabinsLocation, className }) => {
           disabled
         />
       </div>
-      <Button
-        onClick={handleSearch}
-        disabled={!searchValue.location.value}
-        className={classes.buttonSearch}
-        text="app_home_button_text_search_select"
-      />
+      <Button onClick={handleSearch} disabled={!searchValue.location.value} className={classes.buttonSearch}>
+        <FormattedMessage id="app_home_button_text_search_select" />
+      </Button>
     </form>
   );
 };

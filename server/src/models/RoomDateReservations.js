@@ -3,8 +3,8 @@ const { Model } = require('sequelize')
 module.exports = (sequelize, DataTypes) => {
   class RoomDateReservations extends Model {
     static associate(models) {
-      RoomDateReservations.belongsTo(models.CabinRooms, {
-        foreignKey: 'cabin_room_id',
+      RoomDateReservations.belongsTo(models.Rooms, {
+        foreignKey: 'room_id',
         as: 'reservation_date',
       })
     }
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       start_reservation: DataTypes.STRING,
       end_reservation: DataTypes.STRING,
-      cabin_room_id: DataTypes.INTEGER,
+      room_id: DataTypes.INTEGER,
     },
     {
       sequelize,

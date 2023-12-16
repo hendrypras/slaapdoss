@@ -18,7 +18,7 @@ const ContentRoomNumber = ({ rooms, searchValue }) => {
 
   const handleConfirmToPayment = () => {
     navigate(
-      `/reservation/${dataRoom.slug}/${dataRoom.id}?dateStart=${searchValue.checkIn.value}&dateEnd=${searchValue.checkOut.value}&duration=${searchValue.duration.value}`
+      `/reservation/${dataRoom.slug}/${dataRoom.id}?dateStart=${searchValue.checkIn.value}&dateEnd=${searchValue.checkOut.value}`
     );
   };
   return (
@@ -28,8 +28,9 @@ const ContentRoomNumber = ({ rooms, searchValue }) => {
         {rooms?.map((val, i) => (
           <Button
             key={i}
+            type="button"
             onClick={() => setDataRoom({ id: val?.id, slug: val?.cabins_slug })}
-            text={val?.room_number?.toString()}
+            title={val?.room_number?.toString()}
             className={classNames({
               [classes.btnRoomNumber]: true,
               [classes.selected]: dataRoom?.id === val?.id || false,
@@ -37,7 +38,13 @@ const ContentRoomNumber = ({ rooms, searchValue }) => {
           />
         ))}
       </div>
-      <Button disabled={!dataRoom} onClick={handleConfirmToPayment} text="Confirm" className={classes.btnConfirm} />
+      <Button
+        disabled={!dataRoom}
+        onClick={handleConfirmToPayment}
+        title="Confirm"
+        type="button"
+        className={classes.btnConfirm}
+      />
     </div>
   );
 };

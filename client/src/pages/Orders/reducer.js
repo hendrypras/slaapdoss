@@ -1,13 +1,13 @@
 import { produce } from 'immer';
 
-import { SET_LOADING, SET_ORDERS_USER } from '@pages/PaymentResponse/constants';
+import { SET_LOADING, SET_ORDERS_USER } from '@pages/Orders/constants';
 
 export const initialState = {
   loading: false,
   orders: {},
 };
 
-const paymentResponseReducer = (state = initialState, action) =>
+const ordersReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case SET_LOADING:
@@ -19,4 +19,4 @@ const paymentResponseReducer = (state = initialState, action) =>
     }
   });
 
-export default paymentResponseReducer;
+export default ordersReducer;

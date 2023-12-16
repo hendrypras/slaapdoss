@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import classNames from 'classnames';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -25,18 +24,11 @@ import DrawerMobile from '@components/DrawerMobile';
 import SearchCabin from '@components/Search/Cabin';
 
 import formateDate from '@utils/formateDate';
+import { getCheckIn, getCheckOut } from '@utils/times';
 
 import classes from './style.module.scss';
 
 const DetailCabins = ({ cabins, loading }) => {
-  const isTablet = useMediaQuery('(min-width:992px)');
-
-  const dispatch = useDispatch();
-  const [open, setOpen] = useState({
-    navSearch: false,
-    drawer: false,
-  });
-
   const { slugCabin } = useParams();
   const location = useLocation();
 
@@ -44,33 +36,61 @@ const DetailCabins = ({ cabins, loading }) => {
   const checkIn = queryParams.get('checkIn');
   const checkOut = queryParams.get('checkOut');
   const duration = queryParams.get('duration');
-  const unixDateStart = moment(`${checkIn} 14:00:00`).valueOf();
-  const unixDateEnd = moment(`${checkOut} 12:00:00`).valueOf();
+  const isTablet = useMediaQuery('(min-width:992px)');
+  const dateCheckIn = getCheckIn(checkIn);
+  const dateCheckout = getCheckOut(checkOut);
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState({
+    navSearch: false,
+    drawer: false,
+  });
 
   useEffect(() => {
-    if (slugCabin && checkIn && checkOut) {
-      dispatch(getDetailCabins(slugCabin, unixDateStart, unixDateEnd));
+    if (slugCabin) {
+      dispatch(getDetailCabins(slugCabin, dateCheckIn.unix, dateCheckout.unix));
     }
-  }, [dispatch, slugCabin, checkIn, checkOut, unixDateStart, unixDateEnd]);
+  }, [dispatch, slugCabin]);
+
   useEffect(() => {
+    const formattedCheckIn = checkIn ? formateDate(checkIn, 'ddd, D MMMM YYYY') : dateCheckIn.display;
+    const formattedCheckOut = checkOut ? formateDate(checkOut, 'ddd, D MMMM YYYY') : dateCheckout.display;
     if (cabins) {
       dispatch(
         setSearchValue(
           { display: `${cabins?.cabin?.name}, ${cabins?.cabin?.city}`, value: slugCabin },
-          { display: formateDate(checkIn, 'ddd, D MMMM YYYY'), value: checkIn },
-          { display: `${duration} Night`, value: Number(duration) },
-          { display: formateDate(checkOut, 'ddd, D MMMM YYYY'), value: checkOut }
+          {
+            display: formattedCheckIn,
+            value: checkIn || dateCheckIn.value,
+          },
+          { display: duration ? `${duration} Night` : '1 Night', value: duration ? Number(duration) : 1 },
+          {
+            display: formattedCheckOut,
+            value: checkOut || dateCheckout.value,
+          }
         )
       );
     }
-  }, [dispatch, cabins, checkIn, checkOut, duration, slugCabin]);
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.scrollY;
-      const isScrollingDown = currentScrollPos > 300;
-      setOpen({ navSearch: isScrollingDown });
+    return () => {
+      dispatch(
+        setSearchValue(
+          { display: '', value: '' },
+          { display: dateCheckIn.display, value: dateCheckIn.value },
+          { display: '1 Malam', value: 1 },
+          {
+            display: dateCheckout.display,
+            value: dateCheckout.value,
+          }
+        )
+      );
     };
+  }, [dispatch, cabins, checkIn, checkOut, duration, slugCabin]);
 
+  const handleScroll = () => {
+    const currentScrollPos = window.scrollY;
+    const isScrollingDown = currentScrollPos > 300;
+    setOpen((prev) => ({ ...prev, navSearch: isScrollingDown }));
+  };
+  useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);

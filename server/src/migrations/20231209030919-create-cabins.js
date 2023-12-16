@@ -37,22 +37,6 @@ module.exports = {
         type: Sequelize.STRING,
         unique: true,
       },
-      province: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      village: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      district: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      city_name: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
       latitude: {
         allowNull: false,
         type: Sequelize.FLOAT,

@@ -10,7 +10,7 @@ import detailCabinsReducer, { storedKey as storedDetailCabins } from '@pages/Det
 import homeReducer from '@pages/Home/reducer';
 import forgotPasswordReducer from '@pages/ForgotPassword/reducer';
 import resetPasswordReducer from '@pages/ResetPassword/reducer';
-import paymentResponseReducer from '@pages/PaymentResponse/reducer';
+import ordersReducer from '@pages/Orders/reducer';
 import createDetailCabinReducer from '@pages/CreateDeatilCabin/reducer';
 import reservationReducer from '@pages/Reservation/reducer';
 
@@ -29,7 +29,7 @@ const temporaryReducers = {
   forgotPassword: forgotPasswordReducer,
   resetPassword: resetPasswordReducer,
   home: homeReducer,
-  responsePayment: paymentResponseReducer,
+  orders: ordersReducer,
   createDetailCabin: createDetailCabinReducer,
   reservation: reservationReducer,
 };

@@ -12,6 +12,7 @@ const {
 } = require('../helpers/validationJoi')
 const encryptPayload = require('../utils/encryptPayload')
 const { decryptObjectPayload } = require('../utils/decryptPayload')
+const sequelize = require('../config/connectDb')
 
 exports.getUserProfile = async (req, res) => {
   try {
@@ -98,81 +99,71 @@ exports.getDataCrutialUser = async (req, res) => {
 }
 
 exports.uploadIdCard = async (req, res) => {
-  let imageResult
   try {
-    if (req.fileValidationError) {
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        req.fileValidationError.message
-      )
-    }
-    if (!req.files.image) {
-      return responseError(res, 400, 'Validation Failed', 'Image is required')
-    }
-    imageResult = await uploadToCloudinary(req.files.image[0], 'image')
-
-    if (!imageResult?.url) {
-      return responseError(res, 500, 'Internal server error', imageResult)
-    }
+    const { idCardUrl } = req.body
     const worker = await createWorker('eng')
-    const ret = await worker.recognize(imageResult?.url)
+    const ret = await worker.recognize(idCardUrl)
     const result = parseOCRTextToKTPObject(ret.data.text)
     const validate = validateResultOcrIdCard(result)
     if (validate) {
-      await cloudinaryDeleteImg(imageResult.public_id, 'image')
       return responseError(
         res,
         400,
         'Bad Request',
-        'Invalid KTP, please enter a valid KTP image and make sure it is clearly visible'
+        'Invalid ID Card, please enter a valid ID Card image and make sure it is clearly visible'
       )
     }
     return responseSuccess(res, 200, 'success', {
       idCard: encryptPayload(result),
-      imageIdCard: {
-        url: encryptPayload(imageResult?.url),
-        publicId: encryptPayload(imageResult?.public_id),
-      },
+      idCardUrl,
     })
   } catch (error) {
-    if (imageResult?.public_id) {
-      await cloudinaryDeleteImg(imageResult.public_id, 'image')
-    }
     return responseError(res, error?.status, error?.message)
   }
 }
 
 exports.createIdCard = async (req, res) => {
+  let imageResult
+  let t
   try {
-    const { payload } = req.body
+    const { idCard, idCardUrl } = req.body
     const authData = req.user
-    const decoded = decryptObjectPayload(payload)
+    const decoded = decryptObjectPayload(idCard)
     const validate = validateBodyCreateIdCard(decoded)
     if (validate) return responseError(res, 404, 'Validation Failed', validate)
     const findIdCard = await IdCard.findOne({ where: { nik: decoded?.nik } })
     if (findIdCard) {
-      if (decoded?.id_card_public_id) {
-        await cloudinaryDeleteImg(decoded?.id_card_public_id, 'image')
-      }
-      return responseError(res, 400, 'Bad Request', 'Id card already exist')
+      return responseError(res, 409, 'Conflict', 'Id card already exist')
     }
-
-    await IdCard.create({
-      user_id: authData.id,
-      ...decoded,
-    })
+    t = await sequelize.transaction()
+    imageResult = await uploadToCloudinary(idCardUrl, 'image')
+    if (!imageResult?.url) {
+      return responseError(res, 500, 'Internal server error', imageResult)
+    }
+    await IdCard.create(
+      {
+        user_id: authData.id,
+        id_card_url: imageResult?.url,
+        id_card_public_id: imageResult?.public_id,
+        ...decoded,
+      },
+      { transaction: t }
+    )
     await Users.update(
       { verified: true },
       {
         where: {
           id: authData?.id,
         },
+        transaction: t,
       }
     )
+    await t.commit()
     return responseSuccess(res, 201, 'success')
   } catch (error) {
+    if (t) await t.rollback()
+    if (imageResult?.public_id)
+      await cloudinaryDeleteImg(imageResult.public_id, 'image')
     return responseError(res, error?.status, error?.message)
   }
 }

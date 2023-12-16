@@ -111,11 +111,13 @@ const ResetPassword = ({ login, loading, intl: { formatMessage } }) => {
               {show.confirmPassword ? <Visibility /> : <VisibilityOff />}
             </button>
           </div>
-          <Button
-            isLoading={loading}
-            type="submit"
-            text={loading ? 'app_text_loading_button' : 'app_forgot_submit_button_title'}
-          />
+          <Button isLoading={loading} type="submit">
+            {loading ? (
+              <FormattedMessage id="app_text_loading_button" />
+            ) : (
+              <FormattedMessage id="app_forgot_submit_button_title" />
+            )}
+          </Button>
         </form>
       </FormProvider>
     </WrapperAuthentication>

@@ -6,11 +6,19 @@ const {
   getPaymentMethods,
   getResponsePaymentByOrderId,
   createPayment,
+  cancelTransaction,
 } = require('../controllers/paymentCtrl')
 
 const router = express.Router()
 
 router.post('/payment', Authenticated, isUser, createPayment)
+router.post(
+  '/payment/cancel/:orderId',
+  Authenticated,
+  isUser,
+  cancelTransaction
+)
+
 router.post('/payment/notification', paymentNotification)
 
 router.get('/payment/methods', Authenticated, getPaymentMethods)

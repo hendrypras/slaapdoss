@@ -13,6 +13,7 @@ import UserProfile from '@pages/UserProfile';
 import Reservation from '@pages/Reservation';
 import DetailCabins from '@pages/DetailCabins';
 import CreateDeatilCabin from '@pages/CreateDeatilCabin';
+import Orders from '@pages/Orders';
 
 const routes = [
   {
@@ -64,6 +65,14 @@ const routes = [
     name: 'User Profile',
     protected: true,
     component: UserProfile,
+    adminOnly: false,
+    layout: MainLayout,
+  },
+  {
+    path: '/user/orders',
+    name: 'User Orders',
+    protected: true,
+    component: Orders,
     adminOnly: false,
     layout: MainLayout,
   },

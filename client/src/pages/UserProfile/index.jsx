@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { useMediaQuery } from '@mui/material';
 import { createStructuredSelector } from 'reselect';
 import { connect, useDispatch } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { useEffect, useState } from 'react';
-import classNames from 'classnames';
 import { PhotoCamera, Edit, Logout, History, Close, Verified as VerifiedIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,41 +13,48 @@ import Container from '@components/Container';
 import Button from '@components/Button';
 import HeadTitle from '@components/HeadTitle';
 
-import { selectDataIdCard, selectImageCaptured, selectUserData, selectUserProfile } from '@pages/UserProfile/selectors';
+import {
+  selectDataIdCard,
+  selectImageCaptured,
+  selectImageSelected,
+  selectUserData,
+  selectUserProfile,
+} from '@pages/UserProfile/selectors';
 import IdCard from '@pages/UserProfile/components/IdCard';
 import {
   getDataCrutialUser,
   getUserProfile,
   setImageCaptured,
+  setImageSelected,
   updateUserProfile,
   uploadIdCard,
 } from '@pages/UserProfile/actions';
 import PopUpCamera from '@pages/UserProfile/components/PopUpCamera';
-import PopUpForm from '@pages/UserProfile/components/PopUpForm';
 
 import defaultIdCard from '@static/images/default-id.svg';
 
 import { selectLoading } from '@containers/App/selectors';
 import { showPopup } from '@containers/App/actions';
-import { decryptTextPayload } from '@utils/decryptPayload';
+
+import DrawerMobile from '@components/DrawerMobile';
+import ModalPopUp from '@components/ModalPopUp';
 
 import classes from './style.module.scss';
 
-const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCaptured }) => {
+const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCaptured, imageSelected }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectedImage, setSelectedImage] = useState({
-    profile: null,
-    idCard: null,
-  });
+  const isTablet = useMediaQuery('(min-width:768px)');
+
   const [fileSelected, setFileSelected] = useState(null);
 
   const [open, setOpen] = useState({
     camera: false,
     popUp: false,
+    drawer: false,
   });
 
-  const idCardUrl = decryptTextPayload(dataIdCard?.imageIdCard?.url);
+  const idCardUrl = dataIdCard?.idCardUrl;
   useEffect(() => {
     dispatch(getDataCrutialUser());
   }, [dispatch]);
@@ -58,22 +66,21 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
       dispatch(setImageCaptured(null));
       reader.onload = (event) => {
         if (type === 'profile') {
-          setSelectedImage({ profile: event.target.result });
+          dispatch(setImageSelected(imageSelected.idCard, event.target.result));
         } else if (type === 'idCard') {
-          setSelectedImage({ idCard: event.target.result });
+          dispatch(setImageSelected(event.target.result, imageSelected.profile));
+          dispatch(uploadIdCard({ idCardUrl: event.target.result }));
         }
       };
       reader.readAsDataURL(file);
       if (type === 'profile') {
         setFileSelected(file);
-      } else if (type === 'idCard') {
-        const formData = new FormData();
-        formData.append('image', file);
-        dispatch(uploadIdCard(formData));
       }
     }
   };
-
+  const handleOpen = (openName) => {
+    setOpen((prev) => ({ ...prev, [openName]: !prev[openName] }));
+  };
   const handleSubmiChangeImage = (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -97,37 +104,42 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
       updateUserProfile(formData, () => {
         dispatch(getUserProfile());
         dispatch(setImageCaptured(null));
+        dispatch(setImageSelected(imageSelected.idCard, null));
         setFileSelected(null);
       })
     );
   };
   const handleRemoveResultImage = (e) => {
     e.preventDefault();
-    setSelectedImage({ profile: null });
-    dispatch(setImageCaptured(null));
+    dispatch(setImageSelected());
+    dispatch(setImageSelected(imageSelected.idCard, null));
     setFileSelected(null);
   };
 
   return (
     <>
-      <PopUpCamera open={open.camera} onClose={() => setOpen({ camera: false })} />
+      <PopUpCamera open={open.camera} onClose={() => handleOpen('camera')} />
       <Container className={classes.container}>
         <>
-          <HeadTitle titleId="app_user_profile_head_title" className={classes.headTitle} />
+          <HeadTitle size={22} className={classes.headTitle}>
+            <FormattedMessage id="app_user_profile_head_title" />
+          </HeadTitle>
           <div className={classes.wrapper}>
             <div className={classes.leftWrapper}>
               <div className={classes.username}>{userProfile?.username}</div>
               <div className={classes.wrapperMenu}>
-                <button
+                <Button
                   type="button"
                   aria-label="button-history"
-                  onClick={() => navigate('/user/history')}
+                  onClick={() => navigate('/user/orders')}
                   className={classes.button}
                 >
-                  <History />
-                  <FormattedMessage id="app_user_profile_text_button_history" />
-                </button>
-                <button
+                  <>
+                    <History />
+                    <FormattedMessage id="app_user_profile_text_button_history" />
+                  </>
+                </Button>
+                <Button
                   type="button"
                   aria-label="button-logout"
                   onClick={() =>
@@ -135,29 +147,31 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                   }
                   className={classes.button}
                 >
-                  <Logout />
-                  <FormattedMessage id="app_logout_text_button" />
-                </button>
+                  <>
+                    <Logout />
+                    <FormattedMessage id="app_logout_text_button" />
+                  </>
+                </Button>
               </div>
             </div>
             <div className={classes.rightWrapper}>
               <div className={classes.imageWrapper}>
                 <div className={classes.wrapperImageContent}>
-                  <div className={classes.title}>
+                  <HeadTitle size={20}>
                     <FormattedMessage id="app_user_profile_profile_picture_text" />
-                  </div>
+                  </HeadTitle>
                   <div className={classes.wrapperImage}>
-                    {(imageCaptured || selectedImage.profile) && (
+                    {(imageCaptured || imageSelected.profile) && (
                       <Button onClick={handleRemoveResultImage} className={classes.btnRemoveImg}>
                         <Close className={classes.icon} />
                       </Button>
                     )}
                     <img
-                      src={imageCaptured || selectedImage.profile || userProfile?.image_url}
+                      src={imageCaptured || imageSelected.profile || userProfile?.image_url}
                       alt="avatar"
                       className={classes.img}
                     />
-                    {!imageCaptured && !selectedImage.profile && (
+                    {!imageCaptured && !imageSelected.profile && (
                       <div className={classes.wrapperBtn}>
                         <label htmlFor="fileInputProfile" className={classes.btnEdit}>
                           <Edit />
@@ -173,7 +187,7 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                           aria-label="button"
                           className={classes.btnEdit}
                           type="button"
-                          onClick={() => setOpen({ camera: true })}
+                          onClick={() => handleOpen('camera')}
                         >
                           <PhotoCamera />
                         </Button>
@@ -181,28 +195,25 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                     )}
                   </div>
                   {(imageCaptured || fileSelected) && (
-                    <Button
-                      text="app_user_profile_text_button_save_image_profile"
-                      type="button"
-                      className={classes.btnSaveImage}
-                      onClick={handleSubmiChangeImage}
-                    />
+                    <Button type="button" className={classes.btnSaveImage} onClick={handleSubmiChangeImage}>
+                      <FormattedMessage id="app_user_profile_text_button_save_image_profile" />
+                    </Button>
                   )}
                 </div>
                 <div className={classes.wrapperImageContent}>
-                  <div className={classes.title}>
+                  <HeadTitle size={20}>
                     <FormattedMessage id="app_user_profile_id_card_text" />
-                  </div>
+                  </HeadTitle>
                   <div className={classes.wrapperImage}>
                     <img
-                      src={dataUser?.id_card?.id_card_url || idCardUrl || selectedImage.idCard || defaultIdCard}
+                      src={dataUser?.id_card?.id_card_url || idCardUrl || imageSelected.idCard || defaultIdCard}
                       alt="idCard"
                       className={classes.img}
                     />
-                    {!selectedImage.idCard && !idCardUrl && !dataUser?.id_card?.id_card_url ? (
+                    {!imageSelected.idCard && !idCardUrl && !dataUser?.id_card?.id_card_url ? (
                       <div className={classes.wrapperBtn}>
                         <label htmlFor="idCard" className={classes.btnEdit}>
-                          <FormattedMessage id="app_user_profile_button_edit_text" />
+                          <Edit />
                         </label>
                         <input
                           id="idCard"
@@ -214,15 +225,37 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                       </div>
                     ) : null}
                   </div>
-                  <IdCard dataIdCard={dataIdCard} dataUser={dataUser} loading={loadingGlobal} />
-                  <Button onClick={() => setOpen({ popUp: true })} text="Edit and submit your data" />
-                  <PopUpForm
-                    open={open.popUp}
-                    onClose={() => setOpen({ popUp: false })}
-                    dataIdCard={dataIdCard}
-                    dataUser={dataUser}
-                    loadingGlobal={loadingGlobal}
-                  />
+                  {(imageSelected.idCard || idCardUrl) && (
+                    <Button type="button" onClick={() => handleOpen(isTablet ? 'popUp' : 'drawer')}>
+                      <FormattedMessage id="app_user_profile_text_button_save_image_id_card" />
+                    </Button>
+                  )}
+                  {isTablet ? (
+                    <ModalPopUp height="60vh" open={open.popUp} onClose={() => handleOpen('popUp')}>
+                      <IdCard
+                        dataIdCard={dataIdCard}
+                        dataUser={dataUser}
+                        loading={loadingGlobal}
+                        imageSelected={imageSelected}
+                        onCloseDrawerPopUp={() => handleOpen('popUp')}
+                      />
+                    </ModalPopUp>
+                  ) : (
+                    <DrawerMobile
+                      padding="2rem 1rem"
+                      height="60vh"
+                      open={open.drawer}
+                      onClose={() => handleOpen('drawer')}
+                    >
+                      <IdCard
+                        dataIdCard={dataIdCard}
+                        dataUser={dataUser}
+                        loading={loadingGlobal}
+                        imageSelected={imageSelected}
+                        onCloseDrawerPopUp={() => handleOpen('drawer')}
+                      />
+                    </DrawerMobile>
+                  )}
                 </div>
               </div>
 
@@ -284,12 +317,14 @@ const mapStateToProps = createStructuredSelector({
   dataUser: selectUserData,
   loadingGlobal: selectLoading,
   imageCaptured: selectImageCaptured,
+  imageSelected: selectImageSelected,
 });
 
 UserProfile.propTypes = {
   userProfile: PropTypes.object,
   dataIdCard: PropTypes.object,
   dataUser: PropTypes.object,
+  imageSelected: PropTypes.object,
   loadingGlobal: PropTypes.bool,
   imageCaptured: PropTypes.string,
 };

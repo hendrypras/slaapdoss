@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import classNames from 'classnames';
 
 import classes from './style.module.scss';
@@ -16,7 +15,7 @@ const Button = ({ text, title, disabled, className, type, children, onClick, isL
     type={type || 'button'}
     {...rest}
   >
-    {title || children || <FormattedMessage id={text} />}
+    {title || children}
   </button>
 );
 

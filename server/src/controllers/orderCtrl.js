@@ -2,9 +2,9 @@ const { responseError, responseSuccess } = require('../helpers/responseHandler')
 const {
   Orders,
   Users,
-  CabinRooms,
+  Rooms,
   ResponsePayments,
-  TypeCabin,
+  TypeRoom,
 } = require('../models')
 exports.getOrders = async (req, res) => {
   try {
@@ -22,13 +22,13 @@ exports.getOrders = async (req, res) => {
           attributes: ['id', 'username', 'image_url'],
         },
         {
-          model: CabinRooms,
+          model: Rooms,
           as: 'room',
           attributes: { exclude: ['createdAt', 'updatedAt'] },
           include: [
             {
-              model: TypeCabin,
-              as: 'type_cabin',
+              model: TypeRoom,
+              as: 'type_room',
               attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
             },
           ],
@@ -42,10 +42,11 @@ exports.getOrders = async (req, res) => {
       attributes: {
         exclude: ['createdAt', 'updatedAt'],
       },
+      order: [['createdAt', 'DESC']],
     })
 
     return responseSuccess(res, 200, 'success', {
-      results: count === 1 ? rows[0] : rows,
+      results: orderId ? rows[0] : rows,
       count,
     })
   } catch (error) {

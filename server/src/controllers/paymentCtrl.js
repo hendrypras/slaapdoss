@@ -1,3 +1,4 @@
+require('dotenv').config()
 const { Op } = require('sequelize')
 const path = require('path')
 const { coreApi } = require('../config/midtrans')
@@ -6,7 +7,7 @@ const { decryptTextPayload } = require('../utils/decryptPayload')
 const {
   ResponsePayments,
   Orders,
-  CabinRooms,
+  Rooms,
   RoomDateReservations,
 } = require('../models')
 const { validateBodyCreatePayment } = require('../helpers/validationJoi')
@@ -16,9 +17,15 @@ const { responseError, responseSuccess } = require('../helpers/responseHandler')
 const {
   checkDateRange,
   calculateDurationInDays,
+  generateUnixTimeOneHourAhead,
 } = require('../services/paymentService')
 const sendEmail = require('../utils/sendEmail')
+const callApi = require('../utils/callApi')
 const { responsePaymentBodyEmail } = require('../helpers/bodyEmail')
+const { expireTransaction } = require('../schedule')
+
+const sandBoxMidtransUrl = process.env.MIDTRANS_SANBOX_URL
+const serverKeyMidtrans = process.env.MIDTRANS_SERVER_KEY
 
 exports.createPayment = async (req, res) => {
   let t
@@ -26,7 +33,7 @@ exports.createPayment = async (req, res) => {
   try {
     const {
       price,
-      cabinRoomId,
+      roomId,
       stayDuration,
       startReservation,
       endReservation,
@@ -53,7 +60,7 @@ exports.createPayment = async (req, res) => {
 
     const validate = validateBodyCreatePayment({
       price: Number(priceDec),
-      cabinRoomId: Number(cabinRoomId),
+      roomId: Number(roomId),
       stayDuration: Number(stayDurationDec),
       startReservation: parseInt(startReservation),
       endReservation: parseInt(endReservation),
@@ -76,7 +83,7 @@ exports.createPayment = async (req, res) => {
       parseInt(endReservation)
     )
 
-    const checkRoomAvailability = await CabinRooms.findByPk(cabinRoomId, {
+    const checkRoomAvailability = await Rooms.findByPk(roomId, {
       attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
       include: [
         {
@@ -84,7 +91,7 @@ exports.createPayment = async (req, res) => {
           as: 'reservation_date',
           attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
           where: {
-            cabin_room_id: cabinRoomId,
+            room_id: roomId,
           },
           required: false,
         },
@@ -100,20 +107,17 @@ exports.createPayment = async (req, res) => {
       endReservation,
       checkRoomAvailability?.reservation_date
     )
-    if (
-      checkRoomAvailability?.reservation_date?.length > 0 ||
-      checkDate.length > 0
-    ) {
+    if (checkDate.length > 0) {
       return responseError(res, 400, 'Bad Request', 'Room not available')
     }
 
     const totalPrice = Number(priceDec) * numberOfDay
     t = await sequelize.transaction()
-
+    const generateOrderId = `${generateIdPayment()}${authData.id}${roomId}`
     const requestMidtrans = {
       payment_type: paymentType,
       transaction_details: {
-        order_id: `ID-${generateIdPayment()}`,
+        order_id: generateOrderId,
         gross_amount: totalPrice,
       },
       bank_transfer: {
@@ -146,13 +150,15 @@ exports.createPayment = async (req, res) => {
       }
     }
 
-    const { va_numbers, ...rest } = chargeResponse
+    const { va_numbers, expiry_time, ...rest } = chargeResponse
 
     if (va_numbers && va_numbers?.length > 0) {
+      const expiryTime = generateUnixTimeOneHourAhead()
       await ResponsePayments.create(
         {
           va_number: va_numbers[0]?.va_number,
           bank: va_numbers[0]?.bank,
+          expiry_time: expiryTime,
           ...rest,
         },
         { transaction: t }
@@ -161,7 +167,7 @@ exports.createPayment = async (req, res) => {
 
     await RoomDateReservations.create(
       {
-        cabin_room_id: cabinRoomId,
+        room_id: roomId,
         start_reservation: startReservation.toString(),
         end_reservation: endReservation.toString(),
       },
@@ -169,7 +175,7 @@ exports.createPayment = async (req, res) => {
     )
     await Orders.create(
       {
-        cabin_room_id: cabinRoomId,
+        room_id: roomId,
         order_id: chargeResponse?.order_id,
         user_id: authData?.id,
         total_price: totalPrice,
@@ -188,7 +194,8 @@ exports.createPayment = async (req, res) => {
     }
     await sendEmail(data)
 
-    await t.commit() // Commit transaction if success all
+    await t.commit()
+    expireTransaction.start(chargeResponse.order_id) // Commit transaction if success all
     return responseSuccess(res, 201, 'success', chargeResponse)
   } catch (error) {
     if (t) await t.rollback() // Rollback transaction
@@ -200,6 +207,60 @@ exports.createPayment = async (req, res) => {
     )
   }
 }
+
+exports.cancelTransaction = async (req, res) => {
+  try {
+    const { orderId } = req.params
+    const findOrder = await Orders.findOne({ where: { order_id: orderId } })
+    if (!findOrder)
+      return responseError(
+        res,
+        404,
+        'Nor Found',
+        `Order with id ${orderId} not found`
+      )
+    if (findOrder.transaction_status !== 'pending')
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        `This Order has been ${findOrder.transaction_status}`
+      )
+    const url = `${sandBoxMidtransUrl}/${orderId}/cancel`
+    const headers = {
+      Authorization: `Basic ${Buffer.from(serverKeyMidtrans + ':').toString(
+        'base64'
+      )}`,
+    }
+    const response = await callApi(url, 'POST', headers)
+    return responseSuccess(res, 200, 'success', response)
+  } catch (error) {
+    return responseError(res, error.status, error.message)
+  }
+}
+// exports.expireTransaction = async (req, res) => {
+//   try {
+//     const { orderId } = req.params
+//     const findOrder = await Orders.findOne({ where: { order_id: orderId } })
+//     if (!findOrder)
+//       return responseError(
+//         res,
+//         404,
+//         'Nor Found',
+//         `Order with id ${orderId} not found`
+//       )
+//     const url = `${sandBoxMidtransUrl}/${orderId}/expire`
+//     const headers = {
+//       Authorization: `Basic ${Buffer.from(serverKeyMidtrans + ':').toString(
+//         'base64'
+//       )}`,
+//     }
+//     const response = await callApi(url, 'POST', headers)
+//     return responseSuccess(res, 200, 'success', response)
+//   } catch (error) {
+//     return responseError(res, error.status, error.message)
+//   }
+// }
 
 exports.paymentNotification = async (req, res) => {
   const statusResponse = await coreApi.transaction.notification(req.body)

@@ -8,3 +8,4 @@ export const GET_DATA_CRUTIAL_USER = 'UserProfile/GET_DATA_CRUTIAL_USER';
 export const SET_DATA_CRUTIAL_USER = 'UserProfile/SET_DATA_CRUTIAL_USER';
 export const SET_IMAGE_CAPTURED = 'UserProfile/SET_IMAGE_CAPTURED';
 export const UPDATE_USER_PROFILE = 'UserProfile/UPDATE_USER_PROFILE';
+export const SET_IMAGE_SELECTED = 'UserProfile/SET_IMAGE_SELECTED';

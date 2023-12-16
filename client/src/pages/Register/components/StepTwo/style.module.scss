@@ -3,33 +3,27 @@
 .form {
   width: 100%;
   @include screen(md) {
-    width: max-content;
+    width: fit-content;
     margin: 1rem auto 0 auto;
   }
-  .wrapperInput {
-    @include directionX;
+
+  .input {
+    color: $color-green-100;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+    text-align: center;
+    border: 2.2px solid $color-gray-100;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    @include screen(md) {
+      width: 3rem !important;
+      height: 3rem !important;
+    }
+  }
+  .containerInput {
+    @include displayFlex(row, center, center);
     gap: 0.5rem;
-    align-items: center;
-    justify-content: center;
-    margin-top: 1.25rem;
-    .input {
-      color: $color-green-100;
-      border-radius: 0.375rem;
-      font-weight: 500;
-      font-size: 1.5rem;
-      text-align: center;
-      border: 2.2px solid $color-gray-100;
-      width: 2.5rem !important;
-      height: 2.5rem !important;
-      @include screen(md) {
-        width: 3.2rem !important;
-        height: 3.2rem !important;
-      }
-    }
-    .containerInput {
-      @include displayFlex(row, center, center);
-      gap: 1rem;
-    }
   }
   .resendWrapper {
     width: 100%;
@@ -50,6 +44,17 @@
     }
     .button:hover {
       opacity: 0.8;
+    }
+  }
+  .wrapperBtn {
+    @include displayFlex(column, center, center);
+    width: 100%;
+    gap: 1rem;
+    .btnBack {
+      background-color: transparent;
+      border: 2px solid $color-green-100;
+      color: $color-green-100;
+      padding: 0.7rem;
     }
   }
 }
