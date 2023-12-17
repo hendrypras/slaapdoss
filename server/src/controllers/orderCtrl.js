@@ -10,7 +10,7 @@ const {
 exports.getOrders = async (req, res) => {
   try {
     const authData = req.user
-    const { orderId } = req.query
+    const { orderId, page = 1, limit = 2 } = req.query
     const whereClause = { user_id: authData.id }
     if (orderId) {
       whereClause.order_id = orderId
@@ -55,10 +55,15 @@ exports.getOrders = async (req, res) => {
         exclude: ['createdAt', 'updatedAt'],
       },
       order: [['createdAt', 'DESC']],
+      limit: Number(limit),
+      offset: (Number(page) - 1) * limit,
     })
-
+    let results = rows
+    if (orderId) {
+      results = rows.slice(0, 1)
+    }
     return responseSuccess(res, 200, 'success', {
-      results: orderId ? rows[0] : rows,
+      results,
       count,
     })
   } catch (error) {

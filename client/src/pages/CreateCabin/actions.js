@@ -3,7 +3,7 @@ import {
   GET_DATAIL_LOCATION,
   SET_DATAIL_LOCATION,
   SET_DISPLAY_LOCATION,
-} from '@pages/CreateDeatilCabin/constants';
+} from '@pages/CreateCabin/constants';
 
 export const getDetailLocation = (lat, lng) => ({
   type: GET_DATAIL_LOCATION,

@@ -3,16 +3,29 @@
 .wrapper {
   height: 100%;
   width: 100%;
+  overflow: hidden;
   .aside {
-    width: 15%;
     height: 100vh;
     overflow: hidden;
     position: fixed;
+    width: 30%;
     left: 0;
     top: 0;
     z-index: 99;
     padding: 0 1rem;
     @include shadow;
+    @include screen(md) {
+      width: 28%;
+    }
+    @include screen(lg) {
+      width: 24%;
+    }
+    @include screen(xl) {
+      width: 20%;
+    }
+    @include screen(xxl) {
+      width: 15%;
+    }
     .wrapperLogo {
       padding: 2rem 0;
       @include displayFlex(column, center, center);
@@ -44,15 +57,16 @@
         a {
           text-decoration: none;
           background-color: #ffffff;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          @include shadow;
           display: block;
           border-radius: 0.5rem;
           font-size: 1.1rem;
           color: $color-black-100;
-          padding: 1rem;
+          padding: 0.5rem 1rem;
           font-weight: 600;
+          transition: 0.5s ease-in-out;
           &:hover {
-            background-color: #f0f0f0; /* Ganti dengan warna yang diinginkan */
+            opacity: 0.8;
           }
         }
       }
@@ -89,9 +103,25 @@
     right: 0;
   }
   .main {
-    width: 100%;
-    padding-left: 17%;
-    min-height: 150vh;
-    overflow-y: scroll;
+    width: 70%;
+    margin-left: 30%;
+    min-height: 100vh;
+    overflow-y: auto;
+    @include screen(md) {
+      margin-left: 28%;
+      width: 72%;
+    }
+    @include screen(lg) {
+      margin-left: 24%;
+      width: 76%;
+    }
+    @include screen(xl) {
+      margin-left: 20%;
+      width: 80%;
+    }
+    @include screen(xxl) {
+      margin-left: 15%;
+      width: 85%;
+    }
   }
 }

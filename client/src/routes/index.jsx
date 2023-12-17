@@ -12,8 +12,10 @@ import CallBack from '@pages/CallBack';
 import UserProfile from '@pages/UserProfile';
 import Reservation from '@pages/Reservation';
 import DetailCabins from '@pages/DetailCabins';
-import CreateDeatilCabin from '@pages/CreateDeatilCabin';
+import CreateCabin from '@pages/CreateCabin';
 import Orders from '@pages/Orders';
+import CreateTypeRoom from '@pages/CreateTypeRoom';
+import CreateBanner from '@pages/CreateBanner';
 
 const routes = [
   {
@@ -58,6 +60,7 @@ const routes = [
     protected: true,
     component: PaymentResponse,
     adminOnly: false,
+    userOnly: true,
     layout: MainLayout,
   },
   {
@@ -66,6 +69,7 @@ const routes = [
     protected: true,
     component: UserProfile,
     adminOnly: false,
+    userOnly: true,
     layout: MainLayout,
   },
   {
@@ -74,6 +78,7 @@ const routes = [
     protected: true,
     component: Orders,
     adminOnly: false,
+    userOnly: true,
     layout: MainLayout,
   },
   {
@@ -100,10 +105,26 @@ const routes = [
     layout: MainLayout,
   },
   {
-    path: '/dashboard',
-    name: 'dashboard',
+    path: '/dashboard/create-cabin',
+    name: 'dashboard create cabin',
     protected: true,
-    component: CreateDeatilCabin,
+    component: CreateCabin,
+    adminOnly: true,
+    layout: AdminLayout,
+  },
+  {
+    path: '/dashboard/create-type-room',
+    name: 'dashboard create cabin',
+    protected: true,
+    component: CreateTypeRoom,
+    adminOnly: true,
+    layout: AdminLayout,
+  },
+  {
+    path: '/dashboard/create-banner',
+    name: 'dashboard create banner',
+    protected: true,
+    component: CreateBanner,
     adminOnly: true,
     layout: AdminLayout,
   },

@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
-import { initialState } from '@pages/CreateDeatilCabin/reducer';
+import { initialState } from '@pages/CreateCabin/reducer';
 
-const selectCreateDetailCabinState = (state) => state.createDetailCabin || initialState;
+const selectCreateDetailCabinState = (state) => state.createCabin || initialState;
 
 export const selectDisplayNameLocation = createSelector(
   selectCreateDetailCabinState,

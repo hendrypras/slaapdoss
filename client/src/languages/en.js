@@ -261,4 +261,25 @@ export default {
   app_orders_waiting_for_payment_title: 'Waiting For Payment',
   app_orders_text_button_continue_payment: 'Continue To Payment',
   app_orders_text_button_cancel_reservation: 'Cancel Reservation',
+  app_orders_text_empty_orders: 'Order Unavailable',
+  app_orders_text_button_empty_orders: 'Booking Now',
+
+  dashboard_create_cabin_head_title: 'Create Cabin',
+  dashboard_create_type_cabin_head_title: 'Create Type Cabin',
+  dashboard_create_room_head_title: 'Create Room',
+  dashboard_create_banner_head_title: 'Create Banner',
+  dashboard_list_banner_head_title: 'List Banner',
+  dashboard_list_cabin_head_title: 'List Cabin',
+  dashboard_list_orders_head_title: 'List Pesanan',
+  dashboard_upload_image_title: 'Upload Image',
+
+  dashboard_create_type_room_title_input_name: 'Name',
+  dashboard_create_type_room_title_input_information: 'Information',
+  dashboard_create_type_room_title_input_price: 'Price',
+  dashboard_create_type_room_title_input_capacity: 'Capacity',
+  dashboard_create_type_room_title_input_breakfast: 'Breakfast',
+
+  dashboard_create_banner_title_input: 'Title',
+  dashboard_create_banner_title_input_description: 'Description',
+  dashboard_create_banner_title_input_active: 'Active',
 };

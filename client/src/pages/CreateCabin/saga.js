@@ -4,8 +4,8 @@ import { createCabin, getDetailLocation } from '@domain/api';
 
 import { showPopup, setLoading } from '@containers/App/actions';
 
-import { CREATE_CABIN, GET_DATAIL_LOCATION } from '@pages/CreateDeatilCabin/constants';
-import { setDisplayLocation, setPosition } from '@pages/CreateDeatilCabin/actions';
+import { CREATE_CABIN, GET_DATAIL_LOCATION } from '@pages/CreateCabin/constants';
+import { setDisplayLocation, setPosition } from '@pages/CreateCabin/actions';
 
 function* doGetDetailLocation({ lat, lng }) {
   yield put(setLoading(true));
@@ -35,7 +35,7 @@ function* doCreateCabins({ data, cbSuccess }) {
   }
 }
 
-export default function* createDetailCabinSaga() {
+export default function* createCabinSaga() {
   yield takeLatest(GET_DATAIL_LOCATION, doGetDetailLocation);
   yield takeLatest(CREATE_CABIN, doCreateCabins);
 }

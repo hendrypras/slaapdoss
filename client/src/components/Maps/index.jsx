@@ -5,8 +5,8 @@ import { useDispatch, connect } from 'react-redux';
 import classNames from 'classnames';
 import { createStructuredSelector } from 'reselect';
 
-import { getDetailLocation } from '@pages/CreateDeatilCabin/actions';
-import { selectDisplayNameLocation } from '@pages/CreateDeatilCabin/selectors';
+import { getDetailLocation } from '@pages/CreateCabin/actions';
+import { selectDisplayNameLocation } from '@pages/CreateCabin/selectors';
 
 import { selectCurrentLocation } from '@containers/App/selectors';
 

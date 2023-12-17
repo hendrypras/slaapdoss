@@ -322,6 +322,34 @@ const validateBodyCreateCabin = reqBody => {
 
   return null
 }
+const validateBodyCreateBanner = reqBody => {
+  const schema = Joi.object({
+    title: Joi.string().required().messages({
+      'string.base': 'title must be a string.',
+      'string.empty': 'title is required.',
+      'any.required': 'title is required.',
+    }),
+    description: Joi.string().required().messages({
+      'string.base': 'description must be a string.',
+      'string.empty': 'description is required.',
+      'any.required': 'description is required.',
+    }),
+    active: Joi.boolean().required().messages({
+      'boolean.base': 'active must be a boolean.',
+      'any.required': 'active is required.',
+    }),
+  })
+
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  })
+
+  if (error) {
+    return error.details.map(err => err.message).join(', ')
+  }
+
+  return null
+}
 const validateBodyCreateCabinRoom = reqBody => {
   const schema = Joi.object({
     cabinsSlug: Joi.string().required().messages({
@@ -580,4 +608,5 @@ module.exports = {
   validateResultOcrIdCard,
   validateBodyCreateIdCard,
   validateBodyCreatePayment,
+  validateBodyCreateBanner,
 }

@@ -62,18 +62,7 @@ exports.createCabin = async (req, res) => {
     return responseSuccess(res, 201, 'success')
   } catch (error) {
     if (imageResult?.public_id) {
-      const deleteImage = await cloudinaryDeleteImg(
-        imageResult.public_id,
-        'image'
-      )
-      if (!deleteImage) {
-        return responseError(
-          res,
-          500,
-          'Internal server error',
-          'Failed to delete image in cloud'
-        )
-      }
+      await cloudinaryDeleteImg(imageResult.public_id, 'image')
     }
     return responseError(res, error?.status, error?.message)
   }
@@ -245,7 +234,7 @@ exports.updateTypeCabin = async (req, res) => {
     }
     if (req.files.typeImage) {
       imageResult = await uploadToCloudinary(req.files.typeImage[0], 'image')
-      if (!imageResult?.url || !imageResult?.public_id) {
+      if (!imageResult?.url) {
         return responseError(
           res,
           500,
@@ -293,7 +282,6 @@ exports.updateTypeCabin = async (req, res) => {
 
     return responseError(res, error?.status, error?.message)
   } finally {
-    // Always attempt to delete the image in case of any unexpected error
     if (imageResult?.public_id && !transaction) {
       await cloudinaryDeleteImg(imageResult.public_id, 'image')
     }
@@ -422,7 +410,6 @@ exports.getDetailCabinRoomById = async (req, res) => {
     const modifiedResponse = modifiedResponseDetailRoomCabin(responseCabin)
     return responseSuccess(res, 200, 'success', modifiedResponse)
   } catch (error) {
-    console.log(error)
     return responseError(res, error?.status, error?.message)
   }
 }
