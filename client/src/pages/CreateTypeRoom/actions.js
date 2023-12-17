@@ -1,25 +1,7 @@
-import {
-  CREATE_CABIN,
-  GET_DATAIL_LOCATION,
-  SET_DATAIL_LOCATION,
-  SET_DISPLAY_LOCATION,
-} from '@pages/CreateDeatilCabin/constants';
+import { CREATE_TYPE_ROOM } from '@pages/CreateTypeRoom/constants';
 
-export const getDetailLocation = (lat, lng) => ({
-  type: GET_DATAIL_LOCATION,
-  lat,
-  lng,
-});
-export const setDisplayLocation = (displayName) => ({
-  type: SET_DISPLAY_LOCATION,
-  displayName,
-});
-export const setPosition = (selectedPosition) => ({
-  type: SET_DATAIL_LOCATION,
-  selectedPosition,
-});
-export const createCabin = (data, cbSuccess) => ({
-  type: CREATE_CABIN,
+export const createTypeRoom = (data, cbSuccess) => ({
+  type: CREATE_TYPE_ROOM,
   data,
   cbSuccess,
 });

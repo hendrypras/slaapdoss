@@ -1,5 +1,4 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FormattedMessage } from 'react-intl';
 import { Autoplay, Pagination } from 'swiper/modules';
 import PropTypes from 'prop-types';
 
@@ -26,14 +25,10 @@ const Banner = ({ banner }) => (
     {banner?.map((val, i) => (
       <SwiperSlide key={i} className={classes.swiperSlide}>
         <div className={classes.wrapperText}>
-          <div className={classes.title}>
-            <FormattedMessage id={val?.title} />
-          </div>
-          <div className={classes.subTitle}>
-            <FormattedMessage id={val?.subTitle} />
-          </div>
+          <div className={classes.title}>{val?.title}</div>
+          <div className={classes.subTitle}>{val?.description}</div>
         </div>
-        <img src={val?.imageUrl} alt="bannerImage" className={classes.img} />
+        <img src={val?.image_url} alt="bannerImage" className={classes.img} />
       </SwiperSlide>
     ))}
   </Swiper>

@@ -8,18 +8,18 @@ import decryptToken from '@utils/decryptToken';
 
 import { selectLogin, selectToken } from '@containers/Client/selectors';
 
-const Client = ({ login, isAdmin, token, children }) => {
+const Client = ({ login, isAdmin, token, children, isUser }) => {
   const decoded = decryptToken(token);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!login && !decoded) {
-      navigate('/login');
-    }
-    if (login && isAdmin && decoded?.role === 2) {
-      navigate('/');
-    }
-  }, [login, navigate, decoded, isAdmin]);
+    const handleNavigation = () => {
+      if (!login && !decoded) navigate('/login');
+      if (login && ((isAdmin && decoded?.role === 2) || (isUser && decoded?.role === 1))) navigate('/');
+    };
+
+    handleNavigation();
+  }, [login, decoded, isAdmin, isUser, navigate]);
 
   return children;
 };
@@ -27,6 +27,7 @@ const Client = ({ login, isAdmin, token, children }) => {
 Client.propTypes = {
   login: PropTypes.bool,
   isAdmin: PropTypes.bool,
+  isUser: PropTypes.bool,
   children: PropTypes.element,
   token: PropTypes.string,
 };

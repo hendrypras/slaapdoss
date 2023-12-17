@@ -7,22 +7,28 @@ import registerSaga from '@pages/Register/saga';
 import forgotPasswordSaga from '@pages/ForgotPassword/saga';
 import resetPasswordSaga from '@pages/ResetPassword/saga';
 import ordersSaga from '@pages/Orders/saga';
-import createDetailCabinSaga from '@pages/CreateDeatilCabin/saga';
+import createCabinSaga from '@pages/CreateCabin/saga';
 import userProfileSaga from '@pages/UserProfile/saga';
 import detailCabinsSaga from '@pages/DetailCabins/saga';
 import reservationSaga from '@pages/Reservation/saga';
+import homeSaga from '@pages/Home/saga';
+import createTypeRoomSaga from '@pages/CreateTypeRoom/saga';
+import createBannerSaga from '@pages/CreateBanner/saga';
 
 export default function* rootSaga() {
   yield all([
     appSaga(),
     clientSaga(),
+    homeSaga(),
     registerSaga(),
     forgotPasswordSaga(),
     resetPasswordSaga(),
     ordersSaga(),
-    createDetailCabinSaga(),
+    createCabinSaga(),
     userProfileSaga(),
     detailCabinsSaga(),
     reservationSaga(),
+    createTypeRoomSaga(),
+    createBannerSaga(),
   ]);
 }

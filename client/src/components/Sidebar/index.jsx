@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, connect } from 'react-redux';
 import { Avatar } from '@mui/material';
+import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 
 import ButtonLang from '@components/ButtonLang';
@@ -21,19 +22,45 @@ const SideBar = ({ children, userProfile, locale }) => {
   return (
     <div className={classes.wrapper}>
       <aside className={classes.aside}>
-        <button className={classes.wrapperLogo} type="button" onClick={() => navigate('/dashboard')}>
+        <button className={classes.wrapperLogo} type="button" onClick={() => navigate('/')}>
           <img src="/logo.svg" alt="logo" className={classes.logo} />
           <div className={classes.logoTitle}>slaapdoss</div>
         </button>
         <ul className={classes.links}>
           <li className={classes.link}>
-            <Link to="/dashboard/create-cabins">Create Cabins</Link>
+            <Link to="/dashboard/create-cabin">
+              <FormattedMessage id="dashboard_create_cabin_head_title" />
+            </Link>
           </li>
           <li className={classes.link}>
-            <Link to="/dashboard/create-cabins">Create Type Cabin</Link>
+            <Link to="/dashboard/create-type-room">
+              <FormattedMessage id="dashboard_create_type_cabin_head_title" />
+            </Link>
           </li>
           <li className={classes.link}>
-            <Link to="/dashboard/create-cabins">Create Cabin Room</Link>
+            <Link to="/dashboard/create-room">
+              <FormattedMessage id="dashboard_create_room_head_title" />
+            </Link>
+          </li>
+          <li className={classes.link}>
+            <Link to="/dashboard/create-banner">
+              <FormattedMessage id="dashboard_create_banner_head_title" />
+            </Link>
+          </li>
+          <li className={classes.link}>
+            <Link to="/dashboard/list-cabin">
+              <FormattedMessage id="dashboard_list_cabin_head_title" />
+            </Link>
+          </li>
+          <li className={classes.link}>
+            <Link to="/dashboard/list-banner">
+              <FormattedMessage id="dashboard_list_banner_head_title" />
+            </Link>
+          </li>
+          <li className={classes.link}>
+            <Link to="/dashboard/list-order">
+              <FormattedMessage id="dashboard_list_orders_head_title" />
+            </Link>
           </li>
         </ul>
         <div className={classes.wrapperFooter}>
@@ -45,8 +72,9 @@ const SideBar = ({ children, userProfile, locale }) => {
             className={classes.logout}
             type="button"
             onClick={() => dispatch(showPopup('', '', 'logout', 'app_popup_logout_title', 'app_popup_logout_message'))}
-            text="app_logout_text_button"
-          />
+          >
+            <FormattedMessage id="app_logout_text_button" />
+          </Button>
         </div>
       </aside>
       <div>

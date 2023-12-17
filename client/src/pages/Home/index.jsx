@@ -8,28 +8,29 @@ import { selectAssets } from '@containers/App/selectors';
 import Container from '@components/Container';
 import HeadTitle from '@components/HeadTitle';
 import SubHeadTitle from '@components/SubHeadTitle';
+import Footer from '@components/Footer';
 
-import { selectSearchValue } from '@pages/Home/selectors';
+import Banner from '@pages/Home/components/Banner';
+import SearchCabin from '@pages/Home/components/SearchCabinHome';
+import { selectBanners, selectSearchValue } from '@pages/Home/selectors';
 import { getCabinsLocation } from '@pages/DetailCabins/actions';
 import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
-
-import Footer from '@components/Footer';
-import Banner from './components/Banner';
+import { getBanners } from '@pages/Home/actions';
 
 import classes from './style.module.scss';
-import SearchCabin from './components/SearchCabinHome';
 
-const Home = ({ assets, searchValue, cabinsLocation }) => {
+const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getCabinsLocation());
+    dispatch(getBanners());
   }, [dispatch]);
 
   return (
     <>
       <Container>
         <>
-          <Banner banner={assets?.banner} />
+          <Banner banner={banners} />
           <SearchCabin cabinsLocation={cabinsLocation} searchValue={searchValue} />
         </>
       </Container>
@@ -87,12 +88,14 @@ const mapStateToProps = createStructuredSelector({
   assets: selectAssets,
   searchValue: selectSearchValue,
   cabinsLocation: selectCabinsLocation,
+  banners: selectBanners,
 });
 
 Home.propTypes = {
   assets: PropTypes.object,
   searchValue: PropTypes.object,
   cabinsLocation: PropTypes.array,
+  banners: PropTypes.array,
 };
 
 export default connect(mapStateToProps)(Home);

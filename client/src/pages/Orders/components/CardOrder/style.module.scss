@@ -38,6 +38,18 @@
       text-transform: capitalize;
       color: orange;
       margin-top: 1rem;
+      &.completed {
+        color: $color-green-100;
+        border-color: $color-green-100;
+      }
+      &.cancel {
+        color: red;
+        border-color: red;
+      }
+      &.expire {
+        color: blue;
+        border-color: blue;
+      }
       @include screen(md) {
         width: 27% !important;
         @include displayFlex(row, center, center);

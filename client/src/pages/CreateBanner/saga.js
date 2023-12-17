@@ -1,15 +1,15 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import { createTypeRoom } from '@domain/api';
+import { createBanner } from '@domain/api';
 
 import { showPopup, setLoading } from '@containers/App/actions';
 
-import { CREATE_TYPE_ROOM } from '@pages/CreateTypeRoom/constants';
+import { CREATE_BANNER } from '@pages/CreateBanner/constants';
 
-function* doCreateTypeRoom({ data, cbSuccess }) {
+function* doCreateBanner({ data, cbSuccess }) {
   yield put(setLoading(true));
   try {
-    const response = yield call(createTypeRoom, data);
+    const response = yield call(createBanner, data);
     if (response) {
       cbSuccess();
     }
@@ -20,6 +20,6 @@ function* doCreateTypeRoom({ data, cbSuccess }) {
   }
 }
 
-export default function* createTypeRoomSaga() {
-  yield takeLatest(CREATE_TYPE_ROOM, doCreateTypeRoom);
+export default function* createBannerSaga() {
+  yield takeLatest(CREATE_BANNER, doCreateBanner);
 }

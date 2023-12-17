@@ -12,6 +12,7 @@ const {
 const router = express.Router()
 
 router.post('/payment', Authenticated, isUser, createPayment)
+router.post('/payment/notification', paymentNotification)
 router.post(
   '/payment/cancel/:orderId',
   Authenticated,

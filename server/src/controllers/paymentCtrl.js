@@ -208,10 +208,78 @@ exports.createPayment = async (req, res) => {
   }
 }
 
+exports.paymentNotification = async (req, res) => {
+  const statusResponse = await coreApi.transaction.notification(req.body)
+  const orderId = statusResponse.order_id
+  const transactionStatus = statusResponse.transaction_status
+
+  try {
+    await sequelize.transaction(async t => {
+      const existingResponse = await ResponsePayments.findOne({
+        where: {
+          order_id: orderId,
+          transaction_status: { [Op.ne]: transactionStatus },
+        },
+        transaction: t,
+      })
+
+      if (existingResponse) {
+        await existingResponse.update(
+          { transaction_status: transactionStatus },
+          { transaction: t }
+        )
+
+        let message = ''
+        if (transactionStatus === 'settlement') {
+          message = 'Order status updated to paid'
+        } else if (
+          transactionStatus === 'expire' ||
+          transactionStatus === 'cancel'
+        ) {
+          // Get the related reservation details
+          const relatedReservation = await Orders.findOne({
+            where: { order_id: orderId },
+            attributes: ['room_id', 'start_reservation', 'end_reservation'],
+            transaction: t,
+          })
+
+          if (relatedReservation) {
+            // Delete RoomDateReservations entry if transactionStatus is 'expire' or 'cancel'
+            await RoomDateReservations.destroy({
+              where: {
+                room_id: relatedReservation.room_id,
+                start_reservation: relatedReservation.start_reservation,
+                end_reservation: relatedReservation.end_reservation,
+              },
+              transaction: t,
+            })
+          }
+          message = 'Order status updated to expire or deleted'
+        }
+
+        return responseSuccess(res, 200, 'Ok', message)
+      } else {
+        return responseSuccess(res, 200, 'Ok', 'success')
+      }
+    })
+  } catch (error) {
+    return responseError(res, error.status)
+  }
+}
+
 exports.cancelTransaction = async (req, res) => {
   try {
     const { orderId } = req.params
-    const findOrder = await Orders.findOne({ where: { order_id: orderId } })
+    const findOrder = await Orders.findOne({
+      include: [
+        {
+          model: ResponsePayments,
+          as: 'response_payment',
+        },
+      ],
+      where: { order_id: orderId },
+    })
+    console.log(findOrder)
     if (!findOrder)
       return responseError(
         res,
@@ -219,12 +287,12 @@ exports.cancelTransaction = async (req, res) => {
         'Nor Found',
         `Order with id ${orderId} not found`
       )
-    if (findOrder.transaction_status !== 'pending')
+    if (findOrder?.response_payment?.transaction_status !== 'pending')
       return responseError(
         res,
         400,
         'Bad Request',
-        `This Order has been ${findOrder.transaction_status}`
+        `This Order has been ${findOrder?.response_payment?.transaction_status}`
       )
     const url = `${sandBoxMidtransUrl}/${orderId}/cancel`
     const headers = {
@@ -261,44 +329,6 @@ exports.cancelTransaction = async (req, res) => {
 //     return responseError(res, error.status, error.message)
 //   }
 // }
-
-exports.paymentNotification = async (req, res) => {
-  const statusResponse = await coreApi.transaction.notification(req.body)
-  const orderId = statusResponse.order_id
-  const transactionStatus = statusResponse.transaction_status
-
-  try {
-    await sequelize.transaction(async t => {
-      const existingResponse = await ResponsePayments.findOne({
-        where: {
-          order_id: orderId,
-          transaction_status: { [Op.ne]: transactionStatus },
-        },
-        transaction: t,
-      })
-
-      if (existingResponse) {
-        await existingResponse.update(
-          { transaction_status: transactionStatus },
-          { transaction: t }
-        )
-        let message = ''
-        if (transactionStatus === 'settlement') {
-          message = 'Order status updated to paid'
-        } else if (transactionStatus === 'expire') {
-          message = 'Order status updated to expire'
-        } else if (transactionStatus === 'cancel') {
-          message = 'Order status updated to cancel'
-        }
-        return responseSuccess(res, 200, 'Ok', message)
-      } else {
-        return responseSuccess(res, 200, 'Ok', 'Create payment successfully')
-      }
-    })
-  } catch (error) {
-    return responseError(res, error.status)
-  }
-}
 
 exports.getPaymentMethods = async (req, res) => {
   try {

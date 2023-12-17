@@ -5,13 +5,11 @@ import { FormProvider, useForm, Controller } from 'react-hook-form';
 import { connect, useDispatch } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Close as CloseIcon } from '@mui/icons-material';
-import { FormControlLabel, Switch, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { FormControlLabel, Switch } from '@mui/material';
+import { useState } from 'react';
 import { selectLoading } from '@containers/App/selectors';
 
-import { createTypeRoom } from '@pages/CreateTypeRoom/actions';
-import { getCabinsLocation } from '@pages/DetailCabins/actions';
-import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
+import { createBanner } from '@pages/CreateBanner/actions';
 
 import InputForm from '@components/InputForm';
 import Button from '@components/Button';
@@ -20,7 +18,7 @@ import HeadTitle from '@components/HeadTitle';
 
 import classes from './style.module.scss';
 
-const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
+const CreateBanner = ({ loading, intl: { formatMessage } }) => {
   const method = useForm();
   const dispatch = useDispatch();
 
@@ -32,7 +30,7 @@ const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
       formData.append(key, value);
     });
     dispatch(
-      createTypeRoom(formData, () => {
+      createBanner(formData, () => {
         method.reset();
         setSelectedImage(null);
       })
@@ -46,16 +44,14 @@ const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
         setSelectedImage(event.target.result);
       };
       reader.readAsDataURL(file);
-      method.setValue('typeImage', file);
+      method.setValue('banner', file);
     }
   };
-  useEffect(() => {
-    dispatch(getCabinsLocation());
-  }, [dispatch]);
+
   return (
     <div className={classes.container}>
       <HeadTitle size={20} className={classes.headTitle}>
-        <FormattedMessage id="dashboard_create_type_cabin_head_title" />
+        <FormattedMessage id="dashboard_create_banner_head_title" />
       </HeadTitle>
       <FormProvider {...method}>
         <form action="#" onSubmit={method.handleSubmit(onSubmit)} className={classes.form}>
@@ -90,87 +86,38 @@ const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
           )}
 
           <InputFormBasic
-            name="name"
-            defaultValue={method.getValues('name')}
+            name="title"
+            defaultValue={method.getValues('title')}
             type="text"
-            placeholder="Enter name"
-            title="dashboard_create_type_room_title_input_name"
+            placeholder="Enter Title"
+            title="dashboard_create_banner_title_input"
             rules={{
-              required: 'Name is required',
+              required: 'Title is required',
             }}
           />
           <InputFormBasic
-            name="information"
+            name="description"
             type="text"
-            defaultValue={method.getValues('information')}
-            placeholder="Enter information"
-            title="dashboard_create_type_room_title_input_information"
+            defaultValue={method.getValues('description')}
+            placeholder="Enter description"
+            title="dashboard_create_banner_title_input_description"
             rules={{
               required: 'information is required',
-            }}
-          />
-          <InputFormBasic
-            name="price"
-            type="number"
-            defaultValue={method.getValues('price')}
-            placeholder="Enter price"
-            title="dashboard_create_type_room_title_input_price"
-            rules={{
-              required: 'price is required',
-            }}
-          />
-          <InputFormBasic
-            name="capacity"
-            type="text"
-            defaultValue={method.getValues('capacity')}
-            placeholder="Enter capacity"
-            title="dashboard_create_type_room_title_input_capacity"
-            rules={{
-              required: 'capacity is required',
             }}
           />
           <div className={classes.wrapperBreakfast}>
             <FormControlLabel
               control={
                 <Controller
-                  name="breakfast"
+                  name="active"
                   control={method.control}
-                  defaultValue={false}
-                  render={({ field }) => <Switch {...field} />}
+                  defaultValue
+                  render={({ field }) => <Switch {...field} checked={method.getValues('active')} />}
                 />
               }
-              label={formatMessage({ id: 'dashboard_create_type_room_title_input_breakfast' })}
+              label={formatMessage({ id: 'dashboard_create_banner_title_input_active' })}
             />
           </div>
-          <FormControl sx={{ m: 1, width: '100%' }}>
-            <InputLabel id="select-sabin">Cabin</InputLabel>
-            <Controller
-              name="cabinsSlug"
-              control={method.control}
-              defaultValue=""
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  labelId="select-sabin"
-                  autoWidth
-                  label="Cabin"
-                  onChange={(e) => {
-                    field.onChange(e);
-                    method.setValue('cabinsSlug', e.target.value);
-                  }}
-                >
-                  <MenuItem value="">
-                    <em>none</em>
-                  </MenuItem>
-                  {cabinsLocation.map((cabin, index) => (
-                    <MenuItem key={index} value={cabin.slug}>
-                      {cabin.slug}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
-            />
-          </FormControl>
           <Button isLoading={loading} type="submit">
             {loading ? (
               <FormattedMessage id="app_text_loading_button" />
@@ -186,12 +133,10 @@ const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
 
 const mapStateToProps = createStructuredSelector({
   loading: selectLoading,
-  cabinsLocation: selectCabinsLocation,
 });
-CreateCabin.propTypes = {
+CreateBanner.propTypes = {
   loading: PropTypes.bool,
-  cabinsLocation: PropTypes.array,
   intl: PropTypes.object,
 };
 
-export default injectIntl(connect(mapStateToProps)(CreateCabin));
+export default injectIntl(connect(mapStateToProps)(CreateBanner));

@@ -1,6 +1,6 @@
 import { produce } from 'immer';
 
-import { SET_DATAIL_LOCATION, SET_DISPLAY_LOCATION } from '@pages/CreateDeatilCabin/constants';
+import { SET_DATAIL_LOCATION, SET_DISPLAY_LOCATION } from '@pages/CreateCabin/constants';
 
 export const initialState = {
   displayNameLocation: '',
@@ -10,7 +10,7 @@ export const initialState = {
   },
 };
 
-const createDetailCabinReducer = (state = initialState, action) =>
+const createCabinReducer = (state = initialState, action) =>
   produce(state, (draft) => {
     switch (action.type) {
       case SET_DISPLAY_LOCATION:
@@ -22,4 +22,4 @@ const createDetailCabinReducer = (state = initialState, action) =>
     }
   });
 
-export default createDetailCabinReducer;
+export default createCabinReducer;

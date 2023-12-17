@@ -2,54 +2,6 @@
 .footer {
   padding: 40px 0;
   font-size: 14px;
-
-  .footerContent {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: flex-start;
-
-    .logo img {
-      width: 120px;
-      height: auto;
-    }
-
-    .links {
-      margin-top: 20px;
-      flex-basis: 100%;
-
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-
-        li {
-          display: inline-block;
-          margin-right: 20px;
-
-          a {
-            color: #fff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-
-            &:hover {
-              color: #007bff;
-            }
-          }
-        }
-      }
-    }
-
-    .contactInfo {
-      margin-top: 20px;
-      flex-basis: 100%;
-
-      p {
-        margin: 5px 0;
-      }
-    }
-  }
-
   .footerBottom {
     margin-top: 20px;
     text-align: center;
@@ -58,25 +10,6 @@
 
     p {
       margin: 0;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .footerContent {
-      flex-direction: column;
-
-      .logo img {
-        margin-bottom: 20px;
-      }
-
-      .links,
-      .contactInfo {
-        margin-top: 20px;
-      }
-
-      .links ul {
-        text-align: left;
-      }
     }
   }
 }

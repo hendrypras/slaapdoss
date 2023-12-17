@@ -7,9 +7,9 @@ const urls = {
   auth: 'auth',
   payment: 'payment',
   user: 'user',
-  cabins: 'cabins',
-  cabin: 'cabin',
-  orders: 'orders',
+  cabin: ['cabin', 'cabins'],
+  order: ['orders'],
+  banner: ['banners', 'banner'],
 };
 export const callAPI = async (endpoint, method, header, params, data, withCredentials) => {
   const defaultHeader = {
@@ -64,19 +64,30 @@ export const updateUserProfile = (data) =>
 
 // Payment
 export const requestPayment = (data) => callAPI(urls.payment, 'POST', {}, {}, data);
+export const cancelPayment = (orderId) => callAPI(`${urls.payment}/cancel/${orderId}`, 'POST');
 export const getPaymentMethods = () => callAPI(`${urls.payment}/methods`, 'GET');
-export const getOrders = (orderId) => {
-  let url = `${urls.orders}`;
+export const getOrders = (orderId, page, limit) => {
+  let url = `${urls.order[0]}`;
   if (orderId) {
     url += `?orderId=${orderId}`;
+  }
+  if (page && limit) {
+    url += `?page=${page}&limit=${limit}`;
   }
   return callAPI(url, 'GET');
 };
 
 // cabin
 export const getDetailCabins = (slug, dateStart, dateEnd) =>
-  callAPI(`${urls.cabins}/detail/${slug}?dateStart=${dateStart}&dateEnd=${dateEnd}`, 'GET');
-export const getCabinsLocation = () => callAPI(`${urls.cabins}/location`, 'GET');
-export const getDetailCabinRoom = (slug, roomId) => callAPI(`${urls.cabin}/room/${slug}/${roomId}`, 'GET');
+  callAPI(`${urls.cabin[1]}/detail/${slug}?dateStart=${dateStart}&dateEnd=${dateEnd}`, 'GET');
+export const getCabinsLocation = () => callAPI(`${urls.cabin[1]}/location`, 'GET');
+export const getDetailCabinRoom = (slug, roomId) => callAPI(`${urls.cabin[0]}/room/${slug}/${roomId}`, 'GET');
 export const createCabin = (formData) =>
-  callAPI(`${urls.cabin}`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);
+  callAPI(urls.cabin[0], 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);
+export const createTypeRoom = (formData) =>
+  callAPI(`${urls.cabin[0]}/type-room`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);
+
+// banner
+export const getBanners = () => callAPI(urls.banner[0], 'GET');
+export const createBanner = (formData) =>
+  callAPI(urls.banner[1], 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);

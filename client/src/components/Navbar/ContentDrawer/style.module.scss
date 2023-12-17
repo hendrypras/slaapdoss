@@ -1,0 +1,78 @@
+@import '@styles/base';
+
+.wrapperHead {
+  @include displayFlex(row, space-between, center);
+  width: 100%;
+  padding: 0.8rem 1rem;
+  .wrapperLogo {
+    @include displayFlex(row, center, center);
+    cursor: pointer;
+    align-items: center;
+    background: none;
+    border: none;
+    gap: 0.1rem;
+    .logo {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+    .logoTitle {
+      font-size: 1.3rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: $color-green-100;
+    }
+  }
+  .closeBtn {
+    background-color: transparent;
+    width: max-content;
+    @include displayFlex(row, center, center);
+    border: none;
+    cursor: pointer;
+    .icon {
+      font-size: 2rem;
+    }
+  }
+}
+.wrapperContentDrawer {
+  width: 100%;
+  height: auto;
+  padding: 1rem;
+  .btnDashboard {
+    background-color: transparent;
+    color: $color-black-100;
+    @include displayFlex(row, start, center);
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    width: 100%;
+  }
+  .wrapperFooter {
+    @include displayFlex(row, space-between, center);
+    width: 100%;
+
+    .btnAvatar {
+      @include displayFlex(row, start, center);
+      width: max-content;
+      border: none;
+      background-color: transparent;
+      gap: 0.5rem;
+      cursor: pointer;
+      .username {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+    }
+    .logout {
+      width: 20%;
+      font-size: 0.9rem;
+      padding: 0.5rem 0;
+    }
+  }
+  .wrapperBtn {
+    width: 100%;
+    @include displayFlex(row, center, center);
+    gap: 2rem;
+    padding: 0 2rem;
+    margin-top: 2rem;
+  }
+}
