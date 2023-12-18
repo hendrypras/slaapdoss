@@ -1,0 +1,70 @@
+@import '@styles/base';
+
+.form {
+  margin-top: 1rem;
+  @include displayFlex(column, start, start);
+  width: 100%;
+  gap: 1rem;
+  &.dissabled {
+    display: none;
+  }
+  .warningText {
+    font-size: 1.1rem;
+    color: $color-black-100;
+    font-weight: 700;
+    @include displayFlex(row, start, start);
+    gap: 0.2rem;
+    .star {
+      color: red;
+    }
+  }
+  .formateBirtday {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    width: max-content;
+    .star {
+      color: red;
+      margin-right: 0.2rem;
+    }
+  }
+  .inputBox {
+    width: 100%;
+    position: relative;
+    .input {
+      width: 100%;
+      padding: 0.9rem 0.6rem;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      outline: none;
+      background-color: transparent;
+      border: 2px solid $color-gray-100;
+      transition: 0.3s ease-in-out;
+      &:focus {
+        border-color: $color-green-100;
+      }
+      &:focus + .title {
+        color: $color-green-100;
+      }
+    }
+    .errorInput {
+      color: red;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-top: 0.2rem;
+    }
+    .title {
+      background-color: $color-white;
+      position: absolute;
+      top: -0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      left: 0.7rem;
+      padding: 0 0.5rem;
+      transition: 0.3s ease-in-out;
+    }
+  }
+  .button {
+    margin-top: 2rem;
+  }
+}

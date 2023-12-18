@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import { hidePopup } from '@containers/App/actions';
+import { getAssets, getCurrentLocation, getTranslations, hidePopup, showPopup } from '@containers/App/actions';
 import { selectPopup, selectLoading } from '@containers/App/selectors';
-import { setLogin, setToken } from '@containers/Client/actions';
 import { selectLogin, selectToken } from '@containers/Client/selectors';
+import { setLogout } from '@containers/Client/actions';
 
 import Loader from '@components/Loader';
 import ClientRoutes from '@components/ClientRoutes';
@@ -15,32 +15,59 @@ import PopupMessage from '@components/PopupMessage/Dialog';
 
 import decryptToken from '@utils/decryptToken';
 
-const App = ({ popup, loading, login, token, userData }) => {
+import { getUserProfile } from '@pages/UserProfile/actions';
+import { selectUserProfile } from '@pages/UserProfile/selectors';
+
+const App = ({ popup, loading, login, token, userProfile }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const decoded = decryptToken(token);
   const closePopup = () => {
     dispatch(hidePopup());
   };
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, [pathname]);
 
-  // useEffect(() => {
-  //   if (!userData && login && decoded) {
-  //     dispatch(getUserProfile());
-  //   }
-  // }, [login, decoded, dispatch, userData]);
-  const logout = () => {
-    if (popup.ok === 'logout') {
-      dispatch(setLogin(false));
-      dispatch(setToken(null));
-      navigate('/login');
-      dispatch(hidePopup());
+  useEffect(() => {
+    dispatch(getAssets());
+    dispatch(getTranslations());
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          dispatch(getCurrentLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }));
+        },
+        (error) => {
+          dispatch(showPopup('Error getting the location', error?.message));
+        }
+      );
+    } else {
+      dispatch(showPopup('Geolocation not support in this browser'));
     }
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (login && decoded && !userProfile) {
+      dispatch(getUserProfile());
+    }
+  }, [dispatch, login, token, userProfile]);
+
+  const logout = () => {
+    dispatch(setLogout());
   };
   return (
     <>
       <ClientRoutes />
       <Loader isLoading={loading} />
-      <PopupMessage open={popup.open} title={popup.title} message={popup.message} onClose={closePopup} onOk={logout} />
+      <PopupMessage
+        open={popup.open}
+        title={popup.title}
+        message={popup.message}
+        onClose={closePopup}
+        onOk={popup.ok === 'logout' ? logout : null}
+        titleId={popup.titleId}
+        messageId={popup.messageId}
+      />
     </>
   );
 };
@@ -49,20 +76,23 @@ App.propTypes = {
   popup: PropTypes.shape({
     open: PropTypes.bool,
     title: PropTypes.string,
+    titleId: PropTypes.string,
     message: PropTypes.string,
+    messageId: PropTypes.string,
     ok: PropTypes.string,
   }),
   loading: PropTypes.bool,
   login: PropTypes.bool,
   token: PropTypes.string,
-  userData: PropTypes.object,
+  userProfile: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
   popup: selectPopup,
-  loading: selectLoading,
   login: selectLogin,
   token: selectToken,
+  loading: selectLoading,
+  userProfile: selectUserProfile,
 });
 
 export default connect(mapStateToProps)(App);

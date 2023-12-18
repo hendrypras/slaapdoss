@@ -9,11 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      first_name: {
-        type: Sequelize.STRING,
+      username: {
+        unique: true,
         allowNull: false,
-      },
-      last_name: {
         type: Sequelize.STRING,
       },
       email: {
@@ -25,13 +23,26 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      picture_url: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
       role: {
         type: Sequelize.INTEGER,
         allowNull: false,
+      },
+      image_url: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      image_public_id: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      verified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+      },
+      id_card_id: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        unique: true,
       },
       reset_password_token: {
         type: Sequelize.STRING,

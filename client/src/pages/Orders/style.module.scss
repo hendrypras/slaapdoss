@@ -1,0 +1,51 @@
+@import '@styles/base';
+
+.wrapper {
+  @include displayFlex(column, center, center);
+  padding: 1rem;
+  overflow: hidden;
+  width: 100%;
+  .headTitle {
+    width: 100%;
+    text-align: center;
+  }
+  .wrapperCardOrder {
+    width: 100%;
+    margin-top: 2rem;
+    @include displayFlex(column, center, center);
+    gap: 1rem;
+    @include screen(lg) {
+      gap: 2rem;
+    }
+  }
+  .wrapperEmpty {
+    margin-top: 2rem;
+    @include shadow;
+    width: 100%;
+    @include displayFlex(column, center, center);
+    padding: 2rem;
+    border-radius: 1rem;
+    gap: 2rem;
+    @include screen(md) {
+      width: 50%;
+    }
+    @include screen(lg) {
+      width: 60%;
+      padding: 4rem 2rem;
+    }
+    .title {
+      width: 100%;
+      text-align: center;
+    }
+    .btnBook {
+      width: 100%;
+      font-size: 1.2rem;
+      @include screen(md) {
+        width: 90%;
+      }
+      @include screen(lg) {
+        width: 70%;
+      }
+    }
+  }
+}

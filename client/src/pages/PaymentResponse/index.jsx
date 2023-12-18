@@ -1,105 +1,139 @@
-import { FormattedMessage } from 'react-intl';
-import { useEffect, useState, useRef } from 'react';
-import { useDispatch, connect } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Countdown from 'react-countdown';
+import { FormattedMessage } from 'react-intl';
+import { useEffect } from 'react';
+import { useDispatch, connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-
-import logo from '@static/images/success-payment.svg';
-
-import { selectResponsePayment } from '@pages/PaymentResponse/selectors';
-import { getResponsePaymentById } from '@pages/PaymentResponse/actions';
+import { Divider } from '@mui/material';
 
 import Container from '@components/Container';
+import HeadTitle from '@components/HeadTitle';
+import SubHeadTitle from '@components/SubHeadTitle';
+import Button from '@components/Button';
 
-import formatCountdown from '@utils/formatCountdown';
 import copyTextToClipboadrd from '@utils/copyTextToClipboadrd';
+import formateDate from '@utils/formateDate';
 
+import { selectOrders } from '@pages/Orders/selectors';
+import { getOrdersUser } from '@pages/Orders/actions';
+
+import formatCurrency from '@utils/formatCurrency';
+import { calculateDurationInDays } from '@utils/times';
 import classes from './style.module.scss';
 
-const PaymentResponse = ({ responsePayment }) => {
+const PaymentResponse = ({ orders }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const { orderId, status } = useParams();
-  const [countdown, setCountdown] = useState(0);
-  const timerId = useRef();
+  const responsePayment = orders?.results?.response_payment;
+  const detailCabin = orders?.results?.room;
   const VAnumber = responsePayment?.va_numbers?.length
     ? responsePayment?.va_numbers[0]?.va_number
     : responsePayment?.va_number;
+  const startReservation = parseInt(orders?.results?.start_reservation, 10);
+  const endReservation = parseInt(orders?.results?.end_reservation, 10);
+  const stayDuration = calculateDurationInDays(startReservation, endReservation);
   useEffect(() => {
-    if (
-      orderId &&
-      status === 'success' &&
-      Object.keys(responsePayment).length === 0 &&
-      responsePayment.constructor === Object
-    ) {
-      dispatch(getResponsePaymentById(orderId));
+    if (orderId && status) {
+      dispatch(getOrdersUser(orderId));
     }
-  }, [dispatch, status, orderId, responsePayment]);
-  useEffect(() => {
-    const targetTime = new Date(responsePayment?.expiry_time).getTime() / 1000; // Konversi prop seconds menjadi timestamp dalam detik
-    const currentTime = Math.floor(Date.now() / 1000); // Waktu saat ini dalam detik
-    const remainingSeconds = targetTime - currentTime; // Jumlah detik yang tersisa
-
-    if (remainingSeconds <= 0) {
-      clearInterval(timerId.current);
-      setCountdown(0);
-    } else {
-      setCountdown(remainingSeconds);
-
-      timerId.current = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(timerId.current);
-            return 0;
-          }
-          return prev - 1;
-        });
-      }, 1000);
-    }
-
-    return () => {
-      clearInterval(timerId.current);
-    };
-  }, [responsePayment]);
+  }, [dispatch, status, orderId]);
 
   return (
     <Container className={classes.wrapper}>
       <>
-        <img className={classes.image} src={logo} alt="Not Found" />
-        <div className={classes.title}>
-          <FormattedMessage id="app_respose_payment_success" />
-        </div>
-        <div className={classes.wrapperContent}>
-          <div className={classes.wrapperCountdown}>
-            <div>
+        <div className={classes.wrapperCountdown}>
+          <HeadTitle size={20} className={classes.title}>
+            <FormattedMessage id="app_payment_response_pending_reservation_message" />
+          </HeadTitle>
+          <div className={classes.titleAccountNumber}>Account Number</div>
+          <div className={classes.noVa}>{VAnumber}</div>
+          <Button onClick={() => copyTextToClipboadrd(VAnumber)} className={classes.btnCopy}>
+            <FormattedMessage id="app_response_payment_title_button_copy_va" />
+          </Button>
+          <div className={classes.boxinterval}>
+            {responsePayment && (
+              <Countdown
+                date={responsePayment?.expiry_time ? parseInt(responsePayment.expiry_time, 10) : 0}
+                renderer={({ hours, minutes, seconds, completed }) => {
+                  if (completed) {
+                    return <span>Countdown completed</span>;
+                  }
+                  return (
+                    <div className={classes.countdownTime}>
+                      {hours} : {minutes} : {seconds}
+                    </div>
+                  );
+                }}
+              />
+            )}
+            <div className={classes.titlePayBefore}>
               <FormattedMessage id="app_response_payment_pay_in" />
             </div>
-            <div className={classes.countdown}>{formatCountdown(countdown)}</div>
+            <div className={classes.expiry_date}>
+              {formateDate(parseInt(responsePayment?.expiry_time, 10), 'DD MMMM YYYY, hh:mm')}
+            </div>
           </div>
-          <div className={classes.wrapperVA}>
-            <div className={classes.title}>No Virtual Account</div>
-            <div className={classes.noVa}>{VAnumber?.match(/\d{1,3}/g).join(' ')}</div>
-          </div>
-          <button
-            type="button"
-            className={classes.btnCopy}
-            onClick={() =>
-              copyTextToClipboadrd(
-                VAnumber,
-                'Virtual Account copied to clipboard!',
-                'Virtual Account number is not available.'
-              )
-            }
-            aria-label="button-copy-va"
-          >
-            <FormattedMessage id="app_response_payment_title_button_copy_va" />
-          </button>
         </div>
-        <div className={classes.wrapperBtn}>
-          <button type="button" aria-label="continue" onClick={() => navigate('/')} className={classes.button}>
-            <FormattedMessage id="app_response_payment_button_continue" />
-          </button>
+
+        <div className={classes.wrapperOrderDetail}>
+          <div className={classes.wrapperOrderid}>
+            <div className={classes.titleValue}>Order Id</div>
+            <div className={classes.value}>{responsePayment?.order_id}</div>
+          </div>
+          <Divider className={classes.divider} />
+          <div className={classes.roomName}>{orders?.results?.room?.name}</div>
+          <div className={classes.wrapperTime}>
+            <div className={classes.wrapperContent}>
+              <div className={classes.titleContent}>
+                <FormattedMessage id="app_reservation_checkin_title" />
+              </div>
+              <div className={classes.value}>{formateDate(startReservation, 'DD MMMM YYYY')}</div>
+              <div className={classes.timeValue}>{formateDate(startReservation, 'HH:mm')}</div>
+            </div>
+            <div className={classes.wrapperContent}>
+              <div className={classes.titleContent}>
+                <FormattedMessage id="app_reservation_checkout_title" />
+              </div>
+              <div className={classes.value}>{formateDate(endReservation, 'DD MMMM YYYY')}</div>
+              <div className={classes.timeValue}>{formateDate(endReservation, 'HH:mm')}</div>
+            </div>
+            <div className={classes.wrapperContent}>
+              <div className={classes.titleContent}>
+                <FormattedMessage id="app_home_title_duration_search_selelct" />
+              </div>
+              <div className={classes.value}>{orders?.results?.stay_duration}</div>
+            </div>
+          </div>
+          <div className={classes.wrapperDetailRoom}>
+            <div className={classes.title}>Cabin(s)</div>
+            <div className={classes.wrapperContent}>
+              <div className={classes.content}>
+                <HeadTitle size={12} title={detailCabin?.type_room?.name} />
+                <SubHeadTitle size={11} title={formatCurrency(Number(detailCabin?.type_room?.price))} mt={0} />
+              </div>
+              <div className={classes.content}>
+                <HeadTitle size={12}>
+                  <FormattedMessage id="app_reservation_service_fee_title" />
+                </HeadTitle>
+                <SubHeadTitle size={11} mt={0}>
+                  <FormattedMessage id="app_reservation_service_fee_value" />
+                </SubHeadTitle>
+              </div>
+              <div className={classes.content}>
+                <HeadTitle size={12}>
+                  <FormattedMessage id="app_home_title_duration_search_selelct" />
+                </HeadTitle>
+                <SubHeadTitle size={11} mt={0} title={`${stayDuration}Night(s)`} />
+              </div>
+              <Divider className={classes.dividerDetail} />
+              <div className={classes.content}>
+                <HeadTitle size={12} title="Total" />
+                <div className={classes.valueTotalPrice}>{formatCurrency(Number(orders?.results?.total_price))}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </>
     </Container>
@@ -107,10 +141,10 @@ const PaymentResponse = ({ responsePayment }) => {
 };
 
 const mapStateToProps = createStructuredSelector({
-  responsePayment: selectResponsePayment,
+  orders: selectOrders,
 });
 PaymentResponse.propTypes = {
-  responsePayment: PropTypes.object,
+  orders: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(PaymentResponse);

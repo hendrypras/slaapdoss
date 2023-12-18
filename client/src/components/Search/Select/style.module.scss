@@ -1,0 +1,59 @@
+@import '@styles/base';
+.wrapper {
+  width: 100%;
+  height: max-content;
+  padding: 0.4rem 0.5rem;
+  background-color: transparent;
+  border: 1.5px solid rgb(210, 202, 202);
+  border-radius: 0.3rem;
+  @include displayFlex(column, center, start);
+  overflow: hidden;
+  gap: 0.2rem;
+  font-family: Nunito, sans-serif;
+  @include screen(lg) {
+    border: none;
+    border-radius: 0;
+  }
+  .locationTitle {
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    color: $color-black-100;
+  }
+  .btnValue {
+    @include displayFlex(row, space-between, center);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    width: 100%;
+    &.disBtnValue {
+      cursor: default;
+    }
+    .wrapperLeft {
+      @include displayFlex(row, start, center);
+      gap: 0.6rem;
+      width: 90%;
+      .iconLocation {
+        font-size: 1.2rem;
+        color: $color-green-100;
+      }
+      .placeHolder {
+        font-size: 0.95rem;
+        text-align: start;
+        max-width: 100%;
+        color: $color-gray-100;
+        font-weight: 600;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-transform: capitalize;
+        &.value {
+          color: $color-black-100;
+        }
+      }
+    }
+    .iconArrow {
+      color: $color-gray-100;
+    }
+  }
+}

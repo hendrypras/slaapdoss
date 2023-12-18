@@ -1,0 +1,15 @@
+@import '@styles/base';
+
+.dialogWrapper {
+  border-radius: 0.5rem !important;
+  padding: 0.5rem;
+  .wrapperBtn {
+    @include displayFlex(row, center, center);
+    margin-top: 1rem;
+    width: 100%;
+    gap: 1rem;
+    .btn {
+      padding: 0.7rem;
+    }
+  }
+}

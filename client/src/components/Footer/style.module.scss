@@ -1,0 +1,6 @@
+@import '@styles/base';
+.content {
+  width: 100%;
+  @include displayFlex(row, center, center);
+  padding: 1rem;
+}

@@ -1,10 +1,10 @@
 @import '@styles/base';
 .container {
-  min-height: 100vh;
+  height: max-content;
   width: 100%;
   .wrapper {
-    padding-top: 5rem;
     max-width: 1200px;
     margin: auto;
+    overflow: hidden;
   }
 }

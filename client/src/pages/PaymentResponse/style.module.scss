@@ -1,99 +1,136 @@
 @import '@styles/base';
 
 .wrapper {
-  @include directionY;
+  @include displayFlex(column, center, center);
   padding: 1rem;
-  box-sizing: border-box;
-  justify-content: center;
-  align-items: center;
-  height: calc(100vh - 3.5rem);
-  max-width: 1200px;
-  margin: 2rem auto;
-
-  .image {
-    width: 35%;
-    @include screen(md) {
-      width: 25%;
-    }
+  overflow: hidden;
+  width: 100%;
+  @include screen(lg) {
+    @include displayFlex(row, center, start);
+    gap: 2rem;
   }
-
-  .title {
-    margin-top: 1rem;
-    font-size: 1rem;
-    font-weight: 700;
-    max-width: 98%;
-    text-align: center;
-    @include screen(md) {
-      max-width: 70%;
-      font-size: 2rem;
-    }
-  }
-  .wrapperContent {
+  .wrapperCountdown {
     @include displayFlex(column, center, center);
     width: 100%;
-    height: max-content;
-    padding: 0 1rem;
-    margin-top: 1rem;
-    @include screen(md) {
-      padding: 0 10rem;
-      margin-top: 5rem;
+    @include screen(lg) {
+      width: 62%;
     }
-    .wrapperCountdown {
+    .title {
+      margin-top: 2rem;
+      width: fit-content;
+      text-align: center;
+    }
+    .titleAccountNumber {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+    .noVa {
+      margin-top: 0.5rem;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    .btnCopy {
+      margin-top: 0.3rem;
+      width: 60%;
+      font-size: 1.2rem;
+      padding: 0.8rem 0;
+    }
+    .boxinterval {
+      width: 80%;
+      margin: 2rem auto;
+      border: 1.2px solid rgb(199, 194, 194);
+      padding: 1.5rem 0;
+      @include displayFlex(column, center, center);
+      .countdownTime {
+        font-size: 2.2rem;
+        font-weight: 700;
+      }
+      .titlePayBefore {
+        font-size: 1.2rem;
+        font-weight: 400;
+        width: 70%;
+        text-align: center;
+        margin-top: 0.3rem;
+      }
+      .expiry_date {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+    }
+  }
+
+  .wrapperOrderDetail {
+    margin-top: 1rem;
+    @include shadow;
+    width: 100%;
+    padding: 2rem 1.8rem;
+    border-radius: 1.2rem;
+    @include screen(lg) {
+      width: 38%;
+    }
+    .wrapperOrderid {
       width: 100%;
       @include displayFlex(row, space-between, center);
-      gap: 2rem;
-      .countdown {
-        font-size: 20px;
-        font-weight: 600;
-        color: white;
+      text-align: center;
+      .titleValue {
+        font-size: 1rem;
+        font-weight: 500;
+      }
+      .value {
+        font-size: 1.1rem;
+        font-weight: 700;
       }
     }
-    .wrapperVA {
+    .divider {
+      margin: 1rem 0;
+    }
+    .roomName {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .wrapperTime {
       width: 100%;
-      margin-top: 2rem;
-      @include displayFlex(column, center, center);
+      @include displayFlex(row, center, stretch);
       gap: 0.2rem;
-      @include screen(md) {
-        @include displayFlex(row, space-between, center);
-      }
-      .title {
-        font-size: 18px;
-      }
-      .noVa {
-        font-size: 20px;
-      }
-    }
-  }
-  .btnCopy {
-    width: 100%;
-    margin-top: 0.4rem;
-    padding: 0.5rem 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: black;
-    border: none;
-    cursor: pointer;
-    opacity: 0.5;
-    @include screen(md) {
       margin-top: 1rem;
+      .wrapperContent {
+        @include displayFlex(column, start, center);
+        gap: 0.2rem;
+        width: 100%;
+        padding: 0.5rem;
+        border-right: 1px solid gray;
+        .titleContent {
+          font-size: 0.9rem;
+        }
+        .value {
+          font-size: 0.9rem;
+          font-weight: 700;
+          text-align: center;
+        }
+      }
     }
-  }
-  .btnCopy:hover {
-    opacity: 0.4;
-  }
-  .wrapperBtn {
-    width: 100%;
-    @include displayFlex(row, center, center);
-    margin-top: 5rem;
-    .button {
-      padding: 0.5rem 4rem;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 4px;
-      cursor: pointer;
-      color: white;
-      background: #ff9d00;
+    .wrapperDetailRoom {
+      margin-top: 1rem;
+      width: 100%;
+      @include displayFlex(column, center, space-between);
+      gap: 0.5rem;
+      .title {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: $color-gray-100;
+      }
+      .content {
+        @include displayFlex(row, space-between, center);
+        width: 100%;
+      }
+      .dividerDetail {
+        margin: 0.8rem 0;
+      }
+      .valueTotalPrice {
+        font-size: 1rem;
+        font-weight: 700;
+      }
     }
   }
 }

@@ -6,25 +6,39 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 })
 
-const uploadToCloudinary = async (file, resourceType) => {
-  try {
-    const result = await cloudinary.uploader.upload(file, {
-      resource_type: resourceType,
-    })
+const uploadToCloudinary = async (data, resourceType) => {
+  return new Promise((resolve, reject) => {
+    let uploadStream
 
-    return {
-      success: true,
-      url: result.secure_url,
-      asset_id: result.asset_id,
-      public_id: result.public_id,
+    if (data.buffer) {
+      // Jika data adalah file dengan buffer
+      uploadStream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: resourceType,
+          folder: resourceType,
+        },
+        (error, result) => {
+          if (error) {
+            reject(error)
+          } else {
+            resolve(result)
+          }
+        }
+      )
+      uploadStream.end(data.buffer)
+    } else {
+      // Jika data adalah base64
+      cloudinary.uploader
+        .upload(data, {
+          resource_type: resourceType,
+          folder: resourceType,
+        })
+        .then(result => resolve(result))
+        .catch(error => reject(error))
     }
-  } catch (error) {
-    return {
-      success: false,
-      error,
-    }
-  }
+  })
 }
+
 const cloudinaryDeleteImg = async (publicId, resourceType) => {
   try {
     const response = await cloudinary.uploader.destroy(publicId, {
@@ -36,4 +50,7 @@ const cloudinaryDeleteImg = async (publicId, resourceType) => {
     return false
   }
 }
-module.exports = { uploadToCloudinary, cloudinaryDeleteImg }
+module.exports = {
+  uploadToCloudinary,
+  cloudinaryDeleteImg,
+}

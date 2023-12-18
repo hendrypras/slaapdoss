@@ -1,5 +1,3 @@
-import toast from 'react-hot-toast';
-
 const copyTextToClipboadrd = (text, messageSuccess, messageFail) => {
   if (text) {
     const textarea = document.createElement('textarea');
@@ -11,11 +9,7 @@ const copyTextToClipboadrd = (text, messageSuccess, messageFail) => {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-    toast.success(messageSuccess, {
-      duration: 3000,
-    });
   } else {
-    toast.error(messageFail);
   }
 };
 

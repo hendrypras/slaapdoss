@@ -1,0 +1,9 @@
+@import '@styles/base';
+
+.text {
+  font-weight: 700;
+  color: $color-black-100;
+  width: 100%;
+  overflow: hidden;
+  text-transform: capitalize;
+}

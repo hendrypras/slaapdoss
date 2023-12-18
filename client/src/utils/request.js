@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { logout, refreshToken } from '@domain/api';
 import store from '@store';
-import { setLogin, setToken } from '@containers/Client/actions';
+import { setToken } from '@containers/Client/actions';
 
 let isRefreshing = false;
 const failedRequestsQueue = [];
@@ -48,13 +48,12 @@ axios.interceptors.response.use(
             originalRequest.headers.Authorization = `Bearer ${response?.data?.token}`;
             originalRequest._retry = true;
 
-            await processFailedRequests(); // Proses antrian permintaan yang gagal setelah refreshToken selesai
+            await processFailedRequests();
             return axios(originalRequest);
           }
         } catch (err) {
           await logout();
-          dispatch(setToken(null));
-          dispatch(setLogin(false));
+          localStorage.clear();
           window.location.href = '/';
           return Promise.reject(err);
         } finally {

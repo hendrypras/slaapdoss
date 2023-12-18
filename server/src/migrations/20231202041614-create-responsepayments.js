@@ -19,20 +19,14 @@ module.exports = {
       transaction_id: {
         type: Sequelize.STRING,
         allowNull: true,
+        unique: true,
       },
       order_id: {
         type: Sequelize.STRING,
         allowNull: false,
-      },
-      merchant_id: {
-        type: Sequelize.STRING,
-        allowNull: false,
+        unique: true,
       },
       gross_amount: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      currency: {
         type: Sequelize.STRING,
         allowNull: false,
       },
@@ -41,14 +35,10 @@ module.exports = {
         allowNull: false,
       },
       transaction_time: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
         allowNull: false,
       },
       transaction_status: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      fraud_status: {
         type: Sequelize.STRING,
         allowNull: false,
       },

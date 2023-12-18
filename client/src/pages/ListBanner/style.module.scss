@@ -1,0 +1,19 @@
+@import '@styles/base';
+.container {
+  margin: 0 auto;
+  width: 100%;
+  .headTitle {
+    text-align: center;
+  }
+  .wrapperTable {
+    margin-top: 3rem;
+    gap: 2rem;
+    width: 100%;
+    border: 1px solid;
+    @include displayFlex(column, center, center);
+    .customImage {
+      width: 100%;
+      object-fit: contain;
+    }
+  }
+}

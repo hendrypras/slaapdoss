@@ -1,48 +1,106 @@
-import 'leaflet/dist/leaflet.css';
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { connect } from 'react-redux';
-import { MapContainer, TileLayer, Marker } from 'react-leaflet';
-import Container from '@components/Container';
-
 import { useEffect } from 'react';
-import { getUserProfile, getUserProfile2 } from '@domain/api';
+import { connect, useDispatch } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
+import { selectAssets } from '@containers/App/selectors';
+
+import Container from '@components/Container';
+import HeadTitle from '@components/HeadTitle';
+import SubHeadTitle from '@components/SubHeadTitle';
+import Footer from '@components/Footer';
+
+import Banner from '@pages/Home/components/Banner';
+import SearchCabin from '@pages/Home/components/SearchCabinHome';
+import { selectBanners, selectSearchValue } from '@pages/Home/selectors';
+import { getCabinsLocation } from '@pages/DetailCabins/actions';
+import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
+import { getBanners } from '@pages/Home/actions';
+
+import classNames from 'classnames';
 import classes from './style.module.scss';
 
-const HomePage = () => {
-  const marker = [{ geocode: [-6.177082, 106.838581] }];
-  const getProfile = async () => {
-    const response = await getUserProfile();
-    console.log(response, '<<<response1');
-  };
-  const getProfile2 = async () => {
-    const response = await getUserProfile2();
-    console.log(response, '<<<response2');
-  };
+const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
+  const dispatch = useDispatch();
   useEffect(() => {
-    getProfile();
-    getProfile2();
-  }, []);
+    dispatch(getCabinsLocation());
+    dispatch(getBanners());
+  }, [dispatch]);
+
   return (
-    <Container>
-      <div className={classes.home}>
-        <div className={classes.text}>test</div>
-        {/* <MapContainer style={{ width: '100%', height: '100vh' }} center={[-6.17476, 106.827072]} zoom={13}>
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          {marker.map((val, i) => (
-            <Marker key={i} position={val.geocode} />
+    <>
+      <Container>
+        <>
+          <Banner banner={banners} />
+          <SearchCabin cabinsLocation={cabinsLocation} searchValue={searchValue} />
+        </>
+      </Container>
+      <Container className={classes.containerCabin}>
+        <>
+          <div className={classes.wrapperTitle}>
+            <HeadTitle size={19} className={classes.headTitle}>
+              <FormattedMessage id="app_home_title_perfect_solition" />
+            </HeadTitle>
+            <SubHeadTitle className={classes.subTitle}>
+              <FormattedMessage id="app_home_sub_title_perfect_solition" />
+            </SubHeadTitle>
+          </div>
+          <div className={classes.wrapperCabin}>
+            {assets?.cabin?.map((val, i) => (
+              <div key={i} className={classNames({ [classes.cabinCard]: true, [classes.genap]: i % 2 !== 0 || false })}>
+                <img src={val?.imageUrl} alt="cabin" className={classes.img} />
+                <HeadTitle size={17} className={classes.title}>
+                  <FormattedMessage id={val?.title} />
+                </HeadTitle>
+                <SubHeadTitle
+                  className={classNames({ [classes.subTitle]: true, [classes.subgenap]: i % 2 !== 0 || false })}
+                >
+                  <FormattedMessage id={val?.subTitle} />
+                </SubHeadTitle>
+              </div>
+            ))}
+          </div>
+        </>
+      </Container>
+      <section className={classes.secSatisfication}>
+        <HeadTitle size={19} className={classes.headTitle}>
+          <FormattedMessage id="app_title_satisfaction" />
+        </HeadTitle>
+        <SubHeadTitle className={classes.subTitle}>
+          <FormattedMessage id="app_subtitle_satisfaction" />
+        </SubHeadTitle>
+        <div className={classes.wrapperCard}>
+          {assets?.dropStep?.map((val, i) => (
+            <div key={i} className={classes.card}>
+              <img src={val?.icon} alt="icon" className={classes.icon} />
+              <div className={classes.wrapperText}>
+                <div className={classes.title}>{val?.title}</div>
+                <div className={classes.description}>{val?.description}</div>
+              </div>
+            </div>
           ))}
-        </MapContainer> */}
-      </div>
-    </Container>
+        </div>
+      </section>
+      <section className={classes.wrapperBranch}>
+        <img className={classes.img} src={assets?.images?.branch} alt="branch" />
+      </section>
+      <Footer />
+    </>
   );
 };
 
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  assets: selectAssets,
+  searchValue: selectSearchValue,
+  cabinsLocation: selectCabinsLocation,
+  banners: selectBanners,
+});
 
-HomePage.propTypes = {};
+Home.propTypes = {
+  assets: PropTypes.object,
+  searchValue: PropTypes.object,
+  cabinsLocation: PropTypes.array,
+  banners: PropTypes.array,
+};
 
-export default connect(mapStateToProps)(HomePage);
+export default connect(mapStateToProps)(Home);

@@ -1,0 +1,206 @@
+[
+  {
+    "typeCabin": "standard cabin",
+    "facilities": [
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/king-size-bed_jc3rr5.png",
+        "title": "King Size Bed"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/Private-bathroom_ksjrgg.png",
+        "title": "Shared Bathroom"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/wifi_acwsdt.png",
+        "title": "Free Wifi"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526650/towel-icon_iqzhpo.svg",
+        "title": "Towel"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526650/soap-icon_oe29hy.svg",
+        "title": "Shoap & shampo"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/mushola_apqvqo.png",
+        "title": "Compact Desk"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/toothbrush-icon_uwh39s.svg",
+        "title": "Toothbrush & Toothpastes"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/chair-icon_a034lv.svg",
+        "title": "Chair"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/hair-dryer_f78wbu.png",
+        "title": "Hair Dryer"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/kettle-jug_f8pihj.png",
+        "title": "Electric Kettle"
+      }
+    ],
+    "roomFeatures": [
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/mood-lamp-icon_oeef9j.svg",
+        "title": "Mood Lamps"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/s-pad-icon_erxbzs.svg",
+        "title": "S Pad"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/speaker-icon_xffnld.svg",
+        "title": "Bluetooth Speaker"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/smart-glass_chexfx.png",
+        "title": "Smart Glass"
+      }
+    ],
+    "rule": {
+      "title": "No refund and no cancellations",
+      "desc": "If you don’t come during check-in time, you will be marked as no show and not refundable.",
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702527341/exclamation-icon_i2qmoc.svg"
+    }
+  },
+  {
+    "typeCabin": "deluxe cabin",
+    "facilities": [
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/king-size-bed_jc3rr5.png",
+        "title": "King Size Bed"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702527670/private-bathroom-icon_b0kkfe.svg",
+        "title": "Private Bathroom"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/wifi_acwsdt.png",
+        "title": "Free Wifi"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526650/towel-icon_iqzhpo.svg",
+        "title": "Towel"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526650/soap-icon_oe29hy.svg",
+        "title": "Shoap & shampo"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/mushola_apqvqo.png",
+        "title": "Compact Desk"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/toothbrush-icon_uwh39s.svg",
+        "title": "Toothbrush & Toothpastes"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/chair-icon_a034lv.svg",
+        "title": "Chair"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/hair-dryer_f78wbu.png",
+        "title": "Hair Dryer"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/kettle-jug_f8pihj.png",
+        "title": "Electric Kettle"
+      }
+    ],
+    "roomFeatures": [
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/mood-lamp-icon_oeef9j.svg",
+        "title": "Mood Lamps"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/s-pad-icon_erxbzs.svg",
+        "title": "S Pad"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/speaker-icon_xffnld.svg",
+        "title": "Bluetooth Speaker"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/smart-glass_chexfx.png",
+        "title": "Smart Glass"
+      }
+    ],
+    "rule": {
+      "title": "No refund and no cancellations",
+      "desc": "If you don’t come during check-in time, you will be marked as no show and not refundable.",
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702527341/exclamation-icon_i2qmoc.svg"
+    }
+  },
+  {
+    "typeCabin": "executive cabin",
+    "facilities": [
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/king-size-bed_jc3rr5.png",
+        "title": "1 King Size Bed, 1 Queen Size Bed"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702527670/private-bathroom-icon_b0kkfe.svg",
+        "title": "Private Bathroom"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/wifi_acwsdt.png",
+        "title": "Free Wifi"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526650/towel-icon_iqzhpo.svg",
+        "title": "Towel"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526650/soap-icon_oe29hy.svg",
+        "title": "Shoap & shampo"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029253/mushola_apqvqo.png",
+        "title": "Compact Desk"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/toothbrush-icon_uwh39s.svg",
+        "title": "Toothbrush & Toothpastes"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/chair-icon_a034lv.svg",
+        "title": "Chair"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/hair-dryer_f78wbu.png",
+        "title": "Hair Dryer"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/kettle-jug_f8pihj.png",
+        "title": "Electric Kettle"
+      }
+    ],
+    "roomFeatures": [
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/mood-lamp-icon_oeef9j.svg",
+        "title": "Mood Lamps"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/s-pad-icon_erxbzs.svg",
+        "title": "S Pad"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702526649/speaker-icon_xffnld.svg",
+        "title": "Bluetooth Speaker"
+      },
+      {
+        "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702029222/smart-glass_chexfx.png",
+        "title": "Smart Glass"
+      }
+    ],
+    "rule": {
+      "title": "No refund and no cancellations",
+      "desc": "If you don’t come during check-in time, you will be marked as no show and not refundable.",
+      "icon_url": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702527341/exclamation-icon_i2qmoc.svg"
+    }
+  }
+]

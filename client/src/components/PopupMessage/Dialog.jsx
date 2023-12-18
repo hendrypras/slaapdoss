@@ -1,22 +1,27 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-
+import classNames from 'classnames';
 import { Dialog } from '@mui/material';
 
 import classes from './style.module.scss';
 
 // eslint-disable-next-line arrow-body-style
-const PopupMessage = ({ open, title, message, onClose, onOk }) => {
+const PopupMessage = ({ open, title, message, titleId, messageId, onClose, onOk }) => {
   return (
     <Dialog open={open} onClose={onClose} PaperProps={{ className: classes.dialogWrapper }}>
       <div className={classes.title}>
-        <FormattedMessage id={title || 'app_popup_error_title'} />
+        {!title || titleId ? <FormattedMessage id={titleId || 'app_popup_error_title'} /> : title}
       </div>
       <div className={classes.message}>
-        <FormattedMessage id={message || 'app_popup_error_message'} />
+        {!message || messageId ? <FormattedMessage id={messageId || 'app_popup_error_message'} /> : message}
       </div>
       <div className={classes.wrapperBtn}>
-        <button type="button" onClick={onClose} className={classes.button} aria-label="cancel">
+        <button
+          type="button"
+          onClick={onClose}
+          className={classNames({ [classes.button]: true, [classes.nonActive]: onOk || false })}
+          aria-label="cancel"
+        >
           <FormattedMessage id="app_popup_close_button_label" />
         </button>
         {onOk ? (
@@ -32,6 +37,8 @@ const PopupMessage = ({ open, title, message, onClose, onOk }) => {
 PopupMessage.propTypes = {
   open: PropTypes.bool,
   title: PropTypes.string,
+  titleId: PropTypes.string,
+  messageId: PropTypes.string,
   message: PropTypes.string,
   onClose: PropTypes.func,
   onOk: PropTypes.func,

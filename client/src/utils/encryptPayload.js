@@ -1,5 +1,4 @@
 import { AES } from 'crypto-js';
-import toast from 'react-hot-toast';
 import config from '@config/index';
 
 const encryptPayload = (data) => {
@@ -11,7 +10,7 @@ const encryptPayload = (data) => {
       return AES.encrypt(data, config.auth.tokenPayload).toString();
     }
   } catch (error) {
-    toast.error('Something went wrong');
+    Promise.reject(error);
   }
 };
 
