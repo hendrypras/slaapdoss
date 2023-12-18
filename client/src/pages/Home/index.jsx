@@ -17,6 +17,7 @@ import { getCabinsLocation } from '@pages/DetailCabins/actions';
 import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
 import { getBanners } from '@pages/Home/actions';
 
+import classNames from 'classnames';
 import classes from './style.module.scss';
 
 const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
@@ -44,17 +45,21 @@ const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
               <FormattedMessage id="app_home_sub_title_perfect_solition" />
             </SubHeadTitle>
           </div>
-          {assets?.cabin?.map((val, i) => (
-            <div key={i} className={classes.wrapperCard}>
-              <img src={val?.imageUrl} alt="cabin" className={classes.img} />
-              <HeadTitle className={classes.title}>
-                <FormattedMessage id={val?.title} />
-              </HeadTitle>
-              <SubHeadTitle className={classes.subTitle}>
-                <FormattedMessage id={val?.subTitle} />
-              </SubHeadTitle>
-            </div>
-          ))}
+          <div className={classes.wrapperCabin}>
+            {assets?.cabin?.map((val, i) => (
+              <div key={i} className={classNames({ [classes.cabinCard]: true, [classes.genap]: i % 2 !== 0 || false })}>
+                <img src={val?.imageUrl} alt="cabin" className={classes.img} />
+                <HeadTitle size={17} className={classes.title}>
+                  <FormattedMessage id={val?.title} />
+                </HeadTitle>
+                <SubHeadTitle
+                  className={classNames({ [classes.subTitle]: true, [classes.subgenap]: i % 2 !== 0 || false })}
+                >
+                  <FormattedMessage id={val?.subTitle} />
+                </SubHeadTitle>
+              </div>
+            ))}
+          </div>
         </>
       </Container>
       <section className={classes.secSatisfication}>

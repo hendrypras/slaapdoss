@@ -11,13 +11,12 @@ import { selectLogin } from '@containers/Client/selectors';
 
 import InputForm from '@components/InputForm';
 import WrapperAuthentication from '@components/WrapperAuthentication';
+import Button from '@components/Button';
 
 import encryptPayload from '@utils/encryptPayload';
 
 import { forgotPassword } from '@pages/ForgotPassword/actions';
 import { selectLoading } from '@pages/ForgotPassword/selectors';
-
-import Button from '@components/Button';
 
 import classes from './style.module.scss';
 
@@ -74,11 +73,13 @@ const ForgotPassword = ({ login, loading, intl: { formatMessage } }) => {
               }}
             />
           </div>
-          <Button
-            isLoading={loading}
-            type="submit"
-            text={loading ? 'app_text_loading_button' : 'app_forgot_submit_button_title'}
-          />
+          <Button isLoading={loading} type="submit">
+            {loading ? (
+              <FormattedMessage id="app_text_loading_button" />
+            ) : (
+              <FormattedMessage id="app_forgot_submit_button_title" />
+            )}
+          </Button>
           <div className={classes.toLogin}>
             <FormattedMessage id="app_sign_up_text_to_login" />
             <Link to="/login">

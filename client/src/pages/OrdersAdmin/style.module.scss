@@ -1,0 +1,17 @@
+@import '@styles/base';
+.container {
+  margin: 0 auto;
+  .headTitle {
+    text-align: center;
+  }
+  .wrapperTable {
+    margin-top: 3rem;
+    gap: 2rem;
+    width: 100%;
+    @include displayFlex(column, center, center);
+    .wrapperSearchById {
+      width: 80%;
+      @include displayFlex(column, center, start);
+    }
+  }
+}

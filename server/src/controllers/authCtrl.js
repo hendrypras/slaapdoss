@@ -53,7 +53,7 @@ exports.requestOtp = async (req, res) => {
     const recipientName = emailDecoded.substring(0, emailDecoded.indexOf('@'))
     const user = await Users.findOne({ where: { email: emailDecoded } })
     if (user)
-      return responseError(res, 400, 'Bad request', 'email already exists')
+      return responseError(res, 400, 'Bad Request', 'Email already exists')
 
     const generatedOTP = generateOtp()
     const expirationTime = Math.floor(Date.now() / 1000) + 300
@@ -97,7 +97,7 @@ exports.verifyOtp = async (req, res) => {
             'You have not completed the previous step'
           )
         const otp = await redisClient.get(`otp-register-${decoded?.email}`)
-        if (!otp) return responseError(res, 400, 'Bad Request', 'invalid otp')
+        if (!otp) return responseError(res, 400, 'Bad Request', 'Invalid OTP')
         const responseOtp = JSON.parse(otp)
         const currentDate = Math.floor(Date.now() / 1000)
         if (responseOtp?.exp < currentDate) {
@@ -111,7 +111,7 @@ exports.verifyOtp = async (req, res) => {
             token: generateStepToken({ step: 3, email: decoded?.email }),
           })
         } else {
-          return responseError(res, 400, 'Bad request', 'Invalid OTP')
+          return responseError(res, 400, 'Bad Request', 'Invalid OTP')
         }
       }
     })
@@ -208,7 +208,7 @@ exports.registerWithGoogle = async (req, res) => {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
-      return responseSuccess(res, 201, 'Created', { token: accessToken })
+      return responseSuccess(res, 201, 'success', { token: accessToken })
     } else {
       const accessToken = generateAuthToken(
         { id: findUser.id, role: findUser.role },
@@ -226,7 +226,7 @@ exports.registerWithGoogle = async (req, res) => {
         httpOnly: true,
         maxAge: 7 * 24 * 60 * 60 * 1000,
       })
-      return responseSuccess(res, 200, 'Ok', { token: accessToken })
+      return responseSuccess(res, 200, 'success', { token: accessToken })
     }
   } catch (error) {
     return responseError(res, error.status, error.message)
@@ -240,7 +240,7 @@ exports.login = async (req, res) => {
     const passwordDec = decryptTextPayload(password)
 
     if (!emailDec || !passwordDec)
-      return responseError(res, 400, 'Bad Requst', 'Invalid payload')
+      return responseError(res, 400, 'Bad Request', 'Invalid payload')
 
     const validate = validateBodyLogin({
       email: emailDec,
@@ -265,7 +265,7 @@ exports.login = async (req, res) => {
     const isMatch = comparePassword(passwordDec, user.password)
     if (!isMatch) {
       setLockingUser(emailDec, countLoginFail)
-      return responseError(res, 400, 'Bad request', 'Invalid Password')
+      return responseError(res, 400, 'Bad Request', 'Invalid Password')
     }
     const accessToken = generateAuthToken(
       { id: user.id, role: user.role },
@@ -408,7 +408,7 @@ exports.forgotPassword = async (req, res) => {
       htm: forgotPasswordBodyEmail(user?.username, token),
     }
     sendEmail(data)
-    return responseSuccess(res, 200, 'success', { token })
+    return responseSuccess(res, 201, 'success', { token })
   } catch (error) {
     return responseError(res, error.status, error.message)
   }
@@ -425,13 +425,7 @@ exports.changePassword = async (req, res) => {
     const user = await Users.findOne({
       where: { reset_password_token: hashedToken },
     })
-    if (!user)
-      return responseError(
-        res,
-        404,
-        'Not Found',
-        'User for this token not found'
-      )
+    if (!user) return responseError(res, 404, 'Not Found', 'User not found')
     const formatDateExp = parseInt(user.reset_password_token_exp, 10)
     const resetExpDate = new Date(formatDateExp)
     const now = new Date()
@@ -446,12 +440,7 @@ exports.changePassword = async (req, res) => {
     user.reset_password_token = null
     user.reset_password_token_exp = null
     await user.save()
-    return responseSuccess(
-      res,
-      200,
-      'success',
-      'Password updated successsfully'
-    )
+    return responseSuccess(res, 200, 'success')
   } catch (error) {
     return responseError(res, error.status, error.message)
   }

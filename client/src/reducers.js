@@ -13,6 +13,9 @@ import resetPasswordReducer from '@pages/ResetPassword/reducer';
 import ordersReducer from '@pages/Orders/reducer';
 import createCabinReducer from '@pages/CreateCabin/reducer';
 import reservationReducer from '@pages/Reservation/reducer';
+import ordersAdminReducer from '@pages/OrdersAdmin/reducer';
+import createTypeRoomReducer from '@pages/CreateTypeRoom/reducer';
+import listBannerReducer from '@pages/ListBanner/reducer';
 
 import { mapWithPersistor } from './persistence';
 
@@ -30,8 +33,11 @@ const temporaryReducers = {
   resetPassword: resetPasswordReducer,
   home: homeReducer,
   orders: ordersReducer,
+  ordersAdmin: ordersAdminReducer,
   createCabin: createCabinReducer,
+  createTypeRoom: createTypeRoomReducer,
   reservation: reservationReducer,
+  listBanner: listBannerReducer,
 };
 
 const createReducer = () => {

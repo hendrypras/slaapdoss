@@ -37,7 +37,7 @@ router.put(
 )
 router.post('/cabin/room', Authenticated, isAdmin, createRoom)
 
-router.get('/cabin/type-room', getTypeCabin)
+router.get('/cabin/type-room', Authenticated, isAdmin, getTypeCabin)
 router.get('/cabins/detail/:slug', getCabins)
 router.get('/cabins/location', getCabinsLocation)
 router.get('/cabin/room/:slug/:roomId', getDetailCabinRoomById)

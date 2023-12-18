@@ -105,4 +105,21 @@
       color: $color-green-100;
     }
   }
+  .wrapperBtnSuccess {
+    width: 100%;
+    @include displayFlex(row, end, center);
+    margin-top: 2rem;
+    .btnSuccess {
+      width: 100%;
+      @include screen(md) {
+        width: 50%;
+      }
+      @include screen(lg) {
+        width: 40%;
+      }
+      @include screen(xl) {
+        width: 30%;
+      }
+    }
+  }
 }

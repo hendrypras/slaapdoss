@@ -16,13 +16,13 @@ export default {
   app_component_btn_created: 'Create',
   app_back_button_text: 'Back',
   app_title_satisfaction: 'Satisfaction on Your Doorstep',
-  app_subtitle_satisfaction: 'Get to know more about Bobobox and the things we value most.',
+  app_subtitle_satisfaction: 'Get to know more about Slaapdoss and the things we value most.',
   app_home_title_perfect_solition: 'Find the Perfect Solution for Your Every Need',
   app_home_sub_title_perfect_solition:
     'From a place to call home in lively cities to exploring Indonesia’s natural beauty, Slaapdoss is prepared to bring you to an adventure with utter comfort no matter where you are.',
   app_home_cabin_head_title: 'Feel the healing touch of mother nature',
   app_home_cabin_sub_title:
-    'Escape the hustle and bustle of the city and witness the exotic beauty of Indonesia’s natural wonders at Bobocabin. Appreciate the breathtaking scenery right from the warmth of your cabin.',
+    'Escape the hustle and bustle of the city and witness the exotic beauty of Indonesia’s natural wonders at Slaapdoss. Appreciate the breathtaking scenery right from the warmth of your cabin.',
   app_home_banner_title_1: 'Your private viewpoint to Rinjani from your cabin',
   app_home_banner_sub_title_1: "A cabin with front-row seats to nature's wonders.",
   app_home_banner_title_2: 'Make Yourself at Home Wherever You Go',

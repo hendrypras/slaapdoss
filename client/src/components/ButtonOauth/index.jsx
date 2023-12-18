@@ -1,6 +1,6 @@
-import { Google as GoogleIcon } from '@mui/icons-material';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
+import { Google as GoogleIcon } from '@mui/icons-material';
 
 import classes from './style.module.scss';
 

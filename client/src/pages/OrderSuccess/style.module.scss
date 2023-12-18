@@ -1,0 +1,44 @@
+@import '@styles/base';
+
+.wrapper {
+  @include displayFlex(column, center, center);
+  padding: 1rem;
+  overflow: hidden;
+  width: 100%;
+  .headTitle {
+    width: 100%;
+    text-align: center;
+  }
+  .wrapperContent {
+    width: 100%;
+    margin-top: 2rem;
+    border-radius: 1rem;
+    padding: 1rem;
+    @include displayFlex(column);
+    gap: 0.8rem;
+    @include shadow;
+    @include screen(lg) {
+      padding: 2rem;
+    }
+    .content {
+      width: 100%;
+      @include displayFlex(row, space-between, center);
+      .value {
+        width: 100%;
+        text-align: end;
+        font-weight: 600;
+        font-size: 1rem;
+        @include screen(lg) {
+          font-size: 1.3rem;
+        }
+        &.orderId {
+          font-size: 1.1rem;
+          font-weight: 700;
+        }
+        &.capt {
+          text-transform: capitalize;
+        }
+      }
+    }
+  }
+}

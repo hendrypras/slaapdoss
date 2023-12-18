@@ -11,17 +11,17 @@ import emptyImage from '@static/images/empty.svg';
 
 import Container from '@components/Container';
 import HeadTitle from '@components/HeadTitle';
+import Button from '@components/Button';
 
 import { selectLoading as selectLoadingGlobal } from '@containers/App/selectors';
 
 import CardOrder from '@pages/Orders/components/CardOrder';
-import { selectLoading, selectOrders } from '@pages/Orders/selectors';
+import { selectOrders } from '@pages/Orders/selectors';
 import { cancelTransaction, getOrdersUser } from '@pages/Orders/actions';
 
-import Button from '@components/Button';
 import classes from './style.module.scss';
 
-const PaymentResponse = ({ orders, loadingGlobal, loading }) => {
+const Orders = ({ orders, loadingGlobal }) => {
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const PaymentResponse = ({ orders, loadingGlobal, loading }) => {
         <HeadTitle size={22} className={classes.headTitle}>
           <FormattedMessage id="app_orders_head_title" />
         </HeadTitle>
-        {!loading && Array.isArray(orders?.results) && orders?.results?.length > 0 ? (
+        {!loadingGlobal && Array.isArray(orders?.results) && orders?.results?.length > 0 ? (
           <div className={classes.wrapperCardOrder}>
             {orders?.results?.map((val, i) => (
               <CardOrder
@@ -93,12 +93,10 @@ const PaymentResponse = ({ orders, loadingGlobal, loading }) => {
 const mapStateToProps = createStructuredSelector({
   orders: selectOrders,
   loadingGlobal: selectLoadingGlobal,
-  loading: selectLoading,
 });
-PaymentResponse.propTypes = {
+Orders.propTypes = {
   loadingGlobal: PropTypes.bool,
-  loading: PropTypes.bool,
   orders: PropTypes.object,
 };
 
-export default connect(mapStateToProps)(PaymentResponse);
+export default connect(mapStateToProps)(Orders);

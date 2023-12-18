@@ -16,13 +16,16 @@ export default {
   app_back_button_text: 'Kembali',
   app_component_btn_created: 'Buat',
   app_title_satisfaction: 'Kepuasan di Depan Pintu Anda',
-  app_subtitle_satisfaction: 'Kenali lebih banyak tentang Bobobox dan hal-hal yang paling kami hargai.',
+  app_subtitle_satisfaction: 'Kenali lebih banyak tentang Slaapdoss dan hal-hal yang paling kami hargai.',
   app_home_title_perfect_solition: 'Temukan Solusi Sempurna untuk Setiap Kebutuhan Anda',
   app_home_sub_title_perfect_solition:
     'Dari tempat yang terasa seperti rumah di kota-kota yang ramai hingga menjelajahi keindahan alam Indonesia, Slaapdoss siap membawa Anda ke petualangan dengan kenyamanan penuh di mana pun Anda berada.',
   app_home_cabin_head_title: 'Rasakan sentuhan penyembuhan dari alam',
   app_home_cabin_sub_title:
-    'Tinggalkan hiruk pikuk kota dan saksikan keindahan eksotis keajaiban alam Indonesia di Bobocabin. Hargai pemandangan menakjubkan langsung dari kehangatan kabin Anda.',
+    'Tinggalkan hiruk pikuk kota dan saksikan keindahan eksotis keajaiban alam Indonesia di Slaapdoss. Hargai pemandangan menakjubkan langsung dari kehangatan kabin Anda.',
+  app_home_cabin_head_title_2: 'Rumah Anda saat jauh dari rumah',
+  app_home_cabin_sub_title_2:
+    'Membawa pengalaman hidup bersama ke tingkat yang baru, Slaapdoss dilengkapi dengan fitur-fitur berteknologi tinggi khas kami untuk kenyamanan maksimal. Dijamin bikin betah.',
   app_home_banner_title_1: 'Sudut pandang pribadi Anda ke Rinjani dari kabin Anda',
   app_home_banner_sub_title_1: 'Kabin dengan kursi baris depan menuju keajaiban alam.',
   app_home_banner_title_2: 'Anggaplah Seperti Rumah Sendiri Kemanapun Anda Pergi',
@@ -263,10 +266,10 @@ export default {
   app_orders_text_empty_orders: 'Pesanan Tidak Tersedia',
   app_orders_text_button_empty_orders: 'Pesan Sekarang',
 
-  dashboard_create_cabin_head_title: 'Buat Cabin',
-  dashboard_create_type_cabin_head_title: 'Buat Tipe Cabin',
-  dashboard_create_room_head_title: 'Buat Ruangan',
-  dashboard_create_banner_head_title: 'Buat Banner',
+  dashboard_create_cabin_head_title: 'Tambah Cabin',
+  dashboard_create_type_cabin_head_title: 'Tambah Tipe Cabin',
+  dashboard_create_room_head_title: 'Tambah Ruangan',
+  dashboard_create_banner_head_title: 'Tambah Banner',
   dashboard_list_banner_head_title: 'Daftar Banner',
   dashboard_list_cabin_head_title: 'Daftar Cabin',
   dashboard_list_orders_head_title: 'Daftar Pesanan',
