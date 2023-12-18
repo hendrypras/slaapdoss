@@ -13,6 +13,7 @@ export const setToken = (token) => ({
 export const oAuthGoogle = () => ({
   type: OAUTH_GOOGLE,
 });
+
 export const userLogin = (data, cb) => ({
   type: USER_LOGIN,
   data,
@@ -23,6 +24,7 @@ export const setLoading = (loading) => ({
   type: SET_LOADING,
   loading,
 });
+
 export const setLogout = () => ({
   type: LOGOUT,
 });

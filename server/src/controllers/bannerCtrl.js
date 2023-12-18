@@ -67,6 +67,16 @@ exports.getBanners = async (req, res) => {
     return responseError(res, error.status, error.message)
   }
 }
+exports.getBannersByAdmin = async (req, res) => {
+  try {
+    const response = await Banners.findAll({
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    })
+    return responseSuccess(res, 200, 'success', response)
+  } catch (error) {
+    return responseError(res, error.status, error.message)
+  }
+}
 exports.deleteBanner = async (req, res) => {
   try {
     const { bannerId } = req.params

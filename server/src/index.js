@@ -7,6 +7,7 @@ const Routes = require('./routes/index')
 const http = require('http')
 const cookieParser = require('cookie-parser')
 const compression = require('compression')
+const path = require('path')
 
 dotenv.config()
 const app = express()
@@ -42,10 +43,18 @@ if (NODE_ENV === 'development') {
 }
 
 app.use('/api', Routes)
-app.get('/', (req, res) => {
-  const myCookie = req.cookies.__refreshToken__
-  res.send(`Value of my cookie is: ${myCookie}`)
-})
+const clientDir = process.env.CLIENT_DIRECTORY
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, `../../${clientDir}/dist`)))
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, clientDir, 'dist', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....')
+  })
+}
 
 app.all('*', (req, res) => {
   res.status(404).json({ message: 'URL Not Found', status: 404 })
@@ -54,3 +63,5 @@ app.all('*', (req, res) => {
 server.listen(PORT, () => {
   console.log(`App running on port ${PORT}`)
 })
+
+module.exports = app

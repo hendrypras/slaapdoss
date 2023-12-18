@@ -14,6 +14,11 @@
   "cabin": [
     {
       "imageUrl": "https://res.cloudinary.com/dlm3iavym/image/upload/v1701745569/asset-cabin_home_hcyqqg.webp",
+      "title": "app_home_cabin_head_title_2",
+      "subTitle": "app_home_cabin_sub_title_2"
+    },
+    {
+      "imageUrl": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702916356/home-cabin_sqcexl.jpg",
       "title": "app_home_cabin_head_title",
       "subTitle": "app_home_cabin_sub_title"
     }

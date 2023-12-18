@@ -16,6 +16,10 @@ import CreateCabin from '@pages/CreateCabin';
 import Orders from '@pages/Orders';
 import CreateTypeRoom from '@pages/CreateTypeRoom';
 import CreateBanner from '@pages/CreateBanner';
+import OrdersAdmin from '@pages/OrdersAdmin';
+import CreateRoom from '@pages/CreateRoom';
+import ListBanner from '@pages/ListBanner';
+import OrderSuccess from '@pages/OrderSuccess';
 
 const routes = [
   {
@@ -82,6 +86,15 @@ const routes = [
     layout: MainLayout,
   },
   {
+    path: '/order/success/:orderId',
+    name: 'User Orders',
+    protected: true,
+    component: OrderSuccess,
+    adminOnly: false,
+    userOnly: true,
+    layout: MainLayout,
+  },
+  {
     path: '/callback/:status/:data',
     name: 'Call Back page',
     protected: false,
@@ -121,10 +134,34 @@ const routes = [
     layout: AdminLayout,
   },
   {
+    path: '/dashboard/create-room',
+    name: 'dashboard create room',
+    protected: true,
+    component: CreateRoom,
+    adminOnly: true,
+    layout: AdminLayout,
+  },
+  {
     path: '/dashboard/create-banner',
     name: 'dashboard create banner',
     protected: true,
     component: CreateBanner,
+    adminOnly: true,
+    layout: AdminLayout,
+  },
+  {
+    path: '/dashboard/list-order',
+    name: 'dashboard list order',
+    protected: true,
+    component: OrdersAdmin,
+    adminOnly: true,
+    layout: AdminLayout,
+  },
+  {
+    path: '/dashboard/list-banner',
+    name: 'dashboard list banner',
+    protected: true,
+    component: ListBanner,
     adminOnly: true,
     layout: AdminLayout,
   },

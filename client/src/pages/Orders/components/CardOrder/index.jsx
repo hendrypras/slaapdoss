@@ -78,7 +78,7 @@ const CardOrder = ({ orderDetail, cancelTransaction, loadingGlobal }) => {
           </div>
         </div>
       </div>
-      {orderDetail?.response_payment?.transaction_status === 'pending' && (
+      {statusOrder === 'pending' && (
         <>
           <div className={classes.textWaiting}>
             <FormattedMessage id="app_orders_waiting_for_payment_title" />
@@ -97,6 +97,16 @@ const CardOrder = ({ orderDetail, cancelTransaction, loadingGlobal }) => {
             </Button>
           </div>
         </>
+      )}
+      {statusOrder === 'Completed' && (
+        <div className={classes.wrapperBtnSuccess}>
+          <Button
+            type="button"
+            onClick={() => navigate(`/order/success/${orderDetail?.order_id}`)}
+            className={classes.btnSuccess}
+            title="Detail"
+          />
+        </div>
       )}
     </div>
   );

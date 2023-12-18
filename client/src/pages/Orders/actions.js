@@ -1,4 +1,10 @@
-import { CANCEL_TRANSCACTION, GET_ORDERS_USER, SET_LOADING, SET_ORDERS_USER } from '@pages/Orders/constants';
+import {
+  CANCEL_TRANSCACTION,
+  GET_ORDERS_USER,
+  GET_ORDER_SUCCESS,
+  SET_ORDERS_USER,
+  SET_ORDER_SUCCESS,
+} from '@pages/Orders/constants';
 
 export const getOrdersUser = (orderId, page, limit) => ({
   type: GET_ORDERS_USER,
@@ -10,12 +16,18 @@ export const setOrdersUser = (orders) => ({
   type: SET_ORDERS_USER,
   orders,
 });
-export const setLoading = (data) => ({
-  type: SET_LOADING,
-  data,
-});
+
 export const cancelTransaction = (orderId, cbSuccess) => ({
   type: CANCEL_TRANSCACTION,
   orderId,
   cbSuccess,
+});
+export const getOrderSuccess = (orderId, cbError) => ({
+  type: GET_ORDER_SUCCESS,
+  orderId,
+  cbError,
+});
+export const setOrderSuccess = (order) => ({
+  type: SET_ORDER_SUCCESS,
+  order,
 });

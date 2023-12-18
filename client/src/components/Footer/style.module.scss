@@ -1,15 +1,6 @@
 @import '@styles/base';
-.footer {
-  padding: 40px 0;
-  font-size: 14px;
-  .footerBottom {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 12px;
-    color: #ccc;
-
-    p {
-      margin: 0;
-    }
-  }
+.content {
+  width: 100%;
+  @include displayFlex(row, center, center);
+  padding: 1rem;
 }

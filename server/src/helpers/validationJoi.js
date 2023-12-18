@@ -114,13 +114,19 @@ const validateBodyGenerateOtpToEmail = reqBody => {
 }
 const validateBodyVerifyOtp = reqBody => {
   const schema = Joi.object({
-    code: Joi.number().integer().min(100000).max(999999).required().messages({
-      'number.base': 'code must be a number',
-      'number.integer': 'code must be an integer',
-      'number.min': 'code must be at least six digits long',
-      'number.max': 'code must be at most six digits long',
-      'any.required': 'code is required',
-    }),
+    code: Joi.number()
+      .integer()
+      .min(100000)
+      .max(999999)
+      .required()
+      .messages({
+        'number.base': 'code must be a number',
+        'number.integer': 'code must be an integer',
+        'number.min': 'code must be at least six digits long',
+        'number.max': 'code must be at most six digits long',
+        'any.required': 'code is required',
+      })
+      .strict(),
     token: Joi.string().required(),
   })
   const { error } = schema.validate(reqBody, {
@@ -357,11 +363,10 @@ const validateBodyCreateCabinRoom = reqBody => {
       'string.empty': 'cabinsSlug is required.',
       'any.required': 'cabinsSlug is required.',
     }),
-    typeRoomId: Joi.number().positive().required().strict().messages({
+    typeRoomId: Joi.number().positive().required().messages({
       'number.base': 'typeRoomId must be a number.',
       'number.positive': 'typeRoomId must be a positive number.',
       'any.required': 'typeRoomId is required.',
-      'number.strict': 'typeRoomId must be a strict number type.',
     }),
     roomNumber: Joi.string().required().messages({
       'string.base': 'roomNumber must be a string.',

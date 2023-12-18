@@ -13,7 +13,10 @@ import detailCabinsSaga from '@pages/DetailCabins/saga';
 import reservationSaga from '@pages/Reservation/saga';
 import homeSaga from '@pages/Home/saga';
 import createTypeRoomSaga from '@pages/CreateTypeRoom/saga';
+import createRoomSaga from '@pages/CreateRoom/saga';
 import createBannerSaga from '@pages/CreateBanner/saga';
+import ordersAdminSaga from '@pages/OrdersAdmin/saga';
+import listBannerSaga from '@pages/ListBanner/saga';
 
 export default function* rootSaga() {
   yield all([
@@ -29,6 +32,9 @@ export default function* rootSaga() {
     detailCabinsSaga(),
     reservationSaga(),
     createTypeRoomSaga(),
+    createRoomSaga(),
     createBannerSaga(),
+    ordersAdminSaga(),
+    listBannerSaga(),
   ]);
 }
