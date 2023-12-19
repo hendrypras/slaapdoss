@@ -104,5 +104,7 @@ export const createTypeRoom = (formData) =>
 // banner
 export const getBanners = () => callAPI(urls.banner[0], 'GET');
 export const getBannersAdmin = () => callAPI(`${urls.banner[0]}/all`, 'GET');
+export const deleteBanner = (bannerId) => callAPI(`${urls.banner[1]}/${bannerId}`, 'DELETE');
+export const updateStatusBanner = (status, bannerId) => callAPI(`${urls.banner[1]}/${status}/${bannerId}`, 'PATCH');
 export const createBanner = (formData) =>
   callAPI(urls.banner[1], 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);

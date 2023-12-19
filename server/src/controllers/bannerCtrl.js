@@ -98,3 +98,32 @@ exports.deleteBanner = async (req, res) => {
     return responseError(res, error.status, error.message)
   }
 }
+
+exports.updateStatusBanner = async (req, res) => {
+  try {
+    const { bannerId, status } = req.params
+    const banner = await Banners.findByPk(bannerId)
+
+    if (!banner) return responseError(res, 404, 'Not Found', 'Banner not found')
+
+    let activeStatus
+    if (status === 'private') {
+      activeStatus = false
+    } else if (status === 'public') {
+      activeStatus = true
+    } else {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        "The only statuses allowed are 'private' and 'public'"
+      )
+    }
+
+    banner.active = activeStatus
+    await banner.save()
+    return responseSuccess(res, 200, 'success')
+  } catch (error) {
+    return responseError(res, error.status, error.message)
+  }
+}

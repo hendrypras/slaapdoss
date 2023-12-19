@@ -9,6 +9,7 @@ const {
   IdCard,
 } = require('../models')
 const encryptPayload = require('../utils/encryptPayload')
+const sequelize = require('../config/connectDb')
 
 exports.getOrdersUser = async (req, res) => {
   try {
@@ -58,13 +59,21 @@ exports.getOrdersUser = async (req, res) => {
       attributes: {
         exclude: ['createdAt', 'updatedAt'],
       },
-      order: [['createdAt', 'DESC']],
+      order: [
+        [
+          sequelize.literal(
+            "response_payment.transaction_status = 'settlement'"
+          ),
+          'DESC',
+        ],
+        ['createdAt', 'DESC'],
+      ],
       limit: Number(limit),
       offset: (Number(page) - 1) * limit,
     })
     let results = rows
     if (orderId) {
-      results = rows.slice(0, 1)
+      results = rows[0]
     }
     return responseSuccess(res, 200, 'success', {
       results,

@@ -26,6 +26,8 @@ import SearchCabin from '@components/Search/Cabin';
 import formateDate from '@utils/formateDate';
 import { getCheckIn, getCheckOut } from '@utils/times';
 
+import iconNotfound from '@static/images/not-found.svg';
+
 import classes from './style.module.scss';
 
 const DetailCabins = ({ cabins, loading }) => {
@@ -225,9 +227,16 @@ const DetailCabins = ({ cabins, loading }) => {
             </div>
           </div>
           <div className={classes.wrapperCard}>
-            {cabins?.cabinRooms?.map((val, i) => (
-              <CardCabin key={i} cabins={val} />
-            ))}
+            {!loading && Array.isArray(cabins?.cabinRooms) && cabins?.cabinRooms > 0 ? (
+              cabins?.cabinRooms?.map((val, i) => <CardCabin key={i} cabins={val} />)
+            ) : (
+              <div className={classes.emptyRoom}>
+                <img src={iconNotfound} alt="notfound" className={classes.imgnotfound} />
+                <HeadTitle size={17}>
+                  <FormattedMessage id="app_detail_cabin_text_empty_room" />
+                </HeadTitle>
+              </div>
+            )}
           </div>
         </>
       </Container>

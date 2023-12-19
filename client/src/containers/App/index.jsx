@@ -34,15 +34,15 @@ const App = ({ popup, loading, login, token, userProfile }) => {
     dispatch(getTranslations());
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          dispatch(getCurrentLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude }));
+        ({ coords }) => {
+          dispatch(getCurrentLocation({ lat: coords.latitude, lng: coords.longitude }));
         },
         (error) => {
-          dispatch(showPopup('Error getting the location', error?.message));
+          Promise.reject(error);
         }
       );
     } else {
-      dispatch(showPopup('Geolocation not support in this browser'));
+      dispatch(showPopup('Your browser not support for location'));
     }
   }, [dispatch]);
 

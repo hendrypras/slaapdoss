@@ -8,7 +8,12 @@ const Authenticated = async (req, res, next) => {
     const authHeader = req.headers.authorization || req.headers.Authorization
 
     if (!authHeader) {
-      return responseError(res, 401, 'Unauthorized', 'authentication required')
+      return responseError(
+        res,
+        401,
+        'Unauthorized',
+        "Sorry you haven't logged in yet"
+      )
     }
 
     const token = authHeader.split(' ')[1]

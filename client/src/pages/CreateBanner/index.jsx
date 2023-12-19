@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { FormProvider, useForm, Controller } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { connect, useDispatch } from 'react-redux';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { Close as CloseIcon } from '@mui/icons-material';
@@ -21,12 +21,12 @@ import classes from './style.module.scss';
 const CreateBanner = ({ loading, intl: { formatMessage } }) => {
   const method = useForm();
   const dispatch = useDispatch();
-
   const [selectedImage, setSelectedImage] = useState(null);
+  const [breakfast, setBreakfast] = useState(true);
   const onSubmit = (data) => {
     const formData = new FormData();
-    const { cabin, ...payload } = data;
-    Object.entries(payload).forEach(([key, value]) => {
+    const newData = { active: breakfast, ...data };
+    Object.entries(newData).forEach(([key, value]) => {
       formData.append(key, value);
     });
     dispatch(
@@ -75,7 +75,7 @@ const CreateBanner = ({ loading, intl: { formatMessage } }) => {
               <InputForm
                 id="fileInputTypeRoom"
                 className={classes.buttonImage}
-                name="cabin"
+                name="banner"
                 accept=".png, .jpg, .jpeg"
                 type="file"
                 placeholder="Enter name cabins"
@@ -107,14 +107,7 @@ const CreateBanner = ({ loading, intl: { formatMessage } }) => {
           />
           <div className={classes.wrapperBreakfast}>
             <FormControlLabel
-              control={
-                <Controller
-                  name="active"
-                  control={method.control}
-                  defaultValue
-                  render={({ field }) => <Switch {...field} checked={method.getValues('active')} />}
-                />
-              }
+              control={<Switch name="active" checked={breakfast} onChange={() => setBreakfast(!breakfast)} />}
               label={formatMessage({ id: 'dashboard_create_banner_title_input_active' })}
             />
           </div>

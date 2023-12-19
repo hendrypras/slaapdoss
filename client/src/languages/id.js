@@ -102,6 +102,9 @@ export default {
   app_user_profile_text_button_save_image_profile: 'Simpan Gambar',
   app_user_profile_text_button_save_image_id_card: 'Ubah dan Simpan',
   app_user_profile_text_button_history: 'Riwayat Pesanan',
+
+  aap_reservation_title_complete: 'Reservasi Selesai',
+  aap_reservation_title_payment_method: 'Metode Pembayaran',
   aap_reservation_title_back_btn: 'Kembali untuk memilih cabin',
   app_reservation_order_detail_head_title: 'Detail Pesanan',
   app_reservation_cabin_address_title: 'Alamat Cabin',
@@ -239,6 +242,8 @@ export default {
 
   app_payment_response_pending_reservation_message: 'Reservasi akan diproses setelah Anda menyelesaikan pembayaran',
 
+  app_orders_title_order_id: 'ID Pesanan',
+
   app_dashboard_create_cabins_title_form_name: 'Nama',
   app_dashboard_create_cabins_title_form_city: 'Kota',
   app_dashboard_create_cabins_title_form_description: 'Deskripsi',
@@ -258,6 +263,8 @@ export default {
   app_detail_cabin_title_checkin_procedur: 'Prosedur Check-in',
   app_detail_cabin_title_reschedule_and_cancel: 'Pengembalian Dana, Penjadwalan Ulang, Relokasi, dan Pembatalan',
   app_detail_cabin_title_age_policies: 'Kebijakan Usia',
+  app_detail_cabin_text_empty_room:
+    'Maaf, kamar pada tanggal yang Anda pilih tidak tersedia. Silakan pilih tanggal lain atau ubah lokasi',
 
   app_orders_head_title: 'Pesanan',
   app_orders_waiting_for_payment_title: 'Menunggu Pembayaran',
@@ -271,6 +278,11 @@ export default {
   dashboard_create_room_head_title: 'Tambah Ruangan',
   dashboard_create_banner_head_title: 'Tambah Banner',
   dashboard_list_banner_head_title: 'Daftar Banner',
+  dashboard_list_banner_text_question_delete: 'Apakah Anda yakin ingin menghapus spanduk ini?',
+  dashboard_list_banner_text_question_update: 'Apakah kamu yakin ingin mengubah status banner ini?',
+  dashboard_list_banner_message_question_update:
+    'Jika anda merubah nya menjadi Private maka user tidak bisa melihat banner ini',
+  dashboard_list_banner_message_question_delete: 'Jika anda sudah menghapus ini, tidak akan bisa dikembalikan lagi',
   dashboard_list_cabin_head_title: 'Daftar Cabin',
   dashboard_list_orders_head_title: 'Daftar Pesanan',
   dashboard_upload_image_title: 'Unggah Gambar',
