@@ -1,11 +1,43 @@
 const request = require('supertest')
 const app = require('../../index')
+const { sequelize } = require('../../models/index')
+const { queryInterface } = sequelize
+const { Users } = require('../../models')
 const dummyUser = {
-  email: 'U2FsdGVkX19u0iinskN5/auI4G88RT1MQqAKD2ilkxw5Ryi8yjO/2BrzE3z7KlSC',
-  password: 'U2FsdGVkX1/N5vZmr/EzDsttqyYct6lVKVkrJusuvxY=',
+  email: 'shendshpt@gmail.com',
+  password: 'asdasd',
+}
+const loginEncrypt = {
+  email: 'U2FsdGVkX1+4jiPB6ZHbnTlHDyAXtl0n1YjNakeSCFPsmlsWaEacdUwGrX2G4Hyq',
+  password: 'U2FsdGVkX19d5Pc/aSExmPdlQEW5BlsEFYLGEGqDXYw=',
 }
 let tokenStep2
 let tokenForgotPassword
+beforeAll(done => {
+  Users.create({
+    username: 'shends',
+    email: 'shendshpt@gmail.com',
+    password: 'asdasd',
+  })
+    .then(res => {
+      done()
+    })
+    .catch(err => {
+      done(err)
+    })
+})
+
+afterAll(done => {
+  queryInterface
+    .bulkDelete('users', null, {})
+    .then(() => {
+      done()
+    })
+    .catch(err => {
+      done(err)
+    })
+})
+
 describe('Send Otp For register', () => {
   test('Failed send otp when invalid payload', done => {
     request(app)
@@ -24,7 +56,7 @@ describe('Send Otp For register', () => {
   test('Failed send otp with status 400 validation failed', done => {
     request(app)
       .post('/api/auth/otp')
-      .send({ email: 'U2FsdGVkX1/iJcv6iRbwDVVeQYP8ZPuMlr8qFbDK+FY=' })
+      .send({ email: loginEncrypt.password })
       .then(res => {
         expect(res.status).toBe(400)
         expect(res.body.status).toBe('Validation Failed')
@@ -35,10 +67,10 @@ describe('Send Otp For register', () => {
         done(err)
       })
   })
-  test('Failed send otp with status with status code 400', done => {
+  test('Failed send otp with status code 400', done => {
     request(app)
       .post('/api/auth/otp')
-      .send({ email: dummyUser.email })
+      .send({ email: loginEncrypt.email })
       .then(res => {
         expect(res.status).toBe(400)
         expect(res.body.status).toBe('Bad Request')
@@ -211,7 +243,7 @@ describe('Login', () => {
     request(app)
       .post('/api/auth/login')
       .send({
-        email: dummyUser.email,
+        email: loginEncrypt.email,
         password: 'U2FsdGVkX1/iJcv6iRbwDVVeQYP8ZPuMlr8qFbDK+FY=',
       })
       .then(res => {
@@ -227,7 +259,7 @@ describe('Login', () => {
   test('Success login with status 200', done => {
     request(app)
       .post('/api/auth/login')
-      .send(dummyUser)
+      .send(loginEncrypt)
       .then(res => {
         expect(res.status).toBe(200)
         expect(res.body.status).toBe('success')
@@ -291,7 +323,7 @@ describe('Forgot Password', () => {
     request(app)
       .post('/api/auth/forgot-password')
       .send({
-        email: dummyUser.email,
+        email: loginEncrypt.email,
       })
       .then(res => {
         expect(res.status).toBe(201)

@@ -49,8 +49,9 @@ exports.requestOtp = async (req, res) => {
     const validate = validateBodyGenerateOtpToEmail({ email: emailDecoded })
 
     if (validate) return responseError(res, 400, 'Validation Failed', validate)
-
     const recipientName = emailDecoded.substring(0, emailDecoded.indexOf('@'))
+    const users = await Users.findAll()
+    console.log(users, '<<<<<< FIND ALL')
     const user = await Users.findOne({ where: { email: emailDecoded } })
     if (user)
       return responseError(res, 400, 'Bad Request', 'Email already exists')

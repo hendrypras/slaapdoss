@@ -45,20 +45,6 @@ afterAll(done => {
 })
 
 describe('Get User profile', () => {
-  test('Error', done => {
-    request(app)
-      .get('/api/user/profile')
-      .set('authorization', `Bearer ${token}`)
-      .then(res => {
-        expect(res.status).toBe(200)
-        expect(res.body.status).toBe('success')
-        expect(res.body).toHaveProperty('data')
-        done()
-      })
-      .catch(err => {
-        done(err)
-      })
-  })
   test('Success get Users with status 200', done => {
     request(app)
       .get('/api/user/profile')
