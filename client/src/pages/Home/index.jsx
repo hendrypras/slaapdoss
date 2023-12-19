@@ -8,7 +8,6 @@ import { selectAssets } from '@containers/App/selectors';
 import Container from '@components/Container';
 import HeadTitle from '@components/HeadTitle';
 import SubHeadTitle from '@components/SubHeadTitle';
-import Footer from '@components/Footer';
 
 import Banner from '@pages/Home/components/Banner';
 import SearchCabin from '@pages/Home/components/SearchCabinHome';
@@ -84,7 +83,6 @@ const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
       <section className={classes.wrapperBranch}>
         <img className={classes.img} src={assets?.images?.branch} alt="branch" />
       </section>
-      <Footer />
     </>
   );
 };

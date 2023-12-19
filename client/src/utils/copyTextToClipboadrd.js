@@ -1,4 +1,4 @@
-const copyTextToClipboadrd = (text, messageSuccess, messageFail) => {
+const copyTextToClipboadrd = (text) => {
   if (text) {
     const textarea = document.createElement('textarea');
     textarea.value = text;
@@ -9,7 +9,6 @@ const copyTextToClipboadrd = (text, messageSuccess, messageFail) => {
     textarea.select();
     document.execCommand('copy');
     document.body.removeChild(textarea);
-  } else {
   }
 };
 

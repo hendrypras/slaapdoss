@@ -17,12 +17,10 @@ const { responseError, responseSuccess } = require('../helpers/responseHandler')
 const {
   checkDateRange,
   calculateDurationInDays,
-  generateUnixTimeOneHourAhead,
 } = require('../services/paymentService')
 const sendEmail = require('../utils/sendEmail')
 const callApi = require('../utils/callApi')
 const { responsePaymentBodyEmail } = require('../helpers/bodyEmail')
-const { expireTransaction } = require('../schedule')
 
 const sandBoxMidtransUrl = process.env.MIDTRANS_SANBOX_URL
 const serverKeyMidtrans = process.env.MIDTRANS_SERVER_KEY
@@ -150,15 +148,13 @@ exports.createPayment = async (req, res) => {
       }
     }
 
-    const { va_numbers, expiry_time, ...rest } = chargeResponse
+    const { va_numbers, ...rest } = chargeResponse
 
     if (va_numbers && va_numbers?.length > 0) {
-      const expiryTime = generateUnixTimeOneHourAhead()
       await ResponsePayments.create(
         {
           va_number: va_numbers[0]?.va_number,
           bank: va_numbers[0]?.bank,
-          expiry_time: expiryTime,
           ...rest,
         },
         { transaction: t }
@@ -195,7 +191,6 @@ exports.createPayment = async (req, res) => {
     await sendEmail(data)
 
     await t.commit()
-    expireTransaction.start(chargeResponse.order_id) // Commit transaction if success all
     return responseSuccess(res, 201, 'success', chargeResponse)
   } catch (error) {
     if (t) await t.rollback() // Rollback transaction
@@ -279,7 +274,6 @@ exports.cancelTransaction = async (req, res) => {
       ],
       where: { order_id: orderId },
     })
-    console.log(findOrder)
     if (!findOrder)
       return responseError(
         res,
@@ -306,29 +300,6 @@ exports.cancelTransaction = async (req, res) => {
     return responseError(res, error.status, error.message)
   }
 }
-// exports.expireTransaction = async (req, res) => {
-//   try {
-//     const { orderId } = req.params
-//     const findOrder = await Orders.findOne({ where: { order_id: orderId } })
-//     if (!findOrder)
-//       return responseError(
-//         res,
-//         404,
-//         'Nor Found',
-//         `Order with id ${orderId} not found`
-//       )
-//     const url = `${sandBoxMidtransUrl}/${orderId}/expire`
-//     const headers = {
-//       Authorization: `Basic ${Buffer.from(serverKeyMidtrans + ':').toString(
-//         'base64'
-//       )}`,
-//     }
-//     const response = await callApi(url, 'POST', headers)
-//     return responseSuccess(res, 200, 'success', response)
-//   } catch (error) {
-//     return responseError(res, error.status, error.message)
-//   }
-// }
 
 exports.getPaymentMethods = async (req, res) => {
   try {

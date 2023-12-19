@@ -214,5 +214,23 @@
     padding: 2rem 1rem;
     @include displayFlex(column, center, center);
     gap: 1rem;
+    .emptyRoom {
+      @include displayFlex(column, center, center);
+      @include shadow;
+      border-radius: 1rem;
+      gap: 1rem;
+      padding: 2rem;
+      width: 100%;
+      background: $color-white;
+      .imgnotfound {
+        width: 100%;
+        @include screen(md) {
+          width: 50%;
+        }
+        @include screen(lg) {
+          width: 40%;
+        }
+      }
+    }
   }
 }

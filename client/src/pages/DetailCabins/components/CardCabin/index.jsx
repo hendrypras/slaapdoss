@@ -8,13 +8,12 @@ import { useMediaQuery } from '@mui/material';
 import Button from '@components/Button';
 import DrawerMobile from '@components/DrawerMobile';
 import HeadTitle from '@components/HeadTitle';
+import ModalPopUp from '@components/ModalPopUp';
 
 import formatCurrency from '@utils/formatCurrency';
 
 import ContentDetailRoom from '@pages/DetailCabins/components/ContentDetailRoom';
 import ContentRoomNumber from '@pages/DetailCabins/components/ContentRoomNumber';
-
-import ModalPopUp from '@components/ModalPopUp';
 
 import classes from './style.module.scss';
 
