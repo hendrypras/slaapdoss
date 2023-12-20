@@ -24,10 +24,10 @@ const groupCabinRoomsByType = (rooms, includeData) => {
 
     // Cari indeks dari tipe kabin dalam groupedCabins
     const index = groupedCabins.findIndex(
-      item => item.type_room.name === type_room.name
+      item => item.type_room?.name === type_room?.name
     )
     const cabinInfo = includeData.find(
-      item => item.typeCabin.toLowerCase() === type_room.name.toLowerCase()
+      item => item.typeCabin?.toLowerCase() === type_room?.name.toLowerCase()
     )
 
     if (index === -1) {

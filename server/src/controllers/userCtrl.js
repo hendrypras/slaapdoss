@@ -43,11 +43,11 @@ exports.updateUserProfile = async (req, res) => {
         req.fileValidationError.message
       )
     }
-    if (!req.files.profile) {
+    if (!req?.files?.profile) {
       return responseError(res, 400, 'Validation Failed', 'Image is required')
     }
 
-    imageResult = await uploadToCloudinary(req.files.profile[0], 'image')
+    imageResult = await uploadToCloudinary(req?.files?.profile[0], 'image')
 
     if (!imageResult?.url) {
       return responseError(res, 500, 'Internal server error', imageResult)

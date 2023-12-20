@@ -200,7 +200,7 @@ exports.getOrderSuccess = async (req, res) => {
         `Order with id ${orderId} not found`
       )
     if (response?.user?.id_card) {
-      const encryptedNik = encryptPayload(response.user.id_card.nik)
+      const encryptedNik = encryptPayload(response.user?.id_card?.nik)
       response.user.id_card.nik = encryptedNik
     }
     return responseSuccess(res, 200, 'success', response)

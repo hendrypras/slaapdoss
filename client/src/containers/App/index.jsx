@@ -53,7 +53,12 @@ const App = ({ popup, loading, login, token, userProfile }) => {
   }, [dispatch, login, token, userProfile]);
 
   const logout = () => {
-    dispatch(setLogout());
+    dispatch(
+      setLogout(() => {
+        localStorage.clear();
+        window.location.href = '/login';
+      })
+    );
   };
   return (
     <>

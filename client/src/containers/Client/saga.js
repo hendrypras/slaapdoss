@@ -48,7 +48,7 @@ function* doUserLogin({ data, cb }) {
     yield put(setLoadingLogin(false));
   }
 }
-function* doLogout() {
+function* doLogout({ cbError }) {
   yield put(setLoading(true));
   try {
     const response = yield call(logout);
@@ -58,6 +58,9 @@ function* doLogout() {
       window.location.href = '/';
     }
   } catch (error) {
+    if (error.response.status === 401) {
+      return cbError();
+    }
     yield put(showPopup(error?.response?.data?.message));
   } finally {
     yield put(setLoading(false));

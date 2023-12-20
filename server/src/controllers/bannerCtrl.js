@@ -11,7 +11,7 @@ const redisClient = new Redis()
 exports.createBanner = async (req, res) => {
   let imageResult
   try {
-    if (req.fileValidationError) {
+    if (req?.fileValidationError) {
       return responseError(
         res,
         400,
@@ -19,12 +19,12 @@ exports.createBanner = async (req, res) => {
         req.fileValidationError.message
       )
     }
-    if (!req.files.banner) {
+    if (!req?.files?.banner) {
       return responseError(res, 400, 'Validation Failed', 'Image is required')
     }
     const { title, description, active } = req.body
     const validate = validateBodyCreateBanner({ title, description, active })
-    if (validate) return responseError(res, 400, 'Validation failed', validate)
+    if (validate) return responseError(res, 400, 'Validation Failed', validate)
 
     imageResult = await uploadToCloudinary(req.files.banner[0], 'image')
     if (!imageResult?.url) {
@@ -53,47 +53,39 @@ exports.getBanners = async (req, res) => {
     if (cachedData) {
       const parsedData = JSON.parse(cachedData)
       return responseSuccess(res, 200, 'success', parsedData)
-    } else {
-      const response = await Banners.findAll({
-        where: { active: true },
-        attributes: { exclude: ['createdAt', 'updatedAt'] },
-      })
-      if (response.length > 0) {
-        await redisClient.setex('banners', 3600, JSON.stringify(response))
-      }
-      return responseSuccess(res, 200, 'success', response)
     }
-  } catch (error) {
-    return responseError(res, error.status, error.message)
-  }
-}
-exports.getBannersByAdmin = async (req, res) => {
-  try {
+
     const response = await Banners.findAll({
+      where: { active: true },
       attributes: { exclude: ['createdAt', 'updatedAt'] },
     })
+
+    if (response.length > 0) {
+      await redisClient.setex('banners', 3600, JSON.stringify(response))
+    }
+
     return responseSuccess(res, 200, 'success', response)
   } catch (error) {
     return responseError(res, error.status, error.message)
   }
 }
-exports.deleteBanner = async (req, res) => {
+
+exports.getBannersByAdmin = async (req, res) => {
   try {
-    const { bannerId } = req.params
-    const banner = await Banners.findByPk(bannerId)
-    if (!banner) {
-      return responseError(res, 404, 'Not Found', 'Banner not found')
+    const cachedData = await redisClient.get('banners')
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData)
+      return responseSuccess(res, 200, 'success', parsedData)
     }
-    const cloudinaryDeletion = cloudinaryDeleteImg(
-      banner.image_public_id,
-      'image'
-    )
-    const bannerDeletion = banner.destroy()
 
-    await Promise.all([cloudinaryDeletion, bannerDeletion])
+    const response = await Banners.findAll({
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    })
+    if (response.length > 0) {
+      redisClient.setex('banners', 3600, JSON.stringify(response))
+    }
 
-    await redisClient.del('banners')
-    return responseSuccess(res, 200, 'success')
+    return responseSuccess(res, 200, 'success', response)
   } catch (error) {
     return responseError(res, error.status, error.message)
   }
@@ -122,6 +114,27 @@ exports.updateStatusBanner = async (req, res) => {
 
     banner.active = activeStatus
     await banner.save()
+    return responseSuccess(res, 200, 'success')
+  } catch (error) {
+    return responseError(res, error.status, error.message)
+  }
+}
+exports.deleteBanner = async (req, res) => {
+  try {
+    const { bannerId } = req.params
+    const banner = await Banners.findByPk(bannerId)
+    if (!banner) {
+      return responseError(res, 404, 'Not Found', 'Banner not found')
+    }
+    const cloudinaryDeletion = cloudinaryDeleteImg(
+      banner.image_public_id,
+      'image'
+    )
+    const bannerDeletion = banner.destroy()
+
+    await Promise.all([cloudinaryDeletion, bannerDeletion])
+
+    await redisClient.del('banners')
     return responseSuccess(res, 200, 'success')
   } catch (error) {
     return responseError(res, error.status, error.message)

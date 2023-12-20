@@ -227,7 +227,7 @@ const DetailCabins = ({ cabins, loading }) => {
             </div>
           </div>
           <div className={classes.wrapperCard}>
-            {!loading && Array.isArray(cabins?.cabinRooms) && cabins?.cabinRooms > 0 ? (
+            {!loading && Array.isArray(cabins?.cabinRooms) && cabins?.cabinRooms?.length > 0 ? (
               cabins?.cabinRooms?.map((val, i) => <CardCabin key={i} cabins={val} />)
             ) : (
               <div className={classes.emptyRoom}>

@@ -1,6 +1,5 @@
 const { responseError, responseSuccess } = require('../helpers/responseHandler')
 const { Op } = require('sequelize')
-const sequelize = require('../config/connectDb')
 const {
   cloudinaryDeleteImg,
   uploadToCloudinary,
@@ -12,7 +11,6 @@ const {
   validateBodyCreateCabin,
   validateBodyCreateCabinRoom,
   validateBodyCreateTypeCabin,
-  validateBodyUpdateTypeCabin,
 } = require('../helpers/validationJoi')
 const loadData = require('../helpers/databaseHelper')
 const {
@@ -24,6 +22,62 @@ const {
 exports.createCabin = async (req, res) => {
   let imageResult
   try {
+    if (req?.fileValidationError) {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        req.fileValidationError.message
+      )
+    }
+    if (!req?.files?.cabin) {
+      return responseError(res, 400, 'Validation Failed', 'Image is required')
+    }
+    const newData = req.body
+    const { cabin, ...rest } = newData
+    const validate = validateBodyCreateCabin({
+      ...rest,
+    })
+    if (validate) {
+      return responseError(res, 400, 'Validation Failed', validate)
+    }
+    const slug = slugify(newData?.name, { lower: true })
+
+    const existingCabin = await Cabins.findOne({
+      where: { slug },
+    })
+    if (existingCabin) {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        'Cabin with this name already exists'
+      )
+    }
+
+    imageResult = await uploadToCloudinary(req?.files?.cabin[0], 'image')
+    if (!imageResult?.url) {
+      return responseError(res, 500, 'Internal server error', imageResult.error)
+    }
+
+    await Cabins.create({
+      image_url: imageResult?.url,
+      image_public_id: imageResult?.public_id,
+      slug,
+      ...rest,
+    })
+    return responseSuccess(res, 201, 'success')
+  } catch (error) {
+    if (imageResult?.public_id) {
+      await cloudinaryDeleteImg(imageResult.public_id, 'image')
+    }
+    return responseError(res, error?.status, error?.message)
+  }
+}
+
+exports.createTypeRoom = async (req, res) => {
+  let imageResult
+  try {
     if (req.fileValidationError) {
       return responseError(
         res,
@@ -32,31 +86,53 @@ exports.createCabin = async (req, res) => {
         req.fileValidationError.message
       )
     }
-    if (!req.files.cabin) {
+    if (!req?.files?.typeImage) {
       return responseError(res, 400, 'Validation Failed', 'Image is required')
     }
-    imageResult = await uploadToCloudinary(req.files.cabin[0], 'image')
-    if (!imageResult?.url) {
-      return responseError(res, 500, 'Internal server error', imageResult.error)
-    }
     const newData = req.body
-    const { cabin, ...rest } = newData
-    const validate = validateBodyCreateCabin({
-      image_url: imageResult?.url,
-      image_public_id: imageResult?.public_id,
-      slug: slugify(newData?.name),
+    const { typeImage, cabinsSlug, ...rest } = newData
+    const validate = validateBodyCreateTypeCabin({
+      cabinsSlug,
       ...rest,
     })
     if (validate) {
-      if (imageResult?.public_id) {
-        await cloudinaryDeleteImg(imageResult.public_id, 'image')
-      }
-      return responseError(res, 400, 'Validation failed', validate)
+      return responseError(res, 400, 'Validatin Failed', validate)
     }
-    await Cabins.create({
+    const [findTypeRoom, findCabins] = await Promise.all([
+      TypeRoom.findAll({
+        where: {
+          name: { [Op.like]: newData?.name },
+          cabins_slug: cabinsSlug,
+        },
+      }),
+      Cabins.findOne({
+        where: { slug: newData.cabinsSlug },
+      }),
+    ])
+    if (findTypeRoom.length > 0) {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        'Type Room with this name already exist'
+      )
+    }
+    if (!findCabins)
+      return responseError(
+        res,
+        404,
+        'Not Found',
+        'Cabins with this slug not found'
+      )
+    imageResult = await uploadToCloudinary(req.files.typeImage[0], 'image')
+    if (!imageResult?.url) {
+      return responseError(res, 500, 'Internal server error', imageResult.error)
+    }
+
+    await TypeRoom.create({
       image_url: imageResult?.url,
       image_public_id: imageResult?.public_id,
-      slug: slugify(newData?.name, { lower: true }),
+      cabins_slug: cabinsSlug,
       ...rest,
     })
     return responseSuccess(res, 201, 'success')
@@ -91,14 +167,9 @@ exports.createRoom = async (req, res) => {
     ])
 
     if (!findTypeRoom)
-      return responseError(res, 404, 'Not Found', 'Type Cabin not found')
+      return responseError(res, 404, 'Not Found', 'Type room not found')
     if (!findCabins)
-      return responseError(
-        res,
-        404,
-        'Not Found',
-        'Cabins with this slug not found'
-      )
+      return responseError(res, 404, 'Not Found', 'Cabin not found')
     if (findCabinRoom)
       return responseError(
         res,
@@ -118,177 +189,7 @@ exports.createRoom = async (req, res) => {
   }
 }
 
-exports.createTypeRoom = async (req, res) => {
-  let imageResult
-  try {
-    if (req.fileValidationError) {
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        req.fileValidationError.message
-      )
-    }
-    if (!req.files.typeImage) {
-      return responseError(res, 400, 'Validation Failed', 'Image is required')
-    }
-    const newData = req.body
-    const { typeImage, cabinsSlug, ...rest } = newData
-    const validate = validateBodyCreateTypeCabin({
-      cabinsSlug,
-      ...rest,
-    })
-    if (validate) {
-      return responseError(res, 400, 'Validatin Failed', validate)
-    }
-    const [findTypeRoom, findCabins] = await Promise.all([
-      TypeRoom.findAll({
-        where: {
-          name: { [Op.like]: newData?.name },
-          cabins_slug: cabinsSlug,
-        },
-      }),
-      Cabins.findOne({
-        where: { slug: newData.cabinsSlug },
-      }),
-    ])
-    if (findTypeRoom.length > 0) {
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        'Type Room with this name already exist'
-      )
-    }
-    if (!findCabins)
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        'Cabins with this slug already exist'
-      )
-    imageResult = await uploadToCloudinary(req.files.typeImage[0], 'image')
-    if (!imageResult?.url) {
-      return responseError(res, 500, 'Internal server error', imageResult.error)
-    }
-
-    await TypeRoom.create({
-      image_url: imageResult?.url,
-      image_public_id: imageResult?.public_id,
-      cabins_slug: cabinsSlug,
-      ...rest,
-    })
-    return responseSuccess(res, 201, 'success')
-  } catch (error) {
-    if (imageResult?.public_id) {
-      await cloudinaryDeleteImg(imageResult.public_id, 'image')
-    }
-    return responseError(res, error?.status, error?.message)
-  }
-}
-
-exports.updateTypeCabin = async (req, res) => {
-  let imageResult
-  let transaction
-  try {
-    const { typeCabinId } = req.params
-    const newData = req.body
-    const { typeImage, imagePublicId, cabinsSlug, imageUrl, ...rest } = newData
-    if (req.fileValidationError) {
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        req.fileValidationError.message
-      )
-    }
-    if (!req.files.typeImage && !imageUrl && !imagePublicId) {
-      return responseError(res, 400, 'Validation Failed', 'Image is required')
-    }
-    const validate = validateBodyUpdateTypeCabin({
-      imagePublicId,
-      imageUrl,
-      cabinsSlug,
-      ...rest,
-    })
-
-    if (validate) {
-      return responseError(res, 400, 'Validation Failed', validate)
-    }
-
-    const findTypeRoom = await TypeRoom.findAll({
-      where: {
-        name: { [Op.like]: newData?.name },
-        cabins_slug: cabinsSlug,
-        id: { [Op.not]: typeCabinId },
-      },
-    })
-
-    if (findTypeRoom.length > 0) {
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        'Type Room with this name already exists'
-      )
-    }
-    if (req.files.typeImage) {
-      imageResult = await uploadToCloudinary(req.files.typeImage[0], 'image')
-      if (!imageResult?.url) {
-        return responseError(
-          res,
-          500,
-          'Internal server error',
-          imageResult.error
-        )
-      }
-    }
-
-    // Begin Sequelize transaction
-    transaction = await sequelize.transaction()
-
-    await TypeRoom.update(
-      {
-        image_url: imageResult?.url || imageUrl,
-        image_public_id: imageResult?.public_id || imagePublicId,
-        cabins_slug: cabinsSlug,
-        ...rest,
-      },
-      {
-        where: {
-          id: typeCabinId,
-        },
-        transaction, // Pass transaction object
-      }
-    )
-
-    // Commit the transaction if update is successful
-    await transaction.commit()
-
-    if (imageResult?.url) {
-      await cloudinaryDeleteImg(imagePublicId, 'image')
-    }
-
-    return responseSuccess(res, 200, 'success')
-  } catch (error) {
-    if (transaction) {
-      // Rollback the transaction if an error occurs
-      await transaction.rollback()
-    }
-
-    if (imageResult?.public_id) {
-      await cloudinaryDeleteImg(imageResult.public_id, 'image')
-    }
-
-    return responseError(res, error?.status, error?.message)
-  } finally {
-    if (imageResult?.public_id && !transaction) {
-      await cloudinaryDeleteImg(imageResult.public_id, 'image')
-    }
-  }
-}
-
-exports.getCabins = async (req, res) => {
+exports.getCabinBySlug = async (req, res) => {
   try {
     const { dateStart, dateEnd } = req.query
     const { slug } = req.params
@@ -373,7 +274,7 @@ exports.getCabinsLocation = async (req, res) => {
   }
 }
 
-exports.getTypeCabin = async (req, res) => {
+exports.getTypeRoom = async (req, res) => {
   try {
     const response = await TypeRoom.findAll({
       attributes: { exclude: ['createdAt', 'updatedAt'] },

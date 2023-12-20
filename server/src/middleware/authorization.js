@@ -3,7 +3,7 @@ const { responseError } = require('../helpers/responseHandler')
 const isAdmin = async (req, res, next) => {
   const { role } = req.user
   if (role !== 1) {
-    return responseError(res, 406, 'Not Accepteble', 'You are not an admin')
+    return responseError(res, 406, 'Not Acceptable', 'You are not an admin')
   } else {
     next()
   }
@@ -11,7 +11,7 @@ const isAdmin = async (req, res, next) => {
 const isUser = async (req, res, next) => {
   const { role } = req.user
   if (role !== 2) {
-    return responseError(res, 406, 'Not Accepteble', 'You are not an user')
+    return responseError(res, 406, 'Not Acceptable', 'You are not an user')
   } else {
     next()
   }

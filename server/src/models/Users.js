@@ -33,7 +33,9 @@ module.exports = (sequelize, DataTypes) => {
         beforeCreate: user => {
           user.password = hashPassword(user.password)
           user.verified = false
-          user.role = 2
+          if (!user.role) {
+            user.role = 2
+          }
           if (!user.image_url) {
             user.image_url = process.env.AVATAR_URL_DEFAULT
           }

@@ -9,10 +9,13 @@ exports[`Component Loader Should match with snapshot 1`] = `
         class="loaderComponent showLoader"
         data-testid="Loading"
       >
-        <img
-          alt="Loading"
-          src="/loader.svg"
-        />
+        <div
+          class="loading"
+        >
+          <div
+            class="bounceLoader"
+          />
+        </div>
       </div>
     </div>
   </body>,
@@ -21,10 +24,13 @@ exports[`Component Loader Should match with snapshot 1`] = `
       class="loaderComponent showLoader"
       data-testid="Loading"
     >
-      <img
-        alt="Loading"
-        src="/loader.svg"
-      />
+      <div
+        class="loading"
+      >
+        <div
+          class="bounceLoader"
+        />
+      </div>
     </div>
   </div>,
   "debug": [Function],
