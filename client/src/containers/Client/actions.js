@@ -25,6 +25,7 @@ export const setLoading = (loading) => ({
   loading,
 });
 
-export const setLogout = () => ({
+export const setLogout = (cbError) => ({
   type: LOGOUT,
+  cbError,
 });

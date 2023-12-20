@@ -34,8 +34,6 @@ const Authenticated = async (req, res, next) => {
           next()
         }
       )
-    } else {
-      return responseError(res, 401, 'Unauthorized', 'Token is required')
     }
   } catch (error) {
     return responseError(res)

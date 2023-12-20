@@ -3,8 +3,8 @@
 import axios from 'axios';
 
 import { logout, refreshToken } from '@domain/api';
-import store from '@store';
 import { setToken } from '@containers/Client/actions';
+import store from '../configureStore';
 
 let isRefreshing = false;
 const failedRequestsQueue = [];

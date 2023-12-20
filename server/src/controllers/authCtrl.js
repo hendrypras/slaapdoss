@@ -49,8 +49,8 @@ exports.requestOtp = async (req, res) => {
     const validate = validateBodyGenerateOtpToEmail({ email: emailDecoded })
 
     if (validate) return responseError(res, 400, 'Validation Failed', validate)
-
     const recipientName = emailDecoded.substring(0, emailDecoded.indexOf('@'))
+    const users = await Users.findAll()
     const user = await Users.findOne({ where: { email: emailDecoded } })
     if (user)
       return responseError(res, 400, 'Bad Request', 'Email already exists')
@@ -282,7 +282,7 @@ exports.login = async (req, res) => {
     res.cookie('__refreshToken__', refreshToken, {
       httpOnly: true,
       maxAge: 2 * 24 * 60 * 60 * 1000,
-      secure: false,
+      secure: true,
     })
 
     return responseSuccess(res, 200, 'success', {
@@ -355,7 +355,7 @@ exports.logout = async (req, res) => {
 
         res.clearCookie('__refreshToken__', {
           httpOnly: true,
-          secure: false,
+          secure: true,
         })
 
         return responseSuccess(res, 200, 'success')

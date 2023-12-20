@@ -60,8 +60,10 @@ app.all('*', (req, res) => {
   res.status(404).json({ message: 'URL Not Found', status: 404 })
 })
 
-server.listen(PORT, () => {
-  console.log(`App running on port ${PORT}`)
-})
+if (!module.parent) {
+  server.listen(PORT, () => {
+    console.log(`App running on port ${PORT}`)
+  })
+}
 
 module.exports = app

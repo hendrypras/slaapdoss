@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { KeyboardArrowRightOutlined as KeyboardArrowRightOutlinedIcon, CheckOutlined } from '@mui/icons-material';
 import { Avatar, Modal, Fade, MenuItem, Divider, ListSubheader } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import classNames from 'classnames';
 
 import { setLocale } from '@containers/App/actions';
 
@@ -31,7 +31,12 @@ const ButtonLang = ({ locale, className }) => {
 
   return (
     <>
-      <button type="button" className={classNames(classes.toggle, className)} onClick={handleOpenModal}>
+      <button
+        data-testid="button-lang"
+        type="button"
+        className={classNames(classes.toggle, className)}
+        onClick={handleOpenModal}
+      >
         <Avatar className={classes.avatar} src={locale === 'id' ? '/id.png' : '/en.png'} />
         <div className={classes.lang}>{locale}</div>
         <KeyboardArrowRightOutlinedIcon className={classes.arrowIcon} />
