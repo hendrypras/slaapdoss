@@ -25,9 +25,10 @@ export const createIdCard = (data, cbSuccess, cbError) => ({
   cbSuccess,
   cbError,
 });
-export const uploadIdCard = (imageUrl) => ({
+export const uploadIdCard = (imageUrl, cbError) => ({
   type: UPLOAD_ID_CARD,
   imageUrl,
+  cbError,
 });
 export const setDataIdCard = (data) => ({
   type: SET_DATA_ID_CARD,

@@ -2,6 +2,10 @@ const moment = require('moment')
 
 const { isDateRangeOverlap } = require('./cabinService')
 
+const generateIdPayment = () => {
+  return new Date().getTime()
+}
+
 const calculateDurationInDays = (start, end) => {
   const startMoment = moment(start).startOf('day')
   const endMoment = moment(end).startOf('day')
@@ -20,4 +24,5 @@ const checkDateRange = (startReserve, endReserve, data) => {
 module.exports = {
   checkDateRange,
   calculateDurationInDays,
+  generateIdPayment,
 }

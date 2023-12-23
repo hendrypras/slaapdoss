@@ -13,6 +13,7 @@ import { auth } from '@utils/firebase';
 function* doOAuthGoogle() {
   try {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     const result = yield call(signInWithPopup, auth, provider);
     const firstName = result?._tokenResponse?.firstName;
     const email = result?._tokenResponse?.email;

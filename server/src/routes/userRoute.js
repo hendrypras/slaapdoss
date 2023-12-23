@@ -15,7 +15,7 @@ const router = express.Router()
 router.get('/user/profile', Authenticated, getUserProfile)
 router.get('/user/credential', Authenticated, isUser, getDataCrutialUser)
 router.post('/user/upload/idcard', Authenticated, isUser, uploadIdCard)
-router.put(
+router.patch(
   '/user/update/profile',
   Authenticated,
   isUser,

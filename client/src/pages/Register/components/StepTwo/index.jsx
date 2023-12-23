@@ -20,7 +20,7 @@ const StepTwo = ({ loading, token, email, otpExp, handleBack }) => {
   const handleSubmitOtp = (e) => {
     e.preventDefault();
     dispatch(
-      verifyOtp({ code: Number(otp), token }, () => {
+      verifyOtp({ code: parseInt(otp, 10), token }, () => {
         setOtp('');
       })
     );

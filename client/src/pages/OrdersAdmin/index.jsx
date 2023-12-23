@@ -44,7 +44,7 @@ const OrdersAdmin = ({ orders, loading }) => {
 
   const queryParams = new URLSearchParams(location.search);
   const page = parseInt(queryParams.get('page'), 10) || 1;
-  const limit = parseInt(queryParams.get('limit'), 10) || 2;
+  const limit = parseInt(queryParams.get('limit'), 10) || 18;
   const orderId = queryParams.get('orderId');
   const handlePaginationChange = (e, newPage) => {
     e.preventDefault();
@@ -83,7 +83,7 @@ const OrdersAdmin = ({ orders, loading }) => {
           <HeadTitle title="Search By Order Id" />
           <TextField id="standard-basic" label="Standard" variant="standard" />
         </div>
-        <DataGrid rows={resultOrders} columns={columns} loading={loading} />
+        <DataGrid rows={resultOrders} columns={columns} loading={loading} hideFooterPagination />
         <Stack spacing={2}>
           <Pagination
             count={Math.ceil((orders?.count || 0) / limit)}

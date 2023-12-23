@@ -113,39 +113,6 @@ const IdCard = ({ disabled, dataIdCard, loading, imageSelected, onCloseDrawerPop
             />
             <div className={classes.title}>Birthday</div>
           </div>
-          <div className={classes.inputBox}>
-            <InputForm
-              rules={{
-                required: 'NIK is required',
-              }}
-              type="text"
-              name="address"
-              className={classes.input}
-              errorStyle={classes.errorInput}
-            />
-            <div className={classes.title}>Address</div>
-          </div>
-          <div className={classes.inputBox}>
-            <InputForm type="text" name="job" className={classes.input} errorStyle={classes.errorInput} />
-            <div className={classes.title}>Job</div>
-          </div>
-          <div className={classes.inputBox}>
-            <InputForm
-              rules={{
-                required: 'Religion is required',
-              }}
-              type="text"
-              name="religion"
-              className={classes.input}
-              errorStyle={classes.errorInput}
-            />
-            <div className={classes.title}>Religion</div>
-          </div>
-          <div className={classes.inputBox}>
-            <InputForm type="text" name="marial_status" className={classes.input} />
-            <div className={classes.title}>Marial Status</div>
-          </div>
-
           <Button isLoading={loading} className={classes.button} type="submit">
             <FormattedMessage id="app_user_profile_text_button_submit_data_id_card" />
           </Button>

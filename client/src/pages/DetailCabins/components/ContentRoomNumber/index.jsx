@@ -25,9 +25,9 @@ const ContentRoomNumber = ({ rooms, searchValue }) => {
     <div className={classes.wrapper}>
       <HeadTitle title="Select Number Room" />
       <div className={classes.wrapperBtn}>
-        {rooms?.map((val, i) => (
+        {rooms?.map((val) => (
           <Button
-            key={i}
+            key={val?.id}
             type="button"
             onClick={() => setDataRoom({ id: val?.id, slug: val?.cabins_slug })}
             title={val?.room_number?.toString()}

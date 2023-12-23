@@ -7,7 +7,9 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useState } from 'react';
+
 import { selectLoading } from '@containers/App/selectors';
+import { showSnackBar } from '@containers/App/actions';
 
 import { createBanner } from '@pages/CreateBanner/actions';
 
@@ -33,6 +35,7 @@ const CreateBanner = ({ loading, intl: { formatMessage } }) => {
       createBanner(formData, () => {
         method.reset();
         setSelectedImage(null);
+        dispatch(showSnackBar('Banner created successfully'));
       })
     );
   };

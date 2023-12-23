@@ -8,6 +8,7 @@ import { DeleteOutline as DeleteOutlineIcon, Lock as LockIcon, LockOpen as LockO
 import { Box, Tooltip } from '@mui/material';
 
 import { selectLoading } from '@containers/App/selectors';
+import { showSnackBar } from '@containers/App/actions';
 
 import { selectBannersAdmin } from '@pages/ListBanner/selectors';
 import { deleteBanner, getBanners, updateStatusBanner } from '@pages/ListBanner/actions';
@@ -40,26 +41,28 @@ const ListBanner = ({ banners, loading }) => {
       dispatch(
         deleteBanner(bannerId.id, () => {
           dispatch(getBanners());
+          dispatch(showSnackBar('Banner deleted successfully'));
         })
       );
     } else if (bannerId.id && (bannerId.typeAction === 'private' || bannerId.typeAction === 'public')) {
       dispatch(
         updateStatusBanner(bannerId.typeAction, bannerId.id, () => {
           dispatch(getBanners());
+          dispatch(showSnackBar('Banner updated successfully'));
         })
       );
     }
     setOpenPopUp(false);
   };
   const handleOpenPopUpStatusBanner = (data) => {
-    if (data && data?.status === 'Public') {
+    if (data?.status === 'Public') {
       handleOpenPopUp(
         'private',
         data?.bannerId,
         'dashboard_list_banner_text_question_update',
         'dashboard_list_banner_message_question_update'
       );
-    } else if (data && data?.status === 'Private') {
+    } else if (data?.status === 'Private') {
       handleOpenPopUp(
         'public',
         data?.bannerId,
@@ -133,7 +136,7 @@ const ListBanner = ({ banners, loading }) => {
             </Tooltip>
           </Button>
           <Button
-            aria-label="button-delete"
+            aria-label="button-update"
             className={classes.btnAction}
             type="button"
             onClick={() => handleOpenPopUpStatusBanner(params.row)}

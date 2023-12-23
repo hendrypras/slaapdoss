@@ -1,16 +1,4 @@
 {
-  "banner": [
-    {
-      "imageUrl": "https://res.cloudinary.com/dlm3iavym/image/upload/v1701758930/rinjani-view_bvoaca.webp",
-      "title": "app_home_banner_title_1",
-      "subTitle": "app_home_banner_sub_title_1"
-    },
-    {
-      "imageUrl": "https://res.cloudinary.com/dlm3iavym/image/upload/v1701759107/badroom-view_evlzh3.webp",
-      "title": "app_home_banner_title_2",
-      "subTitle": "app_home_banner_sub_title_2"
-    }
-  ],
   "cabin": [
     {
       "imageUrl": "https://res.cloudinary.com/dlm3iavym/image/upload/v1701745569/asset-cabin_home_hcyqqg.webp",
@@ -18,7 +6,7 @@
       "subTitle": "app_home_cabin_sub_title_2"
     },
     {
-      "imageUrl": "https://res.cloudinary.com/dlm3iavym/image/upload/v1702916356/home-cabin_sqcexl.jpg",
+      "imageUrl": "https://res.cloudinary.com/dlm3iavym/image/upload/v1703301868/asset2_fzfejx.jpg",
       "title": "app_home_cabin_head_title",
       "subTitle": "app_home_cabin_sub_title"
     }
@@ -26,23 +14,23 @@
   "dropStep": [
     {
       "icon": "https://res.cloudinary.com/dlm3iavym/image/upload/v1701661392/dropstep-1_njrvcg.svg",
-      "title": "Seamless Process",
-      "description": "From data verification, booking, payment, to check-in and many more; everything is integrated in one simple application."
+      "title": "app_content_satisfaction_title_1",
+      "description": "app_content_satisfaction_desc_1"
     },
     {
       "icon": "https://res.cloudinary.com/dlm3iavym/image/upload/v1701661420/dropstep-2_dtztft.svg",
-      "title": "IoT Digital Room Control",
-      "description": "Personalize your room with our high-tech features: mood lamp, QR door lock, and more through our B-Pad and your phone!"
+      "title": "app_content_satisfaction_title_2",
+      "description": "app_content_satisfaction_desc_2"
     },
     {
       "icon": "https://res.cloudinary.com/dlm3iavym/image/upload/v1701661421/dropstep-3_reo0r6.svg",
-      "title": "Safe & Clean Stay",
-      "description": "Two words that best describe us: great hygiene. Rest assured, your comfort and safety are our top priorities."
+      "title": "app_content_satisfaction_title_3",
+      "description": "app_content_satisfaction_desc_3"
     },
     {
       "icon": "https://res.cloudinary.com/dlm3iavym/image/upload/v1701661421/dropstep-4_iokyvb.svg",
-      "title": "24-hour Host Support",
-      "description": "Our hosts are always one call away. Simply leave a chat through the DM in our application and let them know what you need."
+      "title": "app_content_satisfaction_title_4",
+      "description": "app_content_satisfaction_desc_4"
     }
   ],
   "images": {

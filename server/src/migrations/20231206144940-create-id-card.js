@@ -18,24 +18,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      address: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      job: {
-        type: Sequelize.STRING,
-      },
-      marial_status: {
-        type: Sequelize.STRING,
-      },
       birthday: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      religion: {
-        type: Sequelize.STRING,
-      },
-      citizenship: {
         allowNull: false,
         type: Sequelize.STRING,
       },

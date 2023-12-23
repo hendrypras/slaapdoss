@@ -3,7 +3,7 @@ import Countdown from 'react-countdown';
 import { FormattedMessage } from 'react-intl';
 import { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 import { Divider } from '@mui/material';
 
@@ -24,6 +24,7 @@ import classes from './style.module.scss';
 
 const PaymentResponse = ({ orders }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { orderId, status } = useParams();
   const responsePayment = orders?.results?.response_payment;
@@ -36,9 +37,19 @@ const PaymentResponse = ({ orders }) => {
   const stayDuration = calculateDurationInDays(startReservation, endReservation);
   useEffect(() => {
     if (orderId && status) {
-      dispatch(getOrdersUser(orderId));
+      dispatch(
+        getOrdersUser(orderId, 1, 1, () => {
+          navigate('/notfound');
+        })
+      );
     }
-  }, [dispatch, status, orderId]);
+  }, [dispatch, status, orderId, navigate]);
+
+  useEffect(() => {
+    if (responsePayment && responsePayment?.transaction_status !== 'pending') {
+      navigate('/notfound');
+    }
+  }, [responsePayment, navigate]);
 
   return (
     <Container className={classes.wrapper}>
@@ -55,10 +66,10 @@ const PaymentResponse = ({ orders }) => {
           <div className={classes.boxinterval}>
             {responsePayment && (
               <Countdown
-                date={responsePayment?.expiry_time ? parseInt(responsePayment.expiry_time, 10) : 0}
+                date={responsePayment?.expiry_time || 0}
                 renderer={({ hours, minutes, seconds, completed }) => {
                   if (completed) {
-                    return <span>Countdown completed</span>;
+                    navigate('/user/orders');
                   }
                   return (
                     <div className={classes.countdownTime}>
@@ -75,6 +86,9 @@ const PaymentResponse = ({ orders }) => {
               {formateDate(parseInt(responsePayment?.expiry_time, 10), 'DD MMMM YYYY, hh:mm')}
             </div>
           </div>
+          <Button onClick={() => navigate('/user/orders')} type="button" className={classes.btnContinue}>
+            <FormattedMessage id="app_response_payment_button_continue" />
+          </Button>
         </div>
 
         <div className={classes.wrapperOrderDetail}>

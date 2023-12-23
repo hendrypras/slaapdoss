@@ -6,7 +6,9 @@ import { connect, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { FormControl, Select, InputLabel, MenuItem } from '@mui/material';
 import { useEffect, useState } from 'react';
+
 import { selectLoading } from '@containers/App/selectors';
+import { showSnackBar } from '@containers/App/actions';
 
 import { getTypeRoom } from '@pages/CreateTypeRoom/actions';
 import { getCabinsLocation } from '@pages/DetailCabins/actions';
@@ -34,6 +36,7 @@ const CreateRoom = ({ loading, cabinsLocation, typeRoom }) => {
     dispatch(
       createRoom(convertedData, () => {
         method.reset();
+        dispatch(showSnackBar('Room created successfully'));
       })
     );
   };
@@ -53,14 +56,13 @@ const CreateRoom = ({ loading, cabinsLocation, typeRoom }) => {
             name="roomNumber"
             defaultValue={method.getValues('roomNumber')}
             type="number"
-            placeholder="Enter name"
             title="app_reservation_room_number_title"
             rules={{
               required: 'Room Number is required',
             }}
           />
           <FormControl sx={{ m: 1, width: '100%' }}>
-            <InputLabel id="select-sabin">Cabin</InputLabel>
+            <InputLabel id="select-cabin-slug">Cabin</InputLabel>
             <Controller
               name="cabinsSlug"
               control={method.control}
@@ -68,9 +70,9 @@ const CreateRoom = ({ loading, cabinsLocation, typeRoom }) => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  labelId="select-sabin"
-                  autoWidth
+                  labelId="select-cabin-slug"
                   label="Cabin"
+                  required
                   onChange={(e) => {
                     field.onChange(e);
                     setSlugSelected(e.target.value);
@@ -80,8 +82,8 @@ const CreateRoom = ({ loading, cabinsLocation, typeRoom }) => {
                   <MenuItem value="">
                     <em>none</em>
                   </MenuItem>
-                  {cabinsLocation.map((cabin, index) => (
-                    <MenuItem key={index} value={cabin.slug}>
+                  {cabinsLocation.map((cabin) => (
+                    <MenuItem key={cabin?.id} value={cabin.slug}>
                       {cabin.slug}
                     </MenuItem>
                   ))}
@@ -90,7 +92,7 @@ const CreateRoom = ({ loading, cabinsLocation, typeRoom }) => {
             />
           </FormControl>
           <FormControl sx={{ m: 1, width: '100%' }}>
-            <InputLabel id="select-sabin">Type Room</InputLabel>
+            <InputLabel id="select-typeroom-id">Type Room</InputLabel>
             <Controller
               name="typeRoomId"
               control={method.control}
@@ -98,9 +100,9 @@ const CreateRoom = ({ loading, cabinsLocation, typeRoom }) => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  labelId="select-sabin"
-                  autoWidth
+                  labelId="select-typeroom-id"
                   label="Cabin"
+                  required
                   onChange={(e) => {
                     field.onChange(e);
                     method.setValue('typeRoomId', e.target.value);

@@ -91,7 +91,6 @@ const Login = ({ login, loading }) => {
               <FormattedMessage id="app_login_sign_in_submit_text" />
             )}
           </Button>
-
           <div className={classes.orText}>
             <Divider />
             <div className={classes.text}>

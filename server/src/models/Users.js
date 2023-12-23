@@ -1,7 +1,8 @@
 'use strict'
 const { Model } = require('sequelize')
 const { hashPassword } = require('../utils/bcryptPassword')
-require('dotenv').config()
+const config = require('../../config')
+
 module.exports = (sequelize, DataTypes) => {
   class Users extends Model {
     static associate(models) {
@@ -37,12 +38,13 @@ module.exports = (sequelize, DataTypes) => {
             user.role = 2
           }
           if (!user.image_url) {
-            user.image_url = process.env.AVATAR_URL_DEFAULT
+            user.image_url = config.avatarDefaultUrl
+            user.image_public_id = config.avatarDefaultId
           }
         },
         beforeUpdate: user => {
           if (!user.image_url) {
-            user.image_url = process.env.AVATAR_URL_DEFAULT
+            user.image_url = config.avatarDefaultUrl
           }
           if (user.changed('password')) {
             user.password = hashPassword(user.password)
