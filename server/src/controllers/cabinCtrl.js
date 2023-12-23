@@ -3,7 +3,7 @@ const { Op } = require('sequelize')
 const {
   cloudinaryDeleteImg,
   uploadToCloudinary,
-} = require('../config/cloudinary')
+} = require('../configDb/cloudinary')
 const slugify = require('slugify')
 const { Cabins, TypeRoom, Rooms, RoomDateReservations } = require('../models')
 const path = require('path')

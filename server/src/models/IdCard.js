@@ -10,12 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       nik: DataTypes.STRING,
       name: DataTypes.STRING,
-      address: DataTypes.STRING,
-      job: DataTypes.STRING,
-      marial_status: DataTypes.STRING,
       birthday: DataTypes.STRING,
-      religion: DataTypes.STRING,
-      citizenship: DataTypes.STRING,
       id_card_url: DataTypes.STRING,
       id_card_public_id: DataTypes.STRING,
       user_id: DataTypes.INTEGER,

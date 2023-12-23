@@ -114,19 +114,12 @@ const validateBodyGenerateOtpToEmail = reqBody => {
 }
 const validateBodyVerifyOtp = reqBody => {
   const schema = Joi.object({
-    code: Joi.number()
-      .integer()
-      .min(100000)
-      .max(999999)
-      .required()
-      .messages({
-        'number.base': 'code must be a number',
-        'number.integer': 'code must be an integer',
-        'number.min': 'code must be at least six digits long',
-        'number.max': 'code must be at most six digits long',
-        'any.required': 'code is required',
-      })
-      .strict(),
+    code: Joi.number().min(100000).max(999999).required().messages({
+      'number.base': 'code must be a number',
+      'number.min': 'code must be at least six digits long',
+      'number.max': 'code must be at most six digits long',
+      'any.required': 'code is required',
+    }),
     token: Joi.string().required(),
   })
   const { error } = schema.validate(reqBody, {
@@ -180,6 +173,25 @@ const validateBodyRegisterWithGoogle = reqBody => {
 
   return null
 }
+const validateBodyUpdateUserProfile = reqBody => {
+  const schema = Joi.object({
+    imagePublicId: Joi.string().allow(null, '').invalid(Joi.number()).messages({
+      'string.base': 'imagePublicId should be a string.',
+      'any.only': 'imagePublicId should be a string or null.',
+      'any.invalid': 'imagePublicId cannot be a number.',
+    }),
+  })
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  })
+
+  if (error) {
+    return error.details.map(err => err.message).join(', ')
+  }
+
+  return null
+}
+
 const validateBodyRegister = reqBody => {
   const schema = Joi.object({
     username: Joi.string().min(3).required().messages({
@@ -278,11 +290,6 @@ const validateBodyCreateCabin = reqBody => {
       'string.base': 'city must be a string.',
       'string.empty': 'city is required.',
       'any.required': 'city is required.',
-    }),
-    description: Joi.string().required().messages({
-      'string.base': 'description must be a string.',
-      'string.empty': 'description is required.',
-      'any.required': 'description is required.',
     }),
     address: Joi.string().required().messages({
       'string.base': 'address must be a string.',
@@ -433,28 +440,6 @@ const validateResultOcrIdCard = result => {
       'string.base': 'name must be a string.',
       'string.empty': 'name is required.',
     }),
-    birthday: Joi.string().required().messages({
-      'string.base': 'birthday must be a string.',
-      'string.empty': 'birthday is required.',
-    }),
-    address: Joi.string().required().messages({
-      'string.base': 'address must be a string.',
-      'string.empty': 'address is required.',
-    }),
-    marial_status: Joi.string().allow('').messages({
-      'string.base': 'marial_status must be a string.',
-    }),
-    job: Joi.string().allow('').messages({
-      'string.base': 'job must be a string.',
-    }),
-    citizenship: Joi.string().required().messages({
-      'string.base': 'citizenship must be a string.',
-      'string.empty': 'citizenship is required.',
-    }),
-    religion: Joi.string().required().messages({
-      'string.base': 'religion must be a string.',
-      'string.empty': 'religion is required.',
-    }),
   })
 
   const { error } = schema.validate(result, {
@@ -490,25 +475,6 @@ const validateBodyCreateIdCard = result => {
       .messages({
         'any.required': 'birthday must be a valid Unix timestamp.',
       }),
-
-    address: Joi.string().required().messages({
-      'string.base': 'address must be a string.',
-      'string.empty': 'address is required.',
-    }),
-    marial_status: Joi.string().allow('').messages({
-      'string.base': 'maritalStatus must be a string.',
-    }),
-    job: Joi.string().allow('').messages({
-      'string.base': 'job must be a string.',
-    }),
-    citizenship: Joi.string().required().messages({
-      'string.base': 'citizenship must be a string.',
-      'string.empty': 'citizenship is required.',
-    }),
-    religion: Joi.string().required().messages({
-      'string.base': 'religion must be a string.',
-      'string.empty': 'religion is required.',
-    }),
   })
 
   const { error } = schema.validate(result, {
@@ -536,4 +502,5 @@ module.exports = {
   validateBodyCreateIdCard,
   validateBodyCreatePayment,
   validateBodyCreateBanner,
+  validateBodyUpdateUserProfile,
 }

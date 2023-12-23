@@ -1,5 +1,6 @@
 'use strict'
 
+const config = require('../../config')
 const { hashPassword } = require('../utils/bcryptPassword')
 
 /** @type {import('sequelize-cli').Migration} */
@@ -9,7 +10,7 @@ module.exports = {
       {
         username: 'admin',
         email: 'admin@gmail.com',
-        image_url: process.env.AVATAR_URL_DEFAULT,
+        image_url: config.avatarDefaultUrl,
         image_public_id: 'avatar',
         password: hashPassword('passwordadmin'),
         verified: false,

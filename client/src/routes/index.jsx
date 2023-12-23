@@ -107,6 +107,7 @@ const routes = [
     protected: true,
     component: Reservation,
     adminOnly: false,
+    userOnly: true,
     layout: MainLayout,
   },
   {

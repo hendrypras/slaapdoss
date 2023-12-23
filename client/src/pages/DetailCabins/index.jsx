@@ -51,7 +51,7 @@ const DetailCabins = ({ cabins, loading }) => {
     if (slugCabin) {
       dispatch(getDetailCabins(slugCabin, dateCheckIn.unix, dateCheckout.unix));
     }
-  }, [dispatch, slugCabin]);
+  }, [dispatch, slugCabin, checkIn, duration]);
 
   useEffect(() => {
     const formattedCheckIn = checkIn ? formateDate(checkIn, 'ddd, D MMMM YYYY') : dateCheckIn.display;

@@ -31,10 +31,13 @@
       font-weight: 600;
     }
     .btnCopy {
-      margin-top: 0.3rem;
-      width: 60%;
+      margin-top: 0.5rem;
+      width: 80%;
       font-size: 1.2rem;
-      padding: 0.8rem 0;
+      padding: 0.5rem 0;
+      background-color: transparent;
+      color: $color-green-100;
+      border: 1px solid $color-green-100;
     }
     .boxinterval {
       width: 80%;
@@ -57,6 +60,10 @@
         font-size: 1.2rem;
         font-weight: 700;
       }
+    }
+    .btnContinue {
+      width: 80%;
+      padding: 0.7rem 0;
     }
   }
 

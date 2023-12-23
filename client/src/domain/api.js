@@ -58,7 +58,7 @@ export const uploadIdCard = (data) => callAPI(`${urls.user}/upload/idcard`, 'POS
 export const createIdCard = (data) => callAPI(`${urls.user}/idcard`, 'POST', {}, {}, data);
 export const getDataCredentialUser = () => callAPI(`${urls.user}/credential`, 'GET');
 export const updateUserProfile = (data) =>
-  callAPI(`${urls.user}/update/profile`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, data);
+  callAPI(`${urls.user}/update/profile`, 'PATCH', { 'Content-Type': 'multipart/form-data' }, {}, data);
 
 // Premium account
 
@@ -68,12 +68,9 @@ export const cancelPayment = (orderId) => callAPI(`${urls.payment}/cancel/${orde
 export const getPaymentMethods = () => callAPI(`${urls.payment}/methods`, 'GET');
 export const getOrderSuccess = (orderId) => callAPI(`${urls.order[1]}/success/${orderId}`, 'GET');
 export const getOrdersUser = (orderId, page, limit) => {
-  let url = `${urls.order[0]}`;
+  let url = `${urls.order[0]}?page=${page}&limit=${limit}`;
   if (orderId) {
-    url += `?orderId=${orderId}`;
-  }
-  if (page && limit) {
-    url += `?page=${page}&limit=${limit}`;
+    url += `&orderId=${orderId}&`;
   }
   return callAPI(url, 'GET');
 };
