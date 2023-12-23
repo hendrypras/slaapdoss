@@ -8,6 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import { Close as CloseIcon } from '@mui/icons-material';
 
 import { selectLoading } from '@containers/App/selectors';
+import { showSnackBar } from '@containers/App/actions';
 
 import { createCabin } from '@pages/CreateCabin/actions';
 import { selectPositionSelected } from '@pages/CreateCabin/selectors';
@@ -26,16 +27,17 @@ const CreateCabin = ({ positionSelected, loading }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   const onSubmit = (data) => {
     const formData = new FormData();
-    const { cabin, ...payload } = data;
+
     formData.append('latitude', positionSelected?.lat);
     formData.append('longitude', positionSelected?.lng);
-    Object.entries(payload).forEach(([key, value]) => {
+    Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
     dispatch(
       createCabin(formData, () => {
         method.reset();
         setSelectedImage(null);
+        dispatch(showSnackBar('Cabin created successfully'));
       })
     );
   };
@@ -94,15 +96,6 @@ const CreateCabin = ({ positionSelected, loading }) => {
             title="app_dashboard_create_cabins_title_form_name"
             rules={{
               required: 'Name is required',
-            }}
-          />
-          <InputFormBasic
-            name="description"
-            type="text"
-            placeholder="Enter description of cabin"
-            title="app_dashboard_create_cabins_title_form_description"
-            rules={{
-              required: 'Description is required',
             }}
           />
           <InputFormBasic

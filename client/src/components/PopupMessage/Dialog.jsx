@@ -8,15 +8,16 @@ import classes from './style.module.scss';
 // eslint-disable-next-line arrow-body-style
 const PopupMessage = ({ open, title, message, titleId, messageId, onClose, onOk }) => {
   return (
-    <Dialog open={open} onClose={onClose} PaperProps={{ className: classes.dialogWrapper }}>
-      <div className={classes.title}>
+    <Dialog data-testid="popup-message" open={open} onClose={onClose} PaperProps={{ className: classes.dialogWrapper }}>
+      <div data-testid="titleId" className={classes.title}>
         {!title || titleId ? <FormattedMessage id={titleId || 'app_popup_error_title'} /> : title}
       </div>
-      <div className={classes.message}>
+      <div data-testid="messageId" className={classes.message}>
         {!message || messageId ? <FormattedMessage id={messageId || 'app_popup_error_message'} /> : message}
       </div>
       <div className={classes.wrapperBtn}>
         <button
+          data-testid="button"
           type="button"
           onClick={onClose}
           className={classNames({ [classes.button]: true, [classes.nonActive]: onOk || false })}

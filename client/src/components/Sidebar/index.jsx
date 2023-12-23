@@ -48,11 +48,6 @@ const SideBar = ({ children, userProfile, locale }) => {
             </Link>
           </li>
           <li className={classes.link}>
-            <Link to="/dashboard/list-cabin">
-              <FormattedMessage id="dashboard_list_cabin_head_title" />
-            </Link>
-          </li>
-          <li className={classes.link}>
             <Link to="/dashboard/list-banner">
               <FormattedMessage id="dashboard_list_banner_head_title" />
             </Link>

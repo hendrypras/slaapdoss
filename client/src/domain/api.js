@@ -58,7 +58,7 @@ export const uploadIdCard = (data) => callAPI(`${urls.user}/upload/idcard`, 'POS
 export const createIdCard = (data) => callAPI(`${urls.user}/idcard`, 'POST', {}, {}, data);
 export const getDataCredentialUser = () => callAPI(`${urls.user}/credential`, 'GET');
 export const updateUserProfile = (data) =>
-  callAPI(`${urls.user}/update/profile`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, data);
+  callAPI(`${urls.user}/update/profile`, 'PATCH', { 'Content-Type': 'multipart/form-data' }, {}, data);
 
 // Premium account
 
@@ -68,12 +68,9 @@ export const cancelPayment = (orderId) => callAPI(`${urls.payment}/cancel/${orde
 export const getPaymentMethods = () => callAPI(`${urls.payment}/methods`, 'GET');
 export const getOrderSuccess = (orderId) => callAPI(`${urls.order[1]}/success/${orderId}`, 'GET');
 export const getOrdersUser = (orderId, page, limit) => {
-  let url = `${urls.order[0]}`;
+  let url = `${urls.order[0]}?page=${page}&limit=${limit}`;
   if (orderId) {
-    url += `?orderId=${orderId}`;
-  }
-  if (page && limit) {
-    url += `?page=${page}&limit=${limit}`;
+    url += `&orderId=${orderId}&`;
   }
   return callAPI(url, 'GET');
 };
@@ -91,7 +88,7 @@ export const getOrders = (orderId, page, limit) => {
 
 // cabin
 export const getDetailCabins = (slug, dateStart, dateEnd) =>
-  callAPI(`${urls.cabin[1]}/detail/${slug}?dateStart=${dateStart}&dateEnd=${dateEnd}`, 'GET');
+  callAPI(`${urls.cabin[0]}/detail/${slug}?dateStart=${dateStart}&dateEnd=${dateEnd}`, 'GET');
 export const getCabinsLocation = () => callAPI(`${urls.cabin[1]}/location`, 'GET');
 export const getDetailCabinRoom = (slug, roomId) => callAPI(`${urls.cabin[0]}/room/${slug}/${roomId}`, 'GET');
 export const getTypeRoom = () => callAPI(`${urls.cabin[0]}/type-room`, 'GET');
@@ -104,5 +101,7 @@ export const createTypeRoom = (formData) =>
 // banner
 export const getBanners = () => callAPI(urls.banner[0], 'GET');
 export const getBannersAdmin = () => callAPI(`${urls.banner[0]}/all`, 'GET');
+export const deleteBanner = (bannerId) => callAPI(`${urls.banner[1]}/${bannerId}`, 'DELETE');
+export const updateStatusBanner = (status, bannerId) => callAPI(`${urls.banner[1]}/${status}/${bannerId}`, 'PATCH');
 export const createBanner = (formData) =>
   callAPI(urls.banner[1], 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);

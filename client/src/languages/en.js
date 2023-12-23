@@ -15,18 +15,31 @@ export default {
   app_text_loading_button: 'Loading...',
   app_component_btn_created: 'Create',
   app_back_button_text: 'Back',
+
   app_title_satisfaction: 'Satisfaction on Your Doorstep',
   app_subtitle_satisfaction: 'Get to know more about Slaapdoss and the things we value most.',
+  app_content_satisfaction_title_1: 'Seamless Process',
+  app_content_satisfaction_desc_1:
+    'From data verification, booking, payment, to check-in and many more; everything is integrated in one simple application.',
+  app_content_satisfaction_title_2: 'IoT Digital Room Control',
+  app_content_satisfaction_desc_2:
+    'Personalize your room with our high-tech features: mood lamp, QR door lock, and more through our S-Pad and your phone!',
+  app_content_satisfaction_title_3: 'Safe & Clean Stay',
+  app_content_satisfaction_desc_3:
+    'Two words that best describe us: great hygiene. Rest assured, your comfort and safety are our top priorities.',
+  app_content_satisfaction_title_4: '24-hour Host Support',
+  app_content_satisfaction_desc_4:
+    'Our hosts are always one call away. Simply leave a chat through the DM in our application and let them know what you need.',
+
   app_home_title_perfect_solition: 'Find the Perfect Solution for Your Every Need',
   app_home_sub_title_perfect_solition:
     'From a place to call home in lively cities to exploring Indonesia’s natural beauty, Slaapdoss is prepared to bring you to an adventure with utter comfort no matter where you are.',
   app_home_cabin_head_title: 'Feel the healing touch of mother nature',
   app_home_cabin_sub_title:
     'Escape the hustle and bustle of the city and witness the exotic beauty of Indonesia’s natural wonders at Slaapdoss. Appreciate the breathtaking scenery right from the warmth of your cabin.',
-  app_home_banner_title_1: 'Your private viewpoint to Rinjani from your cabin',
-  app_home_banner_sub_title_1: "A cabin with front-row seats to nature's wonders.",
-  app_home_banner_title_2: 'Make Yourself at Home Wherever You Go',
-  app_home_banner_sub_title_2: 'Seek warmth no matter where you are; be it in the lively cities or out in the woods.',
+  app_home_cabin_head_title_2: 'Your home away from home',
+  app_home_cabin_sub_title_2:
+    'Taking the co-living experience to a new level, Slaapdoss is equipped with our signature high-tech features for maximum comfort. Guaranteed to make you feel at home.',
   app_home_title_location_search_selelct: 'Location',
   app_home_title_placeholder_location_search_selelct: 'Select Location',
   app_home_title_checkin_search_selelct: 'Check-in',
@@ -100,6 +113,9 @@ export default {
   app_user_profile_text_button_save_image_profile: 'Save Image',
   app_user_profile_text_button_history: 'History Orders',
   app_user_profile_text_button_save_image_id_card: 'Edit and Submit',
+
+  aap_reservation_title_complete: 'Reservation Complete',
+  aap_reservation_title_payment_method: 'Payment Method',
   aap_reservation_title_back_btn: 'Back to select cabin',
   app_reservation_order_detail_head_title: 'Order Detail',
   app_reservation_cabin_address_title: 'Cabin Address',
@@ -237,6 +253,8 @@ export default {
 
   app_payment_response_pending_reservation_message: 'Reservation will be processed after you complete the payment',
 
+  app_orders_title_order_id: 'Order ID',
+
   app_dashboard_create_cabins_title_form_name: 'Name',
   app_dashboard_create_cabins_title_form_city: 'City',
   app_dashboard_create_cabins_title_form_description: 'Descrition',
@@ -256,6 +274,8 @@ export default {
   app_detail_cabin_title_checkin_procedur: 'Check-in Procedure',
   app_detail_cabin_title_reschedule_and_cancel: 'Refund, Reschedule, Relocate, and Cancellations',
   app_detail_cabin_title_age_policies: 'Age Policies',
+  app_detail_cabin_text_empty_room:
+    'Sorry, The Room On The Date You Selected Is Not Available. Please Choose Another Date Or Change Location',
 
   app_orders_head_title: 'Orders',
   app_orders_waiting_for_payment_title: 'Waiting For Payment',
@@ -269,6 +289,10 @@ export default {
   dashboard_create_room_head_title: 'Create Room',
   dashboard_create_banner_head_title: 'Create Banner',
   dashboard_list_banner_head_title: 'List Banner',
+  dashboard_list_banner_text_question_delete: 'Are you sure you want to remove this banner?',
+  dashboard_list_banner_text_question_update: 'Are you sure you want to change the status of this banner?',
+  dashboard_list_banner_message_question_update: 'If you change it to Private then users cannot see this banner',
+  dashboard_list_banner_message_question_delete: 'If you have deleted this, it will not be able to be restored',
   dashboard_list_cabin_head_title: 'List Cabin',
   dashboard_list_orders_head_title: 'List Pesanan',
   dashboard_upload_image_title: 'Upload Image',

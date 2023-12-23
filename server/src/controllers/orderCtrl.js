@@ -9,6 +9,7 @@ const {
   IdCard,
 } = require('../models')
 const encryptPayload = require('../utils/encryptPayload')
+const sequelize = require('../configDb/connectDb')
 
 exports.getOrdersUser = async (req, res) => {
   try {
@@ -58,18 +59,35 @@ exports.getOrdersUser = async (req, res) => {
       attributes: {
         exclude: ['createdAt', 'updatedAt'],
       },
-      order: [['createdAt', 'DESC']],
+      order: [
+        [
+          sequelize.literal(
+            "response_payment.transaction_status = 'settlement'"
+          ),
+          'DESC',
+        ],
+        ['createdAt', 'DESC'],
+      ],
       limit: Number(limit),
       offset: (Number(page) - 1) * limit,
     })
-    let results = rows
     if (orderId) {
-      results = rows.slice(0, 1)
+      const foundOrder = count > 0 ? rows[0] : null
+      if (!foundOrder) {
+        return responseError(
+          res,
+          404,
+          'Not Found',
+          'Order with this id not found'
+        )
+      }
+      return responseSuccess(res, 200, 'success', {
+        results: foundOrder,
+        count,
+      })
+    } else {
+      return responseSuccess(res, 200, 'success', { results: rows, count })
     }
-    return responseSuccess(res, 200, 'success', {
-      results,
-      count,
-    })
   } catch (error) {
     return responseError(res, error.status, error.message)
   }
@@ -191,7 +209,7 @@ exports.getOrderSuccess = async (req, res) => {
         `Order with id ${orderId} not found`
       )
     if (response?.user?.id_card) {
-      const encryptedNik = encryptPayload(response.user.id_card.nik)
+      const encryptedNik = encryptPayload(response.user?.id_card?.nik)
       response.user.id_card.nik = encryptedNik
     }
     return responseSuccess(res, 200, 'success', response)

@@ -73,13 +73,18 @@ const ForgotPassword = ({ login, loading, intl: { formatMessage } }) => {
               }}
             />
           </div>
-          <Button isLoading={loading} type="submit">
-            {loading ? (
-              <FormattedMessage id="app_text_loading_button" />
-            ) : (
-              <FormattedMessage id="app_forgot_submit_button_title" />
-            )}
-          </Button>
+          <div className={classes.wrapperBtn}>
+            <Button isLoading={loading} type="submit">
+              {loading ? (
+                <FormattedMessage id="app_text_loading_button" />
+              ) : (
+                <FormattedMessage id="app_forgot_submit_button_title" />
+              )}
+            </Button>
+            <Button type="button" className={classes.btnBack} onClick={() => navigate(-1)}>
+              <FormattedMessage id="app_back_button_text" />
+            </Button>
+          </div>
           <div className={classes.toLogin}>
             <FormattedMessage id="app_sign_up_text_to_login" />
             <Link to="/login">

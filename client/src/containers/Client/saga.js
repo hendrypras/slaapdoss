@@ -13,6 +13,7 @@ import { auth } from '@utils/firebase';
 function* doOAuthGoogle() {
   try {
     const provider = new GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
     const result = yield call(signInWithPopup, auth, provider);
     const firstName = result?._tokenResponse?.firstName;
     const email = result?._tokenResponse?.email;
@@ -48,7 +49,7 @@ function* doUserLogin({ data, cb }) {
     yield put(setLoadingLogin(false));
   }
 }
-function* doLogout() {
+function* doLogout({ cbError }) {
   yield put(setLoading(true));
   try {
     const response = yield call(logout);
@@ -58,6 +59,9 @@ function* doLogout() {
       window.location.href = '/';
     }
   } catch (error) {
+    if (error.response.status === 401) {
+      return cbError();
+    }
     yield put(showPopup(error?.response?.data?.message));
   } finally {
     yield put(setLoading(false));

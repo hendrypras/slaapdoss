@@ -4,8 +4,9 @@ import classNames from 'classnames';
 import classes from './style.module.scss';
 
 /* eslint-disable react/button-has-type */
-const Button = ({ text, title, disabled, className, type, children, onClick, isLoading, ...rest }) => (
+const Button = ({ title, disabled, className, type, children, onClick, isLoading, ...rest }) => (
   <button
+    data-testid="button"
     onClick={onClick}
     disabled={disabled || isLoading}
     className={classNames(
@@ -20,7 +21,6 @@ const Button = ({ text, title, disabled, className, type, children, onClick, isL
 );
 
 Button.propTypes = {
-  text: PropTypes.string,
   title: PropTypes.string,
   type: PropTypes.string,
   children: PropTypes.element,

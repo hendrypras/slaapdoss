@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import icon from '@static/images/not-found.svg';
-import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
+
+import icon from '@static/images/not-found.svg';
 
 import Button from '@components/Button';
 

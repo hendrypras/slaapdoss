@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
-
 import { selectAssets, selectLocale } from '@containers/App/selectors';
 
 import ButtonLang from '@components/ButtonLang';
@@ -17,8 +16,12 @@ const WrapperAuthentication = ({ children, locale, title, assets, subTitle }) =>
           <div key={i} className={classes.card}>
             <img src={val?.icon} alt="icon" className={classes.icon} />
             <div className={classes.wrapperText}>
-              <div className={classes.title}>{val?.title}</div>
-              <div className={classes.description}>{val?.description}</div>
+              <div className={classes.title}>
+                <FormattedMessage id={val?.title} />
+              </div>
+              <div className={classes.description}>
+                <FormattedMessage id={val?.description} />
+              </div>
             </div>
           </div>
         ))}

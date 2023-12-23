@@ -1,6 +1,13 @@
 import { produce } from 'immer';
 
-import { SET_LOCAL, SET_POPUP, SET_LOADING, SET_ASSETS, GET_CURRENT_LOCATION } from '@containers/App/constants';
+import {
+  SET_LOCAL,
+  SET_POPUP,
+  SET_LOADING,
+  SET_ASSETS,
+  GET_CURRENT_LOCATION,
+  SET_SNACKBAR,
+} from '@containers/App/constants';
 
 export const initialState = {
   locale: 'id',
@@ -11,6 +18,10 @@ export const initialState = {
     message: '',
     messageId: '',
     ok: '',
+  },
+  snack: {
+    open: false,
+    message: '',
   },
   loading: false,
   position: { lat: 0, lng: 0 },
@@ -27,6 +38,9 @@ const appReducer = (state = initialState, action) =>
         break;
       case SET_POPUP:
         draft.popup = action.popup;
+        break;
+      case SET_SNACKBAR:
+        draft.snack = action.snack;
         break;
       case SET_LOADING:
         draft.loading = action.loading;

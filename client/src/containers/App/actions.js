@@ -6,6 +6,7 @@ import {
   SET_ASSETS,
   GET_TRANSLATIONS,
   GET_CURRENT_LOCATION,
+  SET_SNACKBAR,
 } from '@containers/App/constants';
 
 export const setLocale = (locale) => ({
@@ -22,6 +23,21 @@ export const showPopup = (title = '', message = '', ok = '', titleId = '', messa
     titleId,
     messageId,
     ok,
+  },
+});
+export const showSnackBar = (message = '') => ({
+  type: SET_SNACKBAR,
+  snack: {
+    open: true,
+    message,
+  },
+});
+
+export const hideSnackBar = () => ({
+  type: SET_SNACKBAR,
+  snack: {
+    open: false,
+    message: '',
   },
 });
 

@@ -64,4 +64,15 @@
       font-weight: 600;
     }
   }
+  .wrapperBtn {
+    @include displayFlex(column, center, center);
+    width: 100%;
+    gap: 1rem;
+    .btnBack {
+      background-color: transparent;
+      border: 2px solid $color-green-100;
+      color: $color-green-100;
+      padding: 0.7rem;
+    }
+  }
 }

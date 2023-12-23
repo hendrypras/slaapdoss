@@ -9,11 +9,33 @@
     margin-top: 3rem;
     gap: 2rem;
     width: 100%;
-    border: 1px solid;
     @include displayFlex(column, center, center);
+    @include screen(xl) {
+      width: 90%;
+      margin: 3rem auto 0 auto;
+    }
+    .titleColumn {
+      font-size: 1.2rem;
+      text-align: center;
+    }
+    .titleDesc {
+      font-size: 1rem;
+    }
     .customImage {
       width: 100%;
       object-fit: contain;
+    }
+    .wrapperBtnAction {
+      width: 100%;
+      @include displayFlex(row, center, center);
+      gap: 1rem;
+      .btnAction {
+        width: max-content;
+        padding: 0.2rem;
+        background-color: transparent;
+        color: red;
+        @include displayFlex(row, center, center);
+      }
     }
   }
 }

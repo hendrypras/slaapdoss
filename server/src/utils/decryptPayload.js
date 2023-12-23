@@ -1,8 +1,8 @@
 const CryptoJS = require('crypto-js')
-
+const config = require('../../config')
 const decryptObjectPayload = token => {
   try {
-    const bytes = CryptoJS.AES.decrypt(token, process.env.TOKEN_PAYLOAD)
+    const bytes = CryptoJS.AES.decrypt(token, config.cryptoSecret)
     return JSON.parse(bytes.toString(CryptoJS.enc.Utf8))
   } catch (error) {
     return null
@@ -10,7 +10,7 @@ const decryptObjectPayload = token => {
 }
 const decryptTextPayload = token => {
   try {
-    const bytes = CryptoJS.AES.decrypt(token, process.env.TOKEN_PAYLOAD)
+    const bytes = CryptoJS.AES.decrypt(token, config.cryptoSecret)
     return bytes.toString(CryptoJS.enc.Utf8)
   } catch (error) {
     return null

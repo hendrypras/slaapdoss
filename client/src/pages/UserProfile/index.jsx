@@ -69,7 +69,11 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
           dispatch(setImageSelected(imageSelected.idCard, event.target.result));
         } else if (type === 'idCard') {
           dispatch(setImageSelected(event.target.result, imageSelected.profile));
-          dispatch(uploadIdCard({ idCardUrl: event.target.result }));
+          dispatch(
+            uploadIdCard({ idCardUrl: event.target.result }, () => {
+              dispatch(setImageSelected(null, imageSelected.profile));
+            })
+          );
         }
       };
       reader.readAsDataURL(file);
@@ -231,7 +235,7 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                     </Button>
                   )}
                   {isTablet ? (
-                    <ModalPopUp height="60vh" open={open.popUp} onClose={() => handleOpen('popUp')}>
+                    <ModalPopUp height="max-content" open={open.popUp} onClose={() => handleOpen('popUp')}>
                       <IdCard
                         dataIdCard={dataIdCard}
                         dataUser={dataUser}
