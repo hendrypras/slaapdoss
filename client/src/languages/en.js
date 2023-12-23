@@ -15,18 +15,31 @@ export default {
   app_text_loading_button: 'Loading...',
   app_component_btn_created: 'Create',
   app_back_button_text: 'Back',
+
   app_title_satisfaction: 'Satisfaction on Your Doorstep',
   app_subtitle_satisfaction: 'Get to know more about Slaapdoss and the things we value most.',
+  app_content_satisfaction_title_1: 'Seamless Process',
+  app_content_satisfaction_desc_1:
+    'From data verification, booking, payment, to check-in and many more; everything is integrated in one simple application.',
+  app_content_satisfaction_title_2: 'IoT Digital Room Control',
+  app_content_satisfaction_desc_2:
+    'Personalize your room with our high-tech features: mood lamp, QR door lock, and more through our S-Pad and your phone!',
+  app_content_satisfaction_title_3: 'Safe & Clean Stay',
+  app_content_satisfaction_desc_3:
+    'Two words that best describe us: great hygiene. Rest assured, your comfort and safety are our top priorities.',
+  app_content_satisfaction_title_4: '24-hour Host Support',
+  app_content_satisfaction_desc_4:
+    'Our hosts are always one call away. Simply leave a chat through the DM in our application and let them know what you need.',
+
   app_home_title_perfect_solition: 'Find the Perfect Solution for Your Every Need',
   app_home_sub_title_perfect_solition:
     'From a place to call home in lively cities to exploring Indonesia’s natural beauty, Slaapdoss is prepared to bring you to an adventure with utter comfort no matter where you are.',
   app_home_cabin_head_title: 'Feel the healing touch of mother nature',
   app_home_cabin_sub_title:
     'Escape the hustle and bustle of the city and witness the exotic beauty of Indonesia’s natural wonders at Slaapdoss. Appreciate the breathtaking scenery right from the warmth of your cabin.',
-  app_home_banner_title_1: 'Your private viewpoint to Rinjani from your cabin',
-  app_home_banner_sub_title_1: "A cabin with front-row seats to nature's wonders.",
-  app_home_banner_title_2: 'Make Yourself at Home Wherever You Go',
-  app_home_banner_sub_title_2: 'Seek warmth no matter where you are; be it in the lively cities or out in the woods.',
+  app_home_cabin_head_title_2: 'Your home away from home',
+  app_home_cabin_sub_title_2:
+    'Taking the co-living experience to a new level, Slaapdoss is equipped with our signature high-tech features for maximum comfort. Guaranteed to make you feel at home.',
   app_home_title_location_search_selelct: 'Location',
   app_home_title_placeholder_location_search_selelct: 'Select Location',
   app_home_title_checkin_search_selelct: 'Check-in',

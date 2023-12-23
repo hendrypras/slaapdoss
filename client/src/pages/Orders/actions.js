@@ -6,11 +6,12 @@ import {
   SET_ORDER_SUCCESS,
 } from '@pages/Orders/constants';
 
-export const getOrdersUser = (orderId, page, limit) => ({
+export const getOrdersUser = (orderId, page, limit, cbError) => ({
   type: GET_ORDERS_USER,
   orderId,
   page,
   limit,
+  cbError,
 });
 export const setOrdersUser = (orders) => ({
   type: SET_ORDERS_USER,

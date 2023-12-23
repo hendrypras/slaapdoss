@@ -7,7 +7,9 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControlLabel, Switch, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
 import { useState, useEffect } from 'react';
+
 import { selectLoading } from '@containers/App/selectors';
+import { showSnackBar } from '@containers/App/actions';
 
 import { createTypeRoom } from '@pages/CreateTypeRoom/actions';
 import { getCabinsLocation } from '@pages/DetailCabins/actions';
@@ -35,6 +37,7 @@ const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
       createTypeRoom(formData, () => {
         method.reset();
         setSelectedImage(null);
+        dispatch(showSnackBar('Type Room created successfully'));
       })
     );
   };
@@ -89,16 +92,33 @@ const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
             </div>
           )}
 
-          <InputFormBasic
-            name="name"
-            defaultValue={method.getValues('name')}
-            type="text"
-            placeholder="Enter name"
-            title="dashboard_create_type_room_title_input_name"
-            rules={{
-              required: 'Name is required',
-            }}
-          />
+          <FormControl sx={{ m: 1, width: '100%' }}>
+            <InputLabel id="select-type-cabin">Name</InputLabel>
+            <Controller
+              name="name"
+              control={method.control}
+              defaultValue=""
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  labelId="select-type-cabin"
+                  label="Cabin"
+                  required
+                  onChange={(e) => {
+                    field.onChange(e);
+                    method.setValue('name', e.target.value);
+                  }}
+                >
+                  <MenuItem value="">
+                    <em>none</em>
+                  </MenuItem>
+                  <MenuItem value="standard cabin">Standard Cabin</MenuItem>
+                  <MenuItem value="deluxe cabin">Deluxe Cabin</MenuItem>
+                  <MenuItem value="executive cabin">Executive Cabin</MenuItem>
+                </Select>
+              )}
+            />
+          </FormControl>
           <InputFormBasic
             name="information"
             type="text"
@@ -152,8 +172,8 @@ const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
                 <Select
                   {...field}
                   labelId="select-sabin"
-                  autoWidth
                   label="Cabin"
+                  required
                   onChange={(e) => {
                     field.onChange(e);
                     method.setValue('cabinsSlug', e.target.value);
@@ -162,8 +182,8 @@ const CreateCabin = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
                   <MenuItem value="">
                     <em>none</em>
                   </MenuItem>
-                  {cabinsLocation.map((cabin, index) => (
-                    <MenuItem key={index} value={cabin.slug}>
+                  {cabinsLocation.map((cabin) => (
+                    <MenuItem key={cabin?.id} value={cabin.slug}>
                       {cabin.slug}
                     </MenuItem>
                   ))}

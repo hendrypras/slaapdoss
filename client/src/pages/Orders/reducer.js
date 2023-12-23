@@ -3,7 +3,7 @@ import { produce } from 'immer';
 import { SET_ORDERS_USER, SET_ORDER_SUCCESS } from '@pages/Orders/constants';
 
 export const initialState = {
-  orders: {},
+  orders: null,
   orderSuccess: {},
 };
 

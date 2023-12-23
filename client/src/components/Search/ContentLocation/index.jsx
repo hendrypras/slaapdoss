@@ -37,7 +37,7 @@ const ContentLocation = ({ cabinsLocation, onClose, searchValue }) => {
       <div className={classes.wrapperLocation}>
         {formattedData.map((cityData, i) => (
           <React.Fragment key={i}>
-            <HeadTitle className={classes.titleCity} title={cityData.city} />
+            <HeadTitle className={classes.titleCity} title={cityData?.city} />
             <div className={classes.wrapperNames}>
               {cityData.names.map((val, index) => (
                 <Button
@@ -47,7 +47,7 @@ const ContentLocation = ({ cabinsLocation, onClose, searchValue }) => {
                   })}
                   to="/"
                   key={index}
-                  title={val.name}
+                  title={val?.name}
                   onClick={() => handleSetSearchValue({ display: `${val.name},${cityData.city}`, value: val.slug })}
                 />
               ))}

@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { createStructuredSelector } from 'reselect';
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
@@ -16,7 +17,6 @@ import { getCabinsLocation } from '@pages/DetailCabins/actions';
 import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
 import { getBanners } from '@pages/Home/actions';
 
-import classNames from 'classnames';
 import classes from './style.module.scss';
 
 const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
@@ -73,8 +73,12 @@ const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
             <div key={i} className={classes.card}>
               <img src={val?.icon} alt="icon" className={classes.icon} />
               <div className={classes.wrapperText}>
-                <div className={classes.title}>{val?.title}</div>
-                <div className={classes.description}>{val?.description}</div>
+                <div className={classes.title}>
+                  <FormattedMessage id={val?.title} />
+                </div>
+                <div className={classes.description}>
+                  <FormattedMessage id={val?.description} />
+                </div>
               </div>
             </div>
           ))}

@@ -4,25 +4,36 @@ import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useLocation } from 'react-router-dom';
 
-import { getAssets, getCurrentLocation, getTranslations, hidePopup, showPopup } from '@containers/App/actions';
-import { selectPopup, selectLoading } from '@containers/App/selectors';
+import {
+  getAssets,
+  getCurrentLocation,
+  getTranslations,
+  hidePopup,
+  hideSnackBar,
+  showPopup,
+} from '@containers/App/actions';
+import { selectPopup, selectLoading, selectSnackBar } from '@containers/App/selectors';
 import { selectLogin, selectToken } from '@containers/Client/selectors';
 import { setLogout } from '@containers/Client/actions';
 
 import Loader from '@components/Loader';
 import ClientRoutes from '@components/ClientRoutes';
 import PopupMessage from '@components/PopupMessage/Dialog';
+import SnackBar from '@components/SnackBar';
 
 import decryptToken from '@utils/decryptToken';
 
 import { getUserProfile } from '@pages/UserProfile/actions';
 import { selectUserProfile } from '@pages/UserProfile/selectors';
 
-const App = ({ popup, loading, login, token, userProfile }) => {
+const App = ({ popup, loading, login, token, userProfile, snackBar }) => {
   const dispatch = useDispatch();
   const decoded = decryptToken(token);
   const closePopup = () => {
     dispatch(hidePopup());
+  };
+  const closeSnackBar = () => {
+    dispatch(hideSnackBar());
   };
   const { pathname } = useLocation();
   useEffect(() => {
@@ -73,6 +84,7 @@ const App = ({ popup, loading, login, token, userProfile }) => {
         titleId={popup.titleId}
         messageId={popup.messageId}
       />
+      <SnackBar open={snackBar.open} handleClose={closeSnackBar} message={snackBar.message} />
     </>
   );
 };
@@ -86,6 +98,10 @@ App.propTypes = {
     messageId: PropTypes.string,
     ok: PropTypes.string,
   }),
+  snackBar: PropTypes.shape({
+    open: PropTypes.bool,
+    message: PropTypes.string,
+  }),
   loading: PropTypes.bool,
   login: PropTypes.bool,
   token: PropTypes.string,
@@ -98,6 +114,7 @@ const mapStateToProps = createStructuredSelector({
   token: selectToken,
   loading: selectLoading,
   userProfile: selectUserProfile,
+  snackBar: selectSnackBar,
 });
 
 export default connect(mapStateToProps)(App);

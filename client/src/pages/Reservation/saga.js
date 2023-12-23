@@ -6,7 +6,7 @@ import { CREATE_PAYMENT_RESERVATION } from '@pages/Reservation/constants';
 
 import { showPopup, setLoading } from '@containers/App/actions';
 
-function* doCreatePayment({ data, cbSuccess }) {
+function* doCreatePayment({ data, cbSuccess, cbErr }) {
   yield put(setLoading(true));
   try {
     const response = yield call(requestPayment, data);
@@ -14,6 +14,9 @@ function* doCreatePayment({ data, cbSuccess }) {
       cbSuccess(response?.data?.order_id);
     }
   } catch (error) {
+    if (error.response.status === 406) {
+      cbErr();
+    }
     yield put(showPopup(error.response.data.message));
   } finally {
     yield put(setLoading(false));

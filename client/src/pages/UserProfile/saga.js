@@ -31,7 +31,7 @@ function* doGetUserProfile() {
     yield put(setLoadingUserProfile(false));
   }
 }
-function* doUploadIdCard({ imageUrl }) {
+function* doUploadIdCard({ imageUrl, cbError }) {
   yield put(setLoading(true));
   try {
     const response = yield call(uploadIdCard, imageUrl);
@@ -39,6 +39,7 @@ function* doUploadIdCard({ imageUrl }) {
       yield put(setDataIdCard(response?.data));
     }
   } catch (error) {
+    cbError();
     yield put(showPopup(error?.response?.data?.message));
   } finally {
     yield put(setLoading(false));

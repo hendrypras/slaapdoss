@@ -23,7 +23,7 @@ const HeadTitle = ({ children, title, className, size = 15 }) => {
   };
 
   return (
-    <div className={classNames(classes.text, className)} style={textStyle}>
+    <div data-testid="head-title" className={classNames(classes.text, className)} style={textStyle}>
       {title || children}
     </div>
   );

@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 const DrawerMobile = ({ open, onClose, height = '100vh', padding = '0 1rem', display, children }) => (
   <Drawer
+    data-testid="drawer-mobile"
     sx={{
       height: '100vh',
       width: '100%',
@@ -22,6 +23,7 @@ const DrawerMobile = ({ open, onClose, height = '100vh', padding = '0 1rem', dis
   >
     <button
       type="button"
+      data-testid="button-close"
       onClick={onClose}
       aria-label="button-close"
       style={{

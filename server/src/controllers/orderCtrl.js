@@ -9,7 +9,7 @@ const {
   IdCard,
 } = require('../models')
 const encryptPayload = require('../utils/encryptPayload')
-const sequelize = require('../config/connectDb')
+const sequelize = require('../configDb/connectDb')
 
 exports.getOrdersUser = async (req, res) => {
   try {
@@ -71,14 +71,23 @@ exports.getOrdersUser = async (req, res) => {
       limit: Number(limit),
       offset: (Number(page) - 1) * limit,
     })
-    let results = rows
     if (orderId) {
-      results = rows[0]
+      const foundOrder = count > 0 ? rows[0] : null
+      if (!foundOrder) {
+        return responseError(
+          res,
+          404,
+          'Not Found',
+          'Order with this id not found'
+        )
+      }
+      return responseSuccess(res, 200, 'success', {
+        results: foundOrder,
+        count,
+      })
+    } else {
+      return responseSuccess(res, 200, 'success', { results: rows, count })
     }
-    return responseSuccess(res, 200, 'success', {
-      results,
-      count,
-    })
   } catch (error) {
     return responseError(res, error.status, error.message)
   }

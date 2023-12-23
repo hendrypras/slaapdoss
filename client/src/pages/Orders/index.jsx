@@ -28,11 +28,11 @@ const Orders = ({ orders, loadingGlobal }) => {
 
   const queryParams = new URLSearchParams(location.search);
   const page = parseInt(queryParams.get('page'), 10) || 1;
-  const limit = parseInt(queryParams.get('limit'), 10) || 2;
+  const limit = parseInt(queryParams.get('limit'), 10) || 18;
   const handlePaginationChange = (e, newPage) => {
     e.preventDefault();
     queryParams.set('page', newPage);
-    queryParams.set('limit', 2);
+    queryParams.set('limit', 18);
     navigate(`${location.pathname}?${queryParams.toString()}`);
   };
   useEffect(() => {
@@ -42,7 +42,7 @@ const Orders = ({ orders, loadingGlobal }) => {
   const handleCancelTransaction = (orderId) => {
     dispatch(
       cancelTransaction(orderId, () => {
-        dispatch(getOrdersUser());
+        dispatch(getOrdersUser(null, page, limit));
       })
     );
   };
