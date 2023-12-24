@@ -61,13 +61,18 @@ exports.getOrdersUser = async (req, res) => {
       },
       order: [
         [
-          sequelize.literal(
-            "response_payment.transaction_status = 'settlement'"
-          ),
-          'DESC',
+          sequelize.literal(`
+            CASE 
+              WHEN response_payment.transaction_status = 'pending' THEN 1
+              WHEN response_payment.transaction_status = 'settlement' THEN 2
+              ELSE 3
+            END
+          `),
+          'ASC',
         ],
         ['createdAt', 'DESC'],
       ],
+
       limit: Number(limit),
       offset: (Number(page) - 1) * limit,
     })
@@ -138,12 +143,9 @@ exports.getOrders = async (req, res) => {
       limit: Number(limit),
       offset: (Number(page) - 1) * limit,
     })
-    let results = rows
-    if (orderId) {
-      results = rows.slice(0, 1)
-    }
+
     return responseSuccess(res, 200, 'success', {
-      results,
+      results: rows,
       count,
     })
   } catch (error) {

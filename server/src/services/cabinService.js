@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 const isDateRangeOverlap = (start, end, dateStart, dateEnd) => {
   return (
     (start === parseInt(dateStart) && end === parseInt(dateEnd)) ||
@@ -70,9 +72,15 @@ const modifiedResponseDetailRoomCabin = detailData => {
   }
 }
 
+const getCurrentDate = () => {
+  const currDate = moment()
+  currDate.set({ hour: 14, minute: 0, second: 0, millisecond: 0 })
+  return currDate.valueOf()
+}
 module.exports = {
   isDateRangeOverlap,
   filterRoomsByDateRange,
   groupCabinRoomsByType,
   modifiedResponseDetailRoomCabin,
+  getCurrentDate,
 }

@@ -75,13 +75,10 @@ export const getOrdersUser = (orderId, page, limit) => {
   return callAPI(url, 'GET');
 };
 
-export const getOrders = (orderId, page, limit) => {
-  let url = `${urls.order[0]}/all`;
+export const getOrders = (orderId, page = 1, limit = 18) => {
+  let url = `${urls.order[0]}/all?page=${page}&limit=${limit}`;
   if (orderId) {
-    url += `?orderId=${orderId}`;
-  }
-  if (page && limit) {
-    url += `?page=${page}&limit=${limit}`;
+    url += `&orderId=${orderId}`;
   }
   return callAPI(url, 'GET');
 };

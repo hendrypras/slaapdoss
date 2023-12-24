@@ -17,7 +17,9 @@ const {
   filterRoomsByDateRange,
   groupCabinRoomsByType,
   modifiedResponseDetailRoomCabin,
+  getCurrentDate,
 } = require('../services/cabinService')
+const moment = require('moment')
 
 exports.createCabin = async (req, res) => {
   let imageResult
@@ -193,6 +195,19 @@ exports.getCabinBySlug = async (req, res) => {
   try {
     const { dateStart, dateEnd } = req.query
     const { slug } = req.params
+    const currentDate = getCurrentDate()
+
+    if (
+      parseInt(dateEnd, 10) <= parseInt(dateStart, 10) ||
+      parseInt(dateStart, 10) < currentDate
+    )
+      return responseError(
+        res,
+        409,
+        'Conflict',
+        'End reservation date should not be earlier than start reservation date'
+      )
+
     const cabinInformationJson = path.join(
       __dirname,
       '../../database/cabinInformation.json'

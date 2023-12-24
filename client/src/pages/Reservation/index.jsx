@@ -87,8 +87,12 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoo
         (orderId) => {
           navigate(`/payment/pending/${orderId}`);
         },
-        () => {
-          navigate(`/user/profile`);
+        (code) => {
+          if (code === 406) {
+            navigate(`/user/profile`);
+          } else if (code === 409) {
+            navigate(`/`);
+          }
         }
       )
     );

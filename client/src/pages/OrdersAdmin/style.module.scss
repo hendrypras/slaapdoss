@@ -13,5 +13,40 @@
       width: 80%;
       @include displayFlex(column, center, start);
     }
+    .wrapperSearchById {
+      width: 90%;
+      .formSearch {
+        width: 100%;
+        @include displayFlex(row);
+        height: 2rem;
+        margin-top: 0.5rem;
+        @include screen(sm) {
+          width: 60%;
+        }
+        @include screen(md) {
+          width: 40%;
+        }
+        @include screen(lg) {
+          width: 30%;
+        }
+        @include screen(xl) {
+          width: 20%;
+        }
+        .input {
+          height: 100%;
+          border: 2px solid $color-green-100;
+          padding: 0 0.5rem;
+          outline: none;
+          width: 100%;
+        }
+        .btnSubmit {
+          width: max-content;
+          height: 100%;
+          padding: 0 0.5rem;
+          font-size: 0.8rem;
+          border-radius: 0;
+        }
+      }
+    }
   }
 }
