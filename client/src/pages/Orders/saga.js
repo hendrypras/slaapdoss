@@ -1,11 +1,11 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import { cancelPayment, getOrderSuccess, getOrdersUser } from '@domain/api';
+import { cancelPayment, getDetailOrder, getOrdersUser } from '@domain/api';
 
 import { showPopup, setLoading as setLoadingGlobal } from '@containers/App/actions';
 
 import { CANCEL_TRANSCACTION, GET_ORDERS_USER, GET_ORDER_SUCCESS } from '@pages/Orders/constants';
-import { setOrdersUser, setOrderSuccess } from '@pages/Orders/actions';
+import { setOrdersUser, setOrderDetail } from '@pages/Orders/actions';
 
 function* doGetordersUser({ orderId, page, limit, cbError }) {
   yield put(setLoadingGlobal(true));
@@ -36,15 +36,16 @@ function* doCancelTransaction({ orderId, cbSuccess }) {
     yield put(setLoadingGlobal(false));
   }
 }
-function* doGetOrderSuccess({ orderId, cbError }) {
+function* doGetDetailOrder({ orderId, cbSuccess, cbError }) {
   yield put(setLoadingGlobal(true));
   try {
-    const response = yield call(getOrderSuccess, orderId);
+    const response = yield call(getDetailOrder, orderId);
     if (response) {
-      yield put(setOrderSuccess(response.data));
+      yield put(setOrderDetail(response.data));
+      cbSuccess && cbSuccess();
     }
   } catch (error) {
-    if (error.response.status === 404) {
+    if (error.response.status === 404 && cbError) {
       return cbError();
     }
     yield put(showPopup(error.response.data.message));
@@ -56,5 +57,5 @@ function* doGetOrderSuccess({ orderId, cbError }) {
 export default function* ordersSaga() {
   yield takeLatest(GET_ORDERS_USER, doGetordersUser);
   yield takeLatest(CANCEL_TRANSCACTION, doCancelTransaction);
-  yield takeLatest(GET_ORDER_SUCCESS, doGetOrderSuccess);
+  yield takeLatest(GET_ORDER_SUCCESS, doGetDetailOrder);
 }

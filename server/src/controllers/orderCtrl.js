@@ -24,7 +24,7 @@ exports.getOrdersUser = async (req, res) => {
         {
           model: Users,
           as: 'user',
-          attributes: ['id', 'username', 'image_url'],
+          attributes: ['username'],
         },
         {
           model: Rooms,
@@ -152,7 +152,7 @@ exports.getOrders = async (req, res) => {
     return responseError(res, error.status, error.message)
   }
 }
-exports.getOrderSuccess = async (req, res) => {
+exports.getOrderDetail = async (req, res) => {
   try {
     const { orderId } = req.params
     const response = await Orders.findOne({
@@ -164,7 +164,7 @@ exports.getOrderSuccess = async (req, res) => {
         {
           model: Users,
           as: 'user',
-          attributes: ['email'],
+          attributes: ['email', 'username'],
           include: [
             {
               model: IdCard,
@@ -186,20 +186,23 @@ exports.getOrderSuccess = async (req, res) => {
             {
               model: TypeRoom,
               as: 'type_room',
-              attributes: ['name'],
+              attributes: [
+                'name',
+                'capacity',
+                'price',
+                'information',
+                'image_url',
+                'breakfast',
+              ],
             },
           ],
         },
         {
           model: ResponsePayments,
           as: 'response_payment',
-          where: { transaction_status: 'settlement' },
-          attributes: [
-            'transaction_status',
-            'payment_type',
-            'bank',
-            'order_id',
-          ],
+          attributes: {
+            exclude: ['createdAt', 'updatedAt'],
+          },
         },
       ],
     })

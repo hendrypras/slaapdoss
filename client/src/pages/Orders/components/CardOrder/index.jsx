@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import {
   RoomOutlined as RoomOutlinedIcon,
@@ -7,20 +8,16 @@ import {
   RequestQuoteOutlined as RequestQuoteOutlinedIcon,
 } from '@mui/icons-material';
 
-import { useNavigate } from 'react-router-dom';
-
 import HeadTitle from '@components/HeadTitle';
 import SubHeadTitle from '@components/SubHeadTitle';
 import Button from '@components/Button';
+
 import formateDate from '@utils/formateDate';
 import formatCurrency from '@utils/formatCurrency';
 
-import classNames from 'classnames';
 import classes from './style.module.scss';
 
-const CardOrder = ({ orderDetail, cancelTransaction, loadingGlobal }) => {
-  const navigate = useNavigate();
-
+const CardOrder = ({ orderDetail, cancelTransaction, loadingGlobal, handleOrderDetail }) => {
   const room = orderDetail?.room;
   const startReservation = formateDate(parseInt(orderDetail?.start_reservation, 10), 'DD MMM YYYY');
   const endReservation = formateDate(parseInt(orderDetail?.end_reservation, 10), 'DD MMM YYYY');
@@ -29,9 +26,7 @@ const CardOrder = ({ orderDetail, cancelTransaction, loadingGlobal }) => {
   if (orderDetail?.response_payment?.transaction_status === 'settlement') {
     statusOrder = 'Completed';
   }
-  const handleContinuePayment = () => {
-    navigate(`/payment/pending/${orderDetail?.order_id}`);
-  };
+
   return (
     <div className={classes.card}>
       <div className={classes.wrapperHead}>
@@ -84,7 +79,7 @@ const CardOrder = ({ orderDetail, cancelTransaction, loadingGlobal }) => {
             <FormattedMessage id="app_orders_waiting_for_payment_title" />
           </div>
           <div className={classes.wrapperBtnPending}>
-            <Button onClick={handleContinuePayment} type="button">
+            <Button onClick={(e) => handleOrderDetail(e, 'pending')} type="button">
               <FormattedMessage id="app_orders_text_button_continue_payment" />
             </Button>
             <Button
@@ -102,7 +97,7 @@ const CardOrder = ({ orderDetail, cancelTransaction, loadingGlobal }) => {
         <div className={classes.wrapperBtnSuccess}>
           <Button
             type="button"
-            onClick={() => navigate(`/order/success/${orderDetail?.order_id}`)}
+            onClick={(e) => handleOrderDetail(e, 'settlement')}
             className={classes.btnSuccess}
             title="Detail"
           />
@@ -116,6 +111,7 @@ CardOrder.propTypes = {
   orderDetail: PropTypes.object,
   cancelTransaction: PropTypes.func,
   loadingGlobal: PropTypes.bool,
+  handleOrderDetail: PropTypes.func,
 };
 
 export default CardOrder;

@@ -4,13 +4,13 @@ const { isUser, isAdmin } = require('../middleware/authorization')
 const {
   getOrdersUser,
   getOrders,
-  getOrderSuccess,
+  getOrderDetail,
 } = require('../controllers/orderCtrl')
 
 const router = express.Router()
 
 router.get('/orders', Authenticated, isUser, getOrdersUser)
-router.get('/order/success/:orderId', Authenticated, isUser, getOrderSuccess)
+router.get('/order/:orderId', Authenticated, isUser, getOrderDetail)
 router.get('/orders/all', Authenticated, isAdmin, getOrders)
 
 module.exports = router

@@ -66,7 +66,7 @@ export const updateUserProfile = (data) =>
 export const requestPayment = (data) => callAPI(urls.payment, 'POST', {}, {}, data);
 export const cancelPayment = (orderId) => callAPI(`${urls.payment}/cancel/${orderId}`, 'POST');
 export const getPaymentMethods = () => callAPI(`${urls.payment}/methods`, 'GET');
-export const getOrderSuccess = (orderId) => callAPI(`${urls.order[1]}/success/${orderId}`, 'GET');
+export const getDetailOrder = (orderId) => callAPI(`${urls.order[1]}/${orderId}`, 'GET');
 export const getOrdersUser = (orderId, page, limit) => {
   let url = `${urls.order[0]}?page=${page}&limit=${limit}`;
   if (orderId) {

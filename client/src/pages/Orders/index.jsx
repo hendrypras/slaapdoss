@@ -17,7 +17,7 @@ import { selectLoading as selectLoadingGlobal } from '@containers/App/selectors'
 
 import CardOrder from '@pages/Orders/components/CardOrder';
 import { selectOrders } from '@pages/Orders/selectors';
-import { cancelTransaction, getOrdersUser } from '@pages/Orders/actions';
+import { cancelTransaction, getDetailOrder, getOrdersUser } from '@pages/Orders/actions';
 
 import classes from './style.module.scss';
 
@@ -46,7 +46,20 @@ const Orders = ({ orders, loadingGlobal }) => {
       })
     );
   };
-
+  const handleOrderDetail = (e, status, orderId) => {
+    e.preventDefault();
+    dispatch(
+      getDetailOrder(
+        orderId,
+        () => {
+          navigate(`/payment/${status}/${orderId}`);
+        },
+        () => {
+          navigate('/notfound');
+        }
+      )
+    );
+  };
   return (
     <Container className={classes.wrapper}>
       <>
@@ -59,6 +72,7 @@ const Orders = ({ orders, loadingGlobal }) => {
               <CardOrder
                 key={i}
                 loadingGlobal={loadingGlobal}
+                handleOrderDetail={(e, status) => handleOrderDetail(e, status, val?.order_id)}
                 cancelTransaction={(orderId) => handleCancelTransaction(orderId)}
                 orderDetail={val}
               />
