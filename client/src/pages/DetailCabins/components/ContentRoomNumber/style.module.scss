@@ -10,10 +10,14 @@
   .wrapperBtn {
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(4, max-content);
     justify-content: start;
     gap: 1.4rem;
     margin-top: 2rem;
+    grid-template-columns: repeat(6, max-content);
+    align-items: center;
+    @include screen(lg) {
+      grid-template-columns: repeat(4, max-content);
+    }
     .btnRoomNumber {
       background-color: transparent;
       padding: 0.5rem 0.8rem;

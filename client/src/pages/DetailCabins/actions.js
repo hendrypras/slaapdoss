@@ -8,12 +8,13 @@ import {
   SET_LOADING,
 } from '@pages/DetailCabins/constants';
 
-export const getDetailCabins = (slug, dateStart, dateEnd, cbSuccess) => ({
+export const getDetailCabins = (slug, dateStart, dateEnd, cbSuccess, cbError) => ({
   type: GET_DETAIL_CABINS,
   slug,
   dateStart,
   dateEnd,
   cbSuccess,
+  cbError,
 });
 
 export const setDetailCabin = (cabins) => ({

@@ -1,164 +1,87 @@
 import PropTypes from 'prop-types';
-import Countdown from 'react-countdown';
-import { FormattedMessage } from 'react-intl';
 import { useEffect } from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
-import { Divider } from '@mui/material';
 
-import Container from '@components/Container';
-import HeadTitle from '@components/HeadTitle';
-import SubHeadTitle from '@components/SubHeadTitle';
-import Button from '@components/Button';
-
-import copyTextToClipboadrd from '@utils/copyTextToClipboadrd';
 import formateDate from '@utils/formateDate';
 
-import { selectOrders } from '@pages/Orders/selectors';
-import { getOrdersUser } from '@pages/Orders/actions';
+import { selectOrderDetail } from '@pages/Orders/selectors';
+import { getDetailOrder } from '@pages/Orders/actions';
+import OrderPending from '@pages/PaymentResponse/components/OrderPending';
+import OrderSuccess from '@pages/PaymentResponse/components/OrderSuccess';
 
 import formatCurrency from '@utils/formatCurrency';
 import { calculateDurationInDays } from '@utils/times';
-import classes from './style.module.scss';
+import { decryptTextPayload } from '@utils/decryptPayload';
 
-const PaymentResponse = ({ orders }) => {
+const PaymentResponse = ({ orderDetail }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const { orderId, status } = useParams();
-  const responsePayment = orders?.results?.response_payment;
-  const detailCabin = orders?.results?.room;
+
+  const responsePayment = orderDetail?.response_payment;
+  const detailCabin = orderDetail?.room;
   const VAnumber = responsePayment?.va_numbers?.length
     ? responsePayment?.va_numbers[0]?.va_number
     : responsePayment?.va_number;
-  const startReservation = parseInt(orders?.results?.start_reservation, 10);
-  const endReservation = parseInt(orders?.results?.end_reservation, 10);
+  const startReservation = parseInt(orderDetail?.start_reservation, 10);
+  const endReservation = parseInt(orderDetail?.end_reservation, 10);
   const stayDuration = calculateDurationInDays(startReservation, endReservation);
+  const startDateFormated = formateDate(startReservation, 'HH:mm - DD MMM YYYY');
+  const endDateFormated = formateDate(endReservation, 'HH:mm - DD MMM YYYY');
+  const totalPrice = formatCurrency(Number(orderDetail?.total_price));
+  const expiryDateFormated = formateDate(parseInt(responsePayment?.expiry_time, 10), 'DD MMMM YYYY, hh:mm');
+  const nikDecode = decryptTextPayload(orderDetail?.user?.id_card?.nik);
+
   useEffect(() => {
-    if (orderId && status) {
+    if (orderId && status && !orderDetail) {
       dispatch(
-        getOrdersUser(orderId, 1, 1, () => {
+        getDetailOrder(orderId, null, () => {
           navigate('/notfound');
         })
       );
     }
   }, [dispatch, status, orderId, navigate]);
-
   useEffect(() => {
-    if (responsePayment && responsePayment?.transaction_status !== 'pending') {
+    if (status && responsePayment && responsePayment?.transaction_status !== status) {
       navigate('/notfound');
     }
-  }, [responsePayment, navigate]);
+  }, [responsePayment, navigate, status]);
 
-  return (
-    <Container className={classes.wrapper}>
-      <>
-        <div className={classes.wrapperCountdown}>
-          <HeadTitle size={20} className={classes.title}>
-            <FormattedMessage id="app_payment_response_pending_reservation_message" />
-          </HeadTitle>
-          <div className={classes.titleAccountNumber}>Account Number</div>
-          <div className={classes.noVa}>{VAnumber}</div>
-          <Button onClick={() => copyTextToClipboadrd(VAnumber)} className={classes.btnCopy}>
-            <FormattedMessage id="app_response_payment_title_button_copy_va" />
-          </Button>
-          <div className={classes.boxinterval}>
-            {responsePayment && (
-              <Countdown
-                date={responsePayment?.expiry_time || 0}
-                renderer={({ hours, minutes, seconds, completed }) => {
-                  if (completed) {
-                    navigate('/user/orders');
-                  }
-                  return (
-                    <div className={classes.countdownTime}>
-                      {hours} : {minutes} : {seconds}
-                    </div>
-                  );
-                }}
-              />
-            )}
-            <div className={classes.titlePayBefore}>
-              <FormattedMessage id="app_response_payment_pay_in" />
-            </div>
-            <div className={classes.expiry_date}>
-              {formateDate(parseInt(responsePayment?.expiry_time, 10), 'DD MMMM YYYY, hh:mm')}
-            </div>
-          </div>
-          <Button onClick={() => navigate('/user/orders')} type="button" className={classes.btnContinue}>
-            <FormattedMessage id="app_response_payment_button_continue" />
-          </Button>
-        </div>
-
-        <div className={classes.wrapperOrderDetail}>
-          <div className={classes.wrapperOrderid}>
-            <div className={classes.titleValue}>Order Id</div>
-            <div className={classes.value}>{responsePayment?.order_id}</div>
-          </div>
-          <Divider className={classes.divider} />
-          <div className={classes.roomName}>{orders?.results?.room?.name}</div>
-          <div className={classes.wrapperTime}>
-            <div className={classes.wrapperContent}>
-              <div className={classes.titleContent}>
-                <FormattedMessage id="app_reservation_checkin_title" />
-              </div>
-              <div className={classes.value}>{formateDate(startReservation, 'DD MMMM YYYY')}</div>
-              <div className={classes.timeValue}>{formateDate(startReservation, 'HH:mm')}</div>
-            </div>
-            <div className={classes.wrapperContent}>
-              <div className={classes.titleContent}>
-                <FormattedMessage id="app_reservation_checkout_title" />
-              </div>
-              <div className={classes.value}>{formateDate(endReservation, 'DD MMMM YYYY')}</div>
-              <div className={classes.timeValue}>{formateDate(endReservation, 'HH:mm')}</div>
-            </div>
-            <div className={classes.wrapperContent}>
-              <div className={classes.titleContent}>
-                <FormattedMessage id="app_home_title_duration_search_selelct" />
-              </div>
-              <div className={classes.value}>{orders?.results?.stay_duration}</div>
-            </div>
-          </div>
-          <div className={classes.wrapperDetailRoom}>
-            <div className={classes.title}>Cabin(s)</div>
-            <div className={classes.wrapperContent}>
-              <div className={classes.content}>
-                <HeadTitle size={12} title={detailCabin?.type_room?.name} />
-                <SubHeadTitle size={11} title={formatCurrency(Number(detailCabin?.type_room?.price))} mt={0} />
-              </div>
-              <div className={classes.content}>
-                <HeadTitle size={12}>
-                  <FormattedMessage id="app_reservation_service_fee_title" />
-                </HeadTitle>
-                <SubHeadTitle size={11} mt={0}>
-                  <FormattedMessage id="app_reservation_service_fee_value" />
-                </SubHeadTitle>
-              </div>
-              <div className={classes.content}>
-                <HeadTitle size={12}>
-                  <FormattedMessage id="app_home_title_duration_search_selelct" />
-                </HeadTitle>
-                <SubHeadTitle size={11} mt={0} title={`${stayDuration}Night(s)`} />
-              </div>
-              <Divider className={classes.dividerDetail} />
-              <div className={classes.content}>
-                <HeadTitle size={12} title="Total" />
-                <div className={classes.valueTotalPrice}>{formatCurrency(Number(orders?.results?.total_price))}</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
-    </Container>
-  );
+  switch (status) {
+    case 'pending':
+      return (
+        <OrderPending
+          orderDetail={orderDetail}
+          responsePayment={responsePayment}
+          stayDuration={stayDuration}
+          startReservation={startReservation}
+          endReservation={endReservation}
+          totalPrice={totalPrice}
+          expiryDate={expiryDateFormated}
+          detailCabin={detailCabin}
+          VAnumber={VAnumber}
+        />
+      );
+    case 'settlement':
+      return (
+        <OrderSuccess
+          orderDetail={orderDetail}
+          responsePayment={responsePayment}
+          nik={nikDecode}
+          startReservation={startDateFormated}
+          endReservation={endDateFormated}
+        />
+      );
+  }
 };
 
 const mapStateToProps = createStructuredSelector({
-  orders: selectOrders,
+  orderDetail: selectOrderDetail,
 });
 PaymentResponse.propTypes = {
-  orders: PropTypes.object,
+  orderDetail: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(PaymentResponse);

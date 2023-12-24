@@ -21,6 +21,7 @@ const {
 const sendEmail = require('../utils/sendEmail')
 const callApi = require('../utils/callApi')
 const { responsePaymentBodyEmail } = require('../helpers/bodyEmail')
+const { getCurrentDate } = require('../services/cabinService')
 
 exports.createPayment = async (req, res) => {
   let t
@@ -36,6 +37,7 @@ exports.createPayment = async (req, res) => {
       bank,
     } = req.body
     const authData = req.user
+    const currentDate = getCurrentDate()
 
     if (!authData?.verified)
       return responseError(
@@ -43,6 +45,14 @@ exports.createPayment = async (req, res) => {
         406,
         'Not Acceptable',
         'Sorry, your account has not been verified. Please verify your account on the user profile page'
+      )
+
+    if (endReservation <= startReservation || startReservation < currentDate)
+      return responseError(
+        res,
+        409,
+        'Conflict',
+        'End reservation date should not be earlier than start reservation date'
       )
 
     const priceDec = decryptTextPayload(price)
@@ -62,14 +72,6 @@ exports.createPayment = async (req, res) => {
     })
 
     if (validate) return responseError(res, 400, 'Validation Failed', validate)
-
-    if (endReservation <= startReservation)
-      return responseError(
-        res,
-        400,
-        'Bad Request',
-        'End reservation date should not be earlier than start reservation date'
-      )
 
     const numberOfDay = calculateDurationInDays(
       parseInt(startReservation),

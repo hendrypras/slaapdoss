@@ -2,16 +2,17 @@ import PropTypes from 'prop-types';
 import { DataGrid } from '@mui/x-data-grid';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, connect } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Pagination, PaginationItem, Stack, TextField } from '@mui/material';
+import { Pagination, PaginationItem, Stack, Box } from '@mui/material';
 import { ArrowBack as ArrowBackIcon, ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 
 import { selectLoading, selectOrdersAdmin } from '@pages/OrdersAdmin/selectors';
 import { getOrders } from '@pages/OrdersAdmin/actions';
 
 import HeadTitle from '@components/HeadTitle';
+import Button from '@components/Button';
 
 import formateDate from '@utils/formateDate';
 
@@ -46,6 +47,7 @@ const OrdersAdmin = ({ orders, loading }) => {
   const page = parseInt(queryParams.get('page'), 10) || 1;
   const limit = parseInt(queryParams.get('limit'), 10) || 18;
   const orderId = queryParams.get('orderId');
+  const [orderIdInput, setOrderIdInput] = useState(orderId || '');
   const handlePaginationChange = (e, newPage) => {
     e.preventDefault();
     queryParams.set('page', newPage);
@@ -57,6 +59,17 @@ const OrdersAdmin = ({ orders, loading }) => {
     dispatch(getOrders(orderId, page, limit));
   }, [dispatch, page, limit, orderId]);
 
+  useEffect(() => {
+    if (!orderIdInput) {
+      queryParams.delete('orderId');
+      navigate(`${location.pathname}?${queryParams.toString()}`);
+    }
+  }, [orderIdInput, navigate]);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    queryParams.set('orderId', orderIdInput);
+    navigate(`${location.pathname}?${queryParams.toString()}`);
+  };
   const resultOrders =
     Array.isArray(orders?.results) && orders?.results?.length > 0
       ? orders?.results?.map((val) => ({
@@ -81,9 +94,19 @@ const OrdersAdmin = ({ orders, loading }) => {
       <div className={classes.wrapperTable}>
         <div className={classes.wrapperSearchById}>
           <HeadTitle title="Search By Order Id" />
-          <TextField id="standard-basic" label="Standard" variant="standard" />
+          <form onSubmit={handleSearch} className={classes.formSearch}>
+            <input
+              value={orderIdInput}
+              className={classes.input}
+              onChange={(e) => setOrderIdInput(e.target.value)}
+              type="search"
+            />
+            <Button className={classes.btnSubmit} type="submit" title="Search" />
+          </form>
         </div>
-        <DataGrid rows={resultOrders} columns={columns} loading={loading} hideFooterPagination />
+        <Box sx={{ width: '90%' }}>
+          <DataGrid rows={resultOrders} columns={columns} loading={loading} hideFooterPagination />
+        </Box>
         <Stack spacing={2}>
           <Pagination
             count={Math.ceil((orders?.count || 0) / limit)}

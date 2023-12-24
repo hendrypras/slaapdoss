@@ -34,8 +34,8 @@ app.use(
 )
 app.use(compression())
 app.use(cookieParser())
-app.use(express.json({ limit: '50mb' }))
-app.use(express.urlencoded({ extended: true, limit: '50mb' }))
+app.use(express.json({ limit: '2mb' }))
+app.use(express.urlencoded({ extended: true, limit: '2mb' }))
 
 app.use('/api', Routes)
 const NODE_ENV = process.env.NODE_ENV

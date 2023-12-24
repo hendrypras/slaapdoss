@@ -3,7 +3,7 @@ import {
   GET_ORDERS_USER,
   GET_ORDER_SUCCESS,
   SET_ORDERS_USER,
-  SET_ORDER_SUCCESS,
+  SET_ORDER_DETAIL,
 } from '@pages/Orders/constants';
 
 export const getOrdersUser = (orderId, page, limit, cbError) => ({
@@ -23,12 +23,13 @@ export const cancelTransaction = (orderId, cbSuccess) => ({
   orderId,
   cbSuccess,
 });
-export const getOrderSuccess = (orderId, cbError) => ({
+export const getDetailOrder = (orderId, cbSuccess, cbError) => ({
   type: GET_ORDER_SUCCESS,
   orderId,
+  cbSuccess,
   cbError,
 });
-export const setOrderSuccess = (order) => ({
-  type: SET_ORDER_SUCCESS,
+export const setOrderDetail = (order) => ({
+  type: SET_ORDER_DETAIL,
   order,
 });

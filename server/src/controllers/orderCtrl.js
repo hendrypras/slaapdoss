@@ -24,7 +24,7 @@ exports.getOrdersUser = async (req, res) => {
         {
           model: Users,
           as: 'user',
-          attributes: ['id', 'username', 'image_url'],
+          attributes: ['username'],
         },
         {
           model: Rooms,
@@ -61,13 +61,18 @@ exports.getOrdersUser = async (req, res) => {
       },
       order: [
         [
-          sequelize.literal(
-            "response_payment.transaction_status = 'settlement'"
-          ),
-          'DESC',
+          sequelize.literal(`
+            CASE 
+              WHEN response_payment.transaction_status = 'pending' THEN 1
+              WHEN response_payment.transaction_status = 'settlement' THEN 2
+              ELSE 3
+            END
+          `),
+          'ASC',
         ],
         ['createdAt', 'DESC'],
       ],
+
       limit: Number(limit),
       offset: (Number(page) - 1) * limit,
     })
@@ -138,19 +143,16 @@ exports.getOrders = async (req, res) => {
       limit: Number(limit),
       offset: (Number(page) - 1) * limit,
     })
-    let results = rows
-    if (orderId) {
-      results = rows.slice(0, 1)
-    }
+
     return responseSuccess(res, 200, 'success', {
-      results,
+      results: rows,
       count,
     })
   } catch (error) {
     return responseError(res, error.status, error.message)
   }
 }
-exports.getOrderSuccess = async (req, res) => {
+exports.getOrderDetail = async (req, res) => {
   try {
     const { orderId } = req.params
     const response = await Orders.findOne({
@@ -162,7 +164,7 @@ exports.getOrderSuccess = async (req, res) => {
         {
           model: Users,
           as: 'user',
-          attributes: ['email'],
+          attributes: ['email', 'username'],
           include: [
             {
               model: IdCard,
@@ -184,20 +186,23 @@ exports.getOrderSuccess = async (req, res) => {
             {
               model: TypeRoom,
               as: 'type_room',
-              attributes: ['name'],
+              attributes: [
+                'name',
+                'capacity',
+                'price',
+                'information',
+                'image_url',
+                'breakfast',
+              ],
             },
           ],
         },
         {
           model: ResponsePayments,
           as: 'response_payment',
-          where: { transaction_status: 'settlement' },
-          attributes: [
-            'transaction_status',
-            'payment_type',
-            'bank',
-            'order_id',
-          ],
+          attributes: {
+            exclude: ['createdAt', 'updatedAt'],
+          },
         },
       ],
     })

@@ -12,7 +12,7 @@ import {
   setLoading as setLoadingDetailCabins,
 } from '@pages/DetailCabins/actions';
 
-function* doGetDetailCabins({ slug, dateStart, dateEnd, cbSuccess }) {
+function* doGetDetailCabins({ slug, dateStart, dateEnd, cbSuccess, cbError }) {
   yield put(setLoadingDetailCabins(true));
   try {
     const response = yield call(getDetailCabins, slug, dateStart, dateEnd);
@@ -21,6 +21,9 @@ function* doGetDetailCabins({ slug, dateStart, dateEnd, cbSuccess }) {
       cbSuccess && cbSuccess();
     }
   } catch (error) {
+    if (error.response.status === 409 || error.response.status === 404) {
+      return cbError();
+    }
     yield put(showPopup(error.response.data.message));
   } finally {
     yield put(setLoadingDetailCabins(false));
