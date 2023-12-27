@@ -1,5 +1,5 @@
 export default {
-  API_HOST: 'https://l9c51j20-4100.asse.devtunnels.ms/api/',
+  API_HOST: 'http://localhost:4100/api/',
   FIREBASE_API_KEY: 'AIzaSyCI4lpvVDKZrEieZTi2h85ZK9RA_zuS8rg',
   FIREBASE_AUTH_DOMAIN: 'slaapdoss-1132d.firebaseapp.com',
   FIREBASE_PROJECT_ID: 'slaapdoss-1132d',

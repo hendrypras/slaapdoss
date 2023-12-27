@@ -36,6 +36,9 @@ const OrderPending = ({
             <FormattedMessage id="app_payment_response_pending_reservation_message" />
           </HeadTitle>
           <div className={classes.titleAccountNumber}>Account Number</div>
+
+          <HeadTitle title={responsePayment?.bank} className={classes.bankTitle} />
+
           <div className={classes.noVa}>{VAnumber}</div>
           <Button onClick={() => copyTextToClipboadrd(VAnumber)} className={classes.btnCopy}>
             <FormattedMessage id="app_response_payment_title_button_copy_va" />

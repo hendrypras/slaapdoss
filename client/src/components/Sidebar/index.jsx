@@ -20,9 +20,14 @@ const SideBar = ({ children, userProfile, locale }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
-    <div className={classes.wrapper}>
+    <div data-testid="sidebar" className={classes.wrapper}>
       <aside className={classes.aside}>
-        <button className={classes.wrapperLogo} type="button" onClick={() => navigate('/')}>
+        <button
+          className={classes.wrapperLogo}
+          type="button"
+          data-testid="navigate-back-to-home"
+          onClick={() => navigate('/')}
+        >
           <img src="/logo.svg" alt="logo" className={classes.logo} />
           <div className={classes.logoTitle}>slaapdoss</div>
         </button>

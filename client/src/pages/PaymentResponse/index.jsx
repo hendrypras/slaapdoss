@@ -42,7 +42,7 @@ const PaymentResponse = ({ orderDetail }) => {
         })
       );
     }
-  }, [dispatch, status, orderId, navigate]);
+  }, [dispatch, status, orderId, navigate, orderDetail]);
   useEffect(() => {
     if (status && responsePayment && responsePayment?.transaction_status !== status) {
       navigate('/notfound');

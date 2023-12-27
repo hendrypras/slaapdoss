@@ -181,11 +181,14 @@ exports.createPayment = async (req, res) => {
 
     await t.commit()
 
-    const paymentBodyEmail = responsePaymentBodyEmail()
+    const paymentBodyEmail = responsePaymentBodyEmail(
+      authData.username,
+      chargeResponse?.order_id
+    )
     const data = {
       to: authData.email,
-      text: `Hey ${authData.username}`,
-      subject: 'Payment response',
+      text: `Hi ${authData.username}`,
+      subject: 'Reservation Cabin Slaapdoss',
       htm: paymentBodyEmail,
     }
 
@@ -230,7 +233,7 @@ exports.paymentNotification = async (req, res) => {
             { expiry_time: null },
             { transaction: t }
           )
-          message = 'Order status updated to paid. Expiry set to null.'
+          message = 'Order status updated to paid'
         } else if (
           transactionStatus === 'expire' ||
           transactionStatus === 'cancel'

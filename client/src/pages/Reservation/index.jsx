@@ -21,6 +21,7 @@ import { selectMethod } from '@pages/Reservation/selectors';
 import { createPayment } from '@pages/Reservation/actions';
 import { selectDetailRoomCabin } from '@pages/DetailCabins/selectors';
 import { getDetailRoomCabin } from '@pages/DetailCabins/actions';
+import { setOrderDetail } from '@pages/Orders/actions';
 
 import formatCurrency from '@utils/formatCurrency';
 import encryptPayload from '@utils/encryptPayload';
@@ -85,6 +86,7 @@ const Reservation = ({ assets, dataUser, userProfile, method, loading, detailRoo
           price: encryptPayload(priceCabin?.toString()),
         },
         (orderId) => {
+          dispatch(setOrderDetail(null));
           navigate(`/payment/pending/${orderId}`);
         },
         (code) => {
