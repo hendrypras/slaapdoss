@@ -11,7 +11,7 @@ const ModalPopUp = ({ height, open, className, onClose, children }) => (
       width: '100%',
       '& .MuiDialog-paper': {
         height,
-        width: 'fit-content', // Sesuaikan dengan kebutuhan Anda
+        width: 'fit-content',
         boxSizing: 'border-box',
         position: 'absolute',
         top: '50%',

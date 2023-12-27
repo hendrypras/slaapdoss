@@ -30,50 +30,19 @@ const requestOtpBodyEmail = (recipientName, OTP) => `
   </body>
 </html>
 `
-const responsePaymentBodyEmail = () => {
+const responsePaymentBodyEmail = (recipientName, orderId) => {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Pembayaran Tertunda</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-    }
-    .container {
-      width: 80%;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-    h1 {
-      color: #333;
-    }
-    p {
-      color: #555;
-    }
-    .button {
-      display: inline-block;
-      background-color: #007bff;
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 3px;
-    }
-  </style>
+  <title>Pending Payment</title>
 </head>
 <body>
-  <div class="container">
-    <h1>Pembayaran Anda Tertunda</h1>
-    <p>Maaf, pembayaran Anda sedang dalam proses verifikasi.</p>
-    <p>Segera kami akan memberikan konfirmasi lebih lanjut.</p>
-    <p>Terima kasih atas kesabaran Anda.</p>
-    <a href='${config.baseUrlClient}' class="button">Kunjungi Situs Kami</a>
+  <div>
+    <p>Hi ${recipientName},</p>
+    <p>Thank you for making a reservation at Slaapdoss. Following are the details of your order:</p>
+    <a style="background-color: #00b4ab; color: #ffffff; padding: 10px 20px; text-decoration: none; cursor: pointer; font-weight: 600" href='${config.baseUrlClient}/payment/pending/${orderId}'>Visit your Order</a>
+    <p>Make payment before the deadline</p>
   </div>
 </body>
 </html>`

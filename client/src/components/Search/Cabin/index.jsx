@@ -45,7 +45,7 @@ const SearchCabin = ({ searchValue, cabinsLocation, className }) => {
     );
   };
   return (
-    <form className={classNames(classes.form, className)}>
+    <form data-testid="search-cabin" className={classNames(classes.form, className)}>
       <div className={classes.selectWrapper}>
         <Select
           value={searchValue.location.display}

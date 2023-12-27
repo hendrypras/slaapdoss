@@ -24,7 +24,7 @@ const SubHeadTitle = ({ children, title, className, mt = 10, size = 12 }) => {
   };
 
   return (
-    <div className={classNames(classes.text, className)} style={textStyle}>
+    <div data-testid="sub-head-title" className={classNames(classes.text, className)} style={textStyle}>
       {title || children}
     </div>
   );

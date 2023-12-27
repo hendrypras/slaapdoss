@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.53% </span>
+                <span class="strong">10.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>3/26</span>
+                <span class='fraction'>3/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>0/16</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.53% </span>
+                <span class="strong">10.34% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>3/26</span>
+                <span class='fraction'>3/29</span>
             </div>
         
             
@@ -120,13 +120,33 @@
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L58'></a><a href='#L58'>58</a>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -148,18 +168,6 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -173,20 +181,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { takeLatest, call, put } from 'redux-saga/effects';
 &nbsp;
-import { cancelPayment, getOrderSuccess, getOrdersUser } from '@domain/api';
+import { cancelPayment, getDetailOrder, getOrdersUser } from '@domain/api';
 &nbsp;
 import { showPopup, setLoading as setLoadingGlobal } from '@containers/App/actions';
 &nbsp;
 import { CANCEL_TRANSCACTION, GET_ORDERS_USER, GET_ORDER_SUCCESS } from '@pages/Orders/constants';
-import { setOrdersUser, setOrderSuccess } from '@pages/Orders/actions';
+import { setOrdersUser, setOrderDetail } from '@pages/Orders/actions';
 &nbsp;
-function* <span class="fstat-no" title="function not covered" >doGetordersUser(</span>{ orderId, page, limit }) {
+function* <span class="fstat-no" title="function not covered" >doGetordersUser(</span>{ orderId, page, limit, cbError }) {
 <span class="cstat-no" title="statement not covered" >  yield put(setLoadingGlobal(true));</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
     const response = <span class="cstat-no" title="statement not covered" >yield call(getOrdersUser, orderId, page, limit);</span>
@@ -194,6 +202,9 @@ function* <span class="fstat-no" title="function not covered" >doGetordersUser(<
 <span class="cstat-no" title="statement not covered" >      yield put(setOrdersUser(response?.data));</span>
     }
   } catch (error) {
+<span class="cstat-no" title="statement not covered" >    if (error.response.status === 404 &amp;&amp; cbError) {</span>
+<span class="cstat-no" title="statement not covered" >      return cbError();</span>
+    }
 <span class="cstat-no" title="statement not covered" >    yield put(showPopup(error.response.data.message));</span>
   } finally {
 <span class="cstat-no" title="statement not covered" >    yield put(setLoadingGlobal(false));</span>
@@ -212,15 +223,16 @@ function* <span class="fstat-no" title="function not covered" >doCancelTransacti
 <span class="cstat-no" title="statement not covered" >    yield put(setLoadingGlobal(false));</span>
   }
 }
-function* <span class="fstat-no" title="function not covered" >doGetOrderSuccess(</span>{ orderId, cbError }) {
+function* <span class="fstat-no" title="function not covered" >doGetDetailOrder(</span>{ orderId, cbSuccess, cbError }) {
 <span class="cstat-no" title="statement not covered" >  yield put(setLoadingGlobal(true));</span>
 <span class="cstat-no" title="statement not covered" >  try {</span>
-    const response = <span class="cstat-no" title="statement not covered" >yield call(getOrderSuccess, orderId);</span>
+    const response = <span class="cstat-no" title="statement not covered" >yield call(getDetailOrder, orderId);</span>
 <span class="cstat-no" title="statement not covered" >    if (response) {</span>
-<span class="cstat-no" title="statement not covered" >      yield put(setOrderSuccess(response.data));</span>
+<span class="cstat-no" title="statement not covered" >      yield put(setOrderDetail(response.data));</span>
+<span class="cstat-no" title="statement not covered" >      cbSuccess &amp;&amp; cbSuccess();</span>
     }
   } catch (error) {
-<span class="cstat-no" title="statement not covered" >    if (error.response.status === 404) {</span>
+<span class="cstat-no" title="statement not covered" >    if (error.response.status === 404 &amp;&amp; cbError) {</span>
 <span class="cstat-no" title="statement not covered" >      return cbError();</span>
     }
 <span class="cstat-no" title="statement not covered" >    yield put(showPopup(error.response.data.message));</span>
@@ -232,7 +244,7 @@ function* <span class="fstat-no" title="function not covered" >doGetOrderSuccess
 export default function* ordersSaga() {
   yield takeLatest(GET_ORDERS_USER, doGetordersUser);
   yield takeLatest(CANCEL_TRANSCACTION, doCancelTransaction);
-  yield takeLatest(GET_ORDER_SUCCESS, doGetOrderSuccess);
+  yield takeLatest(GET_ORDER_SUCCESS, doGetDetailOrder);
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -241,7 +253,7 @@ export default function* ordersSaga() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-12-20T04:55:53.209Z
+                at 2023-12-27T07:58:37.854Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

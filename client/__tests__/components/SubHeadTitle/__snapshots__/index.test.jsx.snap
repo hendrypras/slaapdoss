@@ -1,22 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`HeadTitle should match with snapshot 1`] = `
+exports[`SubHeadTitle should match with snapshot 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>
     <div>
       <div
         class="text"
-        data-testid="head-title"
-        style="font-size: 15px;"
+        data-testid="sub-head-title"
+        style="font-size: 12px; margin-top: 10px;"
       />
     </div>
   </body>,
   "container": <div>
     <div
       class="text"
-      data-testid="head-title"
-      style="font-size: 15px;"
+      data-testid="sub-head-title"
+      style="font-size: 12px; margin-top: 10px;"
     />
   </div>,
   "debug": [Function],
