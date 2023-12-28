@@ -19,7 +19,6 @@ const {
   modifiedResponseDetailRoomCabin,
   getCurrentDate,
 } = require('../services/cabinService')
-const moment = require('moment')
 
 exports.createCabin = async (req, res) => {
   let imageResult

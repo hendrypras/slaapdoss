@@ -39,7 +39,8 @@ const SearchCabin = ({ searchValue, cabinsLocation, className }) => {
     }));
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     navigate(
       `/cabins/${searchValue.location.value}?checkIn=${searchValue.checkIn.value}&checkOut=${searchValue.checkOut.value}&duration=${searchValue.duration.value}`
     );

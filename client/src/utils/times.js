@@ -21,7 +21,7 @@ export const getCheckIn = (date) => {
 
 // Function untuk mendapatkan tanggal besok
 export const getCheckOut = (date) => {
-  const value = moment().add(1, 'day').format('YYYY-MM-DD');
+  const value = moment().add(1, 'days').format('YYYY-MM-DD');
   const unix = moment(`${date || value} 12:00:00`).valueOf();
   const display = moment().add(1, 'days').format('ddd, D MMMM YYYY');
   return { display, value, unix };

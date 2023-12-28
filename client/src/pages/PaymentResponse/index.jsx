@@ -48,7 +48,6 @@ const PaymentResponse = ({ orderDetail }) => {
       navigate('/notfound');
     }
   }, [responsePayment, navigate, status]);
-
   switch (status) {
     case 'pending':
       return (
@@ -71,6 +70,7 @@ const PaymentResponse = ({ orderDetail }) => {
           responsePayment={responsePayment}
           nik={nikDecode}
           startReservation={startDateFormated}
+          totalPrice={totalPrice}
           endReservation={endDateFormated}
         />
       );

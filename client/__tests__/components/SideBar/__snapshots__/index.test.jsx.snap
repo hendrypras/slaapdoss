@@ -37,7 +37,7 @@ exports[`SideBar should match with snapshot 1`] = `
               <a
                 href="/dashboard/create-cabin"
               >
-                Tambah Ruangan
+                Tambah Cabin
               </a>
             </li>
             <li
@@ -200,7 +200,7 @@ exports[`SideBar should match with snapshot 1`] = `
             <a
               href="/dashboard/create-cabin"
             >
-              Tambah Ruangan
+              Tambah Cabin
             </a>
           </li>
           <li

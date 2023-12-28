@@ -283,7 +283,7 @@ export default {
   app_orders_text_empty_orders: 'Pesanan Tidak Tersedia',
   app_orders_text_button_empty_orders: 'Pesan Sekarang',
 
-  dashboard_create_cabin_head_title: 'Tambah Ruangan',
+  dashboard_create_cabin_head_title: 'Tambah Cabin',
   dashboard_create_type_cabin_head_title: 'Tambah Tipe Ruangan',
   dashboard_create_room_head_title: 'Tambah Ruangan',
   dashboard_create_banner_head_title: 'Tambah Banner',
