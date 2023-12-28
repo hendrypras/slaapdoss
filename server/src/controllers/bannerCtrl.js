@@ -41,7 +41,10 @@ exports.createBanner = async (req, res) => {
       description,
     })
 
-    await redisClient.del('banners')
+    await Promise.all([
+      redisClient.del('banners'),
+      redisClient.del('banners-admin'),
+    ])
 
     return responseSuccess(res, 201, 'success')
   } catch (error) {
@@ -78,7 +81,7 @@ exports.getBanners = async (req, res) => {
 
 exports.getBannersByAdmin = async (req, res) => {
   try {
-    const cachedData = await redisClient.get('banners')
+    const cachedData = await redisClient.get('banners-admin')
     if (cachedData) {
       const parsedData = JSON.parse(cachedData)
       return responseSuccess(res, 200, 'success', parsedData)
@@ -89,7 +92,7 @@ exports.getBannersByAdmin = async (req, res) => {
     })
 
     if (response.length > 0)
-      redisClient.set('banners', JSON.stringify(response))
+      redisClient.set('banners-admin', JSON.stringify(response))
 
     return responseSuccess(res, 200, 'success', response)
   } catch (error) {
@@ -129,12 +132,14 @@ exports.updateStatusBanner = async (req, res) => {
         "The only statuses allowed are 'private' and 'public'"
       )
     }
-
     banner.active = activeStatus
 
     await banner.save()
 
-    await redisClient.del('banners')
+    await Promise.all([
+      redisClient.del('banners'),
+      redisClient.del('banners-admin'),
+    ])
 
     return responseSuccess(res, 200, 'success')
   } catch (error) {
@@ -167,7 +172,10 @@ exports.deleteBanner = async (req, res) => {
 
     await Promise.all([cloudinaryDeletion, bannerDeletion])
 
-    await redisClient.del('banners')
+    await Promise.all([
+      redisClient.del('banners'),
+      redisClient.del('banners-admin'),
+    ])
 
     return responseSuccess(res, 200, 'success')
   } catch (error) {

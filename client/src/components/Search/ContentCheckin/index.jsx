@@ -13,6 +13,7 @@ const ContentCheckin = ({ searchValue, onClose }) => {
   const value = moment(searchValue?.checkIn?.value);
   const today = moment();
   const dispatch = useDispatch();
+
   const handleDateChange = (date) => {
     dispatch(
       setSearchValue(
@@ -20,8 +21,8 @@ const ContentCheckin = ({ searchValue, onClose }) => {
         { display: date.format('ddd, D MMMM YYYY'), value: date.format('YYYY-MM-DD') },
         searchValue.duration,
         {
-          display: date.add(searchValue?.duration?.value, 'days').format('ddd, D MMMM YYYY'),
-          value: date.add(searchValue?.duration?.value, 'days').format('YYYY-MM-DD'),
+          display: date.add(searchValue.duration.value, 'days').format('ddd, D MMMM YYYY'),
+          value: date.add(searchValue.duration.value, 'days').format('YYYY-MM-DD'),
         }
       )
     );

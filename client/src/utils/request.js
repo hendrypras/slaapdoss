@@ -60,7 +60,7 @@ axios.interceptors.response.use(
           isRefreshing = false;
         }
       } else {
-        // Jika sedang refresh token, tambahkan permintaan yang gagal ke antrian
+        // Jika sedang refresh token, menambahkan permintaan yang gagal ke antrian
         const retryOriginalRequest = new Promise((resolve, reject) => {
           failedRequestsQueue.push({ request: originalRequest, resolve, reject });
         });

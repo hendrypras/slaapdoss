@@ -118,7 +118,7 @@ OrderSuccess.propTypes = {
   nik: PropTypes.string,
   startReservation: PropTypes.string,
   endReservation: PropTypes.string,
-  totalPrice: PropTypes.number,
+  totalPrice: PropTypes.string,
 };
 
 export default OrderSuccess;

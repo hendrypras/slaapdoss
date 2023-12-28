@@ -13,7 +13,7 @@ const urls = {
 };
 export const callAPI = async (endpoint, method, header, params, data, withCredentials) => {
   const defaultHeader = {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'Content-Type': 'application/json; charset=UTF-8',
   };
 
   const headers = merge(defaultHeader, header);
