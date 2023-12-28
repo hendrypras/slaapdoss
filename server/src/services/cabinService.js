@@ -1,3 +1,6 @@
+const moment = require('moment')
+const _ = require('lodash')
+
 const isDateRangeOverlap = (start, end, dateStart, dateEnd) => {
   return (
     (start === parseInt(dateStart) && end === parseInt(dateEnd)) ||
@@ -8,7 +11,7 @@ const isDateRangeOverlap = (start, end, dateStart, dateEnd) => {
 }
 
 const filterRoomsByDateRange = (cabinRooms, dateStart, dateEnd) => {
-  return cabinRooms?.filter(room => {
+  return _.filter(cabinRooms, room => {
     return !room.reservation_date?.some(item => {
       const start = parseInt(item.start_reservation)
       const end = parseInt(item.end_reservation)
@@ -17,45 +20,24 @@ const filterRoomsByDateRange = (cabinRooms, dateStart, dateEnd) => {
   })
 }
 const groupCabinRoomsByType = (rooms, includeData) => {
-  const groupedCabins = []
-  // Iterasi melalui setiap cabin room
-  rooms?.forEach(cabinRoom => {
-    const { type_room } = cabinRoom
+  const groupedCabins = _.groupBy(rooms, cabinRoom => cabinRoom.type_room.name)
 
-    // Cari indeks dari tipe kabin dalam groupedCabins
-    const index = groupedCabins.findIndex(
-      item => item.type_room?.name === type_room?.name
-    )
+  return _.map(groupedCabins, (value, key) => {
     const cabinInfo = includeData.find(
-      item => item.typeCabin?.toLowerCase() === type_room?.name.toLowerCase()
+      item => item.typeCabin?.toLowerCase() === key.toLowerCase()
     )
 
-    if (index === -1) {
-      // Jika belum ada, buat objek baru untuk tipe kabin tersebut dan tambahkan ke groupedCabins
-      groupedCabins.push({
-        type_room,
-        include: cabinInfo || null,
-        cabins: [
-          {
-            id: cabinRoom.id,
-            cabins_slug: cabinRoom.cabins_slug,
-            room_number: cabinRoom.room_number,
-            type_room_id: cabinRoom.type_room_id,
-          },
-        ],
-      })
-    } else {
-      // Jika sudah ada, tambahkan cabin room ke dalam array cabins untuk tipe kabin yang sesuai
-      groupedCabins[index].cabins.push({
-        id: cabinRoom.id,
-        cabins_slug: cabinRoom.cabins_slug,
-        room_number: cabinRoom.room_number,
-        type_room_id: cabinRoom.type_room_id,
-      })
+    return {
+      type_room: value[0].type_room,
+      include: cabinInfo || null,
+      cabins: _.map(value, cabin => ({
+        id: cabin.id,
+        cabins_slug: cabin.cabins_slug,
+        room_number: cabin.room_number,
+        type_room_id: cabin.type_room_id,
+      })),
     }
   })
-
-  return groupedCabins
 }
 
 const modifiedResponseDetailRoomCabin = detailData => {
@@ -70,9 +52,15 @@ const modifiedResponseDetailRoomCabin = detailData => {
   }
 }
 
+const getCurrentDate = () => {
+  const currDate = moment()
+  currDate.set({ hour: 14, minute: 0, second: 0, millisecond: 0 })
+  return currDate.valueOf()
+}
 module.exports = {
   isDateRangeOverlap,
   filterRoomsByDateRange,
   groupCabinRoomsByType,
   modifiedResponseDetailRoomCabin,
+  getCurrentDate,
 }

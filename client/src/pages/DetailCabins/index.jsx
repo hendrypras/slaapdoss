@@ -5,7 +5,7 @@ import { createStructuredSelector } from 'reselect';
 import { useEffect, useState } from 'react';
 import { CheckCircleOutline as CheckCircleOutlineIcon } from '@mui/icons-material';
 import { useMediaQuery } from '@mui/material';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
 import { selectAssets } from '@containers/App/selectors';
@@ -33,6 +33,7 @@ import classes from './style.module.scss';
 const DetailCabins = ({ cabins, loading }) => {
   const { slugCabin } = useParams();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(location.search);
   const checkIn = queryParams.get('checkIn');
@@ -49,7 +50,11 @@ const DetailCabins = ({ cabins, loading }) => {
 
   useEffect(() => {
     if (slugCabin) {
-      dispatch(getDetailCabins(slugCabin, dateCheckIn.unix, dateCheckout.unix));
+      dispatch(
+        getDetailCabins(slugCabin, dateCheckIn.unix, dateCheckout.unix, null, () => {
+          navigate('/notfound');
+        })
+      );
     }
   }, [dispatch, slugCabin, checkIn, duration]);
 

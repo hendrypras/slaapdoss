@@ -19,7 +19,6 @@ import CreateBanner from '@pages/CreateBanner';
 import OrdersAdmin from '@pages/OrdersAdmin';
 import CreateRoom from '@pages/CreateRoom';
 import ListBanner from '@pages/ListBanner';
-import OrderSuccess from '@pages/OrderSuccess';
 
 const routes = [
   {
@@ -81,15 +80,6 @@ const routes = [
     name: 'User Orders',
     protected: true,
     component: Orders,
-    adminOnly: false,
-    userOnly: true,
-    layout: MainLayout,
-  },
-  {
-    path: '/order/success/:orderId',
-    name: 'User Orders',
-    protected: true,
-    component: OrderSuccess,
     adminOnly: false,
     userOnly: true,
     layout: MainLayout,

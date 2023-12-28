@@ -13,7 +13,7 @@ const urls = {
 };
 export const callAPI = async (endpoint, method, header, params, data, withCredentials) => {
   const defaultHeader = {
-    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'Content-Type': 'application/json; charset=UTF-8',
   };
 
   const headers = merge(defaultHeader, header);
@@ -66,7 +66,7 @@ export const updateUserProfile = (data) =>
 export const requestPayment = (data) => callAPI(urls.payment, 'POST', {}, {}, data);
 export const cancelPayment = (orderId) => callAPI(`${urls.payment}/cancel/${orderId}`, 'POST');
 export const getPaymentMethods = () => callAPI(`${urls.payment}/methods`, 'GET');
-export const getOrderSuccess = (orderId) => callAPI(`${urls.order[1]}/success/${orderId}`, 'GET');
+export const getDetailOrder = (orderId) => callAPI(`${urls.order[1]}/${orderId}`, 'GET');
 export const getOrdersUser = (orderId, page, limit) => {
   let url = `${urls.order[0]}?page=${page}&limit=${limit}`;
   if (orderId) {
@@ -75,13 +75,10 @@ export const getOrdersUser = (orderId, page, limit) => {
   return callAPI(url, 'GET');
 };
 
-export const getOrders = (orderId, page, limit) => {
-  let url = `${urls.order[0]}/all`;
+export const getOrders = (orderId, page = 1, limit = 18) => {
+  let url = `${urls.order[0]}/all?page=${page}&limit=${limit}`;
   if (orderId) {
-    url += `?orderId=${orderId}`;
-  }
-  if (page && limit) {
-    url += `?page=${page}&limit=${limit}`;
+    url += `&orderId=${orderId}`;
   }
   return callAPI(url, 'GET');
 };

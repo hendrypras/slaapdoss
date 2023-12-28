@@ -24,6 +24,7 @@ import IdCard from '@pages/UserProfile/components/IdCard';
 import {
   getDataCrutialUser,
   getUserProfile,
+  setDataIdCard,
   setImageCaptured,
   setImageSelected,
   updateUserProfile,
@@ -113,11 +114,16 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
       })
     );
   };
-  const handleRemoveResultImage = (e) => {
+  const handleRemoveResultImage = (e, type) => {
     e.preventDefault();
-    dispatch(setImageSelected());
-    dispatch(setImageSelected(imageSelected.idCard, null));
-    setFileSelected(null);
+    if (type === 'profile') {
+      dispatch(setImageSelected(imageSelected.idCard, null));
+      dispatch(setImageCaptured(null));
+      setFileSelected(null);
+    } else if (type === 'idCard') {
+      dispatch(setDataIdCard(null));
+      dispatch(setImageSelected(null, imageSelected.profile));
+    }
   };
 
   return (
@@ -166,7 +172,7 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                   </HeadTitle>
                   <div className={classes.wrapperImage}>
                     {(imageCaptured || imageSelected.profile) && (
-                      <Button onClick={handleRemoveResultImage} className={classes.btnRemoveImg}>
+                      <Button onClick={(e) => handleRemoveResultImage(e, 'profile')} className={classes.btnRemoveImg}>
                         <Close className={classes.icon} />
                       </Button>
                     )}
@@ -209,6 +215,11 @@ const UserProfile = ({ userProfile, dataIdCard, dataUser, loadingGlobal, imageCa
                     <FormattedMessage id="app_user_profile_id_card_text" />
                   </HeadTitle>
                   <div className={classes.wrapperImage}>
+                    {(idCardUrl || imageSelected.idCard) && (
+                      <Button onClick={(e) => handleRemoveResultImage(e, 'idCard')} className={classes.btnRemoveImg}>
+                        <Close className={classes.icon} />
+                      </Button>
+                    )}
                     <img
                       src={dataUser?.id_card?.id_card_url || idCardUrl || imageSelected.idCard || defaultIdCard}
                       alt="idCard"

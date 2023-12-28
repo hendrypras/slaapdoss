@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+
 import { selectAssets } from '@containers/App/selectors';
 
 import Container from '@components/Container';

@@ -14,9 +14,7 @@ function* doCreatePayment({ data, cbSuccess, cbErr }) {
       cbSuccess(response?.data?.order_id);
     }
   } catch (error) {
-    if (error.response.status === 406) {
-      cbErr();
-    }
+    cbErr(error.response.status);
     yield put(showPopup(error.response.data.message));
   } finally {
     yield put(setLoading(false));

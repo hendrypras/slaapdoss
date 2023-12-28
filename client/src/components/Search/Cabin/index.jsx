@@ -39,13 +39,14 @@ const SearchCabin = ({ searchValue, cabinsLocation, className }) => {
     }));
   };
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault();
     navigate(
       `/cabins/${searchValue.location.value}?checkIn=${searchValue.checkIn.value}&checkOut=${searchValue.checkOut.value}&duration=${searchValue.duration.value}`
     );
   };
   return (
-    <form className={classNames(classes.form, className)}>
+    <form data-testid="search-cabin" className={classNames(classes.form, className)}>
       <div className={classes.selectWrapper}>
         <Select
           value={searchValue.location.display}

@@ -1,17 +1,17 @@
 import { render } from '@utils/testHelper';
-import Footer from '@components/Footer';
+import SubHeadTitle from '@components/SubHeadTitle';
 
 let wrapper;
 
 beforeEach(() => {
-  wrapper = render(<Footer />);
+  wrapper = render(<SubHeadTitle />);
 });
 
-describe('Footer', () => {
+describe('SubHeadTitle', () => {
   test('Should render correctly', () => {
     const { getByTestId } = wrapper;
 
-    expect(getByTestId('footer')).toBeInTheDocument();
+    expect(getByTestId('sub-head-title')).toBeInTheDocument();
   });
   test('should match with snapshot', () => {
     expect(wrapper).toMatchSnapshot();

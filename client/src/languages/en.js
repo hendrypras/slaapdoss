@@ -285,7 +285,7 @@ export default {
   app_orders_text_button_empty_orders: 'Booking Now',
 
   dashboard_create_cabin_head_title: 'Create Cabin',
-  dashboard_create_type_cabin_head_title: 'Create Type Cabin',
+  dashboard_create_type_cabin_head_title: 'Create Type Room',
   dashboard_create_room_head_title: 'Create Room',
   dashboard_create_banner_head_title: 'Create Banner',
   dashboard_list_banner_head_title: 'List Banner',
