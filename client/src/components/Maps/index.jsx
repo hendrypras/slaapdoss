@@ -43,6 +43,7 @@ const Maps = ({ lat, lng, currentPosition, draggable, displayName, className }) 
   const toggleDraggable = useCallback(() => {
     setDrag((d) => !d);
   }, []);
+
   return (
     <MapContainer
       center={[position.lat, position.lng]}

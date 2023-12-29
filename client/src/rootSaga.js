@@ -17,6 +17,7 @@ import createRoomSaga from '@pages/CreateRoom/saga';
 import createBannerSaga from '@pages/CreateBanner/saga';
 import ordersAdminSaga from '@pages/OrdersAdmin/saga';
 import listBannerSaga from '@pages/ListBanner/saga';
+import editTypeRoomSaga from '@pages/EditTypeRoom/saga';
 
 export default function* rootSaga() {
   yield all([
@@ -36,5 +37,6 @@ export default function* rootSaga() {
     createBannerSaga(),
     ordersAdminSaga(),
     listBannerSaga(),
+    editTypeRoomSaga(),
   ]);
 }
