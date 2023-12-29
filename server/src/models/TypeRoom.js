@@ -18,7 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       image_url: DataTypes.STRING,
       image_public_id: DataTypes.STRING,
       price: DataTypes.BIGINT,
-      information: DataTypes.STRING,
       cabins_slug: DataTypes.STRING,
       breakfast: DataTypes.BOOLEAN,
     },

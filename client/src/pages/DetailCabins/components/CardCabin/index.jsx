@@ -98,7 +98,9 @@ const CardCabin = ({ cabins }) => {
           </div>
           <div className={classes.cardFooter}>
             <div className={classes.price}>{formatCurrency(cabins?.type_room?.price)}</div>
-            <div className={classes.information}>{cabins?.type_room?.information}</div>
+            <div className={classes.information}>
+              <FormattedMessage id="app_detail_cabin_text_information" />
+            </div>
             <Button
               type="button"
               className={classes.btnSelect}

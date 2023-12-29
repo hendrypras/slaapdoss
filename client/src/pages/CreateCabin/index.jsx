@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
 import { createStructuredSelector } from 'reselect';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { connect, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
@@ -11,7 +11,7 @@ import { selectLoading } from '@containers/App/selectors';
 import { showSnackBar } from '@containers/App/actions';
 
 import { createCabin } from '@pages/CreateCabin/actions';
-import { selectPositionSelected } from '@pages/CreateCabin/selectors';
+import { selectDisplayNameLocation, selectPositionSelected } from '@pages/CreateCabin/selectors';
 
 import InputForm from '@components/InputForm';
 import Button from '@components/Button';
@@ -21,7 +21,7 @@ import HeadTitle from '@components/HeadTitle';
 
 import classes from './style.module.scss';
 
-const CreateCabin = ({ positionSelected, loading }) => {
+const CreateCabin = ({ positionSelected, loading, address }) => {
   const method = useForm();
   const dispatch = useDispatch();
   const [selectedImage, setSelectedImage] = useState(null);
@@ -52,6 +52,11 @@ const CreateCabin = ({ positionSelected, loading }) => {
       method.setValue('cabin', file);
     }
   };
+
+  useEffect(() => {
+    method.setValue('address', address);
+  }, [address, method]);
+
   return (
     <div className={classes.container}>
       <HeadTitle size={20} className={classes.headTitle}>
@@ -99,15 +104,6 @@ const CreateCabin = ({ positionSelected, loading }) => {
             }}
           />
           <InputFormBasic
-            name="address"
-            type="text"
-            placeholder="Enter address of cabin"
-            title="app_dashboard_create_cabins_title_form_address"
-            rules={{
-              required: 'Address is required',
-            }}
-          />
-          <InputFormBasic
             name="city"
             type="text"
             placeholder="Enter city of cabin"
@@ -121,6 +117,15 @@ const CreateCabin = ({ positionSelected, loading }) => {
             <FormattedMessage id="app_dashboard_create_cabins_title_select_location" />
           </div>
           <Maps className={classes.maps} draggable />
+          <InputFormBasic
+            name="address"
+            type="text"
+            placeholder="Enter address of cabin"
+            title="app_dashboard_create_cabins_title_form_address"
+            rules={{
+              required: 'Address is required',
+            }}
+          />
           <Button isLoading={loading} type="submit">
             {loading ? (
               <FormattedMessage id="app_text_loading_button" />
@@ -137,10 +142,12 @@ const CreateCabin = ({ positionSelected, loading }) => {
 const mapStateToProps = createStructuredSelector({
   loading: selectLoading,
   positionSelected: selectPositionSelected,
+  address: selectDisplayNameLocation,
 });
 CreateCabin.propTypes = {
   positionSelected: PropTypes.object,
   loading: PropTypes.bool,
+  address: PropTypes.string,
 };
 
 export default connect(mapStateToProps)(CreateCabin);

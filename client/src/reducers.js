@@ -16,6 +16,7 @@ import reservationReducer from '@pages/Reservation/reducer';
 import ordersAdminReducer from '@pages/OrdersAdmin/reducer';
 import createTypeRoomReducer from '@pages/CreateTypeRoom/reducer';
 import listBannerReducer from '@pages/ListBanner/reducer';
+import editTypeRoomReducer from '@pages/EditTypeRoom/reducer';
 
 import { mapWithPersistor } from './persistence';
 
@@ -38,6 +39,7 @@ const temporaryReducers = {
   createTypeRoom: createTypeRoomReducer,
   reservation: reservationReducer,
   listBanner: listBannerReducer,
+  editTypeRoom: editTypeRoomReducer,
 };
 
 const createReducer = () => {

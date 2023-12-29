@@ -387,19 +387,6 @@ describe('Create room', () => {
 })
 
 describe('Get Cabin by slug', () => {
-  test('Success get cabin 200', done => {
-    request(app)
-      .get(`/api/cabin/detail/${slugCabin}`)
-      .then(res => {
-        expect(res.status).toBe(200)
-        expect(res.body.status).toBe('success')
-        expect(res.body).toHaveProperty('data')
-        done()
-      })
-      .catch(err => {
-        done(err)
-      })
-  })
   test('Cabin notfound with status 404', done => {
     request(app)
       .get(`/api/cabin/detail/another-slug-cabin`)

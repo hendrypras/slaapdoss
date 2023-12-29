@@ -89,11 +89,14 @@ export const getDetailCabins = (slug, dateStart, dateEnd) =>
 export const getCabinsLocation = () => callAPI(`${urls.cabin[1]}/location`, 'GET');
 export const getDetailCabinRoom = (slug, roomId) => callAPI(`${urls.cabin[0]}/room/${slug}/${roomId}`, 'GET');
 export const getTypeRoom = () => callAPI(`${urls.cabin[0]}/type-room`, 'GET');
+export const getTypeRoomById = (typeRoomId) => callAPI(`${urls.cabin[0]}/type-room/${typeRoomId}`, 'GET');
 export const createRoom = (data) => callAPI(`${urls.cabin[0]}/room`, 'POST', {}, {}, data);
 export const createCabin = (formData) =>
   callAPI(urls.cabin[0], 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);
 export const createTypeRoom = (formData) =>
   callAPI(`${urls.cabin[0]}/type-room`, 'POST', { 'Content-Type': 'multipart/form-data' }, {}, formData);
+export const editTypeRoom = (formData, typeRoomId) =>
+  callAPI(`${urls.cabin[0]}/type-room/${typeRoomId}`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, formData);
 
 // banner
 export const getBanners = () => callAPI(urls.banner[0], 'GET');

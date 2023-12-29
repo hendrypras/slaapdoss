@@ -10,7 +10,8 @@ const path = require('path')
 const {
   validateBodyCreateCabin,
   validateBodyCreateCabinRoom,
-  validateBodyCreateTypeCabin,
+  validateBodyCreateTypeRoom,
+  validateBodyUpdateTypeRoom,
 } = require('../helpers/validationJoi')
 const loadData = require('../helpers/databaseHelper')
 const {
@@ -92,7 +93,7 @@ exports.createTypeRoom = async (req, res) => {
     }
     const newData = req.body
     const { typeImage, cabinsSlug, ...rest } = newData
-    const validate = validateBodyCreateTypeCabin({
+    const validate = validateBodyCreateTypeRoom({
       cabinsSlug,
       ...rest,
     })
@@ -298,6 +299,22 @@ exports.getTypeRoom = async (req, res) => {
     return responseError(res, error?.status, error?.message)
   }
 }
+exports.getTypeRoomById = async (req, res) => {
+  try {
+    const { typeRoomId } = req.params
+
+    const response = await TypeRoom.findByPk(typeRoomId, {
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    })
+
+    if (!response)
+      return responseError(res, 404, 'Not Found', 'Type room not found')
+
+    return responseSuccess(res, 200, 'success', response)
+  } catch (error) {
+    return responseError(res, error?.status, error?.message)
+  }
+}
 
 exports.getDetailCabinRoomById = async (req, res) => {
   try {
@@ -325,6 +342,94 @@ exports.getDetailCabinRoomById = async (req, res) => {
     const modifiedResponse = modifiedResponseDetailRoomCabin(responseCabin)
     return responseSuccess(res, 200, 'success', modifiedResponse)
   } catch (error) {
+    return responseError(res, error?.status, error?.message)
+  }
+}
+
+exports.updateTypeRoom = async (req, res) => {
+  let imageResult
+  try {
+    const { typeRoomId } = req.params
+    const { typeImage, imagePublicId, cabinsSlug, imageUrl, ...rest } = req.body
+
+    if (!req.files.typeImage && !imageUrl && !imagePublicId) {
+      return responseError(res, 400, 'Validation Failed', 'Image is required')
+    }
+
+    if (req.fileValidationError) {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        req.fileValidationError.message
+      )
+    }
+
+    const validate = validateBodyUpdateTypeRoom({
+      imagePublicId,
+      imageUrl,
+      cabinsSlug,
+      ...rest,
+    })
+
+    if (validate) {
+      return responseError(res, 400, 'Validation Failed', validate)
+    }
+
+    const findTypeCabin = await TypeRoom.findAll({
+      where: {
+        name: { [Op.like]: rest?.name },
+        cabins_slug: cabinsSlug,
+        id: { [Op.not]: typeRoomId },
+      },
+    })
+
+    if (findTypeCabin.length > 0) {
+      return responseError(
+        res,
+        400,
+        'Bad Request',
+        'Type Room with this name already exists'
+      )
+    }
+    if (req.files.typeImage) {
+      imageResult = await uploadToCloudinary(req.files.typeImage[0], 'image')
+      if (!imageResult?.url || !imageResult?.public_id) {
+        return responseError(
+          res,
+          500,
+          'Internal server error',
+          imageResult.error
+        )
+      }
+    }
+
+    // Begin Sequelize transaction
+
+    await TypeRoom.update(
+      {
+        image_url: imageResult?.url || imageUrl,
+        image_public_id: imageResult?.public_id || imagePublicId,
+        cabins_slug: cabinsSlug,
+        ...rest,
+      },
+      {
+        where: {
+          id: typeRoomId,
+        },
+      }
+    )
+
+    if (imageResult?.url) {
+      await cloudinaryDeleteImg(imagePublicId, 'image')
+    }
+
+    return responseSuccess(res, 200, 'success')
+  } catch (error) {
+    if (imageResult?.public_id) {
+      await cloudinaryDeleteImg(imageResult.public_id, 'image')
+    }
+
     return responseError(res, error?.status, error?.message)
   }
 }
