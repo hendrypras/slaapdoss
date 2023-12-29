@@ -12,6 +12,12 @@ const isValidEndTime = unix => {
   const formattedTime = moment(unix).format('HH:mm:ss')
   return formattedTime === '12:00:00'
 }
+const allowedNamesTypeRoom = [
+  'standard cabin',
+  'deluxe cabin',
+  'executive cabin',
+]
+
 const validateBodyCreatePayment = reqBody => {
   const schema = Joi.object({
     paymentType: Joi.string().valid('bank_transfer').required().messages({
@@ -88,6 +94,7 @@ const validateBodyCreatePayment = reqBody => {
 
   return null
 }
+
 const validateBodyGenerateOtpToEmail = reqBody => {
   const schema = Joi.object({
     email: Joi.string()
@@ -112,6 +119,7 @@ const validateBodyGenerateOtpToEmail = reqBody => {
 
   return null
 }
+
 const validateBodyVerifyOtp = reqBody => {
   const schema = Joi.object({
     code: Joi.number().min(100000).max(999999).required().messages({
@@ -173,6 +181,7 @@ const validateBodyRegisterWithGoogle = reqBody => {
 
   return null
 }
+
 const validateBodyUpdateUserProfile = reqBody => {
   const schema = Joi.object({
     imagePublicId: Joi.string().allow(null, '').invalid(Joi.number()).messages({
@@ -233,6 +242,7 @@ const validateBodyRegister = reqBody => {
 
   return null
 }
+
 const validateBodyLogin = reqBody => {
   const schema = Joi.object({
     email: Joi.string()
@@ -258,6 +268,7 @@ const validateBodyLogin = reqBody => {
 
   return null
 }
+
 const validateBodyChangePassword = reqBody => {
   const schema = Joi.object({
     password: Joi.string().min(6).required(),
@@ -279,6 +290,7 @@ const validateBodyChangePassword = reqBody => {
 
   return null
 }
+
 const validateBodyCreateCabin = reqBody => {
   const schema = Joi.object({
     name: Joi.string().required().messages({
@@ -319,6 +331,7 @@ const validateBodyCreateCabin = reqBody => {
 
   return null
 }
+
 const validateBodyCreateBanner = reqBody => {
   const schema = Joi.object({
     title: Joi.string().required().messages({
@@ -347,6 +360,7 @@ const validateBodyCreateBanner = reqBody => {
 
   return null
 }
+
 const validateBodyCreateCabinRoom = reqBody => {
   const schema = Joi.object({
     cabinsSlug: Joi.string().required().messages({
@@ -377,28 +391,78 @@ const validateBodyCreateCabinRoom = reqBody => {
 
   return null
 }
-const validateBodyCreateTypeCabin = reqBody => {
-  const allowedNames = ['standard cabin', 'deluxe cabin', 'executive cabin']
+
+const validateBodyCreateTypeRoom = reqBody => {
   const schema = Joi.object({
     name: Joi.string()
-      .valid(...allowedNames.map(name => name.toLowerCase()))
+      .valid(...allowedNamesTypeRoom.map(name => name.toLowerCase()))
       .required()
       .insensitive()
       .messages({
         'string.base': 'Name must be a string.',
         'string.empty': 'Name is required.',
         'any.required': 'Name is required.',
-        'any.only': `Name must be one of: ${allowedNames.join(', ')}.`,
+        'any.only': `Name must be one of: ${allowedNamesTypeRoom.join(', ')}.`,
       }),
-    information: Joi.string().required().messages({
-      'string.base': 'information must be a string.',
-      'string.empty': 'information is required.',
-      'any.required': 'information is required.',
-    }),
     cabinsSlug: Joi.string().required().messages({
       'string.base': 'cabinsSlug must be a string.',
       'string.empty': 'cabinsSlug is required.',
       'any.required': 'cabinsSlug is required.',
+    }),
+    price: Joi.number().integer().positive().required().messages({
+      'number.base': 'price must be a number.',
+      'number.integer': 'price must be an integer.',
+      'number.positive': 'price must be a positive number.',
+      'any.required': 'price is required.',
+    }),
+    capacity: Joi.string().required().messages({
+      'string.base': 'capacity must be a string.',
+      'string.empty': 'capacity is required.',
+      'any.required': 'capacity is required.',
+    }),
+    breakfast: Joi.boolean().optional().messages({
+      'string.base': 'Breakfast must be a boolean.',
+    }),
+  })
+
+  const { error } = schema.validate(reqBody, {
+    abortEarly: false,
+  })
+
+  if (error) {
+    return error.details.map(err => err.message).join(', ')
+  }
+
+  return null
+}
+
+const validateBodyUpdateTypeRoom = reqBody => {
+  const schema = Joi.object({
+    name: Joi.string()
+      .valid(...allowedNamesTypeRoom.map(name => name.toLowerCase()))
+      .required()
+      .insensitive()
+      .messages({
+        'string.base': 'Name must be a string.',
+        'string.empty': 'Name is required.',
+        'any.required': 'Name is required.',
+        'any.only': `Name must be one of: ${allowedNamesTypeRoom.join(', ')}.`,
+      }),
+    cabinsSlug: Joi.string().required().messages({
+      'string.base': 'cabinsSlug must be a string.',
+      'string.empty': 'cabinsSlug is required.',
+      'any.required': 'cabinsSlug is required.',
+    }),
+    imageUrl: Joi.string().uri().required().messages({
+      'string.base': 'The image URL must be a string.',
+      'string.empty': 'The image URL is required.',
+      'any.required': 'The image URL is required.',
+      'string.uri': 'The image URL must be a valid URI.',
+    }),
+    imagePublicId: Joi.string().required().messages({
+      'string.base': 'imagePublicId must be a string.',
+      'string.empty': 'imagePublicId is required.',
+      'any.required': 'imagePublicId is required.',
     }),
     price: Joi.number().integer().positive().required().messages({
       'number.base': 'price must be a number.',
@@ -452,6 +516,7 @@ const validateResultOcrIdCard = result => {
 
   return null
 }
+
 const validateBodyCreateIdCard = result => {
   const schema = Joi.object({
     nik: Joi.string().pattern(/^\d+$/).length(16).required().messages({
@@ -490,7 +555,8 @@ const validateBodyCreateIdCard = result => {
 
 module.exports = {
   validateBodyCreateCabinRoom,
-  validateBodyCreateTypeCabin,
+  validateBodyUpdateTypeRoom,
+  validateBodyCreateTypeRoom,
   validateBodyGenerateOtpToEmail,
   validateBodyVerifyOtp,
   validateBodyRegister,

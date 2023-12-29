@@ -275,6 +275,7 @@ export default {
   app_detail_cabin_title_age_policies: 'Kebijakan Usia',
   app_detail_cabin_text_empty_room:
     'Maaf, kamar pada tanggal yang Anda pilih tidak tersedia. Silakan pilih tanggal lain atau ubah lokasi',
+  app_detail_cabin_text_information: '1 Ruangan, 1 Malam',
 
   app_orders_head_title: 'Pesanan',
   app_orders_waiting_for_payment_title: 'Menunggu Pembayaran',
@@ -285,6 +286,7 @@ export default {
 
   dashboard_create_cabin_head_title: 'Tambah Cabin',
   dashboard_create_type_cabin_head_title: 'Tambah Tipe Ruangan',
+  dashboard_edit_type_cabin_head_title: 'Ubah Tipe Ruangan',
   dashboard_create_room_head_title: 'Tambah Ruangan',
   dashboard_create_banner_head_title: 'Tambah Banner',
   dashboard_list_banner_head_title: 'Daftar Banner',

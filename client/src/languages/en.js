@@ -276,6 +276,7 @@ export default {
   app_detail_cabin_title_age_policies: 'Age Policies',
   app_detail_cabin_text_empty_room:
     'Sorry, The Room On The Date You Selected Is Not Available. Please Choose Another Date Or Change Location',
+  app_detail_cabin_text_information: '1 Room, 1 Night',
 
   app_orders_head_title: 'Orders',
   app_orders_waiting_for_payment_title: 'Waiting For Payment',
@@ -286,6 +287,7 @@ export default {
 
   dashboard_create_cabin_head_title: 'Create Cabin',
   dashboard_create_type_cabin_head_title: 'Create Type Room',
+  dashboard_edit_type_cabin_head_title: 'Edit Type Room',
   dashboard_create_room_head_title: 'Create Room',
   dashboard_create_banner_head_title: 'Create Banner',
   dashboard_list_banner_head_title: 'List Banner',

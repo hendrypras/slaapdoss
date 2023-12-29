@@ -8,6 +8,8 @@ const {
   createTypeRoom,
   createRoom,
   getCabinBySlug,
+  updateTypeRoom,
+  getTypeRoomById,
 } = require('../controllers/cabinCtrl')
 const uploadMedia = require('../middleware/uploadMedia')
 const { isAdmin } = require('../middleware/authorization')
@@ -30,9 +32,15 @@ router.post(
 
 router.post('/cabin/room', Authenticated, isAdmin, createRoom)
 
-router.get('/cabin/type-room', Authenticated, isAdmin, getTypeRoom)
+router.get('/cabin/type-room', getTypeRoom)
+router.get('/cabin/type-room/:typeRoomId', getTypeRoomById)
 router.get('/cabin/detail/:slug', getCabinBySlug)
 router.get('/cabins/location', getCabinsLocation)
 router.get('/cabin/room/:slug/:roomId', getDetailCabinRoomById)
 
+router.put(
+  '/cabin/type-room/:typeRoomId',
+  uploadMedia.fields([{ name: 'typeImage', maxCount: 1 }]),
+  updateTypeRoom
+)
 module.exports = router

@@ -19,6 +19,7 @@ import CreateBanner from '@pages/CreateBanner';
 import OrdersAdmin from '@pages/OrdersAdmin';
 import CreateRoom from '@pages/CreateRoom';
 import ListBanner from '@pages/ListBanner';
+import EditTypeRoom from '@pages/EditTypeRoom';
 
 const routes = [
   {
@@ -121,6 +122,14 @@ const routes = [
     name: 'dashboard create cabin',
     protected: true,
     component: CreateTypeRoom,
+    adminOnly: true,
+    layout: AdminLayout,
+  },
+  {
+    path: '/dashboard/edit-type-room/:typeRoomId',
+    name: 'dashboard update cabin',
+    protected: true,
+    component: EditTypeRoom,
     adminOnly: true,
     layout: AdminLayout,
   },

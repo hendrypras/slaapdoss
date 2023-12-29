@@ -4,13 +4,12 @@ import { useDispatch, connect } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { createStructuredSelector } from 'reselect';
 
-import formateDate from '@utils/formateDate';
-
 import { selectOrderDetail } from '@pages/Orders/selectors';
 import { getDetailOrder } from '@pages/Orders/actions';
 import OrderPending from '@pages/PaymentResponse/components/OrderPending';
 import OrderSuccess from '@pages/PaymentResponse/components/OrderSuccess';
 
+import formateDate from '@utils/formateDate';
 import formatCurrency from '@utils/formatCurrency';
 import { calculateDurationInDays } from '@utils/times';
 import { decryptTextPayload } from '@utils/decryptPayload';
@@ -67,7 +66,6 @@ const PaymentResponse = ({ orderDetail }) => {
       return (
         <OrderSuccess
           orderDetail={orderDetail}
-          responsePayment={responsePayment}
           nik={nikDecode}
           startReservation={startDateFormated}
           totalPrice={totalPrice}

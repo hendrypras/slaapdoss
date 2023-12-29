@@ -7,6 +7,7 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControlLabel, Switch, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { selectLoading } from '@containers/App/selectors';
 import { showSnackBar } from '@containers/App/actions';
@@ -14,6 +15,8 @@ import { showSnackBar } from '@containers/App/actions';
 import { createTypeRoom } from '@pages/CreateTypeRoom/actions';
 import { getCabinsLocation } from '@pages/DetailCabins/actions';
 import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
+import { selectDetailTypeRoom } from '@pages/EditTypeRoom/selectors';
+import { getTypeRoomById } from '@pages/EditTypeRoom/actions';
 
 import InputForm from '@components/InputForm';
 import Button from '@components/Button';
@@ -22,10 +25,11 @@ import HeadTitle from '@components/HeadTitle';
 
 import classes from './style.module.scss';
 
-const CreateTypeRoom = ({ loading, cabinsLocation, intl: { formatMessage } }) => {
+const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatMessage } }) => {
+  console.log(detailTypeRoom, '<<<<detail');
   const method = useForm();
   const dispatch = useDispatch();
-
+  const { typeRoomId } = useParams();
   const [selectedImage, setSelectedImage] = useState(null);
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -53,12 +57,15 @@ const CreateTypeRoom = ({ loading, cabinsLocation, intl: { formatMessage } }) =>
     }
   };
   useEffect(() => {
-    dispatch(getCabinsLocation());
-  }, [dispatch]);
+    if (typeRoomId) {
+      dispatch(getCabinsLocation());
+      dispatch(getTypeRoomById(typeRoomId));
+    }
+  }, [dispatch, typeRoomId]);
   return (
     <div className={classes.container}>
       <HeadTitle size={20} className={classes.headTitle}>
-        <FormattedMessage id="dashboard_create_type_cabin_head_title" />
+        <FormattedMessage id="dashboard_edit_type_cabin_head_title" />
       </HeadTitle>
       <FormProvider {...method}>
         <form action="#" onSubmit={method.handleSubmit(onSubmit)} className={classes.form}>
@@ -197,11 +204,13 @@ const CreateTypeRoom = ({ loading, cabinsLocation, intl: { formatMessage } }) =>
 const mapStateToProps = createStructuredSelector({
   loading: selectLoading,
   cabinsLocation: selectCabinsLocation,
+  detailTypeRoom: selectDetailTypeRoom,
 });
-CreateTypeRoom.propTypes = {
+EditTypeRoom.propTypes = {
   loading: PropTypes.bool,
   cabinsLocation: PropTypes.array,
   intl: PropTypes.object,
+  detailTypeRoom: PropTypes.object,
 };
 
-export default injectIntl(connect(mapStateToProps)(CreateTypeRoom));
+export default injectIntl(connect(mapStateToProps)(EditTypeRoom));
