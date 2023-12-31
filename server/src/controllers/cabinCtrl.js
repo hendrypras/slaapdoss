@@ -289,6 +289,33 @@ exports.getCabinsLocation = async (req, res) => {
   }
 }
 
+exports.getCabins = async (req, res) => {
+  try {
+    const { slug, page = 1, limit = 18 } = req.query
+    const whereClause = {}
+    if (slug) {
+      whereClause.slug = slug
+    }
+    const { count, rows } = await Cabins.findAndCountAll({
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+      where: whereClause,
+      limit: Number(limit),
+      offset: (Number(page) - 1) * limit,
+      include: {
+        model: TypeRoom,
+        as: 'type_rooms',
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+      },
+    })
+    return responseSuccess(res, 200, 'success', {
+      results: rows,
+      count,
+    })
+  } catch (error) {
+    return responseError(res, error?.status, error?.message)
+  }
+}
+
 exports.getTypeRoom = async (req, res) => {
   try {
     const response = await TypeRoom.findAll({
@@ -299,6 +326,7 @@ exports.getTypeRoom = async (req, res) => {
     return responseError(res, error?.status, error?.message)
   }
 }
+
 exports.getTypeRoomById = async (req, res) => {
   try {
     const { typeRoomId } = req.params

@@ -98,6 +98,13 @@ export const createTypeRoom = (formData) =>
 export const editTypeRoom = (formData, typeRoomId) =>
   callAPI(`${urls.cabin[0]}/type-room/${typeRoomId}`, 'PUT', { 'Content-Type': 'multipart/form-data' }, {}, formData);
 
+export const getCabins = (slug, page = 1, limit = 18) => {
+  let url = `${urls.cabin[1]}?page=${page}&limit=${limit}`;
+  if (slug) {
+    url += `&slug=${slug}`;
+  }
+  return callAPI(url, 'GET');
+};
 // banner
 export const getBanners = () => callAPI(urls.banner[0], 'GET');
 export const getBannersAdmin = () => callAPI(`${urls.banner[0]}/all`, 'GET');

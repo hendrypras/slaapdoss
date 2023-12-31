@@ -23,7 +23,7 @@ const groupCabinRoomsByType = (rooms, includeData) => {
   const groupedCabins = _.groupBy(rooms, cabinRoom => cabinRoom.type_room.name)
 
   return _.map(groupedCabins, (value, key) => {
-    const cabinInfo = includeData.find(
+    const cabinInfo = includeData?.find(
       item => item.typeCabin?.toLowerCase() === key.toLowerCase()
     )
 
