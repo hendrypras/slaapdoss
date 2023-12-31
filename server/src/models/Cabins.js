@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'slug',
         as: 'rooms',
       })
+      Cabins.hasMany(models.TypeRoom, {
+        foreignKey: 'cabins_slug',
+        sourceKey: 'slug',
+        as: 'type_rooms',
+      })
     }
   }
   Cabins.init(
