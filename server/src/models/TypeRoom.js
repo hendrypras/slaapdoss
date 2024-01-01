@@ -4,10 +4,15 @@ module.exports = (sequelize, DataTypes) => {
   class TypeRoom extends Model {
     static associate(models) {
       TypeRoom.hasMany(models.Rooms, {
-        as: 'type_room',
+        as: 'rooms',
         foreignKey: {
           name: 'type_room_id',
         },
+      })
+      TypeRoom.belongsTo(models.Cabins, {
+        foreignKey: 'cabins_slug',
+        targetKey: 'slug',
+        as: 'cabin',
       })
     }
   }

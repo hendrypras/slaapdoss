@@ -13,18 +13,21 @@ const isDateRangeOverlap = (start, end, dateStart, dateEnd) => {
 const filterRoomsByDateRange = (cabinRooms, dateStart, dateEnd) => {
   return _.filter(cabinRooms, room => {
     return !room.reservation_date?.some(item => {
-      const start = parseInt(item.start_reservation)
-      const end = parseInt(item.end_reservation)
+      const start = parseInt(item?.start_reservation)
+      const end = parseInt(item?.end_reservation)
       return isDateRangeOverlap(start, end, dateStart, dateEnd)
     })
   })
 }
 const groupCabinRoomsByType = (rooms, includeData) => {
-  const groupedCabins = _.groupBy(rooms, cabinRoom => cabinRoom.type_room.name)
+  const groupedCabins = _.groupBy(
+    rooms,
+    cabinRoom => cabinRoom?.type_room?.name
+  )
 
   return _.map(groupedCabins, (value, key) => {
-    const cabinInfo = includeData.find(
-      item => item.typeCabin?.toLowerCase() === key.toLowerCase()
+    const cabinInfo = includeData?.find(
+      item => item?.typeCabin?.toLowerCase() === key.toLowerCase()
     )
 
     return {
@@ -32,9 +35,9 @@ const groupCabinRoomsByType = (rooms, includeData) => {
       include: cabinInfo || null,
       cabins: _.map(value, cabin => ({
         id: cabin.id,
-        cabins_slug: cabin.cabins_slug,
-        room_number: cabin.room_number,
-        type_room_id: cabin.type_room_id,
+        cabins_slug: cabin?.cabins_slug,
+        room_number: cabin?.room_number,
+        type_room_id: cabin?.type_room_id,
       })),
     }
   })
@@ -47,7 +50,6 @@ const modifiedResponseDetailRoomCabin = detailData => {
     roomNumber: detailData?.rooms[0]?.room_number,
     typeCabin: detailData?.rooms[0]?.type_room?.name,
     price: detailData?.rooms[0]?.type_room?.price,
-    information: detailData?.rooms[0]?.type_room?.information,
     capacity: detailData?.rooms[0]?.type_room?.capacity,
   }
 }

@@ -20,6 +20,7 @@ import OrdersAdmin from '@pages/OrdersAdmin';
 import CreateRoom from '@pages/CreateRoom';
 import ListBanner from '@pages/ListBanner';
 import EditTypeRoom from '@pages/EditTypeRoom';
+import CabinList from '@pages/CabinList';
 
 const routes = [
   {
@@ -102,7 +103,7 @@ const routes = [
     layout: MainLayout,
   },
   {
-    path: '/cabins/:slugCabin',
+    path: '/cabin/:slugCabin',
     name: 'Detail Cabins',
     protected: false,
     component: DetailCabins,
@@ -162,6 +163,14 @@ const routes = [
     name: 'dashboard list banner',
     protected: true,
     component: ListBanner,
+    adminOnly: true,
+    layout: AdminLayout,
+  },
+  {
+    path: '/dashboard/cabins',
+    name: 'dashboard cabins',
+    protected: true,
+    component: CabinList,
     adminOnly: true,
     layout: AdminLayout,
   },

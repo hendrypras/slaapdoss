@@ -98,7 +98,7 @@ exports.createTypeRoom = async (req, res) => {
       ...rest,
     })
     if (validate) {
-      return responseError(res, 400, 'Validatin Failed', validate)
+      return responseError(res, 400, 'Validation Failed', validate)
     }
     const [findTypeRoom, findCabins] = await Promise.all([
       TypeRoom.findAll({
@@ -289,6 +289,35 @@ exports.getCabinsLocation = async (req, res) => {
   }
 }
 
+exports.getCabins = async (req, res) => {
+  try {
+    const { slug, page = 1, limit = 5 } = req.query
+    const whereClause = slug ? { slug } : {}
+
+    const [rows, count] = await Promise.all([
+      Cabins.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] },
+        where: whereClause,
+        limit: Number(limit),
+        offset: (Number(page) - 1) * limit,
+        include: {
+          model: TypeRoom,
+          as: 'type_rooms',
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+        },
+      }),
+      Cabins.count({ where: whereClause }),
+    ])
+
+    return responseSuccess(res, 200, 'success', {
+      results: rows,
+      count,
+    })
+  } catch (error) {
+    return responseError(res, error?.status, error?.message)
+  }
+}
+
 exports.getTypeRoom = async (req, res) => {
   try {
     const response = await TypeRoom.findAll({
@@ -299,6 +328,7 @@ exports.getTypeRoom = async (req, res) => {
     return responseError(res, error?.status, error?.message)
   }
 }
+
 exports.getTypeRoomById = async (req, res) => {
   try {
     const { typeRoomId } = req.params
@@ -331,7 +361,7 @@ exports.getDetailCabinRoomById = async (req, res) => {
           {
             model: TypeRoom,
             as: 'type_room',
-            attributes: ['name', 'price', 'information', 'capacity'],
+            attributes: ['name', 'price', 'capacity'],
           },
         ],
       },

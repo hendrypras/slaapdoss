@@ -84,8 +84,15 @@ export const getOrders = (orderId, page = 1, limit = 18) => {
 };
 
 // cabin
-export const getDetailCabins = (slug, dateStart, dateEnd) =>
+export const getDetailCabin = (slug, dateStart, dateEnd) =>
   callAPI(`${urls.cabin[0]}/detail/${slug}?dateStart=${dateStart}&dateEnd=${dateEnd}`, 'GET');
+export const getCabins = (slug, page = 1, limit = 5) => {
+  let url = `${urls.cabin[1]}?page=${page}&limit=${limit}`;
+  if (slug) {
+    url += `&slug=${slug}`;
+  }
+  return callAPI(url, 'GET');
+};
 export const getCabinsLocation = () => callAPI(`${urls.cabin[1]}/location`, 'GET');
 export const getDetailCabinRoom = (slug, roomId) => callAPI(`${urls.cabin[0]}/room/${slug}/${roomId}`, 'GET');
 export const getTypeRoom = () => callAPI(`${urls.cabin[0]}/type-room`, 'GET');

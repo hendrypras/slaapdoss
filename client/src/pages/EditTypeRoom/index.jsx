@@ -7,16 +7,14 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControlLabel, Switch, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { selectLoading } from '@containers/App/selectors';
 import { showSnackBar } from '@containers/App/actions';
 
-import { createTypeRoom } from '@pages/CreateTypeRoom/actions';
 import { getCabinsLocation } from '@pages/DetailCabins/actions';
 import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
 import { selectDetailTypeRoom } from '@pages/EditTypeRoom/selectors';
-import { getTypeRoomById } from '@pages/EditTypeRoom/actions';
+import { editTypeRoom, getTypeRoomById, setDetailTypeRoom } from '@pages/EditTypeRoom/actions';
 
 import InputForm from '@components/InputForm';
 import Button from '@components/Button';
@@ -26,9 +24,10 @@ import HeadTitle from '@components/HeadTitle';
 import classes from './style.module.scss';
 
 const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatMessage } }) => {
-  console.log(detailTypeRoom, '<<<<detail');
   const method = useForm();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { state: typeRoomData } = useLocation();
   const { typeRoomId } = useParams();
   const [selectedImage, setSelectedImage] = useState(null);
   const onSubmit = (data) => {
@@ -38,10 +37,9 @@ const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatM
       formData.append(key, value);
     });
     dispatch(
-      createTypeRoom(formData, () => {
-        method.reset();
-        setSelectedImage(null);
-        dispatch(showSnackBar('Type Room created successfully'));
+      editTypeRoom(formData, typeRoomId, () => {
+        navigate('/dashboard/cabins');
+        dispatch(showSnackBar('Updated Room Successfully'));
       })
     );
   };
@@ -57,11 +55,42 @@ const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatM
     }
   };
   useEffect(() => {
-    if (typeRoomId) {
+    if (typeRoomId && !typeRoomData) {
       dispatch(getCabinsLocation());
-      dispatch(getTypeRoomById(typeRoomId));
+      dispatch(
+        getTypeRoomById(typeRoomId, () => {
+          navigate('/notfound');
+        })
+      );
+    } else if (typeRoomData) {
+      dispatch(setDetailTypeRoom(typeRoomData));
     }
-  }, [dispatch, typeRoomId]);
+  }, [dispatch, typeRoomId, typeRoomData]);
+
+  useEffect(() => {
+    if (detailTypeRoom && Object.keys(detailTypeRoom).length !== 0) {
+      const {
+        name,
+        price,
+        capacity,
+        breakfast,
+        cabins_slug: cabinsSlug,
+        image_url: imageUrl,
+        image_public_id: imagePublicId,
+      } = detailTypeRoom;
+      method.setValue('name', name || '');
+      method.setValue('price', price || '');
+      method.setValue('capacity', capacity || '');
+      method.setValue('breakfast', breakfast || false);
+      method.setValue('cabinsSlug', cabinsSlug || '');
+      method.setValue('imageUrl', imageUrl);
+      method.setValue('imagePublicId', imagePublicId);
+      setSelectedImage(imageUrl);
+    }
+  }, [detailTypeRoom, method]);
+
+  const filteredCabinsSlug = cabinsLocation?.filter((item) => item?.slug === detailTypeRoom?.cabins_slug);
+
   return (
     <div className={classes.container}>
       <HeadTitle size={20} className={classes.headTitle}>
@@ -98,7 +127,6 @@ const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatM
               />
             </div>
           )}
-
           <FormControl sx={{ m: 1, width: '100%' }}>
             <InputLabel id="select-type-cabin">Name</InputLabel>
             <Controller
@@ -164,11 +192,11 @@ const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatM
             <Controller
               name="cabinsSlug"
               control={method.control}
-              defaultValue=""
+              defaultValue={detailTypeRoom?.cabins_slug || ''}
               render={({ field }) => (
                 <Select
                   {...field}
-                  labelId="select-sabin"
+                  labelId="select-sabin-slug"
                   label="Cabin"
                   required
                   onChange={(e) => {
@@ -176,18 +204,16 @@ const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatM
                     method.setValue('cabinsSlug', e.target.value);
                   }}
                 >
-                  <MenuItem value="">
-                    <em>none</em>
-                  </MenuItem>
-                  {cabinsLocation.map((cabin) => (
-                    <MenuItem key={cabin?.id} value={cabin.slug}>
-                      {cabin.name}
+                  {filteredCabinsSlug?.map((cabin) => (
+                    <MenuItem key={cabin?.id} value={cabin?.slug}>
+                      {cabin?.name}
                     </MenuItem>
                   ))}
                 </Select>
               )}
             />
           </FormControl>
+
           <Button isLoading={loading} type="submit">
             {loading ? (
               <FormattedMessage id="app_text_loading_button" />

@@ -35,6 +35,9 @@
         @include displayFlex(row, start, start);
         gap: 0.76rem;
         position: relative;
+        &.wrapperSelected {
+          background-color: rgba($color-green-100, 0.2);
+        }
         .icon {
           width: 15%;
         }

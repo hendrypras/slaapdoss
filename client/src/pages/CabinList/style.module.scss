@@ -1,0 +1,15 @@
+@import '@styles/base';
+.container {
+  width: 100%;
+  height: max-content;
+  padding: 0 2rem;
+  .headTitle {
+    width: 100%;
+    text-align: center;
+  }
+  .wrapperCard {
+    @include displayFlex(column, center, center);
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+}

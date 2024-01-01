@@ -8,8 +8,8 @@ const path = require('path')
 const { generateAuthToken } = require('../../src/services/authService')
 
 const dummyAdmin = {
-  email: 'admin3@mail.com',
-  username: 'admin3',
+  email: 'admin5@mail.com',
+  username: 'admin5',
   password: 'password123',
   role: 1,
 }
@@ -20,7 +20,6 @@ const dummyTextDataCabin = {
   longitude: 1293876,
 }
 const dummyTextDataTypeRoom = {
-  information: 'test info',
   price: 1123,
   capacity: 'test capacity',
   breakfast: false,
@@ -175,6 +174,24 @@ describe('Create Cabin', () => {
       })
   })
 })
+
+describe('GET Cabins', () => {
+  test('Success get cabin with status 200', done => {
+    request(app)
+      .get('/api/cabins')
+      .set('authorization', `Bearer ${token}`)
+      .then(res => {
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe('success')
+        expect(res.body).toHaveProperty('data')
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
+})
+
 describe('Create type room', () => {
   test('Success create type room with status 201', done => {
     request(app)
@@ -240,7 +257,7 @@ describe('Create type room', () => {
       .field(dummyTextDataTypeRoom)
       .then(res => {
         expect(res.status).toBe(400)
-        expect(res.body.status).toBe('Validatin Failed')
+        expect(res.body.status).toBe('Validation Failed')
         expect(res.body.message).toBe(
           'Name must be one of: standard cabin, deluxe cabin, executive cabin.'
         )
@@ -287,6 +304,117 @@ describe('Create type room', () => {
       })
   })
 })
+
+describe('Update type room', () => {
+  test('Failed image not found with status 400', done => {
+    request(app)
+      .put(`/api/cabin/type-room/${typeRoomId}`)
+      .set('authorization', `Bearer ${token}`)
+      .field('cabinsSlug', slugCabin)
+      .field('name', 'standard cabin')
+      .field(dummyTextDataTypeRoom)
+      .then(res => {
+        expect(res.status).toBe(400)
+        expect(res.body.status).toBe('Validation Failed')
+        expect(res.body.message).toBe('Image is required')
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
+  test('Image not acceptable with status 400', done => {
+    request(app)
+      .put(`/api/cabin/type-room/${typeRoomId}`)
+      .set('authorization', `Bearer ${token}`)
+      .attach('typeImage', imageNotAccept)
+      .field({
+        name: 'standard cabin',
+        cabinsSlug: slugCabin,
+        imagePublicId: 'image/asdasdhajksdhjh',
+        imageUrl: 'https://askdghkasgdgashjdgahsjgdhjagsdhasgdjhasgd.com',
+        ...dummyTextDataTypeRoom,
+      })
+      .then(res => {
+        expect(res.status).toBe(400)
+        expect(res.body.status).toBe('Bad Request')
+        expect(res.body.message).toBe(
+          'Unsupported file type! Please upload only JPG, JPEG, or PNG images.'
+        )
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
+  test('Validation failed with status 400', done => {
+    request(app)
+      .put(`/api/cabin/type-room/${typeRoomId}`)
+      .set('authorization', `Bearer ${token}`)
+      .attach('typeImage', imageAccept)
+      .field({
+        name: 'standard cabins',
+        cabinsSlug: slugCabin,
+        imagePublicId: 'image/asdasdhajksdhjh',
+        imageUrl: 'https://askdghkasgdgashjdgahsjgdhjagsdhasgdjhasgd.com',
+        ...dummyTextDataTypeRoom,
+      })
+      .then(res => {
+        expect(res.status).toBe(400)
+        expect(res.body.status).toBe('Validation Failed')
+        expect(res.body.message).toBe(
+          'Name must be one of: standard cabin, deluxe cabin, executive cabin.'
+        )
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
+  test('Validation failed with status 400', done => {
+    request(app)
+      .put(`/api/cabin/type-room/${typeRoomId}`)
+      .set('authorization', `Bearer ${token}`)
+      .attach('typeImage', imageAccept)
+      .field({
+        name: 'standard cabin',
+        cabinsSlug: slugCabin,
+        imagePublicId: 'image/asdasdhajksdhjh',
+        imageUrl: 'https://askdghkasgdgashjdgahsjgdhjagsdhasgdjhasgd.com',
+        ...dummyTextDataTypeRoom,
+      })
+      .then(res => {
+        expect(res.status).toBe(400)
+        expect(res.body.status).toBe('Bad Request')
+        expect(res.body.message).toBe('Type Room with this name already exists')
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
+  test('Success with status 200', done => {
+    request(app)
+      .put(`/api/cabin/type-room/${typeRoomId}`)
+      .set('authorization', `Bearer ${token}`)
+      .field({
+        name: 'deluxe cabin',
+        cabinsSlug: slugCabin,
+        imagePublicId: 'image/asdasdhajksdhjh',
+        imageUrl: 'https://askdghkasgdgashjdgahsjgdhjagsdhasgdjhasgd.com',
+        ...dummyTextDataTypeRoom,
+      })
+      .then(res => {
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe('success')
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
+})
+
 describe('Create room', () => {
   test('Success create room with status 201', done => {
     request(app)
@@ -387,6 +515,19 @@ describe('Create room', () => {
 })
 
 describe('Get Cabin by slug', () => {
+  test('Success with status 200', done => {
+    request(app)
+      .get(`/api/cabin/detail/${slugCabin}`)
+      .then(res => {
+        expect(res.status).toBe(200)
+        expect(res.body.status).toBe('success')
+        expect(res.body).toHaveProperty('data')
+        done()
+      })
+      .catch(err => {
+        done(err)
+      })
+  })
   test('Cabin notfound with status 404', done => {
     request(app)
       .get(`/api/cabin/detail/another-slug-cabin`)
@@ -436,7 +577,7 @@ describe('Get type rooms', () => {
 })
 
 describe('Get detail cabin Room by id', () => {
-  test('Success get type rooms 200', done => {
+  test('Success with status 200', done => {
     request(app)
       .get(`/api/cabin/room/${slugCabin}/${roomId}`)
       .then(res => {
@@ -449,9 +590,9 @@ describe('Get detail cabin Room by id', () => {
         done(err)
       })
   })
-  test('Failed cabin not found with status 404', done => {
+  test('Failed with status 404', done => {
     request(app)
-      .get(`/api/cabin/room/no-data-cabin/${roomId}`)
+      .get(`/api/cabin/room/nothing/${roomId}`)
       .then(res => {
         expect(res.status).toBe(404)
         expect(res.body.status).toBe('Not Found')
