@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 
 import { selectAssets } from '@containers/App/selectors';
 
-import { getDetailCabins } from '@pages/DetailCabins/actions';
+import { getDetailCabin } from '@pages/DetailCabins/actions';
 import { selectCabins, selectLoading } from '@pages/DetailCabins/selectors';
 import { setSearchValue } from '@pages/Home/actions';
 import CardCabin from '@pages/DetailCabins/components/CardCabin';
@@ -51,7 +51,7 @@ const DetailCabins = ({ cabins, loading }) => {
   useEffect(() => {
     if (slugCabin) {
       dispatch(
-        getDetailCabins(slugCabin, dateCheckIn.unix, dateCheckout.unix, null, () => {
+        getDetailCabin(slugCabin, dateCheckIn.unix, dateCheckout.unix, null, () => {
           navigate('/notfound');
         })
       );

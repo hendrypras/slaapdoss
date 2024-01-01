@@ -33,7 +33,7 @@ const Navbar = ({ locale, login, token, userProfile }) => {
     if (decoded?.role === 2) {
       navigate('/user/profile');
     } else {
-      navigate('/dashboard/create-cabin');
+      navigate('/dashboard/cabins');
     }
   };
   return (

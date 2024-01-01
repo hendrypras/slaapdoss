@@ -33,6 +33,11 @@ const SideBar = ({ children, userProfile, locale }) => {
         </button>
         <ul className={classes.links}>
           <li className={classes.link}>
+            <Link to="/dashboard/cabins">
+              <FormattedMessage id="dashboard_list_cabin_head_title" />
+            </Link>
+          </li>
+          <li className={classes.link}>
             <Link to="/dashboard/create-cabin">
               <FormattedMessage id="dashboard_create_cabin_head_title" />
             </Link>
@@ -66,7 +71,6 @@ const SideBar = ({ children, userProfile, locale }) => {
         <div className={classes.wrapperFooter}>
           <button type="button" onClick={() => navigate('/user/profile')} className={classes.btnAvatar}>
             <Avatar alt="avatar" src={userProfile?.image_url || avatar} />
-            <div className={classes.username}>{userProfile?.username}</div>
           </button>
           <Button
             className={classes.logout}

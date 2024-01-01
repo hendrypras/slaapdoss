@@ -1,0 +1,77 @@
+@import '@styles/base';
+
+.card {
+  border-radius: 1rem;
+  background-color: $color-white;
+  @include shadow;
+  padding: 1.5rem;
+  width: 100%;
+  @include displayFlex(column, center, center);
+
+  @include screen(lg) {
+    @include displayFlex(row, center, start);
+    overflow: hidden;
+    gap: 1rem;
+    padding: 2rem;
+  }
+  .wrapperImg {
+    @include displayFlex(column, start, start);
+    width: 100%;
+    @include screen(lg) {
+      width: 70%;
+    }
+    @include screen(xl) {
+      width: 50%;
+    }
+    @include screen(xxl) {
+      width: 40%;
+    }
+    .titleCard {
+      @include screen(lg) {
+        font-size: 1.5rem;
+      }
+    }
+    .img {
+      width: 100%;
+      border-radius: 0.8rem;
+    }
+    .btnDetail {
+      background-color: transparent;
+      color: $color-green-100;
+      border: 1.5px solid $color-green-100;
+      font-size: 0.95rem;
+      padding: 0.6rem;
+      margin-top: 0.8rem;
+      border-radius: 0.5rem;
+    }
+  }
+
+  .wrapperContent {
+    margin-top: 1rem;
+    overflow: hidden;
+    width: 100%;
+    @include screen(lg) {
+      height: auto !important;
+      overflow: auto;
+      @include displayFlex(column, space-between, start);
+      padding: 0 2rem;
+    }
+    .contentCabin {
+      width: 100%;
+      height: 100%;
+      .address {
+        width: 100%;
+      }
+    }
+    .wrapperCardTypeRom {
+      height: max-content;
+      width: 100%;
+      margin-top: 2rem;
+      @include displayFlex(column, start, start);
+      gap: 1rem;
+      @include screen(lg) {
+        @include displayFlex(row, start, start);
+      }
+    }
+  }
+}

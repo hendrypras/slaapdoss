@@ -103,7 +103,7 @@ const routes = [
     layout: MainLayout,
   },
   {
-    path: '/cabins/:slugCabin',
+    path: '/cabin/:slugCabin',
     name: 'Detail Cabins',
     protected: false,
     component: DetailCabins,
