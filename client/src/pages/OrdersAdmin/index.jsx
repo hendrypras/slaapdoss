@@ -51,7 +51,7 @@ const OrdersAdmin = ({ orders, loading }) => {
   const handlePaginationChange = (e, newPage) => {
     e.preventDefault();
     queryParams.set('page', newPage);
-    queryParams.set('limit', 2);
+    queryParams.set('limit', 18);
     navigate(`${location.pathname}?${queryParams.toString()}`);
   };
 

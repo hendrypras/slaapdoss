@@ -27,11 +27,7 @@ const ContentDrawer = ({ onClose, login, decoded, logout, userProfile, handleCli
         {login && decoded ? (
           <>
             {decoded?.role === 1 ? (
-              <Button
-                className={classes.btnDashboard}
-                type="button"
-                onClick={() => navigate('/dashboard/create-cabin')}
-              >
+              <Button className={classes.btnDashboard} type="button" onClick={() => navigate('/dashboard/cabins')}>
                 <>
                   <DashboardCustomizeOutlinedIcon /> Dashboard
                 </>

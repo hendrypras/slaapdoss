@@ -7,14 +7,14 @@ import { FormattedMessage, injectIntl } from 'react-intl';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { FormControlLabel, Switch, FormControl, Select, InputLabel, MenuItem } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { selectLoading } from '@containers/App/selectors';
 import { showSnackBar } from '@containers/App/actions';
 
 import { getCabinsLocation } from '@pages/DetailCabins/actions';
 import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
 import { selectDetailTypeRoom } from '@pages/EditTypeRoom/selectors';
-import { editTypeRoom, getTypeRoomById } from '@pages/EditTypeRoom/actions';
+import { editTypeRoom, getTypeRoomById, setDetailTypeRoom } from '@pages/EditTypeRoom/actions';
 
 import InputForm from '@components/InputForm';
 import Button from '@components/Button';
@@ -27,6 +27,7 @@ const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatM
   const method = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { state: typeRoomData } = useLocation();
   const { typeRoomId } = useParams();
   const [selectedImage, setSelectedImage] = useState(null);
   const onSubmit = (data) => {
@@ -54,11 +55,18 @@ const EditTypeRoom = ({ loading, cabinsLocation, detailTypeRoom, intl: { formatM
     }
   };
   useEffect(() => {
-    if (typeRoomId) {
+    if (typeRoomId && !typeRoomData) {
       dispatch(getCabinsLocation());
-      dispatch(getTypeRoomById(typeRoomId));
+      dispatch(
+        getTypeRoomById(typeRoomId, () => {
+          navigate('/notfound');
+        })
+      );
+    } else if (typeRoomData) {
+      dispatch(setDetailTypeRoom(typeRoomData));
     }
-  }, [dispatch, typeRoomId]);
+  }, [dispatch, typeRoomId, typeRoomData]);
+
   useEffect(() => {
     if (detailTypeRoom && Object.keys(detailTypeRoom).length !== 0) {
       const {

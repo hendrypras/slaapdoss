@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -31,7 +32,10 @@ const PaymentMethod = ({ methodList, methodSelected }) => {
             <div
               hidden
               key={i}
-              className={classes.wrapperCotentDetails}
+              className={classNames({
+                [classes.wrapperCotentDetails]: true,
+                [classes.wrapperSelected]: methodSelected?.bank === val?.method || false,
+              })}
               onClick={() => dispatch(selectPaymentMethod({ paymentType: val?.type, bank: val?.method }))}
             >
               <img src={val?.icon_url} alt="icon" className={classes.icon} />

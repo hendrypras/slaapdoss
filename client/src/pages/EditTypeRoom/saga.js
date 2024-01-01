@@ -20,7 +20,7 @@ function* doEditTypeRoom({ data, typeRoomId, cbSuccess }) {
     yield put(setLoading(false));
   }
 }
-function* doGetTypeRoomById({ typeRoomId }) {
+function* doGetTypeRoomById({ typeRoomId, cbErr }) {
   yield put(setLoading(true));
   try {
     const response = yield call(getTypeRoomById, typeRoomId);
@@ -28,6 +28,9 @@ function* doGetTypeRoomById({ typeRoomId }) {
       yield put(setDetailTypeRoom(response.data));
     }
   } catch (error) {
+    if (error.response.status === 404) {
+      return cbErr(error);
+    }
     yield put(showPopup(error.response.data.message));
   } finally {
     yield put(setLoading(false));

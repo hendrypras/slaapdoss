@@ -52,9 +52,14 @@ axios.interceptors.response.use(
             return axios(originalRequest);
           }
         } catch (err) {
-          await logout();
-          localStorage.clear();
-          window.location.href = '/';
+          try {
+            await logout();
+          } catch {
+            return Promise.reject(err);
+          } finally {
+            localStorage.clear();
+            window.location.href = '/';
+          }
           return Promise.reject(err);
         } finally {
           isRefreshing = false;
