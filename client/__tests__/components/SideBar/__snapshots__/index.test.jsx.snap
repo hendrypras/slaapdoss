@@ -35,6 +35,15 @@ exports[`SideBar should match with snapshot 1`] = `
               class="link"
             >
               <a
+                href="/dashboard/cabins"
+              >
+                Daftar Cabin
+              </a>
+            </li>
+            <li
+              class="link"
+            >
+              <a
                 href="/dashboard/create-cabin"
               >
                 Tambah Cabin
@@ -108,9 +117,6 @@ exports[`SideBar should match with snapshot 1`] = `
                   />
                 </svg>
               </div>
-              <div
-                class="username"
-              />
             </button>
             <button
               class="wrapper logout"
@@ -198,6 +204,15 @@ exports[`SideBar should match with snapshot 1`] = `
             class="link"
           >
             <a
+              href="/dashboard/cabins"
+            >
+              Daftar Cabin
+            </a>
+          </li>
+          <li
+            class="link"
+          >
+            <a
               href="/dashboard/create-cabin"
             >
               Tambah Cabin
@@ -271,9 +286,6 @@ exports[`SideBar should match with snapshot 1`] = `
                 />
               </svg>
             </div>
-            <div
-              class="username"
-            />
           </button>
           <button
             class="wrapper logout"
