@@ -5,7 +5,7 @@ import { useDispatch, connect } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { createStructuredSelector } from 'reselect';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Pagination, PaginationItem, Stack, Box } from '@mui/material';
+import { Pagination, Chip, PaginationItem, Stack, Box } from '@mui/material';
 import { ArrowBack as ArrowBackIcon, ArrowForward as ArrowForwardIcon } from '@mui/icons-material';
 
 import { selectLoading, selectOrdersAdmin } from '@pages/OrdersAdmin/selectors';
@@ -16,6 +16,7 @@ import Button from '@components/Button';
 
 import formateDate from '@utils/formateDate';
 
+import formatCurrency from '@utils/formatCurrency';
 import classes from './style.module.scss';
 
 const columns = [
@@ -65,6 +66,7 @@ const OrdersAdmin = ({ orders, loading }) => {
       navigate(`${location.pathname}?${queryParams.toString()}`);
     }
   }, [orderIdInput, navigate]);
+
   const handleSearch = (e) => {
     e.preventDefault();
     queryParams.set('orderId', orderIdInput);
@@ -79,10 +81,10 @@ const OrdersAdmin = ({ orders, loading }) => {
           nameUser: val?.user?.username,
           name: `${val?.room?.cabin?.name}, ${val?.room?.cabin?.city}`,
           price: val?.total_price,
-          duration: val?.stay_duration,
-          reservationDate: `${formateDate(parseInt(val?.start_reservation, 10), 'DD MM YYYY')}- ${formateDate(
+          duration: `${val?.stay_duration} Night(s)`,
+          reservationDate: `${formateDate(parseInt(val?.start_reservation, 10), 'DD/MM/YYYY')} - ${formateDate(
             parseInt(val?.end_reservation, 10),
-            'DD MM YYYY'
+            'DD/MM/YYYY'
           )}`,
         }))
       : [];
@@ -104,6 +106,16 @@ const OrdersAdmin = ({ orders, loading }) => {
             <Button className={classes.btnSubmit} type="submit" title="Search" />
           </form>
         </div>
+        <Stack className={classes.wrapperCounts}>
+          <Chip label={`${orders?.transactionStatusCounts?.pending || 0} Pending`} color="primary" />
+          <Chip label={`${orders?.transactionStatusCounts?.settlement || 0} Completed`} color="success" />
+          <Chip label={`${orders?.transactionStatusCounts?.cancel || 0} Canceled`} color="error" />
+          <Chip label={`${orders?.transactionStatusCounts?.expiry || 0} Expired`} color="warning" />
+          <Chip
+            label={`Total Amount Completed = ${formatCurrency(orders?.totalGrossAmountSettlement || 0)}`}
+            color="success"
+          />
+        </Stack>
         <Box sx={{ width: '90%' }}>
           <DataGrid rows={resultOrders} columns={columns} loading={loading} hideFooterPagination />
         </Box>

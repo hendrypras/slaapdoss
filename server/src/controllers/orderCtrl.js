@@ -100,57 +100,87 @@ exports.getOrdersUser = async (req, res) => {
 exports.getOrders = async (req, res) => {
   try {
     const { orderId, page = 1, limit = 18 } = req.query
-    const whereClause = {}
-    if (orderId) {
-      whereClause.order_id = orderId
-    }
-    const { count, rows } = await Orders.findAndCountAll({
-      include: [
-        {
-          model: Users,
-          as: 'user',
-          attributes: ['username', 'email'],
+    const whereClause = orderId ? { order_id: orderId } : {}
+
+    const [ordersResult, responseTransactionStatusCount] = await Promise.all([
+      Orders.findAndCountAll({
+        include: [
+          {
+            model: Users,
+            as: 'user',
+            attributes: ['username', 'email'],
+          },
+          {
+            model: Rooms,
+            as: 'room',
+            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            include: [
+              {
+                model: Cabins,
+                as: 'cabin',
+                attributes: ['name', 'city'],
+              },
+              {
+                model: TypeRoom,
+                as: 'type_room',
+                attributes: ['name'],
+              },
+            ],
+          },
+          {
+            model: ResponsePayments,
+            as: 'response_payment',
+            attributes: ['transaction_status', 'va_number', 'order_id'],
+          },
+        ],
+        where: whereClause,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt'],
         },
-        {
-          model: Rooms,
-          as: 'room',
-          attributes: { exclude: ['createdAt', 'updatedAt'] },
-          include: [
-            {
-              model: Cabins,
-              as: 'cabin',
-              attributes: ['name', 'city'],
-            },
-            {
-              model: TypeRoom,
-              as: 'type_room',
-              attributes: ['name'],
-            },
+        order: [['createdAt', 'DESC']],
+        limit: Number(limit),
+        offset: (Number(page) - 1) * limit,
+      }),
+      ResponsePayments.findAll({
+        attributes: [
+          'transaction_status',
+          [sequelize.fn('COUNT', 'transaction_status'), 'count'],
+          [
+            sequelize.fn(
+              'SUM',
+              sequelize.literal(
+                'CASE WHEN transaction_status = "settlement" THEN gross_amount ELSE 0 END'
+              )
+            ),
+            'total_gross_amount',
           ],
-        },
-        {
-          model: ResponsePayments,
-          as: 'response_payment',
-          attributes: ['transaction_status', 'va_number', 'order_id'],
-        },
-      ],
-      where: whereClause,
-      attributes: {
-        exclude: ['createdAt', 'updatedAt'],
-      },
-      order: [['createdAt', 'DESC']],
-      limit: Number(limit),
-      offset: (Number(page) - 1) * limit,
+        ],
+        group: ['transaction_status'],
+      }),
+    ])
+
+    const { count, rows } = ordersResult
+
+    const transactionStatusCounts = {}
+    const totalGrossAmountSettlement = responseTransactionStatusCount
+      ?.find(status => status?.transaction_status === 'settlement')
+      ?.get('total_gross_amount')
+
+    responseTransactionStatusCount?.forEach(status => {
+      transactionStatusCounts[status.transaction_status] = status.get('count')
     })
 
     return responseSuccess(res, 200, 'success', {
       results: rows,
       count,
+      transactionStatusCounts,
+      totalGrossAmountSettlement,
     })
   } catch (error) {
     return responseError(res, error.status, error.message)
   }
 }
+
 exports.getOrderDetail = async (req, res) => {
   try {
     const { orderId } = req.params
