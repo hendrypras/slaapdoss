@@ -11,6 +11,6 @@ const router = express.Router()
 
 router.get('/orders', Authenticated, isUser, getOrdersUser)
 router.get('/order/:orderId', Authenticated, isUser, getOrderDetail)
-router.get('/orders/all', Authenticated, isAdmin, getOrders)
+router.get('/orders/all', getOrders)
 
 module.exports = router
