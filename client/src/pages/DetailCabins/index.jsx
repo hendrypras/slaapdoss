@@ -4,7 +4,7 @@ import { connect, useDispatch } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { useEffect, useState } from 'react';
 import { CheckCircleOutline as CheckCircleOutlineIcon } from '@mui/icons-material';
-import { useMediaQuery } from '@mui/material';
+import { useMediaQuery, Box, Skeleton } from '@mui/material';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 
@@ -137,13 +137,23 @@ const DetailCabins = ({ cabins, loading }) => {
         ))}
       <Container className={classes.container}>
         <>
-          <div className={classes.wrapperImg}>
-            <img src={cabins?.cabin?.image_url} alt="cabin" className={classes.mainImg} />
-            <div className={classes.wrapperTextContent}>
-              <HeadTitle size={19} title={`${cabins?.cabin?.name}, ${cabins?.cabin?.city}`} />
-              <SubHeadTitle mt={3} size={14} title={cabins?.cabin?.address} />
+          {loading ? (
+            <Box sx={{ width: '100%', display: 'flex', flexDirection: isTablet ? 'column-reverse' : 'column' }}>
+              <Skeleton variant="rounded" height={isTablet ? 400 : 300} />
+              <Box sx={{ width: '80%', padding: isTablet ? '0' : '0 1rem', margin: '1rem 0' }}>
+                <Skeleton animation="pulse" height={35} />
+                <Skeleton animation="pulse" height={35} />
+              </Box>
+            </Box>
+          ) : (
+            <div className={classes.wrapperImg}>
+              <img src={cabins?.cabin?.image_url} alt="cabin" className={classes.mainImg} />
+              <div className={classes.wrapperTextContent}>
+                <HeadTitle size={19} title={`${cabins?.cabin?.name}, ${cabins?.cabin?.city}`} />
+                <SubHeadTitle mt={3} size={14} title={cabins?.cabin?.address} className={classes.address} />
+              </div>
             </div>
-          </div>
+          )}
           <div className={classes.wrapperFasilities}>
             <HeadTitle>
               <FormattedMessage id="app_detail_cabin_title_facilities_service" />

@@ -4,6 +4,7 @@ import { createStructuredSelector } from 'reselect';
 import { useEffect } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
+import { Skeleton, Box, useMediaQuery } from '@mui/material';
 
 import { selectAssets } from '@containers/App/selectors';
 
@@ -13,15 +14,17 @@ import SubHeadTitle from '@components/SubHeadTitle';
 
 import Banner from '@pages/Home/components/Banner';
 import SearchCabin from '@pages/Home/components/SearchCabinHome';
-import { selectBanners, selectSearchValue } from '@pages/Home/selectors';
+import { selectBanners, selectLoading, selectSearchValue } from '@pages/Home/selectors';
 import { getCabinsLocation } from '@pages/DetailCabins/actions';
 import { selectCabinsLocation } from '@pages/DetailCabins/selectors';
 import { getBanners } from '@pages/Home/actions';
 
 import classes from './style.module.scss';
 
-const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
+const Home = ({ assets, searchValue, cabinsLocation, banners, loading }) => {
   const dispatch = useDispatch();
+  const isTablet = useMediaQuery('(min-width:992px)');
+
   useEffect(() => {
     dispatch(getCabinsLocation());
     dispatch(getBanners());
@@ -31,7 +34,19 @@ const Home = ({ assets, searchValue, cabinsLocation, banners }) => {
     <>
       <Container>
         <>
-          <Banner banner={banners} />
+          {loading ? (
+            <Box sx={{ width: '100%' }}>
+              <Skeleton variant="rectangular" height={isTablet ? 400 : 300} />
+              {!isTablet && (
+                <Box sx={{ width: '90%', padding: '0 1rem', marginTop: '1rem' }}>
+                  <Skeleton animation="pulse" height={35} />
+                  <Skeleton animation="pulse" height={35} />
+                </Box>
+              )}
+            </Box>
+          ) : (
+            <Banner banner={banners} />
+          )}
           <SearchCabin cabinsLocation={cabinsLocation} searchValue={searchValue} />
         </>
       </Container>
@@ -97,6 +112,7 @@ const mapStateToProps = createStructuredSelector({
   searchValue: selectSearchValue,
   cabinsLocation: selectCabinsLocation,
   banners: selectBanners,
+  loading: selectLoading,
 });
 
 Home.propTypes = {
@@ -104,6 +120,7 @@ Home.propTypes = {
   searchValue: PropTypes.object,
   cabinsLocation: PropTypes.array,
   banners: PropTypes.array,
+  loading: PropTypes.bool,
 };
 
 export default connect(mapStateToProps)(Home);
