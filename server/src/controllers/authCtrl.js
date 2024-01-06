@@ -289,7 +289,7 @@ exports.login = async (req, res) => {
     res.cookie('__refreshToken__', refreshToken, {
       httpOnly: true,
       maxAge: 2 * 24 * 60 * 60 * 1000,
-      secure: true,
+      secure: false,
     })
 
     return responseSuccess(res, 200, 'success', {
@@ -302,9 +302,7 @@ exports.login = async (req, res) => {
 
 exports.refreshToken = async (req, res) => {
   try {
-    const cookies = req.cookies
-    const refreshToken = cookies?.__refreshToken__
-
+    const { __refreshToken__: refreshToken } = req.cookies
     if (!refreshToken) return responseError(res, 401, 'Unauthorized')
 
     verifyJwtToken(
@@ -348,37 +346,25 @@ exports.logout = async (req, res) => {
     const { __refreshToken__: refreshToken } = req.cookies
 
     if (!refreshToken) return responseError(res, 401, 'Unauthorized')
-
-    verifyJwtToken(
-      refreshToken,
-      config.authentication.refreshTokenSecret,
-      async (err, decode) => {
-        if (err) {
-          return responseError(res, 401, 'Unauthorized')
-        } else {
-          const [, affectedRows] = await Users.update(
-            { refresh_token: null },
-            { where: { refresh_token: refreshToken } }
-          )
-
-          if (affectedRows === 0) {
-            return responseError(
-              res,
-              404,
-              'Not Found',
-              'User with this token not found'
-            )
-          }
-
-          res.clearCookie('__refreshToken__', {
-            httpOnly: true,
-            secure: true,
-          })
-
-          return responseSuccess(res, 200, 'success')
-        }
-      }
+    const [, affectedRows] = await Users.update(
+      { refresh_token: null },
+      { where: { refresh_token: refreshToken } }
     )
+
+    if (affectedRows === 0)
+      return responseError(
+        res,
+        404,
+        'Not Found',
+        'User with this token not found'
+      )
+
+    res.clearCookie('__refreshToken__', {
+      httpOnly: true,
+      secure: false,
+    })
+
+    return responseSuccess(res, 200, 'success')
   } catch (error) {
     return responseError(res, error.status, error.message)
   }
