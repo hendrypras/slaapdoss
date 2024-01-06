@@ -6,7 +6,6 @@ const { createClient } = require('redis')
 const Routes = require('./routes/index')
 const http = require('http')
 const cookieParser = require('cookie-parser')
-const compression = require('compression')
 
 dotenv.config()
 const app = express()
@@ -32,7 +31,6 @@ app.use(
     credentials: true,
   })
 )
-app.use(compression())
 app.use(cookieParser())
 app.use(express.json({ limit: '2mb' }))
 app.use(express.urlencoded({ extended: true, limit: '2mb' }))
